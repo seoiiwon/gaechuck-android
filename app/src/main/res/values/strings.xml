@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">gaechuck</string>
+    <string name="menu">메뉴</string>
+    <string name="menu_detail">다양한 소식을 빠르게 확인해보세요</string>
+
+    <string name="main_button_1">학식 안내</string>
+    <string name="main_button_2">물품대여 안내</string>
+    <string name="main_button_3">분실물 안내</string>
+    <string name="main_button_4">제휴사업 안내</string>
+    <string name="main_button_5">교내 공지</string>
+    <string name="main_button_6">비상연락망</string>
+    <string name="main_button_7">통합버스노선 안내</string>
+
+    <string name="notice">공지</string>
+    <string name="notice_detail">새로운 공지를 확인해보세요</string>
+
+    <string name="notice_type_1">교내 공지</string>
+    <string name="notice_type_2">총학생회 공지</string>
+    <string name="notice_more">더보기</string>
+    <string name="notice_title">제목</string>
+    <string name="notice_posted_at">등록일</string>
+
+</resources>
