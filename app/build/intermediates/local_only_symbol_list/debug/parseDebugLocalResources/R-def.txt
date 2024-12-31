@@ -6,6 +6,7 @@ color white
 drawable button_image
 drawable ic_launcher_background
 drawable ic_launcher_foreground
+drawable image_placeholder
 drawable ix_alarm_bell
 drawable rounded_border
 drawable uil_setting
@@ -13,9 +14,19 @@ font noto_sans_kr_bold
 font noto_sans_kr_medium
 font noto_sans_kr_regular
 font noto_sans_kr_semibold
+id footerText
 id gridLayout
+id gridview
+id itemDate
+id itemImage
+id itemTitle
+id linearLayout
 id main
+id subtitleText
+layout activity_found_center
+layout activity_found_center_detail
 layout activity_main
+layout grid_item
 mipmap ic_launcher
 mipmap ic_launcher_round
 string app_name

@@ -4,7 +4,7 @@
             "outputFile": "com.example.gaechuck.app-mergeDebugResources-30:/values-watch-v21/values-watch-v21.xml",
             "map": [
                 {
-                    "source": "/Users/seojiwon/.gradle/caches/transforms-4/1faedc4b8ec8ce5d7c107129a27884bd/transformed/appcompat-1.7.0/res/values-watch-v21/values-watch-v21.xml",
+                    "source": "/Users/potato/.gradle/caches/8.9/transforms/941296f9a6418e68e218ab8c6475991e/transformed/appcompat-1.7.0/res/values-watch-v21/values-watch-v21.xml",
                     "from": {
                         "startLines": "2,6,10",
                         "startColumns": "4,4,4",

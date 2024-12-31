@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.foundcenter.FoundCenterActivity"
+    android:background="#FFFFFF"
+    >
+
+  <TextView
+      android:id="@+id/subtitleText"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="80dp"
+      android:text="잃어버린 물건을 탭하여 확인해보세요"
+      android:textSize="12sp"
+      android:textColor="#767676"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent" />
+
+  <GridView
+      android:id="@+id/gridview"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_marginTop="20dp"
+      android:gravity="center"
+      android:horizontalSpacing="12dp"
+      android:numColumns="3"
+      android:stretchMode="columnWidth"
+      android:verticalSpacing="12dp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.0"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/subtitleText" />
+
+  <TextView
+      android:id="@+id/footerText"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="32dp"
+      android:gravity="start"
+      android:text="문의사항: 경상국립대학교 학사원관 3층 학생회실\n운영 시간: 09:00~18:00\n게시된 내용 및 요청에 대해 개선사항이 있다면 총학생회\n인스타그램으로 연락 부탁드립니다"
+      android:textColor="#0086C0"
+      android:textSize="10sp"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:lineHeight="20sp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

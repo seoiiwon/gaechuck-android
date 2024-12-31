@@ -28,7 +28,13 @@
         android:testOnly="true"
         android:theme="@style/Theme.Gaechuck" >
         <activity
+            android:name="com.example.gaechuck.foundcenter.FoundCenterDetailActivity"
+            android:exported="false" />
+        <activity
             android:name="com.example.gaechuck.MainActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.example.gaechuck.foundcenter.FoundCenterActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
