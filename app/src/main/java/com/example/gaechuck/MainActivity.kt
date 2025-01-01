@@ -1,13 +1,23 @@
 package com.example.gaechuck
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.GridLayout
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.gaechuck.ui.setting.SettingActivity
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // 이미지 클릭 이벤트 설정
+        val settingImageView = findViewById<ImageView>(R.id.setting_icon)
+        settingImageView.setOnClickListener {
+            val intent = Intent(this, SettingActivity::class.java)
+            startActivity(intent)
+        }
 
         val displayMetrics = resources.displayMetrics
         val screenWidth = displayMetrics.widthPixels

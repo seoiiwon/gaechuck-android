@@ -21,6 +21,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.setting.SettingActivity"/>
+        <activity android:name=".ui.termsofuse.TermsOfUseActivity"/>
+
     </application>
 
 </manifest>
