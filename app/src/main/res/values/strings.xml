@@ -20,6 +20,32 @@
     <string name="notice_title">제목</string>
     <string name="notice_posted_at">등록일</string>
 
+<!--    business-->
+    <string name="business_info">우리 대학과 제휴 맺은 사업을 확인해보세요</string>
+    <!--    business category -->
+    <string name="category_all">전체</string>
+    <string name="category_food">음식점</string>
+    <string name="category_beer">주점</string>
+    <string name="category_health">헬스&amp;뷰티</string>
+    <string name="category_cafe">카페</string>
+    <string name="category_etc">기타</string>
+
+    <string-array name="CATEGORY">
+        <item name="all">@string/category_all</item>
+        <item name="food">@string/category_food</item>
+        <item name="beer">@string/category_beer</item>
+        <item name="health">@string/category_health</item>
+        <item name="cafe">@string/category_cafe</item>
+        <item name="etc">@string/category_etc</item>
+    </string-array>
+
+<!--    footer-->
+    <string name="footer">
+        문의사항 : 경상국립대학교 학생회관 3층 학생회실
+    </string>
+    <string name="footer_time">
+        운영 시간 : 09:00~18:00
+    </string>
 
 <!--    setting-->
     <string name="setting_title_1">알림 받기</string>

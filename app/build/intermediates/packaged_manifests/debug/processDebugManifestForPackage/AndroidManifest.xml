@@ -38,6 +38,7 @@
         </activity>
         <activity android:name="com.example.gaechuck.ui.setting.SettingActivity" />
         <activity android:name="com.example.gaechuck.ui.termsofuse.TermsOfUseActivity" />
+        <activity android:name="com.example.gaechuck.ui.business.BusinessActivity" />
 
         <provider
             android:name="androidx.startup.InitializationProvider"
