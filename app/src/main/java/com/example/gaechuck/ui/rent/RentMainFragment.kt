@@ -2,7 +2,6 @@ package com.example.gaechuck.ui.rent
 
 import VerticalItemDecorate
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -50,10 +49,10 @@ class RentMainFragment : Fragment(R.layout.fragment_rent_main),RentAdapter.OnRen
     }
 
     // 데이터 가져오는 함수
-    private fun ShowRentItems(){
+    private fun ShowRentItems() {
         rentViewModel.rentList.observe(viewLifecycleOwner) { rentItems ->
-            Log.d("RentMainFragment", "렌트 아이템이 있습니다: ${rentItems.size}개")
-            rentAdapter.submitList(rentItems)
+
+            rentAdapter.submitList(rentItems.toList())  // 새로운 리스트 객체 생성
         }
     }
 
