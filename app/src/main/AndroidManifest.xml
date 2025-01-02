@@ -24,6 +24,7 @@
         <activity android:name=".ui.setting.SettingActivity"/>
         <activity android:name=".ui.termsofuse.TermsOfUseActivity"/>
         <activity android:name=".ui.business.BusinessActivity"/>
+        <activity android:name=".ui.rent.RentActivity"/>
 
     </application>
 

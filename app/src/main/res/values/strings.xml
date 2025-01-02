@@ -39,6 +39,9 @@
         <item name="etc">@string/category_etc</item>
     </string-array>
 
+<!--    rent-->
+    <string name="rent_info">필요한 물품이 대여 가능한지 확인해보세요</string>
+
 
 <!--    footer-->
     <string name="footer">

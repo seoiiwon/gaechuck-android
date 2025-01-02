@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_business"
+    app:startDestination="@id/rentMainFragment">
+    <fragment
+        android:id="@+id/rentMainFragment"
+        android:name="com.example.gaechuck.ui.rent.RentMainFragment"
+        android:label="Rent Main"
+        tools:layout="@layout/fragment_rent_main" >
+        <action
+            android:id="@+id/action_rentMainFragment_to_rentDetailFragment"
+            app:destination="@id/rentDetailFragment" />
+    </fragment>
+
+    <!-- BusinessDetailFragment -->
+    <fragment
+        android:id="@+id/rentDetailFragment"
+        android:name="com.example.gaechuck.ui.rent.RentDetailFragment"
+        android:label="Rent Detail"
+        tools:layout="@layout/fragment_rent_detail">
+        <argument
+            android:name="rentItem"
+            app:argType="com.example.gaechuck.data.model.RentItem"/>
+    </fragment>
+</navigation>
+
