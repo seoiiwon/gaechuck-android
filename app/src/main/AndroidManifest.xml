@@ -23,6 +23,7 @@
         </activity>
         <activity android:name=".ui.setting.SettingActivity"/>
         <activity android:name=".ui.termsofuse.TermsOfUseActivity"/>
+        <activity android:name=".ui.business.BusinessActivity"/>
 
     </application>
 

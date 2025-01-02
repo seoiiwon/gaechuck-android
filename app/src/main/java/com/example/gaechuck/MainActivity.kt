@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.GridLayout
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.gaechuck.ui.business.BusinessActivity
 import com.example.gaechuck.ui.setting.SettingActivity
 
 class MainActivity : AppCompatActivity() {
@@ -16,7 +17,8 @@ class MainActivity : AppCompatActivity() {
         val settingImageView = findViewById<ImageView>(R.id.setting_icon)
         settingImageView.setOnClickListener {
             val intent = Intent(this, SettingActivity::class.java)
-            startActivity(intent)
+            val intent2 = Intent(this, BusinessActivity::class.java)
+            startActivity(intent2)
         }
 
         val displayMetrics = resources.displayMetrics
