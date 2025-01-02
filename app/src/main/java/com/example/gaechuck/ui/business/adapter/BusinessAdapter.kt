@@ -6,7 +6,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.gaechuck.data.model.BusinessItem
 import com.example.gaechuck.databinding.RowBusinessItemBinding
 
-class BusinessAdapter(private val data: List<BusinessItem>) : RecyclerView.Adapter<BusinessAdapter.ViewHolder>() {
+class BusinessAdapter(private val data: List<BusinessItem>,
+                      private val listener: OnBusinessItemClickListener) : RecyclerView.Adapter<BusinessAdapter.ViewHolder>() {
+
+    interface OnBusinessItemClickListener {
+        fun onBusinessItemClick(item: BusinessItem)
+    }
 
     inner class ViewHolder(private val binding: RowBusinessItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: BusinessItem) {
@@ -14,7 +19,13 @@ class BusinessAdapter(private val data: List<BusinessItem>) : RecyclerView.Adapt
             binding.businessInfo.text = item.info
             binding.businessCategory.text = item.category
             binding.businessName.text = item.name
+
+            // Item 클릭 이벤트 추가
+            binding.root.setOnClickListener {
+                listener.onBusinessItemClick(item)  // 클릭된 아이템 전달
+            }
         }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

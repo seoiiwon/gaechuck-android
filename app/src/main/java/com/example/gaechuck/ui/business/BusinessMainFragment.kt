@@ -7,15 +7,17 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gaechuck.R
+import com.example.gaechuck.data.model.BusinessItem
 import com.example.gaechuck.databinding.FragmentBusinessMainBinding
 import com.example.gaechuck.ui.business.adapter.BusinessAdapter
 import com.example.gaechuck.ui.business.viewmodel.BusinessViewModel
 import com.google.android.material.tabs.TabLayout
 
-class BusinessMainFragment : Fragment(R.layout.fragment_business_main) {
+class BusinessMainFragment : Fragment(R.layout.fragment_business_main), BusinessAdapter.OnBusinessItemClickListener {
 
     private lateinit var binding: FragmentBusinessMainBinding
     private val businessViewModel: BusinessViewModel by viewModels()
@@ -40,7 +42,9 @@ class BusinessMainFragment : Fragment(R.layout.fragment_business_main) {
 
         // RecyclerView 설정
         binding.businessView.layoutManager = LinearLayoutManager(context)
-        businessAdapter = BusinessAdapter(emptyList()) // 초기 데이터는 빈 리스트로 설정
+
+        // Adapter 설정
+        businessAdapter = BusinessAdapter(emptyList(), this)
         binding.businessView.adapter = businessAdapter
 
         // 카테고리 탭 설정
@@ -80,8 +84,15 @@ class BusinessMainFragment : Fragment(R.layout.fragment_business_main) {
             // 카테고리가 "전체"가 아닐 경우, 해당 카테고리로 필터링
             businessViewModel.businessList.value?.filter { it.category == category }
         }
-        businessAdapter = BusinessAdapter(filteredList ?: emptyList()) // 필터링된 데이터로 어댑터 갱신
+        businessAdapter = BusinessAdapter(filteredList ?: emptyList(), this) // 필터링된 데이터로 어댑터 갱신
         binding.businessView.adapter = businessAdapter
+    }
+
+    // 비즈니스 아이템 클릭 시 네비게이션 처리
+    override fun onBusinessItemClick(item: BusinessItem) {
+        val action = BusinessMainFragmentDirections
+            .actionBusinessMainFragmentToBusinessDetailFragment(item)
+        view?.findNavController()?.navigate(action)
     }
 
     private fun tabItemMargin(mTabLayout: TabLayout) {

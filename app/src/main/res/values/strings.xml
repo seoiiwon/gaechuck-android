@@ -39,6 +39,7 @@
         <item name="etc">@string/category_etc</item>
     </string-array>
 
+
 <!--    footer-->
     <string name="footer">
         문의사항 : 경상국립대학교 학생회관 3층 학생회실
