@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#FF000000</color>
+    <color name="default_tab_color">#FF8A8D8F</color>
     <color name="gnu_blue">#FF0086C0</color>
     <color name="white">#FFFFFFFF</color>
     <string name="app_name">gaechuck</string>
@@ -23,6 +24,11 @@
     <style name="Base.Theme.Gaechuck" parent="Theme.Material3.DayNight.NoActionBar">
         
         
+    </style>
+    <style name="CustomButtonStyle">
+        <item name="android:background">@drawable/rounded_button</item>
+        <item name="android:textColor">#000000</item> 
+        <item name="android:padding">8dp</item>
     </style>
     <style name="Theme.Gaechuck" parent="Base.Theme.Gaechuck"/>
 </resources>

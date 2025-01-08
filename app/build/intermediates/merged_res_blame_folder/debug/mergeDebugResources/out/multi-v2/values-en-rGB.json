@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.gaechuck.app-mergeDebugResources-30:/values-en-rGB/values-en-rGB.xml",
+            "outputFile": "com.example.gaechuck.app-mergeDebugResources-32:/values-en-rGB/values-en-rGB.xml",
             "map": [
                 {
                     "source": "/Users/seojiwon/.gradle/caches/transforms-4/86c9a9e55dc8d45fef0ed473fafdfd97/transformed/material-1.12.0/res/values-en-rGB/values-en-rGB.xml",

@@ -21,6 +21,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".SubActivity"/>
+        <activity android:name=".noticeuniv.viewmodel.NoticeUniv" />
+        <activity android:name=".noticecouncil.viewmodel.NoticeCouncil" />
+        <activity android:name=".menu.viewmodel.CafeteriaMenu"/>
+        <activity android:name=".bus.viewmodel.BusRoute"/>
+        <activity android:name=".Sub5Activity"/>
+        <activity android:name=".Sub6Activity"/>
+        <activity android:name=".Sub7Activity"/>
+        <activity android:name=".noticecouncil.viewmodel.NoticeUnivModel"/>
+        <activity android:name=".noticeuniv.adaptor.NoticeUnivAdapter"/>
     </application>
 
 </manifest>

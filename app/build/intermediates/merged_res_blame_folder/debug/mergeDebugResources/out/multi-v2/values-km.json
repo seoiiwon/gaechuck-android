@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.gaechuck.app-mergeDebugResources-30:/values-km/values-km.xml",
+            "outputFile": "com.example.gaechuck.app-mergeDebugResources-32:/values-km/values-km.xml",
             "map": [
                 {
                     "source": "/Users/seojiwon/.gradle/caches/transforms-4/89889b43e4c29bdfd4ed37d15a3a6971/transformed/core-1.15.0/res/values-km/values-km.xml",

@@ -1,13 +1,15 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:2:1-26:12
-INJECTED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:2:1-26:12
-INJECTED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:2:1-26:12
-INJECTED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:2:1-26:12
+ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:2:1-36:12
+INJECTED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:2:1-36:12
+INJECTED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:2:1-36:12
+INJECTED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:2:1-36:12
 MERGED from [com.google.android.material:material:1.12.0] /Users/seojiwon/.gradle/caches/transforms-4/86c9a9e55dc8d45fef0ed473fafdfd97/transformed/material-1.12.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.2.0] /Users/seojiwon/.gradle/caches/transforms-4/49f39e5cd8f46d7cfa48f54f13ba4c00/transformed/constraintlayout-2.2.0/AndroidManifest.xml:2:1-9:12
+MERGED from [com.tbuonomo:dotsindicator:4.3] /Users/seojiwon/.gradle/caches/transforms-4/2488aa5ed30ae83043bc2dcb7a71f1b7/transformed/dotsindicator-4.3-debug/AndroidManifest.xml:2:1-11:12
 MERGED from [androidx.appcompat:appcompat-resources:1.7.0] /Users/seojiwon/.gradle/caches/transforms-4/b44a70d7e195d1f7227b1c5db7398e06/transformed/appcompat-resources-1.7.0/AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.appcompat:appcompat:1.7.0] /Users/seojiwon/.gradle/caches/transforms-4/1faedc4b8ec8ce5d7c107129a27884bd/transformed/appcompat-1.7.0/AndroidManifest.xml:2:1-7:12
+MERGED from [com.github.bumptech.glide:glide:4.15.1] /Users/seojiwon/.gradle/caches/transforms-4/ab371785dc4169237ece17b4b57b69e8/transformed/glide-4.15.1/AndroidManifest.xml:2:1-11:12
 MERGED from [androidx.viewpager2:viewpager2:1.0.0] /Users/seojiwon/.gradle/caches/transforms-4/f064743b160f9dcc001c664190e03849/transformed/viewpager2-1.0.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.fragment:fragment:1.5.4] /Users/seojiwon/.gradle/caches/transforms-4/bc7c8f183ad92d9b07f5544c3e1ee968/transformed/fragment-1.5.4/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.activity:activity:1.9.3] /Users/seojiwon/.gradle/caches/transforms-4/cecd98303258997fe1f7c928ed8d9c9c/transformed/activity-1.9.3/AndroidManifest.xml:17:1-22:12
@@ -36,6 +38,8 @@ MERGED from [androidx.savedstate:savedstate:1.2.1] /Users/seojiwon/.gradle/cache
 MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /Users/seojiwon/.gradle/caches/transforms-4/ea506729540c0452afe45d47d02e43f2/transformed/cursoradapter-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.cardview:cardview:1.0.0] /Users/seojiwon/.gradle/caches/transforms-4/2bb9372bb339f89014011a2cc8631dd6/transformed/cardview-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.profileinstaller:profileinstaller:1.4.0] /Users/seojiwon/.gradle/caches/transforms-4/446a365f71ac5490f2064a7bdc1f8a8e/transformed/profileinstaller-1.4.0/AndroidManifest.xml:17:1-55:12
+MERGED from [com.github.bumptech.glide:gifdecoder:4.15.1] /Users/seojiwon/.gradle/caches/transforms-4/b8c1ac56a594e30259d07cecf8402870/transformed/gifdecoder-4.15.1/AndroidManifest.xml:2:1-11:12
+MERGED from [androidx.exifinterface:exifinterface:1.3.3] /Users/seojiwon/.gradle/caches/transforms-4/5e949b61bbcd61a81139aa346bf55c33/transformed/exifinterface-1.3.3/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/seojiwon/.gradle/caches/transforms-4/b1966b44d014c9b4bcf25075604dd787/transformed/startup-runtime-1.1.1/AndroidManifest.xml:17:1-33:12
 MERGED from [androidx.tracing:tracing:1.2.0] /Users/seojiwon/.gradle/caches/transforms-4/51b801412df90390ea338fca9e952083/transformed/tracing-1.2.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/seojiwon/.gradle/caches/transforms-4/a98d37bf871b341ab541f496fce6e9cc/transformed/interpolator-1.0.0/AndroidManifest.xml:17:1-22:12
@@ -56,12 +60,16 @@ MERGED from [androidx.annotation:annotation-experimental:1.4.1] /Users/seojiwon/
 	xmlns:android
 		ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:2:11-69
 application
-ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:5:5-24:19
-INJECTED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:5:5-24:19
+ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:5:5-34:19
+INJECTED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:5:5-34:19
 MERGED from [com.google.android.material:material:1.12.0] /Users/seojiwon/.gradle/caches/transforms-4/86c9a9e55dc8d45fef0ed473fafdfd97/transformed/material-1.12.0/AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.12.0] /Users/seojiwon/.gradle/caches/transforms-4/86c9a9e55dc8d45fef0ed473fafdfd97/transformed/material-1.12.0/AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.2.0] /Users/seojiwon/.gradle/caches/transforms-4/49f39e5cd8f46d7cfa48f54f13ba4c00/transformed/constraintlayout-2.2.0/AndroidManifest.xml:7:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.2.0] /Users/seojiwon/.gradle/caches/transforms-4/49f39e5cd8f46d7cfa48f54f13ba4c00/transformed/constraintlayout-2.2.0/AndroidManifest.xml:7:5-20
+MERGED from [com.tbuonomo:dotsindicator:4.3] /Users/seojiwon/.gradle/caches/transforms-4/2488aa5ed30ae83043bc2dcb7a71f1b7/transformed/dotsindicator-4.3-debug/AndroidManifest.xml:9:5-47
+MERGED from [com.tbuonomo:dotsindicator:4.3] /Users/seojiwon/.gradle/caches/transforms-4/2488aa5ed30ae83043bc2dcb7a71f1b7/transformed/dotsindicator-4.3-debug/AndroidManifest.xml:9:5-47
+MERGED from [com.github.bumptech.glide:glide:4.15.1] /Users/seojiwon/.gradle/caches/transforms-4/ab371785dc4169237ece17b4b57b69e8/transformed/glide-4.15.1/AndroidManifest.xml:9:5-20
+MERGED from [com.github.bumptech.glide:glide:4.15.1] /Users/seojiwon/.gradle/caches/transforms-4/ab371785dc4169237ece17b4b57b69e8/transformed/glide-4.15.1/AndroidManifest.xml:9:5-20
 MERGED from [androidx.emoji2:emoji2:1.3.0] /Users/seojiwon/.gradle/caches/transforms-4/7c846f2803511e77fcc638b27eb66be3/transformed/emoji2-1.3.0/AndroidManifest.xml:23:5-33:19
 MERGED from [androidx.emoji2:emoji2:1.3.0] /Users/seojiwon/.gradle/caches/transforms-4/7c846f2803511e77fcc638b27eb66be3/transformed/emoji2-1.3.0/AndroidManifest.xml:23:5-33:19
 MERGED from [androidx.core:core:1.15.0] /Users/seojiwon/.gradle/caches/transforms-4/89889b43e4c29bdfd4ed37d15a3a6971/transformed/core-1.15.0/AndroidManifest.xml:28:5-89
@@ -70,6 +78,8 @@ MERGED from [androidx.lifecycle:lifecycle-process:2.6.2] /Users/seojiwon/.gradle
 MERGED from [androidx.lifecycle:lifecycle-process:2.6.2] /Users/seojiwon/.gradle/caches/transforms-4/957be3073d49f64837c34a37214dbef1/transformed/lifecycle-process-2.6.2/AndroidManifest.xml:23:5-33:19
 MERGED from [androidx.profileinstaller:profileinstaller:1.4.0] /Users/seojiwon/.gradle/caches/transforms-4/446a365f71ac5490f2064a7bdc1f8a8e/transformed/profileinstaller-1.4.0/AndroidManifest.xml:23:5-53:19
 MERGED from [androidx.profileinstaller:profileinstaller:1.4.0] /Users/seojiwon/.gradle/caches/transforms-4/446a365f71ac5490f2064a7bdc1f8a8e/transformed/profileinstaller-1.4.0/AndroidManifest.xml:23:5-53:19
+MERGED from [com.github.bumptech.glide:gifdecoder:4.15.1] /Users/seojiwon/.gradle/caches/transforms-4/b8c1ac56a594e30259d07cecf8402870/transformed/gifdecoder-4.15.1/AndroidManifest.xml:9:5-20
+MERGED from [com.github.bumptech.glide:gifdecoder:4.15.1] /Users/seojiwon/.gradle/caches/transforms-4/b8c1ac56a594e30259d07cecf8402870/transformed/gifdecoder-4.15.1/AndroidManifest.xml:9:5-20
 MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/seojiwon/.gradle/caches/transforms-4/b1966b44d014c9b4bcf25075604dd787/transformed/startup-runtime-1.1.1/AndroidManifest.xml:25:5-31:19
 MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/seojiwon/.gradle/caches/transforms-4/b1966b44d014c9b4bcf25075604dd787/transformed/startup-runtime-1.1.1/AndroidManifest.xml:25:5-31:19
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/seojiwon/.gradle/caches/transforms-4/c01c7f2caaca310c9400fc3736576929/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:24:5-25:19
@@ -112,6 +122,46 @@ category#android.intent.category.LAUNCHER
 ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:21:17-77
 	android:name
 		ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:21:27-74
+activity#com.example.gaechuck.SubActivity
+ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:24:9-48
+	android:name
+		ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:24:19-46
+activity#com.example.gaechuck.Sub1Activity
+ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:25:9-50
+	android:name
+		ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:25:19-47
+activity#com.example.gaechuck.Sub2Activity
+ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:26:9-50
+	android:name
+		ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:26:19-47
+activity#com.example.gaechuck.Sub3Activity
+ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:27:9-49
+	android:name
+		ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:27:19-47
+activity#com.example.gaechuck.Sub4Activity
+ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:28:9-49
+	android:name
+		ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:28:19-47
+activity#com.example.gaechuck.Sub5Activity
+ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:29:9-49
+	android:name
+		ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:29:19-47
+activity#com.example.gaechuck.Sub6Activity
+ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:30:9-49
+	android:name
+		ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:30:19-47
+activity#com.example.gaechuck.Sub7Activity
+ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:31:9-49
+	android:name
+		ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:31:19-47
+activity#com.example.gaechuck.NoticeUniv
+ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:32:9-47
+	android:name
+		ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:32:19-45
+activity#com.example.gaechuck.NoticeUnivAdapter
+ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:33:9-54
+	android:name
+		ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:33:19-52
 uses-sdk
 INJECTED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml
@@ -120,10 +170,14 @@ MERGED from [com.google.android.material:material:1.12.0] /Users/seojiwon/.gradl
 MERGED from [com.google.android.material:material:1.12.0] /Users/seojiwon/.gradle/caches/transforms-4/86c9a9e55dc8d45fef0ed473fafdfd97/transformed/material-1.12.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.constraintlayout:constraintlayout:2.2.0] /Users/seojiwon/.gradle/caches/transforms-4/49f39e5cd8f46d7cfa48f54f13ba4c00/transformed/constraintlayout-2.2.0/AndroidManifest.xml:5:5-44
 MERGED from [androidx.constraintlayout:constraintlayout:2.2.0] /Users/seojiwon/.gradle/caches/transforms-4/49f39e5cd8f46d7cfa48f54f13ba4c00/transformed/constraintlayout-2.2.0/AndroidManifest.xml:5:5-44
+MERGED from [com.tbuonomo:dotsindicator:4.3] /Users/seojiwon/.gradle/caches/transforms-4/2488aa5ed30ae83043bc2dcb7a71f1b7/transformed/dotsindicator-4.3-debug/AndroidManifest.xml:5:5-7:41
+MERGED from [com.tbuonomo:dotsindicator:4.3] /Users/seojiwon/.gradle/caches/transforms-4/2488aa5ed30ae83043bc2dcb7a71f1b7/transformed/dotsindicator-4.3-debug/AndroidManifest.xml:5:5-7:41
 MERGED from [androidx.appcompat:appcompat-resources:1.7.0] /Users/seojiwon/.gradle/caches/transforms-4/b44a70d7e195d1f7227b1c5db7398e06/transformed/appcompat-resources-1.7.0/AndroidManifest.xml:5:5-44
 MERGED from [androidx.appcompat:appcompat-resources:1.7.0] /Users/seojiwon/.gradle/caches/transforms-4/b44a70d7e195d1f7227b1c5db7398e06/transformed/appcompat-resources-1.7.0/AndroidManifest.xml:5:5-44
 MERGED from [androidx.appcompat:appcompat:1.7.0] /Users/seojiwon/.gradle/caches/transforms-4/1faedc4b8ec8ce5d7c107129a27884bd/transformed/appcompat-1.7.0/AndroidManifest.xml:5:5-44
 MERGED from [androidx.appcompat:appcompat:1.7.0] /Users/seojiwon/.gradle/caches/transforms-4/1faedc4b8ec8ce5d7c107129a27884bd/transformed/appcompat-1.7.0/AndroidManifest.xml:5:5-44
+MERGED from [com.github.bumptech.glide:glide:4.15.1] /Users/seojiwon/.gradle/caches/transforms-4/ab371785dc4169237ece17b4b57b69e8/transformed/glide-4.15.1/AndroidManifest.xml:5:5-7:41
+MERGED from [com.github.bumptech.glide:glide:4.15.1] /Users/seojiwon/.gradle/caches/transforms-4/ab371785dc4169237ece17b4b57b69e8/transformed/glide-4.15.1/AndroidManifest.xml:5:5-7:41
 MERGED from [androidx.viewpager2:viewpager2:1.0.0] /Users/seojiwon/.gradle/caches/transforms-4/f064743b160f9dcc001c664190e03849/transformed/viewpager2-1.0.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.viewpager2:viewpager2:1.0.0] /Users/seojiwon/.gradle/caches/transforms-4/f064743b160f9dcc001c664190e03849/transformed/viewpager2-1.0.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.fragment:fragment:1.5.4] /Users/seojiwon/.gradle/caches/transforms-4/bc7c8f183ad92d9b07f5544c3e1ee968/transformed/fragment-1.5.4/AndroidManifest.xml:20:5-22:41
@@ -180,6 +234,10 @@ MERGED from [androidx.cardview:cardview:1.0.0] /Users/seojiwon/.gradle/caches/tr
 MERGED from [androidx.cardview:cardview:1.0.0] /Users/seojiwon/.gradle/caches/transforms-4/2bb9372bb339f89014011a2cc8631dd6/transformed/cardview-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.profileinstaller:profileinstaller:1.4.0] /Users/seojiwon/.gradle/caches/transforms-4/446a365f71ac5490f2064a7bdc1f8a8e/transformed/profileinstaller-1.4.0/AndroidManifest.xml:21:5-44
 MERGED from [androidx.profileinstaller:profileinstaller:1.4.0] /Users/seojiwon/.gradle/caches/transforms-4/446a365f71ac5490f2064a7bdc1f8a8e/transformed/profileinstaller-1.4.0/AndroidManifest.xml:21:5-44
+MERGED from [com.github.bumptech.glide:gifdecoder:4.15.1] /Users/seojiwon/.gradle/caches/transforms-4/b8c1ac56a594e30259d07cecf8402870/transformed/gifdecoder-4.15.1/AndroidManifest.xml:5:5-7:41
+MERGED from [com.github.bumptech.glide:gifdecoder:4.15.1] /Users/seojiwon/.gradle/caches/transforms-4/b8c1ac56a594e30259d07cecf8402870/transformed/gifdecoder-4.15.1/AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.exifinterface:exifinterface:1.3.3] /Users/seojiwon/.gradle/caches/transforms-4/5e949b61bbcd61a81139aa346bf55c33/transformed/exifinterface-1.3.3/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.exifinterface:exifinterface:1.3.3] /Users/seojiwon/.gradle/caches/transforms-4/5e949b61bbcd61a81139aa346bf55c33/transformed/exifinterface-1.3.3/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/seojiwon/.gradle/caches/transforms-4/b1966b44d014c9b4bcf25075604dd787/transformed/startup-runtime-1.1.1/AndroidManifest.xml:21:5-23:41
 MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/seojiwon/.gradle/caches/transforms-4/b1966b44d014c9b4bcf25075604dd787/transformed/startup-runtime-1.1.1/AndroidManifest.xml:21:5-23:41
 MERGED from [androidx.tracing:tracing:1.2.0] /Users/seojiwon/.gradle/caches/transforms-4/51b801412df90390ea338fca9e952083/transformed/tracing-1.2.0/AndroidManifest.xml:20:5-44

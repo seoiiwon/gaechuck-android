@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.gaechuck.app-mergeDebugResources-30:/values-tr/values-tr.xml",
+            "outputFile": "com.example.gaechuck.app-mergeDebugResources-32:/values-tr/values-tr.xml",
             "map": [
                 {
                     "source": "/Users/seojiwon/.gradle/caches/transforms-4/86c9a9e55dc8d45fef0ed473fafdfd97/transformed/material-1.12.0/res/values-tr/values-tr.xml",
