@@ -1,5 +1,10 @@
 [
   {
+    "name": "navigation_rent",
+    "navigationXmlIds": [],
+    "deepLinks": []
+  },
+  {
     "name": "navigation_business",
     "navigationXmlIds": [],
     "deepLinks": []

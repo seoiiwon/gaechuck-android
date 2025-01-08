@@ -6,7 +6,7 @@
 
     <uses-sdk
         android:minSdkVersion="24"
-        android:targetSdkVersion="34" />
+        android:targetSdkVersion="35" />
 
     <permission
         android:name="com.example.gaechuck.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
@@ -39,6 +39,7 @@
         <activity android:name="com.example.gaechuck.ui.setting.SettingActivity" />
         <activity android:name="com.example.gaechuck.ui.termsofuse.TermsOfUseActivity" />
         <activity android:name="com.example.gaechuck.ui.business.BusinessActivity" />
+        <activity android:name="com.example.gaechuck.ui.rent.RentActivity" />
 
         <provider
             android:name="androidx.startup.InitializationProvider"

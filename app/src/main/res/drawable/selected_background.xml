@@ -1,0 +1,5 @@
+<!-- res/drawable/selected_background.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#FFD700" /> <!-- 노란색 배경 -->
+    <corners android:radius="8dp" />
+</shape>
