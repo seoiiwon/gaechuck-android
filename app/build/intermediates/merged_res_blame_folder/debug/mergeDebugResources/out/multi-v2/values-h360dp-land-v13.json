@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.gaechuck.app-mergeDebugResources-32:/values-h360dp-land-v13/values-h360dp-land-v13.xml",
+            "outputFile": "com.example.gaechuck.app-mergeDebugResources-68:/values-h360dp-land-v13/values-h360dp-land-v13.xml",
             "map": [
                 {
-                    "source": "/Users/seojiwon/.gradle/caches/transforms-4/86c9a9e55dc8d45fef0ed473fafdfd97/transformed/material-1.12.0/res/values-h360dp-land-v13/values-h360dp-land-v13.xml",
+                    "source": "/Users/seojiwon/.gradle/caches/transforms-4/4a794a0a599cbcf2d57c101f51c6050a/transformed/material-1.12.0/res/values-h360dp-land-v13/values-h360dp-land-v13.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10",
                         "startColumns": "4,4,4,4,4,4,4,4,4",
