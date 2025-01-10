@@ -25,6 +25,11 @@
         <activity android:name=".ui.termsofuse.TermsOfUseActivity"/>
         <activity android:name=".ui.business.BusinessActivity"/>
         <activity android:name=".ui.rent.RentActivity"/>
+        <activity android:name=".ui.noticeuniv.viewmodel.NoticeUniv"/>
+        <activity android:name=".ui.noticecouncil.viewmodel.NoticeCouncil"/>
+        <activity android:name=".ui.menu.viewmodel.CafeteriaMenu"/>
+        <activity android:name=".ui.bus.viewmodel.BusRoute"/>
+        <activity android:name=".SubPage2Activity"/>
 
     </application>
 

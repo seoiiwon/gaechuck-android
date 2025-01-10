@@ -23,6 +23,8 @@ drawable default_background
 drawable divider
 drawable down_btn
 drawable home_btn
+drawable ic_back
+drawable ic_home
 drawable ic_launcher_background
 drawable ic_launcher_foreground
 drawable ix_alarm_bell
@@ -67,6 +69,8 @@ id business_images_viewpager
 id business_info
 id business_name
 id business_view
+id button_back
+id button_home
 id category
 id categorySpinner
 id count
@@ -142,6 +146,7 @@ id tabScholarshipUnderline
 id termsContentTextView
 id terms_bottom
 id termstitle
+id textView_title
 id toolbar
 id viewPager
 layout activity_business
@@ -172,6 +177,11 @@ layout sub4
 layout sub5
 layout sub6
 layout sub7
+layout toolbar_back_black
+layout toolbar_back_blue
+layout toolbar_blue_title
+layout toolbar_home_black
+layout toolbar_home_blue
 mipmap ic_launcher
 mipmap ic_launcher_round
 navigation navigation_business
