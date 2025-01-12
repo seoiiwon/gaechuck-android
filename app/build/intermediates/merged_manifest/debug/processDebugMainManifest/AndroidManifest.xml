@@ -40,6 +40,11 @@
         <activity android:name="com.example.gaechuck.ui.termsofuse.TermsOfUseActivity" />
         <activity android:name="com.example.gaechuck.ui.business.BusinessActivity" />
         <activity android:name="com.example.gaechuck.ui.rent.RentActivity" />
+        <activity android:name="com.example.gaechuck.ui.noticeuniv.viewmodel.NoticeUniv" />
+        <activity android:name="com.example.gaechuck.ui.noticecouncil.viewmodel.NoticeCouncil" />
+        <activity android:name="com.example.gaechuck.ui.menu.viewmodel.CafeteriaMenu" />
+        <activity android:name="com.example.gaechuck.ui.bus.viewmodel.BusRoute" />
+        <activity android:name="com.example.gaechuck.SubPage2Activity" />
 
         <provider
             android:name="androidx.startup.InitializationProvider"

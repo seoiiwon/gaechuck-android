@@ -5,12 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.GridLayout
 import androidx.recyclerview.widget.RecyclerView
-import com.example.gaechuck.ui.noticeuniv.viewmodel.GridClickListener
 import com.example.gaechuck.R
 
 class ViewPagerAdapter(
-    private val listener: GridClickListener,
-    private val layouts: List<Int>
+    private val layouts: List<Int>,
+    private val onGridClickSetup: (GridLayout, Int) -> Unit
 ) : RecyclerView.Adapter<ViewPagerAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -21,7 +20,7 @@ class ViewPagerAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val gridLayout = holder.itemView.findViewById<GridLayout>(R.id.gridLayout)
         gridLayout?.let {
-            listener.onGridClick(it, position) // GridClickListener 호출
+            onGridClickSetup(it, position)
         }
     }
 

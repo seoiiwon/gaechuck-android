@@ -9,15 +9,16 @@ import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.example.gaechuck.ui.bus.viewmodel.BusRoute
+import com.example.gaechuck.ui.business.BusinessActivity
 import com.example.gaechuck.ui.main.adaptor.ViewPagerAdapter
 import com.example.gaechuck.ui.menu.viewmodel.CafeteriaMenu
 import com.example.gaechuck.ui.noticecouncil.viewmodel.NoticeCouncil
-import com.example.gaechuck.ui.noticeuniv.viewmodel.GridClickListener
 import com.example.gaechuck.ui.noticeuniv.viewmodel.NoticeUniv
+import com.example.gaechuck.ui.rent.RentActivity
 import com.example.gaechuck.ui.setting.SettingActivity
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 
-class MainActivity : AppCompatActivity(), GridClickListener {
+class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,60 +26,51 @@ class MainActivity : AppCompatActivity(), GridClickListener {
 
         val viewPager = findViewById<ViewPager2>(R.id.viewPager)
         val layouts = listOf(R.layout.fragment_main1, R.layout.fragment_main2)
-        val adapter = ViewPagerAdapter(this, layouts)
+        val adapter = ViewPagerAdapter(layouts) { gridLayout, position ->
+            setupGridClickListener(gridLayout, position)
+        }
         viewPager.adapter = adapter
 
         // WormDotsIndicator 설정
         val dotsIndicator = findViewById<WormDotsIndicator>(R.id.dotsIndicator)
         dotsIndicator.attachTo(viewPager)
-    }
 
-    override fun onGridClick(gridLayout: GridLayout, position: Int) {
-        val activityClasses = listOf(
-            NoticeUniv::class.java,
-            NoticeCouncil::class.java,
-            CafeteriaMenu::class.java,
-            BusRoute::class.java,
-            Sub5Activity::class.java,
-            Sub6Activity::class.java,
-            Sub7Activity::class.java
-        )
-
-        // 이미지 클릭 이벤트 설정
+        // 설정 버튼
         val settingImageView = findViewById<ImageView>(R.id.setting_icon)
         settingImageView.setOnClickListener {
             val intent = Intent(this, SettingActivity::class.java)
             startActivity(intent)
         }
+    }
 
-        val displayMetrics = resources.displayMetrics
-        val screenWidth = displayMetrics.widthPixels
-        val margin = (screenWidth * 0.05).toInt()
+    private fun setupGridClickListener(gridLayout: GridLayout, position: Int) {
+        val activityClasses = listOf(
+            CafeteriaMenu::class.java,
+            RentActivity::class.java,
+            NoticeUniv::class.java,
+            NoticeCouncil::class.java,
+            BusRoute::class.java,
+            BusinessActivity::class.java
+        )
 
-        val gridLayout = findViewById<GridLayout>(R.id.gridLayout)
-        if (gridLayout == null) {
-            Log.e("MainActivity", "GridLayout not found. Ensure the correct layout is loaded.")
-            return
-        }
-
+        val secondPageActivity = SubPage2Activity::class.java
 
         for (i in 0 until gridLayout.childCount) {
-            val child = gridLayout.getChildAt(i) as LinearLayout
+            val child = gridLayout.getChildAt(i) as? LinearLayout ?: continue
 
-            // LayoutParams 생성 및 설정
-            val params = GridLayout.LayoutParams().apply {
-                width = GridLayout.LayoutParams.WRAP_CONTENT
-                height = GridLayout.LayoutParams.WRAP_CONTENT
-                setMargins(margin, margin, margin, margin)
-            }
-            child.layoutParams = params
-
-            // 클릭 리스너 설정
             child.setOnClickListener {
-                val targetIndex = i + (position * gridLayout.childCount)
-                if (targetIndex in activityClasses.indices) {
-                    val intent = Intent(this, activityClasses[targetIndex])
+                val targetIndex = if (position == 0) i else 0
+                val targetClass = if (position == 0) {
+                    activityClasses.getOrNull(targetIndex)
+                } else {
+                    secondPageActivity
+                }
+
+                if (targetClass != null) {
+                    val intent = Intent(this, targetClass)
                     startActivity(intent)
+                } else {
+                    Log.e("MainActivity", "Invalid targetIndex: $targetIndex")
                 }
             }
         }

@@ -1,4 +1,4 @@
-package com.example.gaechuck.ui.noticeuniv.viewmodel
+package com.example.gaechuck.ui.noticeuniv.adaptor
 
 import android.widget.GridLayout
 
