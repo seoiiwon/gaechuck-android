@@ -5,10 +5,10 @@
 
     <string name="main_button_1">학식 안내</string>
     <string name="main_button_2">물품대여 안내</string>
-    <string name="main_button_3">분실물 안내</string>
+    <string name="main_button_3">분실물 센터</string>
     <string name="main_button_4">제휴사업 안내</string>
     <string name="main_button_5">교내 공지</string>
-    <string name="main_button_6">비상연락망</string>
+    <string name="main_button_6">총학생회 공지</string>
     <string name="main_button_7">통합버스노선 안내</string>
 
     <string name="notice">공지</string>
@@ -19,8 +19,17 @@
     <string name="notice_more">더보기</string>
     <string name="notice_title">제목</string>
     <string name="notice_posted_at">등록일</string>
+    
+<!--    toolbar제목-->
+    <string name="bar_food">학식 안내</string>
+    <string name="bar_lose">분실물 센터</string>
+    <string name="bar_business">제휴 사업</string>
+    <string name="bar_rent">물품 대여</string>
+    <string name="bar_notice_univ">총학생회 공지</string>
+    <string name="bar_notice_all">교내 공지</string>
+    <string name="bar_setting">설정</string>
 
-<!--    business-->
+    <!--    business-->
     <string name="business_info">우리 대학과 제휴 맺은 사업을 확인해보세요</string>
     <!--    business category -->
     <string name="category_all">전체</string>

@@ -17,6 +17,13 @@ class RentDetailFragment : Fragment(R.layout.fragment_rent_detail) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentRentDetailBinding.bind(view)
 
+        // RentActivity의 Toolbar 업데이트
+        (activity as? RentActivity)?.updateToolbar(
+            title = getString(R.string.bar_rent), // 제목 설정
+            showBackButton = true, // 뒤로가기 버튼 표시
+            showHomeButton = true // 홈 버튼 표시
+        )
+
         val rentItem = arguments?.let {
             RentDetailFragmentArgs.fromBundle(it).rentItem
         }

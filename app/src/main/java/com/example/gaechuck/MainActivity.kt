@@ -47,11 +47,13 @@ class MainActivity : AppCompatActivity() {
         val activityClasses = listOf(
             CafeteriaMenu::class.java,
             RentActivity::class.java,
+            BusinessActivity::class.java,
+            BusinessActivity::class.java,
             NoticeUniv::class.java,
             NoticeCouncil::class.java,
             BusRoute::class.java,
-            BusinessActivity::class.java
         )
+
 
         val secondPageActivity = SubPage2Activity::class.java
 

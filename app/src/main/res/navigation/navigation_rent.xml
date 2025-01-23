@@ -11,7 +11,9 @@
         tools:layout="@layout/fragment_rent_main" >
         <action
             android:id="@+id/action_rentMainFragment_to_rentDetailFragment"
-            app:destination="@id/rentDetailFragment" />
+            app:destination="@id/rentDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
     </fragment>
 
     <!-- BusinessDetailFragment -->
@@ -23,6 +25,9 @@
         <argument
             android:name="rentItem"
             app:argType="com.example.gaechuck.data.model.RentItem"/>
+        <action
+            android:id="@+id/action_rentDetailFragment_to_rentMainFragment"
+            app:destination="@id/rentMainFragment" />
     </fragment>
 </navigation>
 
