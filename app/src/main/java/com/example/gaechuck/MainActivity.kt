@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.example.gaechuck.ui.bus.viewmodel.BusRoute
 import com.example.gaechuck.ui.business.BusinessActivity
+import com.example.gaechuck.ui.lose.LoseActivity
 import com.example.gaechuck.ui.main.adaptor.ViewPagerAdapter
 import com.example.gaechuck.ui.menu.viewmodel.CafeteriaMenu
 import com.example.gaechuck.ui.noticecouncil.viewmodel.NoticeCouncil
@@ -47,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         val activityClasses = listOf(
             CafeteriaMenu::class.java,
             RentActivity::class.java,
-            BusinessActivity::class.java,
+            LoseActivity::class.java,
             BusinessActivity::class.java,
             NoticeUniv::class.java,
             NoticeCouncil::class.java,
