@@ -22,6 +22,12 @@ class BusinessDetailFragment : Fragment(R.layout.fragment_business_detail) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentBusinessDetailBinding.bind(view)
 
+        (activity as? BusinessActivity)?.updateToolbar(
+            title = getString(R.string.bar_business), // 제목 설정
+            showBackButton = true, // 뒤로가기 버튼 표시
+            showHomeButton = true // 홈 버튼 숨김
+        )
+
         // SafeArgs로 데이터 가져오기
         val businessItem = arguments?.let {
             BusinessDetailFragmentArgs.fromBundle(it).businessItem
