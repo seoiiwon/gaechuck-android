@@ -33,6 +33,14 @@ class RentMainFragment : Fragment(R.layout.fragment_rent_main),RentAdapter.OnRen
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // RentActivity의 Toolbar 업데이트
+        (activity as? RentActivity)?.updateToolbar(
+            title = getString(R.string.bar_rent), // 제목 설정
+            showBackButton = true, // 뒤로가기 버튼 표시
+            showHomeButton = false // 홈 버튼 표시
+        )
+//        initView()
+
         // RecyclerView 설정
         binding.rentView.layoutManager = LinearLayoutManager(context)
 
@@ -47,6 +55,15 @@ class RentMainFragment : Fragment(R.layout.fragment_rent_main),RentAdapter.OnRen
         // 데이터 가져오는 함수 호출
         ShowRentItems()
     }
+
+//    private fun initView() {
+//        binding.toolbar.run {
+//            buttonBack.setOnClickListener {
+//                findNavController().navigateUp()
+//            }
+//            textViewTitle.text = "물품 대여"
+//        }
+//    }
 
     // 데이터 가져오는 함수
     private fun ShowRentItems() {

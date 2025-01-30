@@ -2,41 +2,80 @@ package com.example.gaechuck
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.GridLayout
 import android.widget.ImageView
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.viewpager2.widget.ViewPager2
+import com.example.gaechuck.ui.bus.viewmodel.BusRoute
 import com.example.gaechuck.ui.business.BusinessActivity
+import com.example.gaechuck.ui.lose.LoseActivity
+import com.example.gaechuck.ui.main.adaptor.ViewPagerAdapter
+import com.example.gaechuck.ui.menu.viewmodel.CafeteriaMenu
+import com.example.gaechuck.ui.noticecouncil.viewmodel.NoticeCouncil
+import com.example.gaechuck.ui.noticeuniv.viewmodel.NoticeUniv
 import com.example.gaechuck.ui.rent.RentActivity
 import com.example.gaechuck.ui.setting.SettingActivity
+import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // 이미지 클릭 이벤트 설정
+        val viewPager = findViewById<ViewPager2>(R.id.viewPager)
+        val layouts = listOf(R.layout.fragment_main1, R.layout.fragment_main2)
+        val adapter = ViewPagerAdapter(layouts) { gridLayout, position ->
+            setupGridClickListener(gridLayout, position)
+        }
+        viewPager.adapter = adapter
+
+        // WormDotsIndicator 설정
+        val dotsIndicator = findViewById<WormDotsIndicator>(R.id.dotsIndicator)
+        dotsIndicator.attachTo(viewPager)
+
+        // 설정 버튼
         val settingImageView = findViewById<ImageView>(R.id.setting_icon)
         settingImageView.setOnClickListener {
             val intent = Intent(this, SettingActivity::class.java)
-            val intent2 = Intent(this, BusinessActivity::class.java)
-            val intent3 = Intent(this, RentActivity::class.java)
-            startActivity(intent3)
+            startActivity(intent)
         }
+    }
 
-        val displayMetrics = resources.displayMetrics
-        val screenWidth = displayMetrics.widthPixels
-        val margin = (screenWidth * 0.05).toInt()
-        val gridLayout = findViewById<GridLayout>(R.id.gridLayout)
+    private fun setupGridClickListener(gridLayout: GridLayout, position: Int) {
+        val activityClasses = listOf(
+            CafeteriaMenu::class.java,
+            RentActivity::class.java,
+            LoseActivity::class.java,
+            BusinessActivity::class.java,
+            NoticeUniv::class.java,
+            NoticeCouncil::class.java,
+            BusRoute::class.java,
+        )
+
+
+        val secondPageActivity = SubPage2Activity::class.java
+
         for (i in 0 until gridLayout.childCount) {
-            val child = gridLayout.getChildAt(i)
-            val params = GridLayout.LayoutParams().apply {
-                width = 0
-                height = GridLayout.LayoutParams.WRAP_CONTENT
-                columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f)
-                rowSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f)
-                setMargins(margin, margin, margin, margin)
+            val child = gridLayout.getChildAt(i) as? LinearLayout ?: continue
+
+            child.setOnClickListener {
+                val targetIndex = if (position == 0) i else 0
+                val targetClass = if (position == 0) {
+                    activityClasses.getOrNull(targetIndex)
+                } else {
+                    secondPageActivity
+                }
+
+                if (targetClass != null) {
+                    val intent = Intent(this, targetClass)
+                    startActivity(intent)
+                } else {
+                    Log.e("MainActivity", "Invalid targetIndex: $targetIndex")
+                }
             }
-            child.layoutParams = params
         }
     }
 }

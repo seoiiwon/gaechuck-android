@@ -1,0 +1,51 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#338A8D8F"
+        android:layout_marginBottom="4dp"/>
+
+    <TextView
+        android:id="@+id/noticeTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="공지 제목"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:textColor="@color/black" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="4dp">
+
+        <TextView
+            android:id="@+id/noticeDepartment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="교무과"
+            android:textSize="8sp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/noticeCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="채용"
+            android:textSize="8sp"
+            android:padding="4dp"
+            android:textColor="@color/white"
+            android:background="@drawable/rounded_background_gnublue"/>
+    </LinearLayout>
+
+
+
+</LinearLayout>

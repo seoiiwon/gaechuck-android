@@ -1,0 +1,75 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="16dp">
+
+
+    <!-- 이미지 영역 -->
+    <FrameLayout
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/tab_colors">
+
+        <ImageView
+            android:id="@+id/noticeImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/imagePlaceholder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="image"
+            android:textSize="12sp"
+            android:textColor="@color/white"
+            android:visibility="visible" />
+    </FrameLayout>
+
+    <!-- 텍스트 영역 -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <!-- 제목 -->
+        <TextView
+            android:id="@+id/noticeTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="물품대여사업 안내 사항"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/black" />
+
+        <!-- 내용 -->
+        <TextView
+            android:id="@+id/noticeDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="안녕하세요 경상국립대 개척학우 여러분..."
+            android:textSize="14sp"
+            android:textColor="@color/tab_colors"
+            android:layout_marginTop="4dp"
+            android:maxLines="1"
+            android:ellipsize="end" />
+
+        <!-- 날짜 -->
+        <TextView
+            android:id="@+id/noticeDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="2024.12.12"
+            android:textSize="12sp"
+            android:textColor="@color/tab_colors"
+            android:layout_marginTop="8dp" />
+    </LinearLayout>
+
+
+</LinearLayout>
