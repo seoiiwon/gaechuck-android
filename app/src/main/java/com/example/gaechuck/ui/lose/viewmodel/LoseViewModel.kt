@@ -1,109 +1,64 @@
 package com.example.gaechuck.ui.lose.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.gaechuck.R
-import com.example.gaechuck.data.model.LoseItem
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
+import com.example.gaechuck.data.response.GetLoseDetailResponse
+import com.example.gaechuck.data.response.LoseList
+import com.example.gaechuck.repository.LoseRepository
+import kotlinx.coroutines.launch
 
-class LoseViewModel:ViewModel() {
+class LoseViewModel(private val repository: LoseRepository):ViewModel() {
 
-    // 분실물 데이터를 관리할 LiveData
-    private val _loselist = MutableLiveData<List<LoseItem>>()
-    val loseList: LiveData<List<LoseItem>> get() = _loselist
+    // 분실물 리스트
+    private val _loseList = MutableLiveData<List<LoseList>>()
+    val loseList : LiveData<List<LoseList>>
+        get() = _loseList
+    // 분실물 개별 정보
+    private val _loseDetailData = MutableLiveData<GetLoseDetailResponse>()
+    val loseDetailData : MutableLiveData<GetLoseDetailResponse>
+        get() = _loseDetailData
 
-    // 데이터 초기화
+    // 초기화
     init {
-        loadLoseData()
+        viewModelScope.launch {
+            try {
+                val response = repository.getLoseData()
+                response?.let {
+                    _loseList.value = it.content
+                }
+            } catch (e: Exception) {
+                // 에러 처리
+                Log.e("LoseViewModel", "에러 발생: ${e.message}")
+            }
+        }
     }
-    private fun loadLoseData(){
-        val dummyData = listOf(
-            LoseItem(
-                name = "나이키 신발",
-                location = "경영대학교 201호",
-                date = "2024-11-11",
-                info = "흰색과 검정색이 섞인 나이키 신발. 신발 밑 창에 파란색 얼룩이 있음.",
-                images = listOf(R.drawable.rt_item_main_1, R.drawable.rt_item_main_1)
-            ),
-            LoseItem(
-                name = "교통카드",
-                location = "교육문화센터",
-                date = "2024-11-12",
-                info = "어쩌구저쩌구",
-                images = listOf(R.drawable.rt_item_main_2, R.drawable.rt_item_main_2)
-            ),
-            LoseItem(
-                name = "지갑",
-                location = "사범대학교 302동",
-                date = "2024-11-14",
-                info = "어쩌구저쩌구",
-                images = listOf(R.drawable.rt_item_main_3, R.drawable.rt_item_main_3)
-            ),
-            LoseItem(
-                name = "고양이 키링",
-                location = "중앙도서관 1층",
-                date = "2024-11-15",
-                info = "귀여운 고양이",
-                images = listOf(R.drawable.rt_item_main_4, R.drawable.rt_item_main_4)
-            ),
-            LoseItem(
-                name = "나이키 신발",
-                location = "경영대학교 201호",
-                date = "2024-11-11",
-                info = "흰색과 검정색이 섞인 나이키 신발. 신발 밑 창에 파란색 얼룩이 있음.",
-                images = listOf(R.drawable.rt_item_main_1, R.drawable.rt_item_main_1)
-            ),
-            LoseItem(
-                name = "교통카드",
-                location = "교육문화센터",
-                date = "2024-11-12",
-                info = "어쩌구저쩌구",
-                images = listOf(R.drawable.rt_item_main_2, R.drawable.rt_item_main_2)
-            ),
-            LoseItem(
-                name = "지갑",
-                location = "사범대학교 302동",
-                date = "2024-11-14",
-                info = "어쩌구저쩌구",
-                images = listOf(R.drawable.rt_item_main_3, R.drawable.rt_item_main_3)
-            ),
-            LoseItem(
-                name = "고양이 키링",
-                location = "중앙도서관 1층",
-                date = "2024-11-15",
-                info = "귀여운 고양이",
-                images = listOf(R.drawable.rt_item_main_4, R.drawable.rt_item_main_4)
-            ),
-            LoseItem(
-                name = "나이키 신발",
-                location = "경영대학교 201호",
-                date = "2024-11-11",
-                info = "흰색과 검정색이 섞인 나이키 신발. 신발 밑 창에 파란색 얼룩이 있음.",
-                images = listOf(R.drawable.rt_item_main_1, R.drawable.rt_item_main_1)
-            ),
-            LoseItem(
-                name = "교통카드",
-                location = "교육문화센터",
-                date = "2024-11-12",
-                info = "어쩌구저쩌구",
-                images = listOf(R.drawable.rt_item_main_2, R.drawable.rt_item_main_2)
-            ),
-            LoseItem(
-                name = "지갑",
-                location = "사범대학교 302동",
-                date = "2024-11-14",
-                info = "어쩌구저쩌구",
-                images = listOf(R.drawable.rt_item_main_3, R.drawable.rt_item_main_3)
-            ),
-            LoseItem(
-                name = "고양이 키링",
-                location = "중앙도서관 1층",
-                date = "2024-11-15",
-                info = "귀여운 고양이",
-                images = listOf(R.drawable.rt_item_main_4, R.drawable.rt_item_main_4)
-            ),
 
-        )
-        _loselist.value = dummyData
+    // Detail 받아오기
+    fun loseDetailRetrofit(lostItemId : Int) {
+        viewModelScope.launch {
+            try {
+                val response = repository.getLoseDetailData(lostItemId)
+                response?.let {
+                    Log.d("LoseViewModel", "데이터 받아옴: $it")
+                    _loseDetailData.value = it
+                }
+            } catch (e: Exception) {
+                // 에러 처리
+                Log.e("LoseViewModel", "에러 발생: ${e.message}")
+            }
+        }
+    }
+
+    class LoseViewModelFactory(private val repository: LoseRepository) : ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(LoseViewModel::class.java)) {
+                return LoseViewModel(repository) as T
+            }
+            throw IllegalArgumentException("Unknown ViewModel class")
+        }
     }
 }

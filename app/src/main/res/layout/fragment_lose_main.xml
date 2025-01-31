@@ -34,18 +34,21 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="8dp" />
-
-        <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
-            android:id="@+id/image_indicator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:dotsColor="@color/gnu_blue"
-            app:dotsStrokeColor="@color/gnu_lightBlue"
-            app:dotsSize="8dp"
-            app:dotsStrokeWidth="1.5dp"
-            />
     </LinearLayout>
+
+    <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
+        android:id="@+id/image_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="16dp"
+        app:dotsColor="@color/gnu_blue"
+        app:dotsStrokeColor="@color/gnu_lightBlue"
+        app:dotsSize="8dp"
+        app:dotsStrokeWidth="1.5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/footer_info2"
+        />
 
     <include
         layout="@layout/footer_info2"

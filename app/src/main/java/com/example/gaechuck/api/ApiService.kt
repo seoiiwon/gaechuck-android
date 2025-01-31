@@ -11,6 +11,7 @@ import com.example.gaechuck.data.response.GetUnivNoticeDetailResponse
 import com.example.gaechuck.data.response.LoginResponse
 import okhttp3.RequestBody
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PartMap
@@ -21,13 +22,13 @@ interface ApiService {
     // Lose
     // 분실물 리스트 가져오기
     @GET("/api/v1/lostitems/all")
-    fun getLoseData()
-            : Call<BaseResponse<GetLoseDataResponse>>
+    suspend fun getLoseData()
+            : Response<BaseResponse<GetLoseDataResponse>>
 
     // 분실물 디테일 정보 가져오기 > 백엔드 여쭤보기 (쿼리 이상)
     @GET("/api/v1/lostitems/detail")
-    fun getLoseDetailData(@Query("lostItemId") lostItemId : String )
-            : Call<BaseResponse<GetLoseDetailResponse>>
+    suspend fun getLoseDetailData(@Query("lostItemId") lostItemId : Int )
+            : Response<BaseResponse<GetLoseDetailResponse>>
 
     // Rent
     // 대여 리스트 가져오기

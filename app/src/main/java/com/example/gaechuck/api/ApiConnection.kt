@@ -5,15 +5,16 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class ApiConnection {
+object ApiConnection {
     // 서버 주소
-    private val BASE_URL = "https://203.255.15.32:30001/"
+    private val BASE_URL = "http://203.255.15.32:30001/"
 
     private val okHttpClient = OkHttpClient.Builder()
         .addInterceptor(HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.NONE
+            level = HttpLoggingInterceptor.Level.BODY
         })
         .build()
+
     private val getRetrofit by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)

@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import com.example.gaechuck.R
 import com.example.gaechuck.data.model.RentItem
 import com.example.gaechuck.databinding.FragmentRentDetailBinding
-import com.example.gaechuck.ui.business.adapter.ImagePagerAdapter
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 
 class RentDetailFragment : Fragment(R.layout.fragment_rent_detail) {
@@ -40,8 +39,8 @@ class RentDetailFragment : Fragment(R.layout.fragment_rent_detail) {
         binding.rentInfo.text = item.info
 
         // ViewPager2에 이미지 설정
-        val adapter = ImagePagerAdapter(item.images)
-        binding.rentImagesViewpager.adapter = adapter
+//        val adapter = ImagePagerAdapter(item.images)
+//        binding.rentImagesViewpager.adapter = adapter
 
         // 페이지 인디케이터 연결
         val wormDotsIndicator: WormDotsIndicator = binding.imageIndicator
