@@ -15,6 +15,8 @@ class BusinessViewModel : ViewModel(){
     init {
         loadBusinessData()
     }
+
+    // TODO : 더미데이터 생성
     private fun loadBusinessData(){
         val dummyData = listOf(
             BusinessItem(

@@ -33,8 +33,8 @@ interface ApiService {
     // Rent
     // 대여 리스트 가져오기
     @GET("/api/v1/rent/list")
-    fun getRentData()
-            : Call<BaseResponse<GetRentDataResponse>>
+    suspend fun getRentData()
+            : Response<BaseResponse<GetRentDataResponse>>
 
     // Notice
     // 총학생회 공지 리스트

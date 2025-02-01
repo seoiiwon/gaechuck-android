@@ -23,8 +23,8 @@
         android:label="Rent Detail"
         tools:layout="@layout/fragment_rent_detail">
         <argument
-            android:name="rentItem"
-            app:argType="com.example.gaechuck.data.model.RentItem"/>
+            android:name="rentItemId"
+            app:argType="integer"/>
         <action
             android:id="@+id/action_rentDetailFragment_to_rentMainFragment"
             app:destination="@id/rentMainFragment" />

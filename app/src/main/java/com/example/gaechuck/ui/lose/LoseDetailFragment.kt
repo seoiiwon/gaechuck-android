@@ -11,7 +11,7 @@ import com.example.gaechuck.R
 import com.example.gaechuck.data.response.GetLoseDetailResponse
 import com.example.gaechuck.databinding.FragmentLoseDetailBinding
 import com.example.gaechuck.repository.LoseRepository
-import com.example.gaechuck.ui.business.adapter.ImagePagerAdapter
+import com.example.gaechuck.ui.lose.adapter.ImagePagerAdapter
 import com.example.gaechuck.ui.lose.viewmodel.LoseViewModel
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 
