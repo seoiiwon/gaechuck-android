@@ -3,22 +3,22 @@ package com.example.gaechuck.ui.lose.adapter
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.gaechuck.data.model.LoseItem
+import com.example.gaechuck.data.response.LoseList
 
-class LoseAdapter(private val data: List<LoseItem>, // LoseItem 전체 데이터 리스트
+class LoseAdapter(private val data: List<LoseList>, // LoseItem 전체 데이터 리스트
                   private val itemsPerPage: Int = 9, // 한 페이지에 표시할 최대 아이템 개수
                   private val listener: OnLoseItemClickListener)
     : RecyclerView.Adapter<LoseAdapter.PageViewHolder>() {
 
     // 클릭 리스너 인터페이스
     interface OnLoseItemClickListener {
-        fun onLoseItemClick(item: LoseItem)
+        fun onLoseItemClick(item: LoseList)
     }
 
     // ViewHolder 정의
     inner class PageViewHolder(private val binding: RecyclerView) :
         RecyclerView.ViewHolder(binding) {
-        fun bind(pageItems: List<LoseItem>) {
+        fun bind(pageItems: List<LoseList>) {
             binding.layoutManager = GridLayoutManager(binding.context, 3) // 3x3 Grid
             binding.adapter = GridAdapter(pageItems, listener) // 각 페이지의 GridAdapter 연결
         }

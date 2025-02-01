@@ -24,8 +24,8 @@
         tools:layout="@layout/fragment_lose_detail"
         >
         <argument
-            android:name="loseItem"
-            app:argType="com.example.gaechuck.data.model.LoseItem"/>
+            android:name="lostItemId"
+            app:argType="integer"/>
     </fragment>
 
 </navigation>

@@ -6,19 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.example.gaechuck.R
-import com.example.gaechuck.data.model.LoseItem
+import com.example.gaechuck.data.response.LoseList
 import com.example.gaechuck.databinding.FragmentLoseMainBinding
+import com.example.gaechuck.repository.LoseRepository
 import com.example.gaechuck.ui.lose.adapter.LoseAdapter
 import com.example.gaechuck.ui.lose.viewmodel.LoseViewModel
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 
 class LoseMainFragment : Fragment(R.layout.fragment_lose_main), LoseAdapter.OnLoseItemClickListener {
     private lateinit var binding: FragmentLoseMainBinding
-    private val loseViewModel: LoseViewModel by viewModels()
+    private lateinit var viewModel: LoseViewModel
     private lateinit var loseAdapter: LoseAdapter
 
     private lateinit var viewPager: ViewPager2
@@ -37,8 +38,11 @@ class LoseMainFragment : Fragment(R.layout.fragment_lose_main), LoseAdapter.OnLo
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 예시로 초기값을 확인
-        Log.d("LoseMainFragment", "Initial data: ${loseViewModel.loseList.value}")
+        //
+        val repository = LoseRepository()
+        val viewModelFactory = LoseViewModel.LoseViewModelFactory(repository)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(LoseViewModel::class.java)
+
 
         // LoseActivity의 Toolbar 업데이트
         (activity as? LoseActivity)?.updateToolbar(
@@ -51,7 +55,7 @@ class LoseMainFragment : Fragment(R.layout.fragment_lose_main), LoseAdapter.OnLo
         indicator = view.findViewById(R.id.image_indicator)
 
         // ViewModel 데이터 관찰
-        loseViewModel.loseList.observe(viewLifecycleOwner) { loseList ->
+        viewModel.loseList.observe(viewLifecycleOwner) { loseList ->
             if (loseList.isEmpty()) {
                 Log.d("LoseMainFragment", "loseList is empty.")
             } else {
@@ -72,8 +76,8 @@ class LoseMainFragment : Fragment(R.layout.fragment_lose_main), LoseAdapter.OnLo
     }
 
     // 네비게이션 처리
-    override fun onLoseItemClick(item: LoseItem) {
-        val action = LoseMainFragmentDirections.actionLoseMainFragmentRoLoseDetailFragment(item)
+    override fun onLoseItemClick(item: LoseList) {
+        val action = LoseMainFragmentDirections.actionLoseMainFragmentRoLoseDetailFragment(item.lostItemId)
         view?.findNavController()?.navigate(action)
     }
 

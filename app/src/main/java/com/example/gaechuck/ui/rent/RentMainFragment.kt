@@ -6,18 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gaechuck.R
-import com.example.gaechuck.data.model.RentItem
+import com.example.gaechuck.data.response.RentList
 import com.example.gaechuck.databinding.FragmentRentMainBinding
+import com.example.gaechuck.repository.RentRepository
 import com.example.gaechuck.ui.rent.adapter.RentAdapter
 import com.example.gaechuck.ui.rent.viewmodel.RentViewModel
 
 class RentMainFragment : Fragment(R.layout.fragment_rent_main),RentAdapter.OnRentItemClickListener {
     private lateinit var binding: FragmentRentMainBinding
-    private val rentViewModel: RentViewModel by viewModels()
+    private lateinit var rentViewModel: RentViewModel
     private lateinit var rentAdapter: RentAdapter
 
     override fun onCreateView(
@@ -33,13 +34,17 @@ class RentMainFragment : Fragment(R.layout.fragment_rent_main),RentAdapter.OnRen
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //
+        val repository = RentRepository()
+        val viewModelFactory = RentViewModel.RentViewModelFactory(repository)
+        rentViewModel = ViewModelProvider(this, viewModelFactory).get(RentViewModel::class.java)
+
         // RentActivity의 Toolbar 업데이트
         (activity as? RentActivity)?.updateToolbar(
             title = getString(R.string.bar_rent), // 제목 설정
             showBackButton = true, // 뒤로가기 버튼 표시
             showHomeButton = false // 홈 버튼 표시
         )
-//        initView()
 
         // RecyclerView 설정
         binding.rentView.layoutManager = LinearLayoutManager(context)
@@ -56,15 +61,6 @@ class RentMainFragment : Fragment(R.layout.fragment_rent_main),RentAdapter.OnRen
         ShowRentItems()
     }
 
-//    private fun initView() {
-//        binding.toolbar.run {
-//            buttonBack.setOnClickListener {
-//                findNavController().navigateUp()
-//            }
-//            textViewTitle.text = "물품 대여"
-//        }
-//    }
-
     // 데이터 가져오는 함수
     private fun ShowRentItems() {
         rentViewModel.rentList.observe(viewLifecycleOwner) { rentItems ->
@@ -74,10 +70,10 @@ class RentMainFragment : Fragment(R.layout.fragment_rent_main),RentAdapter.OnRen
     }
 
     // 렌트 아이템 클릭 시 네비게이션 처리
-    override fun OnRentItemClick(item: RentItem) {
-        val action = RentMainFragmentDirections.actionRentMainFragmentToRentDetailFragment(item)
+    override fun OnRentItemClick(item: RentList) {
+        val action = RentMainFragmentDirections.actionRentMainFragmentToRentDetailFragment(item.rentItemId)
         view?.findNavController()?.navigate(action)
     }
 
-
+    // TODO : 검색 기능 추가
 }
