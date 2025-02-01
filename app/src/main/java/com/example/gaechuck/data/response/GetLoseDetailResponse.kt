@@ -6,5 +6,6 @@ data class GetLoseDetailResponse(
         val isResolved: String,
         val lostDate: String,
         val lostItemId: Int,
-        val title: String
+        val title: String,
+        val lostLocation: String
     )

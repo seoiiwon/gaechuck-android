@@ -64,7 +64,7 @@ class LoseDetailFragment : Fragment(R.layout.fragment_lose_detail) {
     private fun setupUI(item: GetLoseDetailResponse) {
         binding.loseName.text = item.title
         binding.loseDate.text = item.lostDate
-        binding.loseLocation.text = item.lostDate
+        binding.loseLocation.text = item.lostLocation
         binding.rentInfo.text = item.description
         binding.loseGetDate.text = item.lostDate
 

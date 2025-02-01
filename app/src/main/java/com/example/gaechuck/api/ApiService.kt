@@ -6,6 +6,7 @@ import com.example.gaechuck.data.response.GetFoodDataResponse
 import com.example.gaechuck.data.response.GetLoseDataResponse
 import com.example.gaechuck.data.response.GetLoseDetailResponse
 import com.example.gaechuck.data.response.GetRentDataResponse
+import com.example.gaechuck.data.response.GetRentDetailResponse
 import com.example.gaechuck.data.response.GetUnivNoticeDataResponse
 import com.example.gaechuck.data.response.GetUnivNoticeDetailResponse
 import com.example.gaechuck.data.response.LoginResponse
@@ -25,7 +26,7 @@ interface ApiService {
     suspend fun getLoseData()
             : Response<BaseResponse<GetLoseDataResponse>>
 
-    // 분실물 디테일 정보 가져오기 > 백엔드 여쭤보기 (쿼리 이상)
+    // 분실물 디테일 정보 가져오기
     @GET("/api/v1/lostitems/detail")
     suspend fun getLoseDetailData(@Query("lostItemId") lostItemId : Int )
             : Response<BaseResponse<GetLoseDetailResponse>>
@@ -35,6 +36,11 @@ interface ApiService {
     @GET("/api/v1/rent/list")
     suspend fun getRentData()
             : Response<BaseResponse<GetRentDataResponse>>
+
+    // 대여 디테일 정보 가져오기
+    @GET("/api/v1/rent/detailItem")
+    suspend fun getRentDetailData(@Query("rentItemId") rentItemId : Int)
+            : Response<BaseResponse<GetRentDetailResponse>>
 
     // Notice
     // 총학생회 공지 리스트

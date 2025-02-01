@@ -8,9 +8,10 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.gaechuck.R
-import com.example.gaechuck.data.response.RentList
+import com.example.gaechuck.data.response.GetRentDetailResponse
 import com.example.gaechuck.databinding.FragmentRentDetailBinding
 import com.example.gaechuck.repository.RentRepository
+import com.example.gaechuck.ui.lose.adapter.ImagePagerAdapter
 import com.example.gaechuck.ui.rent.viewmodel.RentViewModel
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 
@@ -42,10 +43,15 @@ class RentDetailFragment : Fragment(R.layout.fragment_rent_detail) {
         }
 
         rentItemId?.let {
-            // TODO : API 호출
+            rentViewModel.RentDetailRetrofit(it)
         }
 
-        // TODO : LiveData 옵저빙하여 UI 업데이트
+        // LiveData 옵저빙하여 UI 업데이트
+        rentViewModel.rentDetailData.observe(viewLifecycleOwner) {
+            rentDetail -> rentDetail?.let {
+                setupUI(it)
+        }
+        }
 
         // 버튼 클릭 시 오픈채팅으로 이동
         RentButton.setOnClickListener{
@@ -55,15 +61,15 @@ class RentDetailFragment : Fragment(R.layout.fragment_rent_detail) {
 
     }
 
-    // TODO : 렌트 디테일 API 생성 이후 수정
-    private fun setupUI(item: RentList) {
+    private fun setupUI(item: GetRentDetailResponse) {
         binding.rentName.text = item.rentItemName
         binding.rentCount.text = item.rentItemCount.toString()
-//        binding.rentInfo.text = item.
+
+        val imageList = listOf(item.rentItemImage)
 
         // ViewPager2에 이미지 설정 (수정)
-//        val adapter = ImagePagerAdapter(item.images)
-//        binding.loseImagesViewpager.adapter = adapter
+        val adapter = ImagePagerAdapter(imageList)
+        binding.rentImagesViewpager.adapter = adapter
 
         // 페이지 인디케이터 연결
         val wormDotsIndicator: WormDotsIndicator = binding.imageIndicator
