@@ -52,4 +52,9 @@ class RentAdapter(private val listener: OnRentItemClickListener):
             return oldItem.rentItemId == newItem.rentItemId
         }
     }
+
+    // filtering 함수
+    fun filteredList(newList : List<RentList>) {
+        submitList(newList) // 필터링된 리스트를 적용
+    }
 }
