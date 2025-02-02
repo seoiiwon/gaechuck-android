@@ -43,8 +43,8 @@ class BusinessDetailFragment : Fragment(R.layout.fragment_business_detail) {
         binding.businessInfo.text = item.summary
 
         // ViewPager2에 이미지 설정
-//        val adapter = ImagePagerAdapter(item.images)
-//        binding.businessImagesViewpager.adapter = adapter
+        val adapter = ImagePagerAdapter(item.images)
+        binding.businessImagesViewpager.adapter = adapter
 
         // 페이지 인디케이터 연결
         val wormDotsIndicator: WormDotsIndicator = binding.imageIndicator
