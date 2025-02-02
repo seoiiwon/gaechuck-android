@@ -3,32 +3,64 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <!--    TODO : appbar custom 수정-->
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        >
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@color/white"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-    </com.google.android.material.appbar.AppBarLayout>
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_main"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:elevation="4dp"
+        app:titleTextColor="@color/black"
+        app:title=""
+        >
+
+        <ImageView
+            android:id="@+id/button_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            app:srcCompat="@drawable/ic_back"
+            app:tint="@color/gnu_blue"
+            android:layout_gravity="start|center_vertical"
+            />
+
+        <TextView
+            android:id="@+id/textView_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/noto_sans_kr_bold"
+            android:text="Gaechuck"
+            android:textSize="24sp"
+            android:textColor="@color/gnu_blue"
+            android:layout_gravity="center"
+            app:layout_constraintTop_toTopOf="@id/button_back" />
+
+        <ImageView
+            android:id="@+id/button_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:paddingHorizontal="16dp"
+            app:srcCompat="@drawable/ic_home"
+            app:tint="@color/gnu_blue"
+            android:layout_gravity="end|center_vertical"
+            />
+    </androidx.appcompat.widget.Toolbar>
     <!-- NavHostFragment로 프래그먼트 전환 관리 -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintTop_toBottomOf="@id/appbar"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_main"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:navGraph="@navigation/navigation_login"
         app:defaultNavHost="true"/>
-<!--        app:navGraph="@navigation/navigation_rent"-->
+
 </androidx.constraintlayout.widget.ConstraintLayout>

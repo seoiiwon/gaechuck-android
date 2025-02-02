@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.gaechuck.MainActivity
 import com.example.gaechuck.R
-import com.example.gaechuck.ui.setting.SettingActivity
+import com.example.gaechuck.ui.login.LoginActivity
 
 class TermsOfUseActivity : AppCompatActivity() {
 
@@ -30,8 +30,7 @@ class TermsOfUseActivity : AppCompatActivity() {
         val termOfUseLink = findViewById<TextView>(R.id.terms_bottom)
 
         termOfUseLink.setOnClickListener {
-            // TODO : 관리자모드 Activity 생성 후 수정
-            val intent = Intent(this, SettingActivity::class.java)
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
 
