@@ -33,6 +33,7 @@
         <activity android:name=".ui.bus.viewmodel.BusRoute"/>
         <activity android:name=".SubPage2Activity"/>
         <activity android:name=".ui.lose.LoseActivity"/>
+        <activity android:name=".ui.login.LoginActivity"/>
 
     </application>
 

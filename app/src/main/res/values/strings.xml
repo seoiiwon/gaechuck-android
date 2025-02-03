@@ -50,8 +50,16 @@
 
 <!--    rent-->
     <string name="rent_info">필요한 물품이 대여 가능한지 확인해보세요</string>
+    
+    <string name="rent_search_title">죄송합니다</string>
+    <string name="rent_search_info1">검색하신 물품은 아직 준비되어 있지 않습니다\n학생회에 문의해 보시겠어요?</string>
+<!--    <string name="rent_search_info2">검색하신 물품은 아직 준비되어 있지 않습니다</string>-->
+    
+    <string name="rent_search_btn1">물품대여 화면으로 돌아가기</string>
+    <string name="rent_search_btn2">문의하기</string>
 
-<!--    login-->
+
+    <!--    login-->
     <string name="login_text">코드를 입력해주세요</string>
     <string name="login_info">관리자 모드로 변경됩니다.</string>
     <string name="login_complete_text">코드 확인 완료</string>

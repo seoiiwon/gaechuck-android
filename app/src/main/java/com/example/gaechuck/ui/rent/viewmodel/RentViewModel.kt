@@ -23,6 +23,11 @@ class RentViewModel(private val repository: RentRepository): ViewModel() {
     val rentDetailData :MutableLiveData<GetRentDetailResponse>
         get() = _rentDetailData
 
+    // 검색 필터링 변수
+    private val _filterRentList = MutableLiveData<List<RentList>>()
+    val filterRentList : LiveData<List<RentList>>
+        get() = _filterRentList
+
     // 초기화
     init {
         viewModelScope.launch {
@@ -38,6 +43,7 @@ class RentViewModel(private val repository: RentRepository): ViewModel() {
         }
     }
 
+    // 디테일 불러오기
     fun RentDetailRetrofit(rentItemId : Int) {
         viewModelScope.launch {
             try {
@@ -50,6 +56,16 @@ class RentViewModel(private val repository: RentRepository): ViewModel() {
                 // 에러 처리
                 Log.e("RentViewModel", "에러 발생: ${e.message}")
             }
+        }
+    }
+
+    // 검색 (필터링) 기능
+    fun searchRentItems(query: String) {
+        val originalList = _rentList.value ?: emptyList()
+        if (query.isBlank()) {
+            _filterRentList.value = originalList
+        } else {
+            _filterRentList.value = originalList.filter { it.rentItemName.contains(query, ignoreCase = true) }
         }
     }
 
