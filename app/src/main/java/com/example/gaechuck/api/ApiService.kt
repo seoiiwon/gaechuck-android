@@ -1,5 +1,6 @@
 package com.example.gaechuck.api
 
+import com.example.gaechuck.data.request.LoginRequest
 import com.example.gaechuck.data.response.BaseResponse
 import com.example.gaechuck.data.response.GetAllNoticeDataResponse
 import com.example.gaechuck.data.response.GetFoodDataResponse
@@ -10,12 +11,11 @@ import com.example.gaechuck.data.response.GetRentDetailResponse
 import com.example.gaechuck.data.response.GetUnivNoticeDataResponse
 import com.example.gaechuck.data.response.GetUnivNoticeDetailResponse
 import com.example.gaechuck.data.response.LoginResponse
-import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
-import retrofit2.http.PartMap
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -66,6 +66,6 @@ interface ApiService {
 
     // Admin
     @POST("/api/v1/master/sign-in")
-    fun login(@PartMap parameters: Map<String, @JvmSuppressWildcards RequestBody>)
-            : Call<BaseResponse<LoginResponse>>
+    suspend fun login(@Body request: LoginRequest)
+            : Response<BaseResponse<LoginResponse>>
 }
