@@ -25,18 +25,17 @@
         app:layout_constraintStart_toStartOf="parent"
         />
 
-    <!--    TODO : 토글 수정-->
     <!-- 설정 토글 -->
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/notificationSwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:checked="true"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@null"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="16dp"
-        tools:ignore="UseSwitchCompatOrMaterialXml"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:visibility="gone"
+        style="@style/alarm_toggle"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
