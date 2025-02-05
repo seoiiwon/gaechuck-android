@@ -9,6 +9,7 @@
         <item name="etc">@string/category_etc</item>
     </string-array>
     <color name="black">#FF000000</color>
+    <color name="black_1">#FF111111</color>
     <color name="default_tab_color">#FF8A8D8F</color>
     <color name="divider_grey">#E8E8E9</color>
     <color name="gnu_blue">#FF0086C0</color>

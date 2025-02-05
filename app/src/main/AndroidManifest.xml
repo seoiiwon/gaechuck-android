@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -11,13 +13,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Gaechuck"
+        android:enableOnBackInvokedCallback="true"
         tools:targetApi="31">
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -25,11 +28,14 @@
         <activity android:name=".ui.termsofuse.TermsOfUseActivity"/>
         <activity android:name=".ui.business.BusinessActivity"/>
         <activity android:name=".ui.rent.RentActivity"/>
-        <activity android:name=".ui.noticeuniv.viewmodel.NoticeUniv"/>
-        <activity android:name=".ui.noticecouncil.viewmodel.NoticeCouncil"/>
-        <activity android:name=".ui.menu.viewmodel.CafeteriaMenu"/>
-        <activity android:name=".ui.bus.viewmodel.BusRoute"/>
+        <activity android:name=".ui.noticeuniv.NoticeUnivActivity"/>
+        <activity android:name=".ui.noticecouncil.NoticeCouncilActivity"/>
+        <activity android:name=".ui.menu.CafeteriaMenuActivity"/>
+        <activity android:name=".ui.bus.BusRouteActivity"/>
         <activity android:name=".SubPage2Activity"/>
+        <activity android:name=".ui.noticecouncil.NoticeCouncilDetailActivity"/>
+        <activity android:name=".ui.noticeuniv.NoticeUnivDetailActivity"/>
+
 
     </application>
 

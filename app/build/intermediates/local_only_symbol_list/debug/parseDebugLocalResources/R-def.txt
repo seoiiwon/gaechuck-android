@@ -2,6 +2,7 @@ R_DEF: Internal format may change without notice
 local
 array CATEGORY
 color black
+color black_1
 color default_tab_color
 color divider_grey
 color gnu_blue
@@ -85,6 +86,8 @@ id dotsIndicator
 id footer
 id footer_info
 id footer_time
+id fragment_notice_council
+id fragment_notice_council_container
 id gridLayout
 id homeBtn
 id imagePlaceholder
@@ -96,8 +99,10 @@ id menuContainer
 id nav_business
 id nav_host_fragment
 id nextButton
+id noticeBody
 id noticeCategory
 id noticeDate
+id noticeDateTextView
 id noticeDepartment
 id noticeDescription
 id noticeImage
@@ -137,6 +142,9 @@ id tabAllUnderline
 id tabInstitution
 id tabInstitutionLayout
 id tabInstitutionUnderline
+id tabLegislative
+id tabLegislativeLayout
+id tabLegislativeUnderline
 id tabRecruitment
 id tabRecruitmentLayout
 id tabRecruitmentUnderline
@@ -149,8 +157,14 @@ id termstitle
 id textView_title
 id toolbar
 id viewPager
+layout activity_bus_route
 layout activity_business
+layout activity_cafeteria_menu
 layout activity_main
+layout activity_notice_council
+layout activity_notice_council_detail
+layout activity_notice_univ
+layout activity_notice_univ_detail
 layout activity_rent
 layout activity_termsofuse
 layout column_setting_item
@@ -163,17 +177,16 @@ layout fragment_main2
 layout fragment_menu_category
 layout fragment_menu_item
 layout fragment_notice_council
+layout fragment_notice_council_container
+layout fragment_notice_council_detail
 layout fragment_notice_univ
+layout fragment_notice_univ_detail
 layout fragment_rent_detail
 layout fragment_rent_main
 layout fragment_setting
 layout row_business_item
 layout row_item_image_view
 layout row_rent_item
-layout sub1
-layout sub2
-layout sub3
-layout sub4
 layout sub5
 layout sub6
 layout sub7

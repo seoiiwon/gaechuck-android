@@ -8,6 +8,8 @@
         android:minSdkVersion="24"
         android:targetSdkVersion="35" />
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <permission
         android:name="com.example.gaechuck.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
         android:protectionLevel="signature" />
@@ -19,6 +21,7 @@
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:debuggable="true"
+        android:enableOnBackInvokedCallback="true"
         android:extractNativeLibs="false"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -40,11 +43,13 @@
         <activity android:name="com.example.gaechuck.ui.termsofuse.TermsOfUseActivity" />
         <activity android:name="com.example.gaechuck.ui.business.BusinessActivity" />
         <activity android:name="com.example.gaechuck.ui.rent.RentActivity" />
-        <activity android:name="com.example.gaechuck.ui.noticeuniv.viewmodel.NoticeUniv" />
-        <activity android:name="com.example.gaechuck.ui.noticecouncil.viewmodel.NoticeCouncil" />
-        <activity android:name="com.example.gaechuck.ui.menu.viewmodel.CafeteriaMenu" />
-        <activity android:name="com.example.gaechuck.ui.bus.viewmodel.BusRoute" />
+        <activity android:name="com.example.gaechuck.ui.noticeuniv.NoticeUnivActivity" />
+        <activity android:name="com.example.gaechuck.ui.noticecouncil.NoticeCouncilActivity" />
+        <activity android:name="com.example.gaechuck.ui.menu.CafeteriaMenuActivity" />
+        <activity android:name="com.example.gaechuck.ui.bus.BusRouteActivity" />
         <activity android:name="com.example.gaechuck.SubPage2Activity" />
+        <activity android:name="com.example.gaechuck.ui.noticecouncil.NoticeCouncilDetailActivity" />
+        <activity android:name="com.example.gaechuck.ui.noticeuniv.NoticeUnivDetailActivity" />
 
         <provider
             android:name="androidx.startup.InitializationProvider"
