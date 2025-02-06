@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white">
-
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_main"
         android:layout_width="0dp"
@@ -91,8 +90,8 @@
         >
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="잔여개수"
+            android:layout_height="36dp"
+            android:text="분실물 습득 위치"
             android:fontFamily="@font/noto_sans_kr_bold"
             android:textSize="16sp"
             />
@@ -100,7 +99,38 @@
             android:id="@+id/field_count"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="개수를 입력해주세요."
+            android:hint="내용을 입력하세요."
+            app:layout_constraintBottom_toBottomOf="@id/guideline1"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textSize="14dp"
+            android:fontFamily="@font/noto_sans_kr_semibold"
+            android:background="@color/transparent"
+            android:inputType="text"
+            android:textColor="@color/info_grey"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/select_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/select_count"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="20dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:text="분실물 접수 날짜"
+            android:fontFamily="@font/noto_sans_kr_bold"
+            android:textSize="16sp"
+            />
+        <EditText
+            android:id="@+id/field_date"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="날짜를 입력하세요. (ex.20250206)"
             app:layout_constraintBottom_toBottomOf="@id/guideline1"
             app:layout_constraintStart_toStartOf="parent"
             android:textSize="14dp"
@@ -112,33 +142,33 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/info"
+        android:id="@+id/write_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/select_count"
+        app:layout_constraintTop_toBottomOf="@id/select_date"
         android:orientation="vertical"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="24dp"
         >
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="제휴정보"
+            android:layout_height="36dp"
+            android:text="상세 정보"
             android:fontFamily="@font/noto_sans_kr_bold"
             android:textSize="16sp"
             />
-        <TextView
+        <EditText
             android:id="@+id/field_info"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="사용 후 학생회실로 반납 부탁드립니다."
+            android:hint="내용을 입력하세요"
             app:layout_constraintBottom_toBottomOf="@id/guideline1"
             app:layout_constraintStart_toStartOf="parent"
-            android:textColor="@color/info_grey"
             android:textSize="14dp"
-            android:fontFamily="@font/noto_sans_kr_medium"
+            android:fontFamily="@font/noto_sans_kr_semibold"
             android:background="@color/transparent"
+            android:inputType="textMultiLine"
+            android:maxLines="5"
             />
     </LinearLayout>
 
@@ -154,10 +184,12 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.40" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.50" />
+        app:layout_constraintGuide_percent="0.45" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

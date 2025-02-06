@@ -37,7 +37,7 @@
         <activity android:name=".ui.login.LoginActivity"/>
         <activity android:name=".ui.business.BusinessWriteActivity"/>
         <activity android:name=".ui.rent.RentWriteActivity"/>
-
+        <activity android:name=".ui.lose.LoseWriteActivity"/>
     </application>
 
 </manifest>
