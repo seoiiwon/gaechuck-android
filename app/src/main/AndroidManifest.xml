@@ -38,6 +38,7 @@
         <activity android:name=".ui.business.BusinessWriteActivity"/>
         <activity android:name=".ui.rent.RentWriteActivity"/>
         <activity android:name=".ui.lose.LoseWriteActivity"/>
+        <activity android:name=".ui.lose.LoseUrlChangeActivity"/>
     </application>
 
 </manifest>

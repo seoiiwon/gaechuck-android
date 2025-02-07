@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_main"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:elevation="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title=""
+        app:titleTextColor="@color/transparent">
+
+        <ImageView
+            android:id="@+id/button_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            app:srcCompat="@drawable/ic_back"
+            app:tint="@color/gnu_blue" />
+
+        <TextView
+            android:id="@+id/form_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:fontFamily="@font/noto_sans_kr_semibold"
+            android:paddingHorizontal="16dp"
+            android:textColor="@color/gnu_grey"
+            android:text="등록" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <LinearLayout
+        android:id="@+id/current_url"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_main"
+        app:layout_constraintStart_toStartOf="parent"
+        android:paddingHorizontal="20dp"
+        android:layout_marginTop="12dp"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="기존 오픈채팅방 URL"
+            android:fontFamily="@font/noto_sans_kr_bold"
+            android:textSize="16sp"
+            />
+        <TextView
+            android:id="@+id/field_current_url"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="https://open.kakao.com/o/gXyz1234"
+            android:fontFamily="@font/noto_sans_kr_regular"
+            android:textColor="@color/gnu_grey"
+            android:letterSpacing="-0.025"
+            android:textSize="14sp"
+            />
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:dividerColor="@color/gnu_blue"
+            />
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/change_url"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/current_url"
+        app:layout_constraintStart_toStartOf="parent"
+        android:paddingHorizontal="20dp"
+        android:layout_marginTop="40dp"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="새로운 오픈채팅방 URL"
+            android:fontFamily="@font/noto_sans_kr_bold"
+            android:textSize="16sp"
+            />
+        <EditText
+            android:id="@+id/field_change_url"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="새로운 url을 입력하세요."
+            android:fontFamily="@font/noto_sans_kr_regular"
+            android:textColor="@color/gnu_grey"
+            android:letterSpacing="-0.025"
+            android:inputType="text"
+            android:background="@color/transparent"
+            android:textSize="14sp"
+            />
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/divider_change_url"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:dividerColor="@color/grey"
+            android:layout_marginTop="1.5dp"
+            />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
