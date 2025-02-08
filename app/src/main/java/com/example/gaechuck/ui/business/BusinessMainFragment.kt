@@ -1,11 +1,13 @@
 package com.example.gaechuck.ui.business
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -46,6 +48,12 @@ class BusinessMainFragment : Fragment(R.layout.fragment_business_main), Business
             showHomeButton = false // 홈 버튼 숨김
         )
 
+        // 로그인 상태 확인
+        businessViewModel.checkLoginStatus()
+        businessViewModel.isLoggedIn.observe(viewLifecycleOwner, Observer { isLoggedIn ->
+            binding.writeBtn.visibility = if (isLoggedIn) View.VISIBLE else View.GONE
+        })
+
         val category: Array<String> = resources.getStringArray(R.array.CATEGORY)
 
         // DividerItemDecoration을 RecyclerView에 추가
@@ -77,8 +85,6 @@ class BusinessMainFragment : Fragment(R.layout.fragment_business_main), Business
         // 기본적으로 첫 번째 탭 "전체"가 선택되도록 설정
         binding.selectCategoryTl.selectTab(binding.selectCategoryTl.getTabAt(0))
 
-
-
         // 탭 선택 리스너 추가
         binding.selectCategoryTl.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
@@ -92,6 +98,18 @@ class BusinessMainFragment : Fragment(R.layout.fragment_business_main), Business
 
         // TabLayout의 탭에 마진 추가
         tabItemMargin(binding.selectCategoryTl)
+
+        // floatBtn 클릭 리스너
+        binding.writeBtn.setOnClickListener{
+            val intent = Intent(activity, BusinessWriteActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        businessViewModel.checkLoginStatus()
     }
 
     // 비즈니스 아이템을 선택된 카테고리로 필터링하는 함수
