@@ -6,6 +6,54 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_main"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:elevation="4dp"
+        app:titleTextColor="@color/black"
+        app:title=""
+        >
+
+        <ImageView
+            android:id="@+id/button_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            app:srcCompat="@drawable/ic_back"
+            app:tint="@color/gnu_blue"
+            android:layout_gravity="start|center_vertical"
+            />
+
+        <TextView
+            android:id="@+id/textView_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/noto_sans_kr_bold"
+            android:text="Gaechuck"
+            android:textSize="24sp"
+            android:textColor="@color/gnu_blue"
+            android:layout_gravity="center"
+            app:layout_constraintTop_toTopOf="@id/button_back" />
+
+        <ImageView
+            android:id="@+id/button_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:paddingHorizontal="16dp"
+            app:srcCompat="@drawable/ic_home"
+            app:tint="@color/gnu_blue"
+            android:layout_gravity="end|center_vertical"
+            />
+    </androidx.appcompat.widget.Toolbar>
+
     <TextView
         android:id="@+id/termstitle"
         android:layout_width="wrap_content"
@@ -15,7 +63,7 @@
         android:text="@string/setting_terms_title"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/toolbar_main" />
 
     <ScrollView
         android:id="@+id/scrollView2"

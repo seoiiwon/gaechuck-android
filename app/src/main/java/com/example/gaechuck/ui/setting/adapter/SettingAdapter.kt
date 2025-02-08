@@ -1,11 +1,13 @@
 package com.example.gaechuck.ui.setting.adapter
 
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.widget.SwitchCompat
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gaechuck.R
 import com.example.gaechuck.data.models.SettingItem
@@ -32,12 +34,22 @@ class SettingAdapter(private val items: List<SettingItem>) :
             }
         }
 
+        // 기본 설정
+        holder.notificationSwitch.trackTintList = ColorStateList.valueOf(ContextCompat.getColor(holder.itemView.context, R.color.gnu_blue))
         // Switch가 필요 없는 항목은 숨기기
         if (item.hasToggle) {
             holder.notificationSwitch.visibility = View.VISIBLE
             holder.notificationSwitch.isChecked = item.isNotificationEnabled
+
+            //
             holder.notificationSwitch.setOnCheckedChangeListener { _, isChecked ->
                 item.isNotificationEnabled = isChecked
+                if(isChecked) {
+                    holder.notificationSwitch.trackTintList = ColorStateList.valueOf(ContextCompat.getColor(holder.itemView.context, R.color.gnu_blue))
+                } else {
+                    holder.notificationSwitch.trackTintList = ColorStateList.valueOf(ContextCompat.getColor(holder.itemView.context, R.color.grey))
+
+                }
             }
         } else {
             holder.notificationSwitch.visibility = View.GONE

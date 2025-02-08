@@ -27,7 +27,7 @@
         android:id="@+id/linearLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="64dp"
+        android:layout_marginLeft="36dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="@id/rent_image_card"
         app:layout_constraintEnd_toStartOf="@id/rent_more"

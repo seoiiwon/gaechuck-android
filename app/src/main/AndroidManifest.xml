@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <uses-permission android:name="android.permission.INTERNET"/>
 
@@ -14,8 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Gaechuck"
         android:enableOnBackInvokedCallback="true"
-        tools:targetApi="31">
-
+        tools:targetApi="31"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:name=".Gaechuck">
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -36,6 +38,8 @@
         <activity android:name=".ui.noticecouncil.NoticeCouncilDetailActivity"/>
         <activity android:name=".ui.noticeuniv.NoticeUnivDetailActivity"/>
 
+        <activity android:name=".ui.lose.LoseActivity"/>
+        <activity android:name=".ui.login.LoginActivity"/>
 
     </application>
 

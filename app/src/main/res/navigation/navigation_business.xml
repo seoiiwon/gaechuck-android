@@ -11,7 +11,9 @@
         tools:layout="@layout/fragment_business_main" >
         <action
             android:id="@+id/action_businessMainFragment_to_businessDetailFragment"
-            app:destination="@id/businessDetailFragment" />
+            app:destination="@id/businessDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
     </fragment>
 
     <!-- BusinessDetailFragment -->
@@ -23,6 +25,11 @@
         <argument
             android:name="businessItem"
             app:argType="com.example.gaechuck.data.model.BusinessItem" />
+        <action
+            android:id="@+id/action_businessDetailFragment_to_businessMainFragment"
+            app:destination="@id/businessMainFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right" />
     </fragment>
 </navigation>
 

@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:paddingHorizontal="20dp"
-    android:paddingVertical="20dp"
+    android:paddingBottom="16dp"
     >
 
     <TextView
@@ -17,17 +17,48 @@
         android:text="@string/rent_info"
         android:textSize="12sp"
         android:textColor="@color/info_grey"
+        android:paddingTop="16dp"
         />
 
-    <EditText
+    <LinearLayout
         android:id="@+id/rent_search"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@id/rent_info"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        />
+        >
+
+        <EditText
+            android:id="@+id/searchEditText"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@null"
+            android:layout_weight="1"
+            android:hint="내용을 검색해보세요"
+            android:textSize="12sp"
+            android:padding="8dp"
+            android:inputType="text"
+            />
+
+        <ImageView
+            android:id="@+id/searchButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:src="@drawable/search_icon" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1.5dp"
+        android:background="@color/divider_grey2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rent_search" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rent_view"
@@ -38,9 +69,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/rent_search"
         app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="visible"
         />
 
-
-
-
+    <include
+        layout="@layout/fragment_rent_search"
+        android:id="@+id/search_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/rent_search"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="gone"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -33,6 +33,13 @@ class BusinessMainFragment : Fragment(R.layout.fragment_business_main), Business
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // RentActivity의 Toolbar 업데이트
+        (activity as? BusinessActivity)?.updateToolbar(
+            title = getString(R.string.bar_business), // 제목 설정
+            showBackButton = true, // 뒤로가기 버튼 표시
+            showHomeButton = false // 홈 버튼 숨김
+        )
+
         val category: Array<String> = resources.getStringArray(R.array.CATEGORY)
 
         // DividerItemDecoration을 RecyclerView에 추가
@@ -92,6 +99,7 @@ class BusinessMainFragment : Fragment(R.layout.fragment_business_main), Business
     override fun onBusinessItemClick(item: BusinessItem) {
         val action = BusinessMainFragmentDirections
             .actionBusinessMainFragmentToBusinessDetailFragment(item)
+
         view?.findNavController()?.navigate(action)
     }
 
