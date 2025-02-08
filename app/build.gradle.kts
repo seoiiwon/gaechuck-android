@@ -68,7 +68,6 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.viewpager2)
-    implementation(libs.dotsindicator)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -83,4 +82,6 @@ dependencies {
 
     //splash screen
     implementation ("androidx.core:core-splashscreen:1.0.0")
+
+    implementation("com.tbuonomo:dotsindicator:5.1.0")
 }

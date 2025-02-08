@@ -11,13 +11,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.example.gaechuck.api.AuthManager
 import com.example.gaechuck.ui.bus.viewmodel.BusRoute
-import com.example.gaechuck.ui.business.BusinessWriteActivity
-import com.example.gaechuck.ui.lose.LoseWriteActivity
+import com.example.gaechuck.ui.business.BusinessActivity
+import com.example.gaechuck.ui.lose.LoseActivity
 import com.example.gaechuck.ui.main.adaptor.ViewPagerAdapter
 import com.example.gaechuck.ui.menu.viewmodel.CafeteriaMenu
 import com.example.gaechuck.ui.noticecouncil.viewmodel.NoticeCouncil
 import com.example.gaechuck.ui.noticeuniv.viewmodel.NoticeUniv
-import com.example.gaechuck.ui.rent.RentWriteActivity
+import com.example.gaechuck.ui.rent.RentActivity
 import com.example.gaechuck.ui.setting.SettingActivity
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 
@@ -59,9 +59,9 @@ class MainActivity : AppCompatActivity() {
     private fun setupGridClickListener(gridLayout: GridLayout, position: Int) {
         val activityClasses = listOf(
             CafeteriaMenu::class.java,
-            RentWriteActivity::class.java,
-            LoseWriteActivity::class.java,
-            BusinessWriteActivity::class.java,
+            RentActivity::class.java,
+            LoseActivity::class.java,
+            BusinessActivity::class.java,
             NoticeUniv::class.java,
             NoticeCouncil::class.java,
             BusRoute::class.java,
