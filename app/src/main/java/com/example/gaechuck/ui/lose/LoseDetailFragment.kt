@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.gaechuck.R
 import com.example.gaechuck.data.response.GetLoseDetailResponse
@@ -20,22 +21,27 @@ class LoseDetailFragment : Fragment(R.layout.fragment_lose_detail) {
     private lateinit var viewModel: LoseViewModel
     private lateinit var LoseButton : Button
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.checkLoginStatus()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentLoseDetailBinding.bind(view)
         LoseButton = view.findViewById(R.id.lose_button)
 
-        // RentActivity의 Toolbar 업데이트
-        (activity as? LoseActivity)?.updateToolbar(
-            title = getString(R.string.bar_lose), // 제목 설정
-            showBackButton = true, // 뒤로가기 버튼 표시
-            showHomeButton = true // 홈 버튼 표시
-        )
-
         // ViewModel 초기화
         val repository = LoseRepository()
         val viewModelFactory = LoseViewModel.LoseViewModelFactory(repository)
         viewModel = ViewModelProvider(this, viewModelFactory).get(LoseViewModel::class.java)
+
+
+        // 로그인 상태 확인
+        viewModel.checkLoginStatus()
+        viewModel.isLoggedIn.observe(viewLifecycleOwner, Observer { isLoggedIn ->
+            updateToolbar(isLoggedIn)
+        })
 
         // Arguments에서 lostItemId 가져오기
         val lostItemId = arguments?.let {
@@ -59,6 +65,16 @@ class LoseDetailFragment : Fragment(R.layout.fragment_lose_detail) {
             startActivity(intent)
         }
 
+
+    }
+    // RentActivity의 Toolbar 업데이트
+    private fun updateToolbar(isLoggedIn: Boolean) {
+        (activity as? LoseActivity)?.updateToolbar(
+            title = getString(R.string.bar_lose),
+            showBackButton = true,
+            showHomeButton = !isLoggedIn,
+            showEtcButton = isLoggedIn
+        )
     }
 
     private fun setupUI(item: GetLoseDetailResponse) {
