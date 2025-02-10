@@ -4,10 +4,9 @@ import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.example.gaechuck.R
 import com.example.gaechuck.databinding.ActivityLoseWriteBinding
 
-class LoseWriteActivity : AppCompatActivity(R.layout.activity_lose_write) {
+class LoseWriteActivity : AppCompatActivity() {
 
     private lateinit var toolbar : androidx.appcompat.widget.Toolbar
     private lateinit var backButton : ImageView
@@ -26,9 +25,9 @@ class LoseWriteActivity : AppCompatActivity(R.layout.activity_lose_write) {
         photoCountTextView.text = "3"
 
         // Toolbar 설정
-        toolbar = findViewById(R.id.toolbar_main)
-        backButton = toolbar.findViewById(R.id.button_back)
-        sendButton = toolbar.findViewById(R.id.form_send)
+        toolbar = binding.toolbarMain
+        backButton = binding.buttonBack
+        sendButton = binding.formSend
 
         backButton.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
