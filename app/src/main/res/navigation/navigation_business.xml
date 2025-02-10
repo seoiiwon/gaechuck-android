@@ -23,8 +23,8 @@
         android:label="Business Detail"
         tools:layout="@layout/fragment_business_detail">
         <argument
-            android:name="businessItem"
-            app:argType="com.example.gaechuck.data.model.BusinessItem" />
+            android:name="coalitionId"
+            app:argType="integer" />
         <action
             android:id="@+id/action_businessDetailFragment_to_businessMainFragment"
             app:destination="@id/businessMainFragment"

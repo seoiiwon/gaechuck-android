@@ -11,4 +11,14 @@
         <item name="android:thumb">@drawable/style_toggle_thumb</item>
         <item name="android:state_checked">true</item>
     </style>
+
+    <style name="custom_chip_style">
+        <item name="backgroundTint">@color/white</item>
+
+    </style>
+
+    <style name="CustomChipStyle" parent="Widget.MaterialComponents.Chip.Action">
+        <item name="rippleColor">@android:color/transparent</item>
+        <item name="android:stateListAnimator">@null</item>
+    </style>
 </resources>

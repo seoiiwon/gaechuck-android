@@ -7,6 +7,7 @@
     <color name="default_tab_color">#FF8A8D8F</color>
     <color name="gnu_lightBlue">#4D0086C0</color>
 
+    <color name="gnu_grey">#53565A</color>
     <color name="light_grey">#E9E9EA</color>
     <color name="grey">#999999</color>
     <color name="info_grey">#767676</color>

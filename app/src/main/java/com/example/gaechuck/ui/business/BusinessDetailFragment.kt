@@ -3,17 +3,18 @@ package com.example.gaechuck.ui.business
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import com.example.gaechuck.R
-import com.example.gaechuck.data.model.BusinessItem
+import com.example.gaechuck.data.response.GetBusinessDetailResponse
 import com.example.gaechuck.databinding.FragmentBusinessDetailBinding
+import com.example.gaechuck.repository.BusinessRepository
 import com.example.gaechuck.ui.business.adapter.BusinessAdapter
 import com.example.gaechuck.ui.business.adapter.ImagePagerAdapter
 import com.example.gaechuck.ui.business.viewmodel.BusinessViewModel
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 
 class BusinessDetailFragment : Fragment(R.layout.fragment_business_detail) {
-    private val businessViewModel: BusinessViewModel by viewModels()
+    private lateinit var businessViewModel: BusinessViewModel
     private lateinit var binding: FragmentBusinessDetailBinding
     private lateinit var businessAdapter: BusinessAdapter
 
@@ -28,19 +29,31 @@ class BusinessDetailFragment : Fragment(R.layout.fragment_business_detail) {
             showHomeButton = true // 홈 버튼 숨김
         )
 
+        //
+        val repository = BusinessRepository()
+        val viewModelFactory = BusinessViewModel.BusinessViewModelFactory(repository)
+        businessViewModel = ViewModelProvider(this, viewModelFactory).get(BusinessViewModel::class.java)
+
         // SafeArgs로 데이터 가져오기
         val businessItem = arguments?.let {
-            BusinessDetailFragmentArgs.fromBundle(it).businessItem
+            BusinessDetailFragmentArgs.fromBundle(it).coalitionId
         }
 
         businessItem?.let {
-            setupUI(it)
+            businessViewModel.BusinessDetailRetrofit(it)
+        }
+
+        businessViewModel.businessDetailData.observe(viewLifecycleOwner) { businessDetail ->
+            businessDetail.let {
+                setupUI(it)
+            }
         }
     }
-    private fun setupUI(item: BusinessItem) {
-        binding.businessName.text = item.name
+    private fun setupUI(item: GetBusinessDetailResponse) {
+        binding.businessName.text = item.coalitionName
         binding.businessCategory.text = item.category
-        binding.businessInfo.text = item.summary
+        binding.businessInfo.text = item.benefit
+
 
         // ViewPager2에 이미지 설정
         val adapter = ImagePagerAdapter(item.images)

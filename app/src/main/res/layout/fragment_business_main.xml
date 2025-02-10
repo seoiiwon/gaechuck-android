@@ -62,6 +62,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/write_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="40dp"
+        android:outlineSpotShadowColor="@color/info_grey"
+        android:outlineAmbientShadowColor="@color/light_grey"
+        android:backgroundTint="@color/gnu_blue"
+        android:src="@drawable/ic_add"
+        app:shapeAppearanceOverlay="?attr/shapeAppearanceCornerExtraLarge"
+        app:tint="@color/white"
+        app:fabCustomSize="48dp"
+        app:elevation="4dp"
+        android:visibility="gone"
+    />
 
 
 

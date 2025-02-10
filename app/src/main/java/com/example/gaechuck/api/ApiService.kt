@@ -3,6 +3,8 @@ package com.example.gaechuck.api
 import com.example.gaechuck.data.request.LoginRequest
 import com.example.gaechuck.data.response.BaseResponse
 import com.example.gaechuck.data.response.GetAllNoticeDataResponse
+import com.example.gaechuck.data.response.GetBusinessDataResponse
+import com.example.gaechuck.data.response.GetBusinessDetailResponse
 import com.example.gaechuck.data.response.GetFoodDataResponse
 import com.example.gaechuck.data.response.GetLoseDataResponse
 import com.example.gaechuck.data.response.GetLoseDetailResponse
@@ -41,6 +43,17 @@ interface ApiService {
     @GET("/api/v1/rent/detailItem")
     suspend fun getRentDetailData(@Query("rentItemId") rentItemId : Int)
             : Response<BaseResponse<GetRentDetailResponse>>
+
+    // Business
+    // 제휴 리스트 가져오기
+    @GET("/api/v1/coalition/all")
+    suspend fun getBusinessData()
+            :Response<BaseResponse<GetBusinessDataResponse>>
+
+    // 제휴 디테일 정보 가져오기
+    @GET("/api/v1/coalition/detail")
+    suspend fun getBusinessDetailData(@Query("coalitionId") coalitionId: Int)
+            : Response<BaseResponse<GetBusinessDetailResponse>>
 
     // Notice
     // 총학생회 공지 리스트

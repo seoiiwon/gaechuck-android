@@ -12,6 +12,7 @@ import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -43,6 +44,11 @@ class RentMainFragment : Fragment(R.layout.fragment_rent_main),RentAdapter.OnRen
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        rentViewModel.checkLoginStatus()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -55,6 +61,13 @@ class RentMainFragment : Fragment(R.layout.fragment_rent_main),RentAdapter.OnRen
         searchButton = view.findViewById(R.id.searchButton)
         backButton = view.findViewById(R.id.search_back_btn)
         callButoon = view.findViewById(R.id.search_call_btn)
+
+        // 로그인 상태 확인
+        rentViewModel.checkLoginStatus()
+        rentViewModel.isLoggedIn.observe(viewLifecycleOwner, Observer { isLoggedIn ->
+            binding.writeBtn.visibility = if (isLoggedIn) View.VISIBLE else View.GONE
+        })
+
 
         // RentActivity의 Toolbar 업데이트
         (activity as? RentActivity)?.updateToolbar(
@@ -117,6 +130,13 @@ class RentMainFragment : Fragment(R.layout.fragment_rent_main),RentAdapter.OnRen
         }
         callButoon.setOnClickListener{
             var intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.naver.com"))
+            startActivity(intent)
+        }
+
+        // floatBtn 클릭 리스너
+        binding.writeBtn.setOnClickListener{
+            val intent = Intent(activity, RentWriteActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
         }
 

@@ -1,10 +1,9 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.Gaechuck" parent="Theme.Material3.DayNight.NoActionBar">
-    </style>
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
 
     <style name="Theme.Gaechuck" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:color">@color/gnu_blue</item>
         <item name="colorSurface">@color/white</item>
+        <item name="android:windowSplashScreenBackground">@color/white</item>
     </style>
 </resources>

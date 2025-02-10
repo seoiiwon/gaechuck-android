@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.gaechuck.api.AuthManager
 import com.example.gaechuck.data.response.GetLoseDetailResponse
 import com.example.gaechuck.data.response.LoseList
 import com.example.gaechuck.repository.LoseRepository
@@ -21,6 +22,17 @@ class LoseViewModel(private val repository: LoseRepository):ViewModel() {
     private val _loseDetailData = MutableLiveData<GetLoseDetailResponse>()
     val loseDetailData : MutableLiveData<GetLoseDetailResponse>
         get() = _loseDetailData
+
+    // 로그인 상태관리
+    private val _isLoggedIn = MutableLiveData<Boolean>().apply {
+        value = !AuthManager.getToken().isNullOrEmpty()
+    }
+    val isLoggedIn: LiveData<Boolean> get() = _isLoggedIn
+
+    fun checkLoginStatus() {
+        _isLoggedIn.value != AuthManager.getToken().isNullOrEmpty()
+    }
+
 
     // 초기화
     init {

@@ -1,18 +1,21 @@
 package com.example.gaechuck.ui.business
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gaechuck.R
-import com.example.gaechuck.data.model.BusinessItem
+import com.example.gaechuck.data.response.BusinessList
 import com.example.gaechuck.databinding.FragmentBusinessMainBinding
+import com.example.gaechuck.repository.BusinessRepository
 import com.example.gaechuck.ui.business.adapter.BusinessAdapter
 import com.example.gaechuck.ui.business.viewmodel.BusinessViewModel
 import com.google.android.material.tabs.TabLayout
@@ -20,7 +23,7 @@ import com.google.android.material.tabs.TabLayout
 class BusinessMainFragment : Fragment(R.layout.fragment_business_main), BusinessAdapter.OnBusinessItemClickListener {
 
     private lateinit var binding: FragmentBusinessMainBinding
-    private val businessViewModel: BusinessViewModel by viewModels()
+    private lateinit var businessViewModel: BusinessViewModel
     private lateinit var businessAdapter: BusinessAdapter
 
     override fun onCreateView(
@@ -33,12 +36,23 @@ class BusinessMainFragment : Fragment(R.layout.fragment_business_main), Business
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //
+        val repository = BusinessRepository()
+        val viewModelFactory = BusinessViewModel.BusinessViewModelFactory(repository)
+        businessViewModel = ViewModelProvider(this, viewModelFactory).get(BusinessViewModel::class.java)
+
         // RentActivity의 Toolbar 업데이트
         (activity as? BusinessActivity)?.updateToolbar(
             title = getString(R.string.bar_business), // 제목 설정
             showBackButton = true, // 뒤로가기 버튼 표시
             showHomeButton = false // 홈 버튼 숨김
         )
+
+        // 로그인 상태 확인
+        businessViewModel.checkLoginStatus()
+        businessViewModel.isLoggedIn.observe(viewLifecycleOwner, Observer { isLoggedIn ->
+            binding.writeBtn.visibility = if (isLoggedIn) View.VISIBLE else View.GONE
+        })
 
         val category: Array<String> = resources.getStringArray(R.array.CATEGORY)
 
@@ -61,11 +75,15 @@ class BusinessMainFragment : Fragment(R.layout.fragment_business_main), Business
             binding.selectCategoryTl.addTab(tab)
         }
 
-        // 기본적으로 첫 번째 탭 "전체"가 선택되도록 설정
-        binding.selectCategoryTl.selectTab(binding.selectCategoryTl.getTabAt(0))
-
         // "전체" 카테고리로 데이터를 불러옴
         filterBusinessItems("전체")
+
+        businessViewModel.businessList.observe(viewLifecycleOwner) { list ->
+            filterBusinessItems(binding.selectCategoryTl.getTabAt(0)?.text?.toString() ?: "전체")
+        }
+
+        // 기본적으로 첫 번째 탭 "전체"가 선택되도록 설정
+        binding.selectCategoryTl.selectTab(binding.selectCategoryTl.getTabAt(0))
 
         // 탭 선택 리스너 추가
         binding.selectCategoryTl.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
@@ -80,25 +98,41 @@ class BusinessMainFragment : Fragment(R.layout.fragment_business_main), Business
 
         // TabLayout의 탭에 마진 추가
         tabItemMargin(binding.selectCategoryTl)
+
+        // floatBtn 클릭 리스너
+        binding.writeBtn.setOnClickListener{
+            val intent = Intent(activity, BusinessWriteActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        businessViewModel.checkLoginStatus()
     }
 
     // 비즈니스 아이템을 선택된 카테고리로 필터링하는 함수
     private fun filterBusinessItems(category: String) {
-        val filteredList = if (category == "전체") {
-            // "전체" 카테고리일 경우 모든 데이터를 불러옴
-            businessViewModel.businessList.value
-        } else {
-            // 카테고리가 "전체"가 아닐 경우, 해당 카테고리로 필터링
-            businessViewModel.businessList.value?.filter { it.category == category }
+        val validCategories = resources.getStringArray(R.array.CATEGORY).toList()
+        val filteredList = when {
+            category == "전체" -> businessViewModel.businessList.value
+            else -> businessViewModel.businessList.value?.filter { item ->
+                when {
+                    item.category == category -> true
+                    category == "기타" && item.category !in validCategories -> true
+                    else -> false
+                }
+            }
         }
-        businessAdapter = BusinessAdapter(filteredList ?: emptyList(), this) // 필터링된 데이터로 어댑터 갱신
+        businessAdapter = BusinessAdapter(filteredList ?: emptyList(), this)
         binding.businessView.adapter = businessAdapter
     }
 
     // 비즈니스 아이템 클릭 시 네비게이션 처리
-    override fun onBusinessItemClick(item: BusinessItem) {
+    override fun onBusinessItemClick(item: BusinessList) {
         val action = BusinessMainFragmentDirections
-            .actionBusinessMainFragmentToBusinessDetailFragment(item)
+            .actionBusinessMainFragmentToBusinessDetailFragment(item.coalitionId)
 
         view?.findNavController()?.navigate(action)
     }
