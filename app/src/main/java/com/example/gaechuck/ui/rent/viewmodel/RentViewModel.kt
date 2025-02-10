@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.gaechuck.api.AuthManager
 import com.example.gaechuck.data.response.GetRentDetailResponse
 import com.example.gaechuck.data.response.RentList
 import com.example.gaechuck.repository.RentRepository
@@ -27,6 +28,17 @@ class RentViewModel(private val repository: RentRepository): ViewModel() {
     private val _filterRentList = MutableLiveData<List<RentList>>()
     val filterRentList : LiveData<List<RentList>>
         get() = _filterRentList
+
+    // 로그인 상태관리
+    private val _isLoggedIn = MutableLiveData<Boolean>().apply {
+        value = !AuthManager.getToken().isNullOrEmpty()
+    }
+    val isLoggedIn: LiveData<Boolean> get() = _isLoggedIn
+
+    fun checkLoginStatus() {
+        _isLoggedIn.value != AuthManager.getToken().isNullOrEmpty()
+    }
+
 
     // 초기화
     init {
