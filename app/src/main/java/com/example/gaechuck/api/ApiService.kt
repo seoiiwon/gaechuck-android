@@ -1,6 +1,7 @@
 package com.example.gaechuck.api
 
 import com.example.gaechuck.data.request.LoginRequest
+import com.example.gaechuck.data.response.BaseListResponse
 import com.example.gaechuck.data.response.BaseResponse
 import com.example.gaechuck.data.response.GetAllNoticeDataResponse
 import com.example.gaechuck.data.response.GetFoodDataResponse
@@ -62,7 +63,7 @@ interface ApiService {
     // 식당 메뉴 보기
     @GET("/api/v1/menus/weeklyMenu")
     fun getFoodData(@Query("cafeteriaSeq") seq : Int, @Query("startDate") date : String)
-            : Call<BaseResponse<GetFoodDataResponse>>
+            : Call<BaseListResponse<GetFoodDataResponse>>
 
     // Admin
     @POST("/api/v1/master/sign-in")

@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.example.gaechuck.ui.bus.BusRouteActivity
 import com.example.gaechuck.api.AuthManager
-import com.example.gaechuck.ui.bus.viewmodel.BusRoute
+//import com.example.gaechuck.ui.bus.viewmodel.BusRoute
 import com.example.gaechuck.ui.business.BusinessActivity
 import com.example.gaechuck.ui.lose.LoseActivity
 import com.example.gaechuck.ui.main.adaptor.ViewPagerAdapter

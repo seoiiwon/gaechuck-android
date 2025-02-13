@@ -8,5 +8,15 @@
     "name": "navigation_business",
     "navigationXmlIds": [],
     "deepLinks": []
+  },
+  {
+    "name": "navigation_lose",
+    "navigationXmlIds": [],
+    "deepLinks": []
+  },
+  {
+    "name": "navigation_login",
+    "navigationXmlIds": [],
+    "deepLinks": []
   }
 ]
