@@ -1,182 +1,140 @@
 package com.example.gaechuck.ui.menu
 
-import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.widget.Button
+import android.util.Log
+import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import com.example.gaechuck.MainActivity
 import com.example.gaechuck.R
-import org.json.JSONArray
-import org.json.JSONObject
-import java.io.InputStream
 
 class CafeteriaMenuActivity : AppCompatActivity() {
-    private val restaurants = listOf("교직원식당", "중앙식당", "기숙사식당")
-    private var currentRestaurantIndex = 0
-    private lateinit var jsonData: JSONArray  // JSONArray로 변경
-//    private lateinit var jsonData: JSONObject  // JSONArray로 변경
 
+    private lateinit var campusSpinner: Spinner
+    private lateinit var restaurantLayout: LinearLayout
+    private lateinit var leftArrow: ImageView
+    private lateinit var rightArrow: ImageView
+
+    private val campusMap = mapOf(
+        "가좌캠퍼스" to listOf("가좌 교직원식당", "가좌 중앙1식당", "가좌 교육문화1층식당"),
+        "칠암캠퍼스" to listOf("칠암 교직원식당", "칠암 학생식당"),
+        "통영캠퍼스" to listOf("통영 교직원식당", "통영 학생식당")
+    )
+
+    private val cafeteriaSeqMap = mapOf(
+        "가좌캠퍼스" to listOf(1, 2, 3),
+        "칠암캠퍼스" to listOf(4, 5),
+        "통영캠퍼스" to listOf(6, 7)
+    )
+
+    private lateinit var selectedCafeteriaSeq: List<Int>
+    private var currentIndex = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cafeteria_menu)
 
-        // 뒤로가기
         val backBtn: ImageView = findViewById(R.id.backBtn)
         backBtn.setOnClickListener {
             finish()
         }
 
-        // 홈으로 이동하기
         val homeBtn: ImageView = findViewById(R.id.homeBtn)
         homeBtn.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-            startActivity(intent)
+            // 홈 이동 구현
         }
 
-        // JSON 데이터 로드
-        jsonData = loadJSONFromAsset()
+        campusSpinner = findViewById(R.id.campusSpinner)
+        val campusList = campusMap.keys.toList()
 
+        val campusAdapter = object : ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, campusList) {
+            override fun getView(position: Int, convertView: android.view.View?, parent: android.view.ViewGroup): android.view.View {
+                val view = super.getView(position, convertView, parent)
+                val textView = view.findViewById<TextView>(android.R.id.text1)
+                textView.gravity = android.view.Gravity.CENTER
+                return view
+            }
 
-        // UI 요소 초기화
-        val restaurantTextView = findViewById<TextView>(R.id.restaurantTextView)
-        val previousButton = findViewById<View>(R.id.previousButton)
-        val nextButton = findViewById<View>(R.id.nextButton)
-        val dayButtons = listOf(
-            findViewById<Button>(R.id.day1),
-            findViewById<Button>(R.id.day2),
-            findViewById<Button>(R.id.day3),
-            findViewById<Button>(R.id.day4),
-            findViewById<Button>(R.id.day5),
-            findViewById<Button>(R.id.day6),
-            findViewById<Button>(R.id.day7)
-        )
-        val menuContainer = findViewById<LinearLayout>(R.id.menuContainer)
-
-        // 레스토랑 초기화
-        restaurantTextView.text = restaurants[currentRestaurantIndex]
-        updateMenu(menuContainer, restaurants[currentRestaurantIndex], "월")
-
-        // 요일 버튼 클릭 이벤트
-        dayButtons.forEachIndexed { index, button ->
-            button.setOnClickListener {
-                dayButtons.forEach { it.setBackgroundResource(R.drawable.default_background) }
-                button.setBackgroundResource(R.drawable.selected_background)
-                val selectedDay = button.text.toString()
-                updateMenu(menuContainer, restaurants[currentRestaurantIndex], selectedDay)
+            override fun getDropDownView(position: Int, convertView: android.view.View?, parent: android.view.ViewGroup): android.view.View {
+                val view = super.getDropDownView(position, convertView, parent)
+                val textView = view.findViewById<TextView>(android.R.id.text1)
+                textView.gravity = android.view.Gravity.CENTER
+                return view
             }
         }
+        campusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        campusSpinner.adapter = campusAdapter
 
-        // 이전 버튼 클릭
-        previousButton.setOnClickListener {
-            currentRestaurantIndex = (currentRestaurantIndex - 1 + restaurants.size) % restaurants.size
-            restaurantTextView.text = restaurants[currentRestaurantIndex]
-            updateMenu(menuContainer, restaurants[currentRestaurantIndex], "월")
-        }
+        restaurantLayout = findViewById(R.id.restaurantLayout)
+        leftArrow = findViewById(R.id.leftArrow)
+        rightArrow = findViewById(R.id.rightArrow)
 
-        // 다음 버튼 클릭
-        nextButton.setOnClickListener {
-            currentRestaurantIndex = (currentRestaurantIndex + 1) % restaurants.size
-            restaurantTextView.text = restaurants[currentRestaurantIndex]
-            updateMenu(menuContainer, restaurants[currentRestaurantIndex], "월")
-        }
-    }
+        campusSpinner.setOnItemSelectedListener(object : android.widget.AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: android.widget.AdapterView<*>?, view: android.view.View?, position: Int, id: Long) {
+                val selectedCampus = campusList[position]
+                val restaurantList = campusMap[selectedCampus] ?: emptyList()
+                selectedCafeteriaSeq = cafeteriaSeqMap[selectedCampus] ?: emptyList()
 
-
-    // JSON 데이터 로드
-    private fun loadJSONFromAsset(): JSONArray {
-        val inputStream: InputStream = assets.open("meal_data.json")
-        val jsonString = inputStream.bufferedReader().use { it.readText() }
-        return JSONArray(jsonString)  // JSONArray로 변경
-    }
-
-
-    // 메뉴 업데이트 부분에서 각 카테고리 데이터를 처리할 때 null 체크를 강화합니다.
-    private fun updateMenu(container: LinearLayout, restaurant: String, day: String) {
-        container.removeAllViews()
-
-        // "campus"는 객체임으로 getJSONObject로 처리
-        val campusData = jsonData.getJSONObject(0)
-
-        val campus = campusData.optString("campus", null)
-
-        if (campus != null) {
-            val cafeteriaData = campusData.optJSONObject("cafeteria")
-            if (cafeteriaData != null) {
-            } else {
-                // cafeteria 데이터가 없는 경우
-            }
-        } else {
-            // campus가 null인 경우
-        }
-
-        val cafeteriaData = campusData.getJSONObject("cafeteria")
-            .getJSONObject(restaurant)
-            .optJSONObject(day)
-
-        if (cafeteriaData != null) {
-            val inflater = LayoutInflater.from(this)
-
-            // 각 식사 메뉴 추가
-            listOf("한식", "베이커리", "죽식", "테이크아웃").forEach { category ->
-                val categoryData = cafeteriaData.optJSONArray(category)
-
-                if (categoryData != null && categoryData.length() > 0) {
-                    // 카테고리 제목 뷰 생성
-                    val categoryTitle = inflater.inflate(R.layout.fragment_menu_category, container, false) as TextView
-                    categoryTitle.text = category
-                    container.addView(categoryTitle)
-
-                    for (i in 0 until categoryData.length()) {
-                        // 메뉴 항목 뷰 생성
-                        val menuItem = categoryData.optString(i, null)  // null 값 처리를 위해 optString 사용
-                        if (menuItem != null) {
-                            val menuText = inflater.inflate(R.layout.fragment_menu_item, container, false) as TextView
-                            menuText.text = menuItem
-                            container.addView(menuText)
-                        }
-                    }
-                } else {
-                    // 메뉴가 없으면 "메뉴 정보가 없습니다." 표시
-                    val noDataText = TextView(this).apply {
-                        text = "$category 메뉴 정보가 없습니다."
-                        textSize = 16f
-                        setTextColor(ContextCompat.getColor(this@CafeteriaMenuActivity, android.R.color.holo_red_dark))
-                        setPadding(16, 16, 16, 16)
-                    }
-                    container.addView(noDataText)
+                if (selectedCafeteriaSeq.isNotEmpty()) {
+                    currentIndex = 0
+                    updateRestaurantDisplay(restaurantList)
+                    updateMenuItems()
                 }
             }
-        } else {
-            val noDataText = TextView(this).apply {
-                text = "메뉴 정보가 없습니다."
-                textSize = 16f
-                setTextColor(ContextCompat.getColor(this@CafeteriaMenuActivity, android.R.color.holo_red_dark))
-                setPadding(16, 16, 16, 16)
+
+            override fun onNothingSelected(parent: android.widget.AdapterView<*>?) {}
+        })
+
+        leftArrow.setOnClickListener {
+            if (currentIndex > 0) {
+                currentIndex--
+                updateRestaurantDisplay(campusMap[campusSpinner.selectedItem] ?: emptyList())
+                updateMenuItems()
             }
-            container.addView(noDataText)
+        }
+
+        rightArrow.setOnClickListener {
+            if (currentIndex < selectedCafeteriaSeq.size - 1) {
+                currentIndex++
+                updateRestaurantDisplay(campusMap[campusSpinner.selectedItem] ?: emptyList())
+                updateMenuItems()
+            }
+        }
+
+        val menuItemLayout = findViewById<LinearLayout>(R.id.menuItemLayout)
+
+        if (savedInstanceState == null) {
+            val fragment = MenuItemFragment()
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.menuItemLayout, fragment)
+                .commit()
         }
     }
 
+    private fun updateRestaurantDisplay(restaurantList: List<String>) {
+        restaurantLayout.removeAllViews()
+        val textView = TextView(this@CafeteriaMenuActivity)
+        textView.text = restaurantList.getOrElse(currentIndex) { "식당 정보 없음" }
+        textView.setPadding(16, 16, 16, 16)
+        textView.setTextSize(16f)
+        textView.tag = selectedCafeteriaSeq.getOrElse(currentIndex) { 0 }
+        textView.gravity = android.view.Gravity.CENTER
+        restaurantLayout.addView(textView)
+    }
 
-    // cafeteria 데이터를 찾아서 반환하는 함수
-    private fun getCafeteriaData(campusData: JSONArray, restaurant: String, day: String): JSONObject? {
-        for (i in 0 until campusData.length()) {
-            val campus = campusData.getJSONObject(i)
-            val cafeterias = campus.optJSONObject("cafeteria")
-            cafeterias?.let {
-                val restaurantData = it.optJSONObject(restaurant)
-                return restaurantData?.optJSONObject(day)
-            }
-        }
-        return null
+    private fun updateMenuItems() {
+        val fragment = MenuItemFragment()
+        val args = Bundle()
+        args.putInt("cafeteriaSeq", selectedCafeteriaSeq[currentIndex]) // 현재 선택된 식당의 seq 전달
+        fragment.arguments = args
+
+        Log.d("CafeteriaMenuActivity", "Updating menu with cafeteriaSeq: ${selectedCafeteriaSeq[currentIndex]}")
+
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.menuItemLayout, fragment) // 기존 Fragment를 새로운 Fragment로 교체
+            .commit()
     }
 
 }

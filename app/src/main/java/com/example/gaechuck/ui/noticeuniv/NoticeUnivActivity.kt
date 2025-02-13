@@ -19,7 +19,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class NoticeUnivActivity : AppCompatActivity() {
-
     private lateinit var noticeUnivAdapter: NoticeUnivAdapter
     private val allNoticeUnivModels = mutableListOf<NoticeUnivModel>()
     private var currentPage = 0

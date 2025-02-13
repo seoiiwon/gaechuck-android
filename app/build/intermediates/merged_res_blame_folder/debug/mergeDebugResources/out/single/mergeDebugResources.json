@@ -32,12 +32,12 @@
         "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/font/noto_sans_kr_semibold.ttf"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/drawable_tab_stroke.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/drawable/tab_stroke.xml"
-    },
-    {
         "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_activity_business.xml.flat",
         "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/activity_business.xml"
+    },
+    {
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/drawable_tab_stroke.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/drawable/tab_stroke.xml"
     },
     {
         "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/mipmap-mdpi_ic_launcher_round.webp.flat",
@@ -48,12 +48,12 @@
         "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/drawable/ic_home.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/drawable_back_btn.png.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/drawable/back_btn.png"
-    },
-    {
         "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/drawable_rt_item_main_4.jpg.flat",
         "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/drawable/rt_item_main_4.jpg"
+    },
+    {
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/drawable_back_btn.png.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/drawable/back_btn.png"
     },
     {
         "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/drawable_ic_back.xml.flat",
@@ -88,16 +88,16 @@
         "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/font/noto_sans_kr_regular.ttf"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_fragment_setting.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/fragment_setting.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_activity_main.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/activity_main.xml"
     },
     {
         "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_sub6.xml.flat",
         "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/sub6.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_activity_main.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/activity_main.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_fragment_setting.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/fragment_setting.xml"
     },
     {
         "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_fragment_main2.xml.flat",
@@ -152,12 +152,16 @@
         "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/column_setting_item.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/drawable_selected_background.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/drawable/selected_background.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/xml_network_security_config.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/xml/network_security_config.xml"
     },
     {
         "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_row_item_image_view.xml.flat",
         "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/row_item_image_view.xml"
+    },
+    {
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/drawable_selected_background.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/drawable/selected_background.xml"
     },
     {
         "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_sub3.xml.flat",
@@ -280,8 +284,8 @@
         "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/toolbar_home_blue.xml"
     },
     {
-        "merged": "com.example.gaechuck.app-debug-70:/layout_activity_notice_univ.xml.flat",
-        "source": "com.example.gaechuck.app-main-72:/layout/activity_notice_univ.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_fragment_cafeteria_menu_item.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/fragment_cafeteria_menu_item.xml"
     },
     {
         "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_sub7.xml.flat",
@@ -334,6 +338,10 @@
     {
         "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/drawable_style_category.xml.flat",
         "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/drawable/style_category.xml"
+    },
+    {
+        "merged": "com.example.gaechuck.app-debug-70:/layout_activity_cafeteria_menu.xml.flat",
+        "source": "com.example.gaechuck.app-main-72:/layout/activity_cafeteria_menu.xml"
     },
     {
         "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/drawable_default_background.xml.flat",
