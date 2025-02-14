@@ -19,7 +19,6 @@ class MenuItemFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_cafeteria_menu_item, container, false)
         val gridLayout = view.findViewById<GridLayout>(R.id.menuGridLayout)
 
-        // ✅ `Parcelable`을 사용하여 `menuList` 가져오기
         val menuList = arguments?.getParcelableArrayList<FoodMenuItem>("menuList")
 
         menuList?.forEach { item ->

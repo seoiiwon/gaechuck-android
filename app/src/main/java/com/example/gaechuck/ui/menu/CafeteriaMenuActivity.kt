@@ -19,12 +19,13 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.text.SimpleDateFormat
-import java.util.Date
+import java.util.Calendar
 import java.util.Locale
 
 class CafeteriaMenuActivity : AppCompatActivity() {
 
     private val BASE_URL = "http://203.255.15.32:30001"
+
     private lateinit var apiService: ApiService
     private lateinit var campusSpinner: Spinner
     private lateinit var restaurantLayout: LinearLayout
@@ -123,63 +124,73 @@ class CafeteriaMenuActivity : AppCompatActivity() {
     }
 
     private fun fetchMenuData() {
-        val todayDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+        val calendar = Calendar.getInstance(Locale.getDefault())
+        val today = calendar.time
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+        val startDateList = (0..6).map {
+            val date = dateFormat.format(calendar.time)
+            calendar.add(Calendar.DAY_OF_WEEK, 1)
+            date
+        }
+
         val selectedSeq = selectedCafeteriaSeq.getOrElse(currentIndex) { 0 }
+        val allMenus = mutableListOf<FoodMenuItem>()
 
-        val call: Call<BaseListResponse<GetFoodDataResponse>> = apiService.getFoodData(selectedSeq, "2024-12-15")
+        startDateList.forEach { startDate ->
+            val call: Call<BaseListResponse<GetFoodDataResponse>> = apiService.getFoodData(selectedSeq, startDate)
 
-        call.enqueue(object : Callback<BaseListResponse<GetFoodDataResponse>> {
-            override fun onResponse(
-                call: Call<BaseListResponse<GetFoodDataResponse>>,
-                response: Response<BaseListResponse<GetFoodDataResponse>>
-            ) {
-                if (response.isSuccessful && response.body() != null) {
-                    val baseResponse = response.body()!!
-                    if (baseResponse.isSuccess) {
-                        val menuString = baseResponse.result.firstOrNull()?.menu ?: ""
+            call.enqueue(object : Callback<BaseListResponse<GetFoodDataResponse>> {
+                override fun onResponse(
+                    call: Call<BaseListResponse<GetFoodDataResponse>>,
+                    response: Response<BaseListResponse<GetFoodDataResponse>>
+                ) {
+                    if (response.isSuccessful && response.body() != null) {
+                        val baseResponse = response.body()!!
+                        if (baseResponse.isSuccess) {
+                            val menuList = baseResponse.result.flatMap { responseItem ->
+                                responseItem.menu.split(", ").map { menuItem ->
+                                    FoodMenuItem(
+                                        menu = menuItem,
+                                        menuDivision = responseItem.menuDivision,
+                                        date = responseItem.date,
+                                        menuSeq = responseItem.menuSeq
+                                    )
+                                }
+                            }
+                            allMenus.addAll(menuList)
+                            Log.d("API_SUCCESS", "날짜: $startDate, 데이터: $menuList")
 
-                        // ✅ `menu`가 String이므로 가공하여 FoodMenuItem 리스트로 변환
-                        val menuList = menuString.split(", ").map { menuItem ->
-                            FoodMenuItem(
-                                menu = menuItem,
-                                menuDivision = "알 수 없음",  // 기본값 설정
-                                date = todayDate,
-                                menuSeq = 0
-                            )
+                            if (allMenus.size >= startDateList.size) {
+                                updateFragment(allMenus)
+                            }
+                        } else {
+                            Log.e("API_ERROR", "API 응답 실패: ${baseResponse.message}")
                         }
-
-                        Log.d("API_SUCCESS", "받은 데이터: $menuList")
-                        updateFragment(menuList)
                     } else {
-                        Log.e("API_ERROR", "API 응답 실패: ${baseResponse.message}")
+                        Log.e("API_ERROR", "서버 응답 오류: ${response.errorBody()?.string()}")
                     }
-                } else {
-                    Log.e("API_ERROR", "서버 응답 오류: ${response.errorBody()?.string()}")
                 }
-            }
 
-            override fun onFailure(call: Call<BaseListResponse<GetFoodDataResponse>>, t: Throwable) {
-                Log.e("API_ERROR", "네트워크 오류: ${t.message}")
-            }
-        })
+                override fun onFailure(call: Call<BaseListResponse<GetFoodDataResponse>>, t: Throwable) {
+                    Log.e("API_ERROR", "네트워크 오류: ${t.message}")
+                }
+            })
+        }
     }
-
-
-
-
 
 
     private fun updateFragment(menuList: List<FoodMenuItem>) {
         val fragment = MenuItemFragment()
         val args = Bundle()
         args.putInt("cafeteriaSeq", selectedCafeteriaSeq[currentIndex])
-        args.putSerializable("menuList", ArrayList(menuList)) // ✅ ArrayList로 변환하여 전달
+        args.putSerializable("menuList", ArrayList(menuList))
         fragment.arguments = args
 
         supportFragmentManager.beginTransaction()
             .replace(R.id.menuItemLayout, fragment)
             .commit()
     }
-
 
 }
