@@ -12,5 +12,6 @@
     <color name="grey">#999999</color>
     <color name="info_grey">#767676</color>
     <color name="divider_grey">#E8E8E9</color>
+    <color name="black_1">#FF111111</color>
     <color name="divider_grey2">#8A8D8F</color>
 </resources>

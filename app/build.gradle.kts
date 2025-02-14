@@ -39,6 +39,10 @@ android {
     buildFeatures{
         viewBinding = true
     }
+
+    viewBinding {
+        enable = true
+    }
 }
 
 dependencies {
@@ -56,7 +60,6 @@ dependencies {
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("com.github.bumptech.glide:glide:4.15.1")
     kapt("com.github.bumptech.glide:compiler:4.15.1")
-
 
 
     implementation(libs.androidx.fragment.ktx)

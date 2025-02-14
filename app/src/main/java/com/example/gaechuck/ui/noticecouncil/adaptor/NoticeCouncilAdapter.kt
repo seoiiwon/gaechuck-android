@@ -7,10 +7,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.gaechuck.ui.noticecouncil.viewmodel.Notice
 import com.example.gaechuck.R
+import com.example.gaechuck.data.model.NoticeCouncilModel
 
-class NoticeCouncilAdapter(private val notices: MutableList<Notice>) :
+class NoticeCouncilAdapter(private val noticeCouncilModels: MutableList<NoticeCouncilModel>) :
     RecyclerView.Adapter<NoticeCouncilAdapter.NoticeCouncilViewHolder>() {
 
     class NoticeCouncilViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -28,7 +28,7 @@ class NoticeCouncilAdapter(private val notices: MutableList<Notice>) :
     }
 
     override fun onBindViewHolder(holder: NoticeCouncilViewHolder, position: Int) {
-        val notice = notices[position]
+        val notice = noticeCouncilModels[position]
 
         // 이미지 처리
         if (notice.image == null) {
@@ -46,13 +46,29 @@ class NoticeCouncilAdapter(private val notices: MutableList<Notice>) :
         holder.noticeTitle.text = notice.title
         holder.noticeDescription.text = notice.body
         holder.noticeDate.text = notice.date
+
+        // 아이템 클릭 리스너 연결
+        holder.itemView.setOnClickListener {
+            listener?.onItemClick(position)
+        }
     }
 
-    override fun getItemCount(): Int = notices.size
 
-    fun addNotices(newNotices: List<Notice>) {
-        val startPosition = notices.size
-        notices.addAll(newNotices)
-        notifyItemRangeInserted(startPosition, newNotices.size)
+    override fun getItemCount(): Int = noticeCouncilModels.size
+
+    fun addNotices(newNoticeCouncilModels: List<NoticeCouncilModel>) {
+        val startPosition = noticeCouncilModels.size
+        noticeCouncilModels.addAll(newNoticeCouncilModels)
+        notifyItemRangeInserted(startPosition, newNoticeCouncilModels.size)
+    }
+
+    interface OnItemClickListener {
+        fun onItemClick(position: Int)
+    }
+
+    private var listener: OnItemClickListener? = null
+
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        this.listener = listener
     }
 }

@@ -7,7 +7,7 @@ class SubActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val layoutId = intent.getIntExtra("layout_id", R.layout.sub1)
+        val layoutId = intent.getIntExtra("layout_id", R.layout.activity_notice_univ)
         setContentView(layoutId)
     }
 }
