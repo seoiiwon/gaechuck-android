@@ -6,13 +6,13 @@ import com.example.gaechuck.data.response.BaseResponse
 import com.example.gaechuck.data.response.GetAllNoticeDataResponse
 import com.example.gaechuck.data.response.GetBusinessDataResponse
 import com.example.gaechuck.data.response.GetBusinessDetailResponse
+import com.example.gaechuck.data.response.GetCouncilNoticeDataResponse
+import com.example.gaechuck.data.response.GetCouncilNoticeDetailResponse
 import com.example.gaechuck.data.response.GetFoodDataResponse
 import com.example.gaechuck.data.response.GetLoseDataResponse
 import com.example.gaechuck.data.response.GetLoseDetailResponse
 import com.example.gaechuck.data.response.GetRentDataResponse
 import com.example.gaechuck.data.response.GetRentDetailResponse
-import com.example.gaechuck.data.response.GetUnivNoticeDataResponse
-import com.example.gaechuck.data.response.GetUnivNoticeDetailResponse
 import com.example.gaechuck.data.response.LoginResponse
 import retrofit2.Call
 import retrofit2.Response
@@ -59,13 +59,13 @@ interface ApiService {
     // Notice
     // 총학생회 공지 리스트
     @GET("/api/v1/council/show")
-    fun getUnivNoticeData()
-            : Call<BaseResponse<GetUnivNoticeDataResponse>>
+    suspend fun getNoticeCouncilList()
+            : Response<BaseResponse<List<GetCouncilNoticeDataResponse>>>
 
     // 총학생회 공지 상세보기
     @GET("/api/v1/council/show/{id}")
-    fun getUnivNoticeDetailData(@Path("id") id : Int)
-            : Call<BaseResponse<GetUnivNoticeDetailResponse>>
+    suspend fun getNoticeCouncilDetailData(@Path("id") id : Int)
+            : Response<BaseResponse<GetCouncilNoticeDetailResponse>>
 
     // 학교 공지 리스트
     @GET("/api/v1/notifications/allNotification")

@@ -55,6 +55,10 @@
         <activity android:name="com.example.gaechuck.ui.noticeuniv.NoticeUnivDetailActivity" />
         <activity android:name="com.example.gaechuck.ui.lose.LoseActivity" />
         <activity android:name="com.example.gaechuck.ui.login.LoginActivity" />
+        <activity android:name="com.example.gaechuck.ui.business.BusinessWriteActivity" />
+        <activity android:name="com.example.gaechuck.ui.rent.RentWriteActivity" />
+        <activity android:name="com.example.gaechuck.ui.lose.LoseWriteActivity" />
+        <activity android:name="com.example.gaechuck.ui.lose.LoseUrlChangeActivity" />
 
         <provider
             android:name="androidx.startup.InitializationProvider"

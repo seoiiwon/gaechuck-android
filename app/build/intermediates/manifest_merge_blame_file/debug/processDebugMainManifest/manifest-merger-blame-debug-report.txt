@@ -27,7 +27,7 @@
 18-->[androidx.core:core:1.15.0] /Users/seojiwon/.gradle/caches/transforms-4/6f237a4b383bbff0b10dee9cb8cc9ed7/transformed/core-1.15.0/AndroidManifest.xml:26:22-94
 19
 20    <application
-20-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:8:5-44:19
+20-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:8:5-45:19
 21        android:name="com.example.gaechuck.Gaechuck"
 21-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:20:9-33
 22        android:allowBackup="true"
@@ -45,151 +45,163 @@
 29        android:icon="@mipmap/ic_launcher"
 29-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:12:9-43
 30        android:label="@string/app_name"
-30-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:13:9-41
+30-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:14:9-41
 31        android:networkSecurityConfig="@xml/network_security_config"
 31-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:19:9-69
 32        android:roundIcon="@mipmap/ic_launcher_round"
-32-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:14:9-54
+32-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:13:9-54
 33        android:supportsRtl="true"
 33-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:15:9-35
 34        android:testOnly="true"
 35        android:theme="@style/Theme.Gaechuck" >
 35-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:16:9-46
 36        <activity
-36-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:21:9-28:20
+36-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:21:9-26:20
 37            android:name="com.example.gaechuck.MainActivity"
-37-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:22:13-41
+37-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:21:19-47
 38            android:exported="true" >
-38-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:23:13-36
+38-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:21:48-71
 39            <intent-filter>
-39-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:24:13-27:29
+39-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:22:13-25:29
 40                <action android:name="android.intent.action.MAIN" />
-40-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:25:17-69
-40-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:25:25-66
+40-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:23:17-69
+40-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:23:25-66
 41
 42                <category android:name="android.intent.category.LAUNCHER" />
-42-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:26:17-77
-42-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:26:27-74
+42-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:24:17-77
+42-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:24:27-74
 43            </intent-filter>
 44        </activity>
 45        <activity android:name="com.example.gaechuck.ui.setting.SettingActivity" />
-45-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:29:9-63
-45-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:29:19-61
+45-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:27:9-63
+45-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:27:19-61
 46        <activity android:name="com.example.gaechuck.ui.termsofuse.TermsOfUseActivity" />
-46-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:30:9-69
-46-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:30:19-67
+46-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:28:9-69
+46-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:28:19-67
 47        <activity android:name="com.example.gaechuck.ui.business.BusinessActivity" />
-47-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:31:9-65
-47-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:31:19-63
+47-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:29:9-65
+47-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:29:19-63
 48        <activity android:name="com.example.gaechuck.ui.rent.RentActivity" />
-48-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:32:9-57
-48-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:32:19-55
+48-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:30:9-57
+48-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:30:19-55
 49        <activity android:name="com.example.gaechuck.ui.noticeuniv.NoticeUnivActivity" />
-49-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:33:9-69
-49-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:33:19-67
+49-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:31:9-69
+49-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:31:19-67
 50        <activity android:name="com.example.gaechuck.ui.noticecouncil.NoticeCouncilActivity" />
-50-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:34:9-75
-50-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:34:19-73
+50-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:32:9-75
+50-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:32:19-73
 51        <activity android:name="com.example.gaechuck.ui.menu.CafeteriaMenuActivity" />
-51-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:35:9-66
-51-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:35:19-64
+51-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:33:9-66
+51-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:33:19-64
 52        <activity android:name="com.example.gaechuck.ui.bus.BusRouteActivity" />
-52-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:36:9-60
-52-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:36:19-58
+52-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:34:9-60
+52-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:34:19-58
 53        <activity android:name="com.example.gaechuck.SubPage2Activity" />
-53-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:37:9-53
-53-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:37:19-51
+53-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:35:9-53
+53-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:35:19-51
 54        <activity android:name="com.example.gaechuck.ui.noticecouncil.NoticeCouncilDetailActivity" />
-54-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:38:9-81
-54-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:38:19-79
+54-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:36:9-81
+54-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:36:19-79
 55        <activity android:name="com.example.gaechuck.ui.noticeuniv.NoticeUnivDetailActivity" />
-55-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:39:9-75
-55-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:39:19-73
+55-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:37:9-75
+55-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:37:19-73
 56        <activity android:name="com.example.gaechuck.ui.lose.LoseActivity" />
-56-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:41:9-57
-56-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:41:19-55
+56-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:39:9-57
+56-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:39:19-55
 57        <activity android:name="com.example.gaechuck.ui.login.LoginActivity" />
-57-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:42:9-59
-57-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:42:19-57
-58
-59        <provider
-59-->[androidx.emoji2:emoji2:1.3.0] /Users/seojiwon/.gradle/caches/transforms-4/e1060d4a1cfdd46e6928c96c2e6a8627/transformed/emoji2-1.3.0/AndroidManifest.xml:24:9-32:20
-60            android:name="androidx.startup.InitializationProvider"
-60-->[androidx.emoji2:emoji2:1.3.0] /Users/seojiwon/.gradle/caches/transforms-4/e1060d4a1cfdd46e6928c96c2e6a8627/transformed/emoji2-1.3.0/AndroidManifest.xml:25:13-67
-61            android:authorities="com.example.gaechuck.androidx-startup"
-61-->[androidx.emoji2:emoji2:1.3.0] /Users/seojiwon/.gradle/caches/transforms-4/e1060d4a1cfdd46e6928c96c2e6a8627/transformed/emoji2-1.3.0/AndroidManifest.xml:26:13-68
-62            android:exported="false" >
-62-->[androidx.emoji2:emoji2:1.3.0] /Users/seojiwon/.gradle/caches/transforms-4/e1060d4a1cfdd46e6928c96c2e6a8627/transformed/emoji2-1.3.0/AndroidManifest.xml:27:13-37
-63            <meta-data
-63-->[androidx.emoji2:emoji2:1.3.0] /Users/seojiwon/.gradle/caches/transforms-4/e1060d4a1cfdd46e6928c96c2e6a8627/transformed/emoji2-1.3.0/AndroidManifest.xml:29:13-31:52
-64                android:name="androidx.emoji2.text.EmojiCompatInitializer"
-64-->[androidx.emoji2:emoji2:1.3.0] /Users/seojiwon/.gradle/caches/transforms-4/e1060d4a1cfdd46e6928c96c2e6a8627/transformed/emoji2-1.3.0/AndroidManifest.xml:30:17-75
-65                android:value="androidx.startup" />
-65-->[androidx.emoji2:emoji2:1.3.0] /Users/seojiwon/.gradle/caches/transforms-4/e1060d4a1cfdd46e6928c96c2e6a8627/transformed/emoji2-1.3.0/AndroidManifest.xml:31:17-49
-66            <meta-data
-66-->[androidx.lifecycle:lifecycle-process:2.8.3] /Users/seojiwon/.gradle/caches/transforms-4/94bec0a020421ffc6d773b2ee9ff653c/transformed/lifecycle-process-2.8.3/AndroidManifest.xml:29:13-31:52
-67                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
-67-->[androidx.lifecycle:lifecycle-process:2.8.3] /Users/seojiwon/.gradle/caches/transforms-4/94bec0a020421ffc6d773b2ee9ff653c/transformed/lifecycle-process-2.8.3/AndroidManifest.xml:30:17-78
-68                android:value="androidx.startup" />
-68-->[androidx.lifecycle:lifecycle-process:2.8.3] /Users/seojiwon/.gradle/caches/transforms-4/94bec0a020421ffc6d773b2ee9ff653c/transformed/lifecycle-process-2.8.3/AndroidManifest.xml:31:17-49
-69            <meta-data
-69-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/seojiwon/.gradle/caches/transforms-4/0af0dda6524ef8090f1de85bdf079f17/transformed/profileinstaller-1.4.0/AndroidManifest.xml:29:13-31:52
-70                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
-70-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/seojiwon/.gradle/caches/transforms-4/0af0dda6524ef8090f1de85bdf079f17/transformed/profileinstaller-1.4.0/AndroidManifest.xml:30:17-85
-71                android:value="androidx.startup" />
-71-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/seojiwon/.gradle/caches/transforms-4/0af0dda6524ef8090f1de85bdf079f17/transformed/profileinstaller-1.4.0/AndroidManifest.xml:31:17-49
-72        </provider>
-73
-74        <uses-library
-74-->[androidx.window:window:1.0.0] /Users/seojiwon/.gradle/caches/transforms-4/35a01230452b17b6ad73ee757ae85dce/transformed/window-1.0.0/AndroidManifest.xml:25:9-27:40
-75            android:name="androidx.window.extensions"
-75-->[androidx.window:window:1.0.0] /Users/seojiwon/.gradle/caches/transforms-4/35a01230452b17b6ad73ee757ae85dce/transformed/window-1.0.0/AndroidManifest.xml:26:13-54
-76            android:required="false" />
-76-->[androidx.window:window:1.0.0] /Users/seojiwon/.gradle/caches/transforms-4/35a01230452b17b6ad73ee757ae85dce/transformed/window-1.0.0/AndroidManifest.xml:27:13-37
-77        <uses-library
-77-->[androidx.window:window:1.0.0] /Users/seojiwon/.gradle/caches/transforms-4/35a01230452b17b6ad73ee757ae85dce/transformed/window-1.0.0/AndroidManifest.xml:28:9-30:40
-78            android:name="androidx.window.sidecar"
-78-->[androidx.window:window:1.0.0] /Users/seojiwon/.gradle/caches/transforms-4/35a01230452b17b6ad73ee757ae85dce/transformed/window-1.0.0/AndroidManifest.xml:29:13-51
-79            android:required="false" />
-79-->[androidx.window:window:1.0.0] /Users/seojiwon/.gradle/caches/transforms-4/35a01230452b17b6ad73ee757ae85dce/transformed/window-1.0.0/AndroidManifest.xml:30:13-37
-80
-81        <receiver
-81-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/seojiwon/.gradle/caches/transforms-4/0af0dda6524ef8090f1de85bdf079f17/transformed/profileinstaller-1.4.0/AndroidManifest.xml:34:9-52:20
-82            android:name="androidx.profileinstaller.ProfileInstallReceiver"
-82-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/seojiwon/.gradle/caches/transforms-4/0af0dda6524ef8090f1de85bdf079f17/transformed/profileinstaller-1.4.0/AndroidManifest.xml:35:13-76
-83            android:directBootAware="false"
-83-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/seojiwon/.gradle/caches/transforms-4/0af0dda6524ef8090f1de85bdf079f17/transformed/profileinstaller-1.4.0/AndroidManifest.xml:36:13-44
-84            android:enabled="true"
-84-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/seojiwon/.gradle/caches/transforms-4/0af0dda6524ef8090f1de85bdf079f17/transformed/profileinstaller-1.4.0/AndroidManifest.xml:37:13-35
-85            android:exported="true"
-85-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/seojiwon/.gradle/caches/transforms-4/0af0dda6524ef8090f1de85bdf079f17/transformed/profileinstaller-1.4.0/AndroidManifest.xml:38:13-36
-86            android:permission="android.permission.DUMP" >
-86-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/seojiwon/.gradle/caches/transforms-4/0af0dda6524ef8090f1de85bdf079f17/transformed/profileinstaller-1.4.0/AndroidManifest.xml:39:13-57
-87            <intent-filter>
-87-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/seojiwon/.gradle/caches/transforms-4/0af0dda6524ef8090f1de85bdf079f17/transformed/profileinstaller-1.4.0/AndroidManifest.xml:40:13-42:29
-88                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
-88-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/seojiwon/.gradle/caches/transforms-4/0af0dda6524ef8090f1de85bdf079f17/transformed/profileinstaller-1.4.0/AndroidManifest.xml:41:17-91
-88-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/seojiwon/.gradle/caches/transforms-4/0af0dda6524ef8090f1de85bdf079f17/transformed/profileinstaller-1.4.0/AndroidManifest.xml:41:25-88
-89            </intent-filter>
-90            <intent-filter>
-90-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/seojiwon/.gradle/caches/transforms-4/0af0dda6524ef8090f1de85bdf079f17/transformed/profileinstaller-1.4.0/AndroidManifest.xml:43:13-45:29
-91                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
-91-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/seojiwon/.gradle/caches/transforms-4/0af0dda6524ef8090f1de85bdf079f17/transformed/profileinstaller-1.4.0/AndroidManifest.xml:44:17-85
-91-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/seojiwon/.gradle/caches/transforms-4/0af0dda6524ef8090f1de85bdf079f17/transformed/profileinstaller-1.4.0/AndroidManifest.xml:44:25-82
-92            </intent-filter>
-93            <intent-filter>
-93-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/seojiwon/.gradle/caches/transforms-4/0af0dda6524ef8090f1de85bdf079f17/transformed/profileinstaller-1.4.0/AndroidManifest.xml:46:13-48:29
-94                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
-94-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/seojiwon/.gradle/caches/transforms-4/0af0dda6524ef8090f1de85bdf079f17/transformed/profileinstaller-1.4.0/AndroidManifest.xml:47:17-88
-94-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/seojiwon/.gradle/caches/transforms-4/0af0dda6524ef8090f1de85bdf079f17/transformed/profileinstaller-1.4.0/AndroidManifest.xml:47:25-85
-95            </intent-filter>
-96            <intent-filter>
-96-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/seojiwon/.gradle/caches/transforms-4/0af0dda6524ef8090f1de85bdf079f17/transformed/profileinstaller-1.4.0/AndroidManifest.xml:49:13-51:29
-97                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
-97-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/seojiwon/.gradle/caches/transforms-4/0af0dda6524ef8090f1de85bdf079f17/transformed/profileinstaller-1.4.0/AndroidManifest.xml:50:17-95
-97-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/seojiwon/.gradle/caches/transforms-4/0af0dda6524ef8090f1de85bdf079f17/transformed/profileinstaller-1.4.0/AndroidManifest.xml:50:25-92
-98            </intent-filter>
-99        </receiver>
-100    </application>
-101
-102</manifest>
+57-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:40:9-59
+57-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:40:19-57
+58        <activity android:name="com.example.gaechuck.ui.business.BusinessWriteActivity" />
+58-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:41:9-70
+58-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:41:19-68
+59        <activity android:name="com.example.gaechuck.ui.rent.RentWriteActivity" />
+59-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:42:9-62
+59-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:42:19-60
+60        <activity android:name="com.example.gaechuck.ui.lose.LoseWriteActivity" />
+60-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:43:9-62
+60-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:43:19-60
+61        <activity android:name="com.example.gaechuck.ui.lose.LoseUrlChangeActivity" />
+61-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:44:9-66
+61-->/Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:44:19-64
+62
+63        <provider
+63-->[androidx.emoji2:emoji2:1.3.0] /Users/seojiwon/.gradle/caches/transforms-4/e1060d4a1cfdd46e6928c96c2e6a8627/transformed/emoji2-1.3.0/AndroidManifest.xml:24:9-32:20
+64            android:name="androidx.startup.InitializationProvider"
+64-->[androidx.emoji2:emoji2:1.3.0] /Users/seojiwon/.gradle/caches/transforms-4/e1060d4a1cfdd46e6928c96c2e6a8627/transformed/emoji2-1.3.0/AndroidManifest.xml:25:13-67
+65            android:authorities="com.example.gaechuck.androidx-startup"
+65-->[androidx.emoji2:emoji2:1.3.0] /Users/seojiwon/.gradle/caches/transforms-4/e1060d4a1cfdd46e6928c96c2e6a8627/transformed/emoji2-1.3.0/AndroidManifest.xml:26:13-68
+66            android:exported="false" >
+66-->[androidx.emoji2:emoji2:1.3.0] /Users/seojiwon/.gradle/caches/transforms-4/e1060d4a1cfdd46e6928c96c2e6a8627/transformed/emoji2-1.3.0/AndroidManifest.xml:27:13-37
+67            <meta-data
+67-->[androidx.emoji2:emoji2:1.3.0] /Users/seojiwon/.gradle/caches/transforms-4/e1060d4a1cfdd46e6928c96c2e6a8627/transformed/emoji2-1.3.0/AndroidManifest.xml:29:13-31:52
+68                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+68-->[androidx.emoji2:emoji2:1.3.0] /Users/seojiwon/.gradle/caches/transforms-4/e1060d4a1cfdd46e6928c96c2e6a8627/transformed/emoji2-1.3.0/AndroidManifest.xml:30:17-75
+69                android:value="androidx.startup" />
+69-->[androidx.emoji2:emoji2:1.3.0] /Users/seojiwon/.gradle/caches/transforms-4/e1060d4a1cfdd46e6928c96c2e6a8627/transformed/emoji2-1.3.0/AndroidManifest.xml:31:17-49
+70            <meta-data
+70-->[androidx.lifecycle:lifecycle-process:2.8.3] /Users/seojiwon/.gradle/caches/transforms-4/94bec0a020421ffc6d773b2ee9ff653c/transformed/lifecycle-process-2.8.3/AndroidManifest.xml:29:13-31:52
+71                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+71-->[androidx.lifecycle:lifecycle-process:2.8.3] /Users/seojiwon/.gradle/caches/transforms-4/94bec0a020421ffc6d773b2ee9ff653c/transformed/lifecycle-process-2.8.3/AndroidManifest.xml:30:17-78
+72                android:value="androidx.startup" />
+72-->[androidx.lifecycle:lifecycle-process:2.8.3] /Users/seojiwon/.gradle/caches/transforms-4/94bec0a020421ffc6d773b2ee9ff653c/transformed/lifecycle-process-2.8.3/AndroidManifest.xml:31:17-49
+73            <meta-data
+73-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/seojiwon/.gradle/caches/transforms-4/0af0dda6524ef8090f1de85bdf079f17/transformed/profileinstaller-1.4.0/AndroidManifest.xml:29:13-31:52
+74                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+74-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/seojiwon/.gradle/caches/transforms-4/0af0dda6524ef8090f1de85bdf079f17/transformed/profileinstaller-1.4.0/AndroidManifest.xml:30:17-85
+75                android:value="androidx.startup" />
+75-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/seojiwon/.gradle/caches/transforms-4/0af0dda6524ef8090f1de85bdf079f17/transformed/profileinstaller-1.4.0/AndroidManifest.xml:31:17-49
+76        </provider>
+77
+78        <uses-library
+78-->[androidx.window:window:1.0.0] /Users/seojiwon/.gradle/caches/transforms-4/35a01230452b17b6ad73ee757ae85dce/transformed/window-1.0.0/AndroidManifest.xml:25:9-27:40
+79            android:name="androidx.window.extensions"
+79-->[androidx.window:window:1.0.0] /Users/seojiwon/.gradle/caches/transforms-4/35a01230452b17b6ad73ee757ae85dce/transformed/window-1.0.0/AndroidManifest.xml:26:13-54
+80            android:required="false" />
+80-->[androidx.window:window:1.0.0] /Users/seojiwon/.gradle/caches/transforms-4/35a01230452b17b6ad73ee757ae85dce/transformed/window-1.0.0/AndroidManifest.xml:27:13-37
+81        <uses-library
+81-->[androidx.window:window:1.0.0] /Users/seojiwon/.gradle/caches/transforms-4/35a01230452b17b6ad73ee757ae85dce/transformed/window-1.0.0/AndroidManifest.xml:28:9-30:40
+82            android:name="androidx.window.sidecar"
+82-->[androidx.window:window:1.0.0] /Users/seojiwon/.gradle/caches/transforms-4/35a01230452b17b6ad73ee757ae85dce/transformed/window-1.0.0/AndroidManifest.xml:29:13-51
+83            android:required="false" />
+83-->[androidx.window:window:1.0.0] /Users/seojiwon/.gradle/caches/transforms-4/35a01230452b17b6ad73ee757ae85dce/transformed/window-1.0.0/AndroidManifest.xml:30:13-37
+84
+85        <receiver
+85-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/seojiwon/.gradle/caches/transforms-4/0af0dda6524ef8090f1de85bdf079f17/transformed/profileinstaller-1.4.0/AndroidManifest.xml:34:9-52:20
+86            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+86-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/seojiwon/.gradle/caches/transforms-4/0af0dda6524ef8090f1de85bdf079f17/transformed/profileinstaller-1.4.0/AndroidManifest.xml:35:13-76
+87            android:directBootAware="false"
+87-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/seojiwon/.gradle/caches/transforms-4/0af0dda6524ef8090f1de85bdf079f17/transformed/profileinstaller-1.4.0/AndroidManifest.xml:36:13-44
+88            android:enabled="true"
+88-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/seojiwon/.gradle/caches/transforms-4/0af0dda6524ef8090f1de85bdf079f17/transformed/profileinstaller-1.4.0/AndroidManifest.xml:37:13-35
+89            android:exported="true"
+89-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/seojiwon/.gradle/caches/transforms-4/0af0dda6524ef8090f1de85bdf079f17/transformed/profileinstaller-1.4.0/AndroidManifest.xml:38:13-36
+90            android:permission="android.permission.DUMP" >
+90-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/seojiwon/.gradle/caches/transforms-4/0af0dda6524ef8090f1de85bdf079f17/transformed/profileinstaller-1.4.0/AndroidManifest.xml:39:13-57
+91            <intent-filter>
+91-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/seojiwon/.gradle/caches/transforms-4/0af0dda6524ef8090f1de85bdf079f17/transformed/profileinstaller-1.4.0/AndroidManifest.xml:40:13-42:29
+92                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+92-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/seojiwon/.gradle/caches/transforms-4/0af0dda6524ef8090f1de85bdf079f17/transformed/profileinstaller-1.4.0/AndroidManifest.xml:41:17-91
+92-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/seojiwon/.gradle/caches/transforms-4/0af0dda6524ef8090f1de85bdf079f17/transformed/profileinstaller-1.4.0/AndroidManifest.xml:41:25-88
+93            </intent-filter>
+94            <intent-filter>
+94-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/seojiwon/.gradle/caches/transforms-4/0af0dda6524ef8090f1de85bdf079f17/transformed/profileinstaller-1.4.0/AndroidManifest.xml:43:13-45:29
+95                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+95-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/seojiwon/.gradle/caches/transforms-4/0af0dda6524ef8090f1de85bdf079f17/transformed/profileinstaller-1.4.0/AndroidManifest.xml:44:17-85
+95-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/seojiwon/.gradle/caches/transforms-4/0af0dda6524ef8090f1de85bdf079f17/transformed/profileinstaller-1.4.0/AndroidManifest.xml:44:25-82
+96            </intent-filter>
+97            <intent-filter>
+97-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/seojiwon/.gradle/caches/transforms-4/0af0dda6524ef8090f1de85bdf079f17/transformed/profileinstaller-1.4.0/AndroidManifest.xml:46:13-48:29
+98                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+98-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/seojiwon/.gradle/caches/transforms-4/0af0dda6524ef8090f1de85bdf079f17/transformed/profileinstaller-1.4.0/AndroidManifest.xml:47:17-88
+98-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/seojiwon/.gradle/caches/transforms-4/0af0dda6524ef8090f1de85bdf079f17/transformed/profileinstaller-1.4.0/AndroidManifest.xml:47:25-85
+99            </intent-filter>
+100            <intent-filter>
+100-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/seojiwon/.gradle/caches/transforms-4/0af0dda6524ef8090f1de85bdf079f17/transformed/profileinstaller-1.4.0/AndroidManifest.xml:49:13-51:29
+101                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+101-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/seojiwon/.gradle/caches/transforms-4/0af0dda6524ef8090f1de85bdf079f17/transformed/profileinstaller-1.4.0/AndroidManifest.xml:50:17-95
+101-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/seojiwon/.gradle/caches/transforms-4/0af0dda6524ef8090f1de85bdf079f17/transformed/profileinstaller-1.4.0/AndroidManifest.xml:50:25-92
+102            </intent-filter>
+103        </receiver>
+104    </application>
+105
+106</manifest>
