@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:2:1-47:12
-INJECTED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:2:1-47:12
-INJECTED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:2:1-47:12
-INJECTED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:2:1-47:12
+ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:2:1-48:12
+INJECTED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:2:1-48:12
+INJECTED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:2:1-48:12
+INJECTED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:2:1-48:12
 MERGED from [androidx.databinding:viewbinding:8.6.0] /Users/seojiwon/.gradle/caches/transforms-4/a69bd7b89fa4219bcf7c8c4af5e1a6a2/transformed/viewbinding-8.6.0/AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.navigation:navigation-common:2.7.3] /Users/seojiwon/.gradle/caches/transforms-4/0b65e8ab46c88a9e256eafca9f555891/transformed/navigation-common-2.7.3/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.navigation:navigation-common-ktx:2.7.3] /Users/seojiwon/.gradle/caches/transforms-4/948d7dcb68327666374ab2bd3289f775/transformed/navigation-common-ktx-2.7.3/AndroidManifest.xml:2:1-7:12
@@ -104,8 +104,8 @@ ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidMa
 	android:name
 		ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:4:22-64
 application
-ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:8:5-45:19
-INJECTED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:8:5-45:19
+ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:8:5-46:19
+INJECTED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:8:5-46:19
 MERGED from [com.google.android.material:material:1.12.0] /Users/seojiwon/.gradle/caches/transforms-4/4a794a0a599cbcf2d57c101f51c6050a/transformed/material-1.12.0/AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.12.0] /Users/seojiwon/.gradle/caches/transforms-4/4a794a0a599cbcf2d57c101f51c6050a/transformed/material-1.12.0/AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.2.0] /Users/seojiwon/.gradle/caches/transforms-4/f1eeb0eb55543193494ad83c0fe46593/transformed/constraintlayout-2.2.0/AndroidManifest.xml:7:5-20
@@ -218,30 +218,34 @@ activity#com.example.gaechuck.ui.noticeuniv.NoticeUnivDetailActivity
 ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:37:9-75
 	android:name
 		ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:37:19-73
+activity#com.example.gaechuck.ui.noticecouncil.NoticeCouncilWriteActivity
+ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:38:9-80
+	android:name
+		ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:38:19-78
 activity#com.example.gaechuck.ui.lose.LoseActivity
-ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:39:9-57
+ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:40:9-57
 	android:name
-		ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:39:19-55
+		ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:40:19-55
 activity#com.example.gaechuck.ui.login.LoginActivity
-ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:40:9-59
+ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:41:9-59
 	android:name
-		ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:40:19-57
+		ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:41:19-57
 activity#com.example.gaechuck.ui.business.BusinessWriteActivity
-ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:41:9-70
+ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:42:9-70
 	android:name
-		ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:41:19-68
+		ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:42:19-68
 activity#com.example.gaechuck.ui.rent.RentWriteActivity
-ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:42:9-62
-	android:name
-		ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:42:19-60
-activity#com.example.gaechuck.ui.lose.LoseWriteActivity
 ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:43:9-62
 	android:name
 		ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:43:19-60
-activity#com.example.gaechuck.ui.lose.LoseUrlChangeActivity
-ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:44:9-66
+activity#com.example.gaechuck.ui.lose.LoseWriteActivity
+ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:44:9-62
 	android:name
-		ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:44:19-64
+		ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:44:19-60
+activity#com.example.gaechuck.ui.lose.LoseUrlChangeActivity
+ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:45:9-66
+	android:name
+		ADDED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml:45:19-64
 uses-sdk
 INJECTED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /Users/seojiwon/AndroidStudioProjects/gaechuck/app/src/main/AndroidManifest.xml

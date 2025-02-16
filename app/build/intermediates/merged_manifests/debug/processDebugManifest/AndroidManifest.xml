@@ -53,6 +53,7 @@
         <activity android:name="com.example.gaechuck.SubPage2Activity" />
         <activity android:name="com.example.gaechuck.ui.noticecouncil.NoticeCouncilDetailActivity" />
         <activity android:name="com.example.gaechuck.ui.noticeuniv.NoticeUnivDetailActivity" />
+        <activity android:name="com.example.gaechuck.ui.noticecouncil.NoticeCouncilWriteActivity" />
         <activity android:name="com.example.gaechuck.ui.lose.LoseActivity" />
         <activity android:name="com.example.gaechuck.ui.login.LoginActivity" />
         <activity android:name="com.example.gaechuck.ui.business.BusinessWriteActivity" />

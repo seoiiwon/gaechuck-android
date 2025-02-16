@@ -35,6 +35,13 @@ drawable button_image
 drawable default_background
 drawable divider
 drawable down_btn
+drawable gnu_main_btn_1
+drawable gnu_main_btn_2
+drawable gnu_main_btn_3
+drawable gnu_main_btn_4
+drawable gnu_main_btn_5
+drawable gnu_main_btn_6
+drawable gnu_main_btn_7
 drawable home_btn
 drawable ic_add
 drawable ic_back
@@ -49,6 +56,8 @@ drawable ic_plus
 drawable ic_url
 drawable ix_alarm_bell
 drawable left_btn
+drawable photo_add_btn
+drawable photo_delete_btn
 drawable right_btn
 drawable rounded_background_gnublue
 drawable rounded_border
@@ -89,8 +98,10 @@ id action_loginFragment_to_loginFailFragment
 id action_loseMainFragment_ro_loseDetailFragment
 id action_rentDetailFragment_to_rentMainFragment
 id action_rentMainFragment_to_rentDetailFragment
+id addImageButton
 id alarm_icon
 id backBtn
+id bodyEditText
 id busRouteContainer
 id businessDetailFragment
 id businessMainFragment
@@ -116,6 +127,7 @@ id category_health
 id change_url
 id count
 id current_url
+id deleteButton
 id delete_btn
 id divider
 id divider_change_url
@@ -143,6 +155,8 @@ id guideline2
 id guideline3
 id homeBtn
 id imagePlaceholder
+id imageRecyclerView
+id imageView
 id image_indicator
 id info
 id leftArrow
@@ -196,6 +210,7 @@ id photo_add_btn2
 id photo_container
 id photo_count
 id photo_view
+id postButton
 id recyclerView_settings
 id rentDetailFragment
 id rentMainFragment
@@ -251,6 +266,7 @@ id termsContentTextView
 id terms_bottom
 id termstitle
 id textView_title
+id titleEditText
 id toolbar_main
 id url_btn
 id viewPager
@@ -268,6 +284,7 @@ layout activity_lose_write
 layout activity_main
 layout activity_notice_council
 layout activity_notice_council_detail
+layout activity_notice_council_write
 layout activity_notice_univ
 layout activity_notice_univ_detail
 layout activity_rent
@@ -299,6 +316,7 @@ layout fragment_photo_view
 layout fragment_rent_detail
 layout fragment_rent_main
 layout fragment_rent_search
+layout fragment_selected_image
 layout fragment_setting
 layout row_business_item
 layout row_item_image_view

@@ -14,11 +14,16 @@ import com.example.gaechuck.data.response.GetLoseDetailResponse
 import com.example.gaechuck.data.response.GetRentDataResponse
 import com.example.gaechuck.data.response.GetRentDetailResponse
 import com.example.gaechuck.data.response.LoginResponse
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Header
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -66,6 +71,15 @@ interface ApiService {
     @GET("/api/v1/council/show/{id}")
     suspend fun getNoticeCouncilDetailData(@Path("id") id : Int)
             : Response<BaseResponse<GetCouncilNoticeDetailResponse>>
+
+    // 총학생회 공지 작성
+    @Multipart
+    @POST("api/v1/council/post")
+    suspend fun postNoticeCouncil(
+        @Header("Authorization") authToken: String,
+        @Part("data") data: RequestBody,
+        @Part file: MultipartBody.Part?
+    ): Response<BaseResponse<String>>
 
     // 학교 공지 리스트
     @GET("/api/v1/notifications/allNotification")

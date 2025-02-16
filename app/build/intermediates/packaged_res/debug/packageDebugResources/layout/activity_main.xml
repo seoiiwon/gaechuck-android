@@ -80,6 +80,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        app:dotsSpacing="6dp"
+        app:dotsSize="10dp"
         app:dotsColor="@color/gnu_blue"
         app:selectedDotColor="@color/black" />
 
