@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gaechuck.MainActivity
 import com.example.gaechuck.R
+import com.example.gaechuck.api.AuthManager
 import com.example.gaechuck.ui.noticecouncil.adaptor.NoticeCouncilAdapter
 import com.example.gaechuck.ui.noticecouncil.viewmodel.NoticeCouncilViewModel
 import kotlinx.coroutines.launch
@@ -19,9 +20,21 @@ class NoticeCouncilActivity : AppCompatActivity() {
     private lateinit var noticeAdapter: NoticeCouncilAdapter
     private val viewModel: NoticeCouncilViewModel by viewModels()
 
+    private val isAdmin = AuthManager.getToken()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notice_council)
+
+        val postNoticeButton = findViewById<ImageView>(R.id.postNoticeButton)
+
+        // 버튼을 항상 화면 상단에 배치 (RecyclerView 스크롤 영향 X)
+        postNoticeButton.bringToFront()
+
+        postNoticeButton.setOnClickListener {
+            val intent = Intent(this, NoticeCouncilWriteActivity::class.java)
+            startActivity(intent)
+        }
 
         val backBtn: ImageView = findViewById(R.id.backBtn)
         backBtn.setOnClickListener { finish() }

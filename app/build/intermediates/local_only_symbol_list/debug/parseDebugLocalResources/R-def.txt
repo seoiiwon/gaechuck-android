@@ -211,6 +211,7 @@ id photo_container
 id photo_count
 id photo_view
 id postButton
+id postNoticeButton
 id recyclerView_settings
 id rentDetailFragment
 id rentMainFragment
@@ -227,6 +228,7 @@ id rent_view
 id restaurantLayout
 id restaurantScrollView
 id rightArrow
+id rootLayout
 id scrollView2
 id searchButton
 id searchEditText

@@ -16,12 +16,12 @@
         "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/activity_notice_council.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_footer_info.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/footer_info.xml"
-    },
-    {
         "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
         "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/mipmap-xxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_footer_info.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/footer_info.xml"
     },
     {
         "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_gnu_main_btn_2.png.flat",
@@ -138,6 +138,10 @@
     {
         "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_selected_background.xml.flat",
         "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/selected_background.xml"
+    },
+    {
+        "merged": "com.example.gaechuck.app-debug-71:/layout_activity_cafeteria_menu.xml.flat",
+        "source": "com.example.gaechuck.app-main-73:/layout/activity_cafeteria_menu.xml"
     },
     {
         "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_fragment_login_complete.xml.flat",
@@ -318,10 +322,6 @@
     {
         "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_ic_delete.xml.flat",
         "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/ic_delete.xml"
-    },
-    {
-        "merged": "com.example.gaechuck.app-debug-71:/layout_activity_notice_council_write.xml.flat",
-        "source": "com.example.gaechuck.app-main-73:/layout/activity_notice_council_write.xml"
     },
     {
         "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/navigation_navigation_rent.xml.flat",
