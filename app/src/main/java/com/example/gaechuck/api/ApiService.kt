@@ -14,11 +14,16 @@ import com.example.gaechuck.data.response.GetRentDetailResponse
 import com.example.gaechuck.data.response.GetUnivNoticeDataResponse
 import com.example.gaechuck.data.response.GetUnivNoticeDetailResponse
 import com.example.gaechuck.data.response.LoginResponse
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Header
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -56,6 +61,15 @@ interface ApiService {
     suspend fun getBusinessDetailData(@Query("coalitionId") coalitionId: Int)
             : Response<BaseResponse<GetBusinessDetailResponse>>
 
+    // 제휴 글 작성하기
+    @Multipart
+    @POST("/api/v1/coalition/write")
+    suspend fun postBusinessCreate(
+        @Header("Authorization") Authorization: String,
+        @Part("data") data: RequestBody, // "data" 파트 추가
+        @Part file: List<MultipartBody.Part> // "file" 파트 추가
+    ) : Response<BaseResponse<String>>
+
     // Notice
     // 총학생회 공지 리스트
     @GET("/api/v1/council/show")
@@ -82,4 +96,5 @@ interface ApiService {
     @POST("/api/v1/master/sign-in")
     suspend fun login(@Body request: LoginRequest)
             : Response<BaseResponse<LoginResponse>>
+
 }
