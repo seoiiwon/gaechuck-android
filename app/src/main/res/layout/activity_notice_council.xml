@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+<LinearLayout
     android:id="@+id/subLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -92,5 +99,17 @@
         android:overScrollMode="never"
         tools:listitem="@layout/fragment_notice_council" />
 
+    <ImageView
+        android:id="@+id/postNoticeButton"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:src="@drawable/photo_add_btn"
+        android:contentDescription="공지 등록"
+        android:elevation="4dp"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:padding="12dp"/>
+
 
 </LinearLayout>
+</FrameLayout>

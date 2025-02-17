@@ -35,6 +35,7 @@
         <activity android:name=".SubPage2Activity"/>
         <activity android:name=".ui.noticecouncil.NoticeCouncilDetailActivity"/>
         <activity android:name=".ui.noticeuniv.NoticeUnivDetailActivity"/>
+        <activity android:name=".ui.noticecouncil.NoticeCouncilWriteActivity"/>
 
         <activity android:name=".ui.lose.LoseActivity"/>
         <activity android:name=".ui.login.LoginActivity"/>

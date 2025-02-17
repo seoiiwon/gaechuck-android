@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.gaechuck.app-mergeDebugResources-68:/values-zh-rCN/values-zh-rCN.xml",
+            "outputFile": "com.example.gaechuck.app-mergeDebugResources-69:/values-zh-rCN/values-zh-rCN.xml",
             "map": [
                 {
                     "source": "/Users/seojiwon/.gradle/caches/transforms-4/94dd2354d60bd50cf2317e8fac16807a/transformed/foundation-release/res/values-zh-rCN/values-zh-rCN.xml",

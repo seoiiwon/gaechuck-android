@@ -1,590 +1,614 @@
 [
     {
-        "merged": "com.example.gaechuck.app-debug-70:/drawable_style_edit.xml.flat",
-        "source": "com.example.gaechuck.app-main-72:/drawable/style_edit.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/anim_slide_in_bottom.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/anim/slide_in_bottom.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_sub4.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/sub4.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/font_noto_sans_kr_bold.ttf.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/font/noto_sans_kr_bold.ttf"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/drawable_ic_launcher_background.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/drawable/ic_launcher_background.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_activity_business.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/activity_business.xml"
     },
     {
-        "merged": "com.example.gaechuck.app-debug-70:/anim_slide_out_top.xml.flat",
-        "source": "com.example.gaechuck.app-main-72:/anim/slide_out_top.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_activity_notice_council.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/activity_notice_council.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/mipmap-mdpi_ic_launcher.webp.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/mipmap-mdpi/ic_launcher.webp"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/mipmap-xxhdpi/ic_launcher_round.webp"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_row_rent_item.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/row_rent_item.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_footer_info.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/footer_info.xml"
     },
     {
-        "merged": "com.example.gaechuck.app-debug-70:/anim_slide_out_left.xml.flat",
-        "source": "com.example.gaechuck.app-main-72:/anim/slide_out_left.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_gnu_main_btn_2.png.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/gnu_main_btn_2.png"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_toolbar_blue_title.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/toolbar_blue_title.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_fragment_rent_search.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/fragment_rent_search.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/drawable_rt_item_main_5.jpg.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/drawable/rt_item_main_5.jpg"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_fragment_business_main.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/fragment_business_main.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/font_noto_sans_kr_bold.ttf.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/font/noto_sans_kr_bold.ttf"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/anim_slide_in_top.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/anim/slide_in_top.xml"
     },
     {
-        "merged": "com.example.gaechuck.app-debug-70:/layout_activity_business.xml.flat",
-        "source": "com.example.gaechuck.app-main-72:/layout/activity_business.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_ic_back.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/ic_back.xml"
     },
     {
-        "merged": "com.example.gaechuck.app-debug-70:/layout_activity_lose.xml.flat",
-        "source": "com.example.gaechuck.app-main-72:/layout/activity_lose.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_style_toggle_thumb.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/style_toggle_thumb.xml"
     },
     {
-        "merged": "com.example.gaechuck.app-debug-70:/navigation_navigation_business.xml.flat",
-        "source": "com.example.gaechuck.app-main-72:/navigation/navigation_business.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_column_setting_item.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/column_setting_item.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/font_noto_sans_kr_semibold.ttf.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/font/noto_sans_kr_semibold.ttf"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_divider.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/divider.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/drawable_tab_stroke.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/drawable/tab_stroke.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/xml_network_security_config.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/xml/network_security_config.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_activity_business.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/activity_business.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_activity_lose_write.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/activity_lose_write.xml"
     },
     {
-        "merged": "com.example.gaechuck.app-debug-70:/layout_activity_login.xml.flat",
-        "source": "com.example.gaechuck.app-main-72:/layout/activity_login.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_rt_item_main_6.jpg.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/rt_item_main_6.jpg"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/mipmap-mdpi_ic_launcher_round.webp.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/mipmap-mdpi/ic_launcher_round.webp"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_style_btn.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/style_btn.xml"
     },
     {
-        "merged": "com.example.gaechuck.app-debug-70:/layout_fragment_lose_detail.xml.flat",
-        "source": "com.example.gaechuck.app-main-72:/layout/fragment_lose_detail.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_search_icon.png.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/search_icon.png"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/drawable_ic_home.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/drawable/ic_home.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_ic_etc.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/ic_etc.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/drawable_back_btn.png.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/drawable/back_btn.png"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_style_edit.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/style_edit.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/drawable_rt_item_main_4.jpg.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/drawable/rt_item_main_4.jpg"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_fragment_lose_main.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/fragment_lose_main.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/drawable_ic_back.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/drawable/ic_back.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_style_imageview.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/style_imageview.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/mipmap-xxhdpi/ic_launcher_round.webp"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_style_toggle_btn.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/style_toggle_btn.xml"
     },
     {
-        "merged": "com.example.gaechuck.app-debug-70:/layout_activity_main.xml.flat",
-        "source": "com.example.gaechuck.app-main-72:/layout/activity_main.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_activity_business_write.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/activity_business_write.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/drawable_style_category_tab_selected.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/drawable/style_category_tab_selected.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_row_rent_item.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/row_rent_item.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_fragment_notice_council.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/fragment_notice_council.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_gnu_main_btn_1.png.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/gnu_main_btn_1.png"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/drawable_left_btn.png.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/drawable/left_btn.png"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_button_image.png.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/button_image.png"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/drawable_down_btn.png.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/drawable/down_btn.png"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_ic_url.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/ic_url.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/navigation_navigation_business.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/navigation/navigation_business.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_fragment_notice_univ.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/fragment_notice_univ.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/font_noto_sans_kr_regular.ttf.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/font/noto_sans_kr_regular.ttf"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/font_noto_sans_kr_medium.ttf.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/font/noto_sans_kr_medium.ttf"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_fragment_setting.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/fragment_setting.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_rt_item_main_7.jpg.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/rt_item_main_7.jpg"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_sub6.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/sub6.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_tab_stroke.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/tab_stroke.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_activity_main.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/activity_main.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_ic_add.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/ic_add.xml"
     },
     {
-        "merged": "com.example.gaechuck.app-debug-70:/layout_fragment_rent_detail.xml.flat",
-        "source": "com.example.gaechuck.app-main-72:/layout/fragment_rent_detail.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_selected_background.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/selected_background.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_fragment_main2.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/fragment_main2.xml"
+        "merged": "com.example.gaechuck.app-debug-71:/layout_activity_cafeteria_menu.xml.flat",
+        "source": "com.example.gaechuck.app-main-73:/layout/activity_cafeteria_menu.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/mipmap-xhdpi_ic_launcher_round.webp.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/mipmap-xhdpi/ic_launcher_round.webp"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_fragment_login_complete.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/fragment_login_complete.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_fragment_business_detail.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/fragment_business_detail.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_fragment_login_fail.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/fragment_login_fail.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/mipmap-hdpi_ic_launcher.webp.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/mipmap-hdpi/ic_launcher.webp"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/xml_data_extraction_rules.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/xml/data_extraction_rules.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/xml_backup_rules.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/xml/backup_rules.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_fragment_main2.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/fragment_main2.xml"
     },
     {
-        "merged": "com.example.gaechuck.app-debug-70:/drawable_style_toggle_btn.xml.flat",
-        "source": "com.example.gaechuck.app-main-72:/drawable/style_toggle_btn.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_rt_item_main_4.jpg.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/rt_item_main_4.jpg"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/drawable_button_image.png.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/drawable/button_image.png"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/navigation_navigation_lose.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/navigation/navigation_lose.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/drawable_style_category_tab_unselected.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/drawable/style_category_tab_unselected.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_spinner_background.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/spinner_background.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_fragment_business_main.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/fragment_business_main.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_photo_add_btn.png.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/photo_add_btn.png"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/mipmap-xhdpi_ic_launcher.webp.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/mipmap-xhdpi/ic_launcher.webp"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/anim_slide_out_left.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/anim/slide_out_left.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/drawable_baseline_more_vert_24.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/drawable/baseline_more_vert_24.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_activity_termsofuse.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/activity_termsofuse.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/navigation_navigation_rent.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/navigation/navigation_rent.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_search_dino.png.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/search_dino.png"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/drawable_rt_item_main_7.jpg.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/drawable/rt_item_main_7.jpg"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/mipmap-xxxhdpi/ic_launcher.webp"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_column_setting_item.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/column_setting_item.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_activity_notice_univ_detail.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/activity_notice_univ_detail.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/xml_network_security_config.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/xml/network_security_config.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_activity_bus_route.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/activity_bus_route.xml"
     },
     {
-        "merged": "com.example.gaechuck.app-debug-70:/layout_toolbar_home_black.xml.flat",
-        "source": "com.example.gaechuck.app-main-72:/layout/toolbar_home_black.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_baseline_more_vert_24.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/baseline_more_vert_24.xml"
     },
     {
-        "merged": "com.example.gaechuck.app-debug-70:/layout_fragment_login_complete.xml.flat",
-        "source": "com.example.gaechuck.app-main-72:/layout/fragment_login_complete.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/navigation_navigation_login.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/navigation/navigation_login.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/drawable_selected_background.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/drawable/selected_background.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/anim_slide_in_right.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/anim/slide_in_right.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_row_item_image_view.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/row_item_image_view.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_toolbar_blue_title.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/toolbar_blue_title.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_sub3.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/sub3.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_uil_setting.png.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/uil_setting.png"
     },
     {
-        "merged": "com.example.gaechuck.app-debug-70:/layout_toolbar_home_blue.xml.flat",
-        "source": "com.example.gaechuck.app-main-72:/layout/toolbar_home_blue.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_sub6.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/sub6.xml"
     },
     {
-        "merged": "com.example.gaechuck.app-debug-70:/drawable_search_dino.png.flat",
-        "source": "com.example.gaechuck.app-main-72:/drawable/search_dino.png"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_rt_item_main_1.jpg.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/rt_item_main_1.jpg"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/drawable_rounded_border.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/drawable/rounded_border.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/xml_backup_rules.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/xml/backup_rules.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/drawable_bs_item_2_main.jpeg.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/drawable/bs_item_2_main.jpeg"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_ix_alarm_bell.png.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/ix_alarm_bell.png"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/drawable_rt_item_main_2.jpg.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/drawable/rt_item_main_2.jpg"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/ic_launcher_foreground.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/drawable_bs_item_1_main.jpg.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/drawable/bs_item_1_main.jpg"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_style_category_tab.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/style_category_tab.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/drawable_bs_item_1_sub.jpg.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/drawable/bs_item_1_sub.jpg"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_gnu_main_btn_3.png.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/gnu_main_btn_3.png"
     },
     {
-        "merged": "com.example.gaechuck.app-debug-70:/layout_toolbar_back_blue.xml.flat",
-        "source": "com.example.gaechuck.app-main-72:/layout/toolbar_back_blue.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/anim_slide_out_bottom.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/anim/slide_out_bottom.xml"
     },
     {
-        "merged": "com.example.gaechuck.app-debug-70:/layout_toolbar_back_black.xml.flat",
-        "source": "com.example.gaechuck.app-main-72:/layout/toolbar_back_black.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/anim_slide_out_right.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/anim/slide_out_right.xml"
     },
     {
-        "merged": "com.example.gaechuck.app-debug-70:/anim_slide_out_right.xml.flat",
-        "source": "com.example.gaechuck.app-main-72:/anim/slide_out_right.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_fragment_notice_univ_detail.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/fragment_notice_univ_detail.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/mipmap-anydpi-v26/ic_launcher_round.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_toolbar_home_black.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/toolbar_home_black.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_fragment_bus_route_item.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/fragment_bus_route_item.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_fragment_bus_route_item.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/fragment_bus_route_item.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/drawable_style_category_tab.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/drawable/style_category_tab.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_ic_home.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/ic_home.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/drawable_search_icon.png.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/drawable/search_icon.png"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/anim_slide_out_top.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/anim/slide_out_top.xml"
     },
     {
-        "merged": "com.example.gaechuck.app-debug-70:/drawable_style_toggle_thumb.xml.flat",
-        "source": "com.example.gaechuck.app-main-72:/drawable/style_toggle_thumb.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_row_business_item.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/row_business_item.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/mipmap-xxhdpi_ic_launcher.webp.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/mipmap-xxhdpi/ic_launcher.webp"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_fragment_menu_category.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/fragment_menu_category.xml"
     },
     {
-        "merged": "com.example.gaechuck.app-debug-70:/navigation_navigation_rent.xml.flat",
-        "source": "com.example.gaechuck.app-main-72:/navigation/navigation_rent.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_rounded_background_gnublue.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/rounded_background_gnublue.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/drawable_right_btn.png.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/drawable/right_btn.png"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_footer_info2.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/footer_info2.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/drawable_uil_setting.png.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/drawable/uil_setting.png"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_rt_item_main_2.jpg.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/rt_item_main_2.jpg"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/drawable_rt_item_main_1.jpg.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/drawable/rt_item_main_1.jpg"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_home_btn.png.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/home_btn.png"
     },
     {
-        "merged": "com.example.gaechuck.app-debug-70:/anim_slide_in_bottom.xml.flat",
-        "source": "com.example.gaechuck.app-main-72:/anim/slide_in_bottom.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/color_chip_text_list.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/color/chip_text_list.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/drawable_spinner_background.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/drawable/spinner_background.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_fragment_notice_council_container.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/fragment_notice_council_container.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_fragment_menu_item.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/fragment_menu_item.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_fragment_lose_detail.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/fragment_lose_detail.xml"
     },
     {
-        "merged": "com.example.gaechuck.app-debug-70:/navigation_navigation_login.xml.flat",
-        "source": "com.example.gaechuck.app-main-72:/navigation/navigation_login.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_splash_dino.png.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/splash_dino.png"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_activity_notice_council.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/activity_notice_council.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_toolbar_back_blue.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/toolbar_back_blue.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_activity_rent.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/activity_rent.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_ic_delete.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/ic_delete.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/drawable_home_btn.png.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/drawable/home_btn.png"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/navigation_navigation_rent.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/navigation/navigation_rent.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/drawable_bs_item_2_sub.jpeg.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/drawable/bs_item_2_sub.jpeg"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_style_category_tab_unselected.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/style_category_tab_unselected.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/drawable_rounded_button.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/drawable/rounded_button.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_ic_launcher_background.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/ic_launcher_background.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/mipmap-xxxhdpi_ic_launcher.webp.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/mipmap-xxxhdpi/ic_launcher.webp"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_gnu_main_btn_6.png.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/gnu_main_btn_6.png"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/xml_data_extraction_rules.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/xml/data_extraction_rules.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_sub7.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/sub7.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/drawable_rounded_background_gnublue.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/drawable/rounded_background_gnublue.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_row_item_image_view.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/row_item_image_view.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_sub1.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/sub1.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_activity_lose.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/activity_lose.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_activity_notice_univ_detail.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/activity_notice_univ_detail.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_style_category.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/style_category.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/mipmap-anydpi-v26_ic_launcher.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/mipmap-anydpi-v26/ic_launcher.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/mipmap-mdpi/ic_launcher_round.webp"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_toolbar_home_black.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/toolbar_home_black.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_fragment_notice_council_detail.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/fragment_notice_council_detail.xml"
     },
     {
-        "merged": "com.example.gaechuck.app-debug-70:/layout_fragment_login_fail.xml.flat",
-        "source": "com.example.gaechuck.app-main-72:/layout/fragment_login_fail.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/mipmap-hdpi/ic_launcher.webp"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_fragment_rent_main.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/fragment_rent_main.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/mipmap-xhdpi/ic_launcher.webp"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_toolbar_home_blue.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/toolbar_home_blue.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_style_category_tab_selected.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/style_category_tab_selected.xml"
     },
     {
-        "merged": "com.example.gaechuck.app-debug-70:/drawable_style_btn_none.xml.flat",
-        "source": "com.example.gaechuck.app-main-72:/drawable/style_btn_none.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_bs_item_2_main.jpeg.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/bs_item_2_main.jpeg"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_fragment_cafeteria_menu_item.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/fragment_cafeteria_menu_item.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/font_noto_sans_kr_regular.ttf.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/font/noto_sans_kr_regular.ttf"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_sub7.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/sub7.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_rt_item_main_3.jpg.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/rt_item_main_3.jpg"
     },
     {
-        "merged": "com.example.gaechuck.app-debug-70:/layout_fragment_business_main.xml.flat",
-        "source": "com.example.gaechuck.app-main-72:/layout/fragment_business_main.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_activity_main.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/activity_main.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_toolbar_back_blue.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/toolbar_back_blue.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_rounded_button.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/rounded_button.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_activity_bus_route.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/activity_bus_route.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_style_btn_none.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/style_btn_none.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_toolbar_back_black.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/toolbar_back_black.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_fragment_notice_council.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/fragment_notice_council.xml"
     },
     {
-        "merged": "com.example.gaechuck.app-debug-70:/layout_fragment_login.xml.flat",
-        "source": "com.example.gaechuck.app-main-72:/layout/fragment_login.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_toolbar_back_black.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/toolbar_back_black.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_row_business_item.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/row_business_item.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/navigation_navigation_business.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/navigation/navigation_business.xml"
     },
     {
-        "merged": "com.example.gaechuck.app-debug-70:/navigation_navigation_lose.xml.flat",
-        "source": "com.example.gaechuck.app-main-72:/navigation/navigation_lose.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/mipmap-xxhdpi/ic_launcher.webp"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_fragment_main1.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/fragment_main1.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_default_background.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/default_background.xml"
     },
     {
-        "merged": "com.example.gaechuck.app-debug-70:/anim_slide_in_right.xml.flat",
-        "source": "com.example.gaechuck.app-main-72:/anim/slide_in_right.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_gnu_main_btn_5.png.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/gnu_main_btn_5.png"
     },
     {
-        "merged": "com.example.gaechuck.app-debug-70:/layout_footer_info2.xml.flat",
-        "source": "com.example.gaechuck.app-main-72:/layout/footer_info2.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/color_chip_stroke_list.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/color/chip_stroke_list.xml"
     },
     {
-        "merged": "com.example.gaechuck.app-debug-70:/anim_slide_out_bottom.xml.flat",
-        "source": "com.example.gaechuck.app-main-72:/anim/slide_out_bottom.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_bs_item_2_sub.jpeg.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/bs_item_2_sub.jpeg"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_activity_notice_univ.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/activity_notice_univ.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_rounded_border.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/rounded_border.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_fragment_notice_univ_detail.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/fragment_notice_univ_detail.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/mipmap-anydpi-v26/ic_launcher_round.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/drawable_ic_launcher_foreground.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/drawable/ic_launcher_foreground.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_gnu_main_btn_4.png.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/gnu_main_btn_4.png"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_fragment_notice_univ.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/fragment_notice_univ.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_bs_item_1_main.jpg.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/bs_item_1_main.jpg"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/drawable_style_btn.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/drawable/style_btn.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_fragment_photo_view.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/fragment_photo_view.xml"
     },
     {
-        "merged": "com.example.gaechuck.app-debug-70:/layout_column_setting_item.xml.flat",
-        "source": "com.example.gaechuck.app-main-72:/layout/column_setting_item.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_fragment_selected_image.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/fragment_selected_image.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/drawable_divider.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/drawable/divider.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/mipmap-mdpi/ic_launcher.webp"
     },
     {
-        "merged": "com.example.gaechuck.app-debug-70:/layout_row_rent_item.xml.flat",
-        "source": "com.example.gaechuck.app-main-72:/layout/row_rent_item.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_row_lose_item.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/row_lose_item.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/drawable_style_category.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/drawable/style_category.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_fragment_rent_main.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/fragment_rent_main.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/drawable_default_background.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/drawable/default_background.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_sub5.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/sub5.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/color_tab_colors.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/color/tab_colors.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_activity_notice_univ.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/activity_notice_univ.xml"
     },
     {
-        "merged": "com.example.gaechuck.app-debug-70:/layout_row_lose_item.xml.flat",
-        "source": "com.example.gaechuck.app-main-72:/layout/row_lose_item.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_activity_notice_council_detail.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/activity_notice_council_detail.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_fragment_notice_council_container.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/fragment_notice_council_container.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_fragment_login.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/fragment_login.xml"
     },
     {
-        "merged": "com.example.gaechuck.app-debug-70:/xml_network_security_config.xml.flat",
-        "source": "com.example.gaechuck.app-main-72:/xml/network_security_config.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/anim_slide_in_left.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/anim/slide_in_left.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/drawable_rt_item_main_3.jpg.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/drawable/rt_item_main_3.jpg"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_photo_delete_btn.png.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/photo_delete_btn.png"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_activity_notice_council_detail.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/activity_notice_council_detail.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_ic_pencil.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/ic_pencil.xml"
     },
     {
-        "merged": "com.example.gaechuck.app-debug-70:/layout_fragment_rent_search.xml.flat",
-        "source": "com.example.gaechuck.app-main-72:/layout/fragment_rent_search.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_activity_notice_council_write.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/activity_notice_council_write.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_activity_cafeteria_menu.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/activity_cafeteria_menu.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/mipmap-xhdpi/ic_launcher_round.webp"
     },
     {
-        "merged": "com.example.gaechuck.app-debug-70:/layout_fragment_setting.xml.flat",
-        "source": "com.example.gaechuck.app-main-72:/layout/fragment_setting.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_activity_cafeteria_menu.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/activity_cafeteria_menu.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/mipmap-hdpi_ic_launcher_round.webp.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/mipmap-hdpi/ic_launcher_round.webp"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_activity_lose_url.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/activity_lose_url.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/font_noto_sans_kr_medium.ttf.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/font/noto_sans_kr_medium.ttf"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/mipmap-hdpi/ic_launcher_round.webp"
     },
     {
-        "merged": "com.example.gaechuck.app-debug-70:/anim_slide_in_left.xml.flat",
-        "source": "com.example.gaechuck.app-main-72:/anim/slide_in_left.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/mipmap-anydpi-v26/ic_launcher.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/mipmap-xxxhdpi/ic_launcher_round.webp"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_fragment_photo_add.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/fragment_photo_add.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_footer_info.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/footer_info.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_back_btn.png.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/back_btn.png"
     },
     {
-        "merged": "com.example.gaechuck.app-debug-70:/layout_fragment_rent_main.xml.flat",
-        "source": "com.example.gaechuck.app-main-72:/layout/fragment_rent_main.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/font_noto_sans_kr_semibold.ttf.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/font/noto_sans_kr_semibold.ttf"
     },
     {
-        "merged": "com.example.gaechuck.app-debug-70:/layout_activity_termsofuse.xml.flat",
-        "source": "com.example.gaechuck.app-main-72:/layout/activity_termsofuse.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_fragment_setting.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/fragment_setting.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_sub5.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/sub5.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_fragment_photo_add2.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/fragment_photo_add2.xml"
     },
     {
-        "merged": "com.example.gaechuck.app-debug-70:/anim_slide_in_top.xml.flat",
-        "source": "com.example.gaechuck.app-main-72:/anim/slide_in_top.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_down_btn.png.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/down_btn.png"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_fragment_rent_detail.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/fragment_rent_detail.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_left_btn.png.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/left_btn.png"
     },
     {
-        "merged": "com.example.gaechuck.app-debug-70:/layout_row_business_item.xml.flat",
-        "source": "com.example.gaechuck.app-main-72:/layout/row_business_item.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_fragment_main1.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/fragment_main1.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_sub2.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/sub2.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_gnu_main_btn_7.png.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/gnu_main_btn_7.png"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/drawable_rt_item_main_6.jpg.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/drawable/rt_item_main_6.jpg"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_activity_login.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/activity_login.xml"
     },
     {
-        "merged": "com.example.gaechuck.app-debug-70:/layout_fragment_lose_main.xml.flat",
-        "source": "com.example.gaechuck.app-main-72:/layout/fragment_lose_main.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_right_btn.png.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/right_btn.png"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_activity_termsofuse.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/activity_termsofuse.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/color_tab_colors.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/color/tab_colors.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_fragment_notice_council_detail.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/fragment_notice_council_detail.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_rt_item_main_5.jpg.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/rt_item_main_5.jpg"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/layout_fragment_menu_category.xml.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/layout/fragment_menu_category.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_fragment_rent_detail.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/fragment_rent_detail.xml"
     },
     {
-        "merged": "com.example.gaechuck.app-debug-70:/layout_activity_rent.xml.flat",
-        "source": "com.example.gaechuck.app-main-72:/layout/activity_rent.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_fragment_cafeteria_menu_item.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/fragment_cafeteria_menu_item.xml"
     },
     {
-        "merged": "com.example.gaechuck.app-debug-70:/layout_fragment_main2.xml.flat",
-        "source": "com.example.gaechuck.app-main-72:/layout/fragment_main2.xml"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_activity_rent.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/activity_rent.xml"
     },
     {
-        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-70:/drawable_ix_alarm_bell.png.flat",
-        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-72:/drawable/ix_alarm_bell.png"
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_toolbar_home_blue.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/toolbar_home_blue.xml"
+    },
+    {
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_ic_plus.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/ic_plus.xml"
+    },
+    {
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/mipmap-xxxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_bs_item_1_sub.jpg.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/bs_item_1_sub.jpg"
+    },
+    {
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/drawable_ic_camera.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/drawable/ic_camera.xml"
+    },
+    {
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_activity_rent_write.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/activity_rent_write.xml"
+    },
+    {
+        "merged": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-debug-71:/layout_fragment_business_detail.xml.flat",
+        "source": "/Users/seojiwon/.gradle/daemon/8.7/com.example.gaechuck.app-main-73:/layout/fragment_business_detail.xml"
     }
 ]

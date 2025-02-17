@@ -37,6 +37,11 @@
           <theme>@style/Theme.Gaechuck</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_notice_council_write.xml">
+        <config>
+          <theme>@style/Theme.Gaechuck</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_notice_univ.xml">
         <config>
           <theme>@style/Theme.Gaechuck</theme>
@@ -102,6 +107,11 @@
           <theme>@style/Theme.Gaechuck</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_selected_image.xml">
+        <config>
+          <theme>@style/Theme.Gaechuck</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/sub5.xml">
         <config>
           <theme>@style/Theme.Gaechuck</theme>
@@ -141,8 +151,13 @@
       <change beforePath="$PROJECT_DIR$/.gradle/8.7/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.7/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gaechuck/data/response/GetFoodDataResponse.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gaechuck/data/response/GetFoodDataResponse.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gaechuck/ui/menu/CafeteriaMenuActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gaechuck/ui/menu/CafeteriaMenuActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/debug/mergeDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/debug/mergeDebugResources/compile-file-map.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/debug/packageDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/debug/packageDebugResources/compile-file-map.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build/intermediates/local_only_symbol_list/debug/parseDebugLocalResources/R-def.txt" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/local_only_symbol_list/debug/parseDebugLocalResources/R-def.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build/intermediates/merged_res_blame_folder/debug/mergeDebugResources/out/single/mergeDebugResources.json" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/merged_res_blame_folder/debug/mergeDebugResources/out/single/mergeDebugResources.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gaechuck/ui/noticecouncil/NoticeCouncilActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gaechuck/ui/noticecouncil/NoticeCouncilActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_cafeteria_menu.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_cafeteria_menu.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_notice_council.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_notice_council.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -295,11 +310,11 @@
       <recent name="$PROJECT_DIR$/app/src/main/res/drawable" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/src/main/res/drawable" />
       <recent name="$PROJECT_DIR$/app/src/main/java/com/example/gaechuck/data/model/Menu" />
       <recent name="$PROJECT_DIR$/app/src/main/java/com/example/gaechuck/noticecouncil/viewmodel" />
       <recent name="$PROJECT_DIR$/app/src/main/java/com/example/gaechuck" />
       <recent name="$PROJECT_DIR$/app/src/main/java/com/example/gaechuck/noticecouncil" />
-      <recent name="$PROJECT_DIR$/app/src/main" />
     </key>
     <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
       <recent name="com.example.gaechuck.ui.noticeuniv" />
