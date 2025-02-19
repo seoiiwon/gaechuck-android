@@ -18,6 +18,7 @@ class BusinessActivity : AppCompatActivity(R.layout.activity_business) {
     private lateinit var titleTextView: TextView
     private lateinit var backButton: ImageView
     private lateinit var homeButton: ImageView
+    private lateinit var etcButton: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +28,7 @@ class BusinessActivity : AppCompatActivity(R.layout.activity_business) {
         titleTextView = toolbar.findViewById(R.id.textView_title)
         backButton = toolbar.findViewById(R.id.button_back)
         homeButton = toolbar.findViewById(R.id.button_home)
+        etcButton = toolbar.findViewById(R.id.button_etc)
 
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
@@ -55,9 +57,11 @@ class BusinessActivity : AppCompatActivity(R.layout.activity_business) {
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
-    fun updateToolbar(title: String, showBackButton: Boolean, showHomeButton: Boolean) {
+    fun updateToolbar(title: String, showBackButton: Boolean, showHomeButton: Boolean, showEtcButton:Boolean) {
         titleTextView.text = title
         backButton.visibility = if (showBackButton) View.VISIBLE else View.GONE
         homeButton.visibility = if (showHomeButton) View.VISIBLE else View.GONE
+        etcButton.visibility = if (showEtcButton) View.VISIBLE else View.GONE
+
     }
 }

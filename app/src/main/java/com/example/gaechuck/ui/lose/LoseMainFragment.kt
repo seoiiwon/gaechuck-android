@@ -78,20 +78,20 @@ class LoseMainFragment : Fragment(R.layout.fragment_lose_main), LoseAdapter.OnLo
 
         // ViewModel 데이터 관찰
         viewModel.loseList.observe(viewLifecycleOwner) { loseList ->
-            if (loseList.isEmpty()) {
-                Log.d("LoseMainFragment", "loseList is empty.")
-            } else {
-                Log.d("LoseMainFragment", "loseList size: ${loseList.size}")
-                // 어댑터 생성 및 설정
-                loseAdapter = LoseAdapter(
-                    data = loseList,
-                    itemsPerPage = 9, // 페이지당 9개 아이템
-                    listener = this // 클릭 리스너
-                )
+            if (loseList.isNotEmpty()) {
+                loseAdapter = LoseAdapter(loseList, 9, this)
                 viewPager.adapter = loseAdapter
 
-                // 페이지 표시를 위한 DotsIndicator 설정
+                // 총 페이지 수 계산
+                val totalPages = (loseList.size + 8) / 9 // 9개씩 나누어 올림
+
+                // WormDotsIndicator 설정
                 indicator.attachTo(viewPager)
+
+                // WormDotsIndicator 설정
+                Log.d("LoseMainFragment", "loseList size: ${loseList.size}")
+            } else {
+                Log.d("LoseMainFragment", "loseList is empty.")
             }
         }
 

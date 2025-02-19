@@ -45,7 +45,8 @@ class BusinessMainFragment : Fragment(R.layout.fragment_business_main), Business
         (activity as? BusinessActivity)?.updateToolbar(
             title = getString(R.string.bar_business), // 제목 설정
             showBackButton = true, // 뒤로가기 버튼 표시
-            showHomeButton = false // 홈 버튼 숨김
+            showHomeButton = false, // 홈 버튼 숨김
+            showEtcButton = false,
         )
 
         // 로그인 상태 확인

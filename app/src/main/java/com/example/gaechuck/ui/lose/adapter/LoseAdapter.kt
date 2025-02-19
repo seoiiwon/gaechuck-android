@@ -1,5 +1,6 @@
 package com.example.gaechuck.ui.lose.adapter
 
+import android.util.Log
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,7 +27,9 @@ class LoseAdapter(private val data: List<LoseList>, // LoseItem 전체 데이터
 
     // Adapter에 필요한 페이지 수 반환
     override fun getItemCount(): Int {
-        return (data.size + itemsPerPage - 1) / itemsPerPage // 페이지 수 계산
+        val pageCount = (data.size + itemsPerPage - 1) / itemsPerPage
+        Log.d("LoseAdapter", "Total pages: $pageCount")
+        return pageCount
     }
 
     // ViewHolder 생성

@@ -3,12 +3,12 @@ package com.example.gaechuck.ui.business
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.gaechuck.R
 import com.example.gaechuck.data.response.GetBusinessDetailResponse
 import com.example.gaechuck.databinding.FragmentBusinessDetailBinding
 import com.example.gaechuck.repository.BusinessRepository
-import com.example.gaechuck.ui.business.adapter.BusinessAdapter
 import com.example.gaechuck.ui.business.adapter.ImagePagerAdapter
 import com.example.gaechuck.ui.business.viewmodel.BusinessViewModel
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
@@ -16,23 +16,22 @@ import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 class BusinessDetailFragment : Fragment(R.layout.fragment_business_detail) {
     private lateinit var businessViewModel: BusinessViewModel
     private lateinit var binding: FragmentBusinessDetailBinding
-    private lateinit var businessAdapter: BusinessAdapter
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentBusinessDetailBinding.bind(view)
 
-        (activity as? BusinessActivity)?.updateToolbar(
-            title = getString(R.string.bar_business), // 제목 설정
-            showBackButton = true, // 뒤로가기 버튼 표시
-            showHomeButton = true // 홈 버튼 숨김
-        )
-
         //
         val repository = BusinessRepository()
         val viewModelFactory = BusinessViewModel.BusinessViewModelFactory(repository)
         businessViewModel = ViewModelProvider(this, viewModelFactory).get(BusinessViewModel::class.java)
+
+        // 로그인 상태 확인
+        businessViewModel.checkLoginStatus()
+        businessViewModel.isLoggedIn.observe(viewLifecycleOwner, Observer { isLoggedIn ->
+            updateToolbar(isLoggedIn)
+        })
+
 
         // SafeArgs로 데이터 가져오기
         val businessItem = arguments?.let {
@@ -49,6 +48,18 @@ class BusinessDetailFragment : Fragment(R.layout.fragment_business_detail) {
             }
         }
     }
+
+    // BusinessActivity의 Toolbar 업데이트
+    private fun updateToolbar(isLoggedIn: Boolean) {
+        (activity as? BusinessActivity)?.updateToolbar(
+            title = getString(R.string.bar_lose),
+            showBackButton = true,
+            showHomeButton = !isLoggedIn,
+            showEtcButton = isLoggedIn,
+        )
+    }
+
+
     private fun setupUI(item: GetBusinessDetailResponse) {
         binding.businessName.text = item.coalitionName
         binding.businessCategory.text = item.category

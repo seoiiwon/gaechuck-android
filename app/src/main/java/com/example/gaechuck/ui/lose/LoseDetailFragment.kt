@@ -19,7 +19,7 @@ import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 class LoseDetailFragment : Fragment(R.layout.fragment_lose_detail) {
     private lateinit var binding: FragmentLoseDetailBinding
     private lateinit var viewModel: LoseViewModel
-    private lateinit var LoseButton : Button
+    private lateinit var loseButton : Button
 
     override fun onResume() {
         super.onResume()
@@ -29,7 +29,7 @@ class LoseDetailFragment : Fragment(R.layout.fragment_lose_detail) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentLoseDetailBinding.bind(view)
-        LoseButton = view.findViewById(R.id.lose_button)
+        loseButton = view.findViewById(R.id.lose_button)
 
         // ViewModel 초기화
         val repository = LoseRepository()
@@ -60,20 +60,20 @@ class LoseDetailFragment : Fragment(R.layout.fragment_lose_detail) {
         }
 
         // 버튼 클릭 시 오픈채팅으로 이동
-        LoseButton.setOnClickListener{
+        loseButton.setOnClickListener{
             var intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.naver.com"))
             startActivity(intent)
         }
 
 
     }
-    // RentActivity의 Toolbar 업데이트
+    // LoseActivity의 Toolbar 업데이트
     private fun updateToolbar(isLoggedIn: Boolean) {
         (activity as? LoseActivity)?.updateToolbar(
             title = getString(R.string.bar_lose),
             showBackButton = true,
             showHomeButton = !isLoggedIn,
-            showEtcButton = isLoggedIn
+            showEtcButton = isLoggedIn,
         )
     }
 
