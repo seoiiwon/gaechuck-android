@@ -19,15 +19,19 @@ class NoticeUnivRepository {
             if (result.isSuccess && result.result != null) {
                 Log.d("API_SUCCESS", "Response: ${result.result}")
 
+                // ✅ map을 통해 List<NoticeUnivModel>로 변환
                 result.result.map {
                     NoticeUnivModel(
                         id = it.id,
                         title = it.title,
-                        body = it.body ?: "내용 없음",
-                        representationImages = it.representationImages ?: "대표 이미지 없음",
-                        time = it.time ?: "날짜 미정"
+                        body = it.body,
+                        representationImages = it.representationImages,
+                        time = it.time,
+                        departmentName = it.departmentName, // ✅ departmentName 추가
+                        bbsId = it.bbsId                    // ✅ bbsId 추가
                     )
                 }
+
             } else {
                 Log.e("API_ERROR", "Error Message: ${result.message}")
                 throw Exception(result.message ?: "Unknown error")
@@ -44,7 +48,9 @@ class NoticeUnivRepository {
             title = this.title,
             body = this.body,
             representationImages = this.representationImages,
-            time = this.time
+            time = this.time,
+            departmentName = this.departmentName,
+            bbsId = this.bbsId
         )
     }
 

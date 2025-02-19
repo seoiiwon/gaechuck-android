@@ -6,5 +6,6 @@ data class GetAllNoticeDataResponse(
         val title: String,
         val body: String,
         val representationImages: String,
-        val time: String
+        val time: String,
+        val departmentName: String?
 )

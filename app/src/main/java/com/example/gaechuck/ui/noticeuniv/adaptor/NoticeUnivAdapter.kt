@@ -26,8 +26,8 @@ class NoticeUnivAdapter(private val noticeUnivModels: MutableList<NoticeUnivMode
     override fun onBindViewHolder(holder: NoticeViewHolder, position: Int) {
         val notice = noticeUnivModels[position]
         holder.title.text = notice.title
-        holder.body.text = notice.body ?: "내용 없음"
-        holder.body.text = notice.time ?: "날짜 없음"
+        holder.body.text = notice.departmentName ?: "부서 없음"
+        holder.category.text = notice.bbsId ?: "카테고리 없음"
     }
 
     override fun getItemCount(): Int = noticeUnivModels.size
