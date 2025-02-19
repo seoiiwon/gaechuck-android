@@ -198,7 +198,6 @@ id noticeBody
 id noticeCategory
 id noticeDate
 id noticeDateTextView
-id noticeDepartment
 id noticeDescription
 id noticeImage
 id noticeRecyclerView

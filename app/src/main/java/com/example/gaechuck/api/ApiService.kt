@@ -83,8 +83,11 @@ interface ApiService {
 
     // 학교 공지 리스트
     @GET("/api/v1/notifications/allNotification")
-    fun getAllNoticeData()
-            : Call<BaseResponse<GetAllNoticeDataResponse>>
+    suspend fun getAllNoticeData(
+        @Query("page") page: Int,
+        @Query("size") pageSize: Int,
+        @Query("bbsId") bbsId: String? = null
+    ): BaseResponse<List<GetAllNoticeDataResponse>>
 
     // Food
     // 식당 메뉴 보기
