@@ -148,14 +148,7 @@ class BusinessWriteActivity : AppCompatActivity(R.layout.activity_business_write
 
             // 삭제 버튼 클릭 시 리스트에서 제거 후 UI 업데이트
             deleteBtn.setOnClickListener {
-//                if (index < (viewModel.selectedImages.value?.size ?: 0)) {
-//                    Log.d("updateUI", "이미지 삭제 요청: index=$index")
-//                    viewModel.removeImages(index)
-//                } else {
-//                    Log.e("updateUI", "삭제할 이미지가 존재하지 않습니다: index=$index")
-//                }
                 viewModel.removeImages(index)  // ViewModel에서 이미지 제거
-
             }
 
             // 컨테이너에 추가

@@ -45,7 +45,7 @@ class BusinessRepository {
         }
     }
 
-    // TODO : 제휴 글쓰기 new (POST) -
+    // 제휴 글쓰기
     suspend fun postBusinessCreate(
         token: String,
         coalitionName : String,
