@@ -7,10 +7,8 @@ import android.util.Log
 import android.widget.GridLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
-import com.example.gaechuck.api.AuthManager
 import com.example.gaechuck.ui.bus.BusRouteActivity
 import com.example.gaechuck.ui.business.BusinessActivity
 import com.example.gaechuck.ui.lose.LoseActivity
@@ -20,6 +18,7 @@ import com.example.gaechuck.ui.noticecouncil.NoticeCouncilActivity
 import com.example.gaechuck.ui.noticeuniv.NoticeUnivActivity
 import com.example.gaechuck.ui.rent.RentActivity
 import com.example.gaechuck.ui.setting.SettingActivity
+import com.example.gaechuck.ui.util.DialogFragment
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 
 class MainActivity : AppCompatActivity() {
@@ -46,15 +45,14 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        val dialogFragment = DialogFragment(this)
+
         // 알림 버튼
         val alarmButton = findViewById<ImageView>(R.id.alarm_icon)
         alarmButton.setOnClickListener{
-            if (AuthManager.getToken().isNullOrEmpty()) {
-                Toast.makeText(this, "이미 로그이웃 상태입니다", Toast.LENGTH_SHORT).show()
-            } else {
-                AuthManager.clearToken()
-                Toast.makeText(this, "로그아웃 성공!", Toast.LENGTH_SHORT).show() }
+            dialogFragment.show()
         }
+
     }
 
     private fun setupGridClickListener(gridLayout: GridLayout, position: Int) {
