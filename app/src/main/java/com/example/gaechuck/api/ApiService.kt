@@ -42,7 +42,7 @@ interface ApiService {
 
     // 분실물 글 작성하기
     @Multipart
-    @POST("/api/v1/coalition/write")
+    @POST("/api/v1/lostitems/write")
     suspend fun postLoseCreate(
         @Header("Authorization") Authorization: String,
         @Part("data") data: RequestBody, // "data" 파트 추가

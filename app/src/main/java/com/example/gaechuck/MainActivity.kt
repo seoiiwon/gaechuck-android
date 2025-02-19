@@ -1,5 +1,6 @@
 package com.example.gaechuck
 
+//import com.example.gaechuck.ui.bus.viewmodel.BusRoute
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -9,9 +10,8 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
-import com.example.gaechuck.ui.bus.BusRouteActivity
 import com.example.gaechuck.api.AuthManager
-//import com.example.gaechuck.ui.bus.viewmodel.BusRoute
+import com.example.gaechuck.ui.bus.BusRouteActivity
 import com.example.gaechuck.ui.business.BusinessActivity
 import com.example.gaechuck.ui.lose.LoseActivity
 import com.example.gaechuck.ui.main.adaptor.ViewPagerAdapter
@@ -61,11 +61,11 @@ class MainActivity : AppCompatActivity() {
         val activityClasses = listOf(
             CafeteriaMenuActivity::class.java,
             RentActivity::class.java,
-            NoticeCouncilActivity::class.java,
+            LoseActivity::class.java,
             BusinessActivity::class.java,
+            NoticeCouncilActivity::class.java,
             NoticeUnivActivity::class.java,
             BusRouteActivity::class.java,
-
         )
 
 

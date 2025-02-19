@@ -1,5 +1,7 @@
 package com.example.gaechuck.ui.lose.viewmodel
 
+import android.content.Context
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -7,9 +9,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.gaechuck.api.AuthManager
+import com.example.gaechuck.data.response.BaseResponse
 import com.example.gaechuck.data.response.GetLoseDetailResponse
 import com.example.gaechuck.data.response.LoseList
 import com.example.gaechuck.repository.LoseRepository
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class LoseViewModel(private val repository: LoseRepository):ViewModel() {
@@ -29,10 +35,17 @@ class LoseViewModel(private val repository: LoseRepository):ViewModel() {
     }
     val isLoggedIn: LiveData<Boolean> get() = _isLoggedIn
 
-    fun checkLoginStatus() {
-        _isLoggedIn.value != AuthManager.getToken().isNullOrEmpty()
-    }
+    // 작성 이미지 상태관리
+    private val _selectedImages = MutableStateFlow<List<Uri>>(emptyList())
+    val selectedImages: StateFlow<List<Uri>> = _selectedImages.asStateFlow()
 
+    private val _postResult = MutableLiveData<Result<BaseResponse<String>>>()
+    val postResult : LiveData<Result<BaseResponse<String>>>
+        get() = _postResult
+
+    fun checkLoginStatus() {
+        _isLoggedIn.value = !AuthManager.getToken().isNullOrEmpty()
+    }
 
     // 초기화
     init {
@@ -61,6 +74,36 @@ class LoseViewModel(private val repository: LoseRepository):ViewModel() {
             } catch (e: Exception) {
                 // 에러 처리
                 Log.e("LoseViewModel", "에러 발생: ${e.message}")
+            }
+        }
+    }
+
+    // 이미지 상태관리하기
+    fun addImages(uris : List<Uri>) {
+        _selectedImages.value += uris
+        Log.d("LoseViewModel", "Images added to ViewModel: ${_selectedImages.value}")
+    }
+
+    fun removeImages(index : Int) {
+        _selectedImages.value = _selectedImages.value.toMutableList().apply {
+            removeAt(index)
+        }
+        Log.d("LoseViewModel", "Image removed from ViewModel: ${_selectedImages.value}")
+    }
+
+    // data 보내기
+    fun sendData(token: String, title: String, lostDate: String, description: String, lostLocation: String, file : List<Uri>,context: Context) {
+        Log.d("LoseViewModel", "sendData 호출됨 - name: $title, lostDate: $lostDate, description: $description, lostLocation:$lostLocation, file : $file")
+
+        viewModelScope.launch {
+            val result =
+                repository.postLoseCreate(token, title, lostDate, description, lostLocation, file, context.contentResolver)
+            _postResult.value = result
+
+            result.onSuccess {
+                Log.d("LoseViewModel", "데이터 전송 성공: ${it}")
+            }.onFailure { error ->
+                Log.e("LoseViewModel", "데이터 전송 실패: ${error.message}")
             }
         }
     }
