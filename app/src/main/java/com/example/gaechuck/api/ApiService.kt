@@ -14,6 +14,7 @@ import com.example.gaechuck.data.response.GetRentDetailResponse
 import com.example.gaechuck.data.response.GetUnivNoticeDataResponse
 import com.example.gaechuck.data.response.GetUnivNoticeDetailResponse
 import com.example.gaechuck.data.response.LoginResponse
+import com.example.gaechuck.data.response.PostRentCreateResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -39,6 +40,15 @@ interface ApiService {
     suspend fun getLoseDetailData(@Query("lostItemId") lostItemId : Int )
             : Response<BaseResponse<GetLoseDetailResponse>>
 
+    // 분실물 글 작성하기
+    @Multipart
+    @POST("/api/v1/coalition/write")
+    suspend fun postLoseCreate(
+        @Header("Authorization") Authorization: String,
+        @Part("data") data: RequestBody, // "data" 파트 추가
+        @Part file: List<MultipartBody.Part> // "file" 파트 추가
+    ) : Response<BaseResponse<String>>
+
     // Rent
     // 대여 리스트 가져오기
     @GET("/api/v1/rent/list")
@@ -49,6 +59,15 @@ interface ApiService {
     @GET("/api/v1/rent/detailItem")
     suspend fun getRentDetailData(@Query("rentItemId") rentItemId : Int)
             : Response<BaseResponse<GetRentDetailResponse>>
+
+    // 대여 글 작성하기
+    @Multipart
+    @POST("/api/v1/rent/createItem")
+    suspend fun postRentCreate(
+        @Header("Authorization") Authorization: String,
+        @Part("data") data: RequestBody, // "data" 파트 추가
+        @Part file: List<MultipartBody.Part> // "file" 파트 추가
+    ) : Response<BaseResponse<PostRentCreateResponse>>
 
     // Business
     // 제휴 리스트 가져오기
