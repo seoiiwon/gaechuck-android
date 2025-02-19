@@ -91,6 +91,7 @@
 <!--    setting-->
     <string name="setting_title_1">알림 받기</string>
     <string name="setting_title_2">이용약관</string>
+    <string name="setting_title_3">로그아웃</string>
     <string name="setting_info_1">총학생회 공지에 대한 알림 설정에 동의합니다.</string>
     <string name="setting_info_2">Gaechuck에 대한 이용약관입니다.</string>
     <string name="setting_terms_title">개척 이용약관</string>

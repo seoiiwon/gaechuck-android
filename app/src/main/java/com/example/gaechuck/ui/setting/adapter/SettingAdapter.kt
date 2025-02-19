@@ -6,10 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.example.gaechuck.MainActivity
 import com.example.gaechuck.R
+import com.example.gaechuck.api.AuthManager
 import com.example.gaechuck.data.models.SettingItem
 import com.example.gaechuck.ui.termsofuse.TermsOfUseActivity
 
@@ -32,6 +35,15 @@ class SettingAdapter(private val items: List<SettingItem>) :
                 val intent = Intent(holder.itemView.context, TermsOfUseActivity::class.java)
                 holder.itemView.context.startActivity(intent)
             }
+            if(position == 2) {
+                AuthManager.clearToken()
+                Toast.makeText(holder.itemView.context, "로그아웃 성공!", Toast.LENGTH_SHORT).show()
+
+                // MainActivity로 이동
+                val intent = Intent(holder.itemView.context, MainActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK // 기존 액티비티 스택 제거
+                holder.itemView.context.startActivity(intent)
+            }
         }
 
         // 기본 설정
@@ -48,7 +60,6 @@ class SettingAdapter(private val items: List<SettingItem>) :
                     holder.notificationSwitch.trackTintList = ColorStateList.valueOf(ContextCompat.getColor(holder.itemView.context, R.color.gnu_blue))
                 } else {
                     holder.notificationSwitch.trackTintList = ColorStateList.valueOf(ContextCompat.getColor(holder.itemView.context, R.color.grey))
-
                 }
             }
         } else {

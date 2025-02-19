@@ -18,6 +18,8 @@ class RentActivity : AppCompatActivity(R.layout.activity_rent) {
     private lateinit var titleTextView: TextView
     private lateinit var backButton: ImageView
     private lateinit var homeButton: ImageView
+    private lateinit var etcButton : ImageView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +29,7 @@ class RentActivity : AppCompatActivity(R.layout.activity_rent) {
         titleTextView = toolbar.findViewById(R.id.textView_title)
         backButton = toolbar.findViewById(R.id.button_back)
         homeButton = toolbar.findViewById(R.id.button_home)
+        etcButton = toolbar.findViewById(R.id.button_etc)
 
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
@@ -57,9 +60,10 @@ class RentActivity : AppCompatActivity(R.layout.activity_rent) {
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
-    fun updateToolbar(title: String, showBackButton: Boolean, showHomeButton: Boolean) {
+    fun updateToolbar(title: String, showBackButton: Boolean, showHomeButton: Boolean, showEtcButton:Boolean) {
         titleTextView.text = title
         backButton.visibility = if (showBackButton) View.VISIBLE else View.GONE
         homeButton.visibility = if (showHomeButton) View.VISIBLE else View.GONE
+        etcButton.visibility = if (showEtcButton) View.VISIBLE else View.GONE
     }
 }

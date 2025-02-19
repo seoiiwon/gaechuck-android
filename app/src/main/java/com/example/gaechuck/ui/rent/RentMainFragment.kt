@@ -73,7 +73,8 @@ class RentMainFragment : Fragment(R.layout.fragment_rent_main),RentAdapter.OnRen
         (activity as? RentActivity)?.updateToolbar(
             title = getString(R.string.bar_rent), // 제목 설정
             showBackButton = true, // 뒤로가기 버튼 표시
-            showHomeButton = false // 홈 버튼 표시
+            showHomeButton = false, // 홈 버튼 표시
+            showEtcButton = false,
         )
 
         // RecyclerView 설정

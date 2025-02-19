@@ -1,6 +1,9 @@
 package com.example.gaechuck.api
 
+import com.example.gaechuck.data.request.BusinessDeleteRequest
 import com.example.gaechuck.data.request.LoginRequest
+import com.example.gaechuck.data.request.LoseDeleteRequest
+import com.example.gaechuck.data.request.RentDeleteRequest
 import com.example.gaechuck.data.response.BaseListResponse
 import com.example.gaechuck.data.response.BaseResponse
 import com.example.gaechuck.data.response.GetAllNoticeDataResponse
@@ -49,6 +52,14 @@ interface ApiService {
         @Part file: List<MultipartBody.Part> // "file" 파트 추가
     ) : Response<BaseResponse<String>>
 
+    // 분실물 글 삭제하기
+    @POST("/api/v1/lostitems/delete")
+    suspend fun postLoseDelete(
+        @Header("Authorization") Authorization: String,
+        @Body request : LoseDeleteRequest
+    ) : Response<BaseResponse<String>>
+
+
     // Rent
     // 대여 리스트 가져오기
     @GET("/api/v1/rent/list")
@@ -69,6 +80,13 @@ interface ApiService {
         @Part file: List<MultipartBody.Part> // "file" 파트 추가
     ) : Response<BaseResponse<PostRentCreateResponse>>
 
+    // 대여 글 삭제하기
+    @POST("/api/v1/rent/deleteItem")
+    suspend fun postRentDelete(
+        @Header("Authorization") Authorization: String,
+        @Body request : RentDeleteRequest
+    ) : Response<BaseResponse<String>>
+
     // Business
     // 제휴 리스트 가져오기
     @GET("/api/v1/coalition/all")
@@ -87,6 +105,13 @@ interface ApiService {
         @Header("Authorization") Authorization: String,
         @Part("data") data: RequestBody, // "data" 파트 추가
         @Part file: List<MultipartBody.Part> // "file" 파트 추가
+    ) : Response<BaseResponse<String>>
+
+    // 제휴 글 삭제하기
+    @POST("/api/v1/coalition/delete")
+    suspend fun postBusinessDelete(
+        @Header("Authorization") Authorization: String,
+        @Body request : BusinessDeleteRequest
     ) : Response<BaseResponse<String>>
 
     // Notice
