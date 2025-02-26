@@ -91,4 +91,8 @@ dependencies {
     implementation ("androidx.core:core-splashscreen:1.0.0")
 
     implementation("com.tbuonomo:dotsindicator:5.1.0")
+
+    // viewModel
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+
 }

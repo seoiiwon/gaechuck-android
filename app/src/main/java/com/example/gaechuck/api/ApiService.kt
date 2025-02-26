@@ -92,8 +92,10 @@ interface ApiService {
     // Food
     // 식당 메뉴 보기
     @GET("/api/v1/menus/weeklyMenu")
-    fun getFoodData(@Query("cafeteriaSeq") seq : Int, @Query("startDate") date : String)
-            : Call<BaseListResponse<GetFoodDataResponse>>
+    fun getFoodData(
+        @Query("cafeteriaSeq") seq : Int,
+        @Query("startDate") date : String
+    ): Call<BaseListResponse<GetFoodDataResponse>>
 
     // Admin
     @POST("/api/v1/master/sign-in")

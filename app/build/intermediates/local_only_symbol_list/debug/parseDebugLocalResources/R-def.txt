@@ -113,6 +113,13 @@ id business_images_viewpager
 id business_info
 id business_name
 id business_view
+id buttonFriday
+id buttonMonday
+id buttonSaturday
+id buttonSunday
+id buttonThursday
+id buttonTuesday
+id buttonWednesday
 id button_back
 id button_etc
 id button_home
@@ -203,6 +210,7 @@ id noticeImage
 id noticeRecyclerView
 id noticeTitle
 id notificationSwitch
+id oneWeekPeriod
 id option_btn
 id photo_add_btn
 id photo_add_btn2
