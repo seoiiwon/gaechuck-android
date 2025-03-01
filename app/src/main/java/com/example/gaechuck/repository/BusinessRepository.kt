@@ -18,9 +18,11 @@ class BusinessRepository {
 
 
     // 제휴 리스트 가져오기
-    suspend fun getBusinessData() : GetBusinessDataResponse? {
+    suspend fun getBusinessData(page: Int, category: String? = null) : GetBusinessDataResponse? {
         return try {
-            val response = apiService.getBusinessData()
+            val categoryToUse = category ?: ""
+            Log.d("BusinessViewModel", "API call with category: $categoryToUse, page: $page")  // API 호출 시 category와 page 로그 찍기
+            val response = apiService.getBusinessData(page, 9, categoryToUse)
             if(response.isSuccessful && response.body()?.isSuccess == true) {
                 response.body()?.result
             } else {

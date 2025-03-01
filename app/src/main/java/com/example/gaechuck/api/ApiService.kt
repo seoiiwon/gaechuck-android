@@ -90,7 +90,11 @@ interface ApiService {
     // Business
     // 제휴 리스트 가져오기
     @GET("/api/v1/coalition/all")
-    suspend fun getBusinessData()
+    suspend fun getBusinessData(
+        @Query("page") page : Int,
+        @Query("size") size : Int = 9,
+        @Query("category") category : String ?= null,
+    )
             :Response<BaseResponse<GetBusinessDataResponse>>
 
     // 제휴 디테일 정보 가져오기

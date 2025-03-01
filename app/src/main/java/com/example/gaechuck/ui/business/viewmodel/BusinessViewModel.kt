@@ -21,8 +21,8 @@ import kotlinx.coroutines.launch
 class BusinessViewModel(private val repository: BusinessRepository) : ViewModel(){
 
     // 제휴 물품 리스트
-    private val _businessList = MutableLiveData<List<BusinessList>>()
-    val businessList : LiveData<List<BusinessList>>
+    private val _businessList = MutableLiveData<MutableList<BusinessList>>()
+    val businessList : LiveData<MutableList<BusinessList>>
         get() = _businessList
 
     // 제휴 물품 상세
@@ -49,17 +49,24 @@ class BusinessViewModel(private val repository: BusinessRepository) : ViewModel(
         _isLoggedIn.value = !AuthManager.getToken().isNullOrEmpty()
     }
 
-
-    // 초기화
     init {
+        _businessList.value = mutableListOf()
+    }
+
+    // 값 불러오기
+    fun loadBusinessData(page: Int, category: String? = null) {
         viewModelScope.launch {
             try {
-                val response = repository.getBusinessData()
+                val response = repository.getBusinessData(page, category ?: "")
                 response?.let {
-                    _businessList.value = it.content
+                    val currentList = _businessList.value ?: mutableListOf()
+                    if (page == 0) {
+                        currentList.clear() // 첫 페이지인 경우 기존 데이터 초기화
+                    }
+                    currentList.addAll(it.content)
+                    _businessList.postValue(currentList)
                 }
-            }catch (e:Exception) {
-                // 에러 처리
+            } catch (e: Exception) {
                 Log.e("BusinessViewModel", "에러 발생: ${e.message}")
             }
         }
@@ -78,6 +85,11 @@ class BusinessViewModel(private val repository: BusinessRepository) : ViewModel(
 
             }
         }
+    }
+
+    fun clearBusinessList() {
+        _businessList.value = mutableListOf()
+        _businessList.postValue(mutableListOf()) // Clear the list
     }
 
     // 이미지 상태관리하기
