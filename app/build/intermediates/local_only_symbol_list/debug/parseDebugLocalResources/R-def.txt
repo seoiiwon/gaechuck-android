@@ -256,9 +256,6 @@ id subLayout2
 id tabAcademic
 id tabAcademicLayout
 id tabAcademicUnderline
-id tabAll
-id tabAllLayout
-id tabAllUnderline
 id tabInstitution
 id tabInstitutionLayout
 id tabInstitutionUnderline
