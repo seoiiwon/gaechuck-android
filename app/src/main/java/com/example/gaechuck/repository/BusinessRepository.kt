@@ -5,6 +5,7 @@ import android.net.Uri
 import android.provider.OpenableColumns
 import android.util.Log
 import com.example.gaechuck.api.ApiConnection
+import com.example.gaechuck.data.request.BusinessDeleteRequest
 import com.example.gaechuck.data.response.BaseResponse
 import com.example.gaechuck.data.response.GetBusinessDataResponse
 import com.example.gaechuck.data.response.GetBusinessDetailResponse
@@ -110,6 +111,27 @@ class BusinessRepository {
         val requestBody = inputStream.readBytes().toRequestBody(mimeType.toMediaTypeOrNull())
 
         return MultipartBody.Part.createFormData("file", fileName ?: "image.jpg", requestBody)
+    }
+
+    // 제휴 글 삭제
+    suspend fun postBusinessDelete (
+        token: String,
+        coalitionId : Int,
+    ) : Result<BaseResponse<String>>{
+        return try {
+            val response = apiService.postBusinessDelete(
+                Authorization = "Bearer $token",
+                request = BusinessDeleteRequest(coalitionId),
+            )
+
+            if (response.isSuccessful) {
+                Result.success(response.body()!!)
+            } else {
+                Result.failure(Exception("삭제 실패: ${response.message()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
     }
 
     // 싱글톤 패턴 적용

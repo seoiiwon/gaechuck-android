@@ -5,10 +5,12 @@ import android.net.Uri
 import android.provider.OpenableColumns
 import android.util.Log
 import com.example.gaechuck.api.ApiConnection
+import com.example.gaechuck.data.request.RentDeleteRequest
 import com.example.gaechuck.data.response.BaseResponse
 import com.example.gaechuck.data.response.GetRentDataResponse
 import com.example.gaechuck.data.response.GetRentDetailResponse
 import com.example.gaechuck.data.response.PostRentCreateResponse
+import com.example.gaechuck.data.response.PostRentDeleteResponse
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -107,6 +109,27 @@ class RentRepository {
         val requestBody = inputStream.readBytes().toRequestBody(mimeType.toMediaTypeOrNull())
 
         return MultipartBody.Part.createFormData("file", fileName ?: "image.jpg", requestBody)
+    }
+
+    // 대여 글 삭제하기
+    suspend fun postRentDelete (
+        token: String,
+        rentItemId : Int,
+    ) : Result<BaseResponse<PostRentDeleteResponse>>{
+        return try {
+            val response = apiService.postRentDelete(
+                Authorization = "Bearer $token",
+                request = RentDeleteRequest(rentItemId)
+            )
+
+            if (response.isSuccessful) {
+                Result.success(response.body()!!)
+            } else {
+                Result.failure(Exception("삭제 실패: ${response.message()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
     }
 
     // 싱글톤 패턴 적용

@@ -5,6 +5,7 @@ import android.net.Uri
 import android.provider.OpenableColumns
 import android.util.Log
 import com.example.gaechuck.api.ApiConnection
+import com.example.gaechuck.data.request.LoseDeleteRequest
 import com.example.gaechuck.data.response.BaseResponse
 import com.example.gaechuck.data.response.GetLoseDataResponse
 import com.example.gaechuck.data.response.GetLoseDetailResponse
@@ -109,6 +110,27 @@ class LoseRepository {
         val requestBody = inputStream.readBytes().toRequestBody(mimeType.toMediaTypeOrNull())
 
         return MultipartBody.Part.createFormData("file", fileName ?: "image.jpg", requestBody)
+    }
+
+    // 분실물 글 삭제
+    suspend fun postLoseDelete (
+        token: String,
+        lostItemId : Int,
+    ) : Result<BaseResponse<String>>{
+        return try {
+            val response = apiService.postLoseDelete(
+                Authorization = "Bearer $token",
+                request = LoseDeleteRequest(lostItemId),
+            )
+
+            if (response.isSuccessful) {
+                Result.success(response.body()!!)
+            } else {
+                Result.failure(Exception("삭제 실패: ${response.message()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
     }
 
     // 싱글톤 패턴 적용
