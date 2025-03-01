@@ -31,6 +31,11 @@ class LoseMainFragment : Fragment(R.layout.fragment_lose_main), LoseAdapter.OnLo
 
     private var isFabOpen = false
 
+    private var totalItems = 0
+    private var currentPage = 0
+    private var isLoading = false
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -76,24 +81,34 @@ class LoseMainFragment : Fragment(R.layout.fragment_lose_main), LoseAdapter.OnLo
         viewPager = view.findViewById(R.id.view_pager)
         indicator = view.findViewById(R.id.image_indicator)
 
+        loseAdapter = LoseAdapter(emptyList(), 9, this)
+        viewPager.adapter = loseAdapter
+
         // ViewModel 데이터 관찰
         viewModel.loseList.observe(viewLifecycleOwner) { loseList ->
             if (loseList.isNotEmpty()) {
-                loseAdapter = LoseAdapter(loseList, 9, this)
-                viewPager.adapter = loseAdapter
-
-                // 총 페이지 수 계산
-                val totalPages = (loseList.size + 8) / 9 // 9개씩 나누어 올림
-
-                // WormDotsIndicator 설정
-                indicator.attachTo(viewPager)
-
-                // WormDotsIndicator 설정
-                Log.d("LoseMainFragment", "loseList size: ${loseList.size}")
+                totalItems = loseList.size
+                loseAdapter.updateData(loseList)
+                updateIndicator()
             } else {
                 Log.d("LoseMainFragment", "loseList is empty.")
             }
+            isLoading = false
         }
+
+        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                if (position == loseAdapter.itemCount - 1 && !isLoading) {
+                    isLoading = true
+                    currentPage++
+                    viewModel.loadLoseData(currentPage)
+                }
+            }
+        })
+
+        // 초기 데이터 로드
+        viewModel.loadLoseData(currentPage)
 
         // 플로팅 버튼 클릭시 에니메이션 동작 기능
         binding.optionBtn.setOnClickListener {
@@ -113,6 +128,11 @@ class LoseMainFragment : Fragment(R.layout.fragment_lose_main), LoseAdapter.OnLo
         }
 
 
+    }
+
+    private fun updateIndicator() {
+        val totalPages = (totalItems + 8) / 9 // 9개씩 나누어 올림
+        indicator.setViewPager2(viewPager)
     }
 
     private fun closeFab() {

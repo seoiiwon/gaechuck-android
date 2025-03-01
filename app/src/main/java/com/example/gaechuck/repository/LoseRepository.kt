@@ -17,9 +17,9 @@ class LoseRepository {
     private val apiService = ApiConnection.getRetrofitService
 
     // 분실물 리스트 가져오기
-    suspend fun getLoseData(): GetLoseDataResponse? {
+    suspend fun getLoseData(page : Int, size: Int = 9): GetLoseDataResponse? {
         return try {
-            val response = apiService.getLoseData()
+            val response = apiService.getLoseData(page,size)
             if (response.isSuccessful && response.body()?.isSuccess == true) {
                 response.body()?.result
             } else {

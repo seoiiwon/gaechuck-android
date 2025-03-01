@@ -20,6 +20,9 @@ import kotlinx.coroutines.launch
 
 class LoseViewModel(private val repository: LoseRepository):ViewModel() {
 
+    private var isLastPage = false
+
+
     // 분실물 리스트
     private val _loseList = MutableLiveData<List<LoseList>>()
     val loseList : LiveData<List<LoseList>>
@@ -48,16 +51,23 @@ class LoseViewModel(private val repository: LoseRepository):ViewModel() {
     }
 
     // 초기화
-    init {
+//    init {
+//
+//    }
+
+    fun loadLoseData(page: Int) {
+        if (isLastPage) return
         viewModelScope.launch {
             try {
-                val response = repository.getLoseData()
+                val response = repository.getLoseData(page)
                 response?.let {
-                    _loseList.value = it.content
+                    val currentList = _loseList.value.orEmpty()
+                    val newList = if (page == 0) it.content else currentList + it.content
+                    _loseList.value = newList
+                    isLastPage = it.last // API 응답에 마지막 페이지 여부가 포함되어 있다고 가정
                 }
             } catch (e: Exception) {
-                // 에러 처리
-                Log.e("LoseViewModel", "에러 발생: ${e.message}")
+                Log.e("LoseViewModel", "Error loading data: ${e.message}")
             }
         }
     }

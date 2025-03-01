@@ -35,7 +35,10 @@ interface ApiService {
     // Lose
     // 분실물 리스트 가져오기
     @GET("/api/v1/lostitems/all")
-    suspend fun getLoseData()
+    suspend fun getLoseData(
+        @Query("page") page : Int,
+        @Query("size") size : Int = 9,
+    )
             : Response<BaseResponse<GetLoseDataResponse>>
 
     // 분실물 디테일 정보 가져오기
