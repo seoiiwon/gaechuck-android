@@ -21,9 +21,13 @@ import kotlinx.coroutines.launch
 
 class RentViewModel(private val repository: RentRepository): ViewModel() {
 
+    private var currentPage = 0 // 현재 페이지 번호 관리
+    private var isLoading = false // 데이터를 로딩 중인지 확인
+    private var isLastPage = false // 마지막 페이지 여부
+
     // 대여 물품 리스트
-    private val _rentList = MutableLiveData<List<RentList>>()
-    val rentList : LiveData<List<RentList>>
+    private val _rentList = MutableLiveData<MutableList<RentList>>()
+    val rentList : LiveData<MutableList<RentList>>
         get() = _rentList
 
     // 대여 물품 상세
@@ -56,15 +60,35 @@ class RentViewModel(private val repository: RentRepository): ViewModel() {
 
     // 초기화
     init {
+        _rentList.value = mutableListOf()
+    }
+
+    // 초기 데이터
+    fun loadRentData() {
+        if (isLoading || isLastPage) return // 데이터 로딩 중이거나 마지막 페이지인 경우 중복 요청 방지
+        isLoading = true // 데이터 로딩 시작
+
         viewModelScope.launch {
             try {
-                val response = repository.getRentList()
+                val response = repository.getRentList(currentPage)
                 response?.let {
-                    _rentList.value = it.content
+                    val currentList = _rentList.value ?: mutableListOf()
+                    if (currentPage == 0) {
+                        currentList.clear() // 첫 페이지인 경우 기존 데이터 초기화
+                    }
+                    currentList.addAll(it.content)
+                    _rentList.postValue(currentList)
+
+                    // 페이지 번호 증가
+                    currentPage++
                 }
             } catch (e: Exception) {
-                // 에러 처리
-                Log.e("RentViewModel", "에러 발생: ${e.message}")
+                Log.e("BusinessViewModel", "에러 발생: ${e.message}")
+                if (currentPage > 0) {
+                    currentPage--
+                }
+            } finally {
+                isLoading = false // 데이터 로딩 완료
             }
         }
     }

@@ -37,6 +37,7 @@
     <string name="category_beer">주점</string>
     <string name="category_health">헬스&amp;뷰티</string>
     <string name="category_cafe">카페</string>
+    <string name="category_hair">미용실</string>
     <string name="category_etc">기타</string>
 
     <string-array name="CATEGORY">
@@ -46,6 +47,7 @@
         <item name="health">@string/category_health</item>
         <item name="cafe">@string/category_cafe</item>
         <item name="etc">@string/category_etc</item>
+        <item name="hair">@string/category_hair</item>
     </string-array>
 
 <!--    rent-->
