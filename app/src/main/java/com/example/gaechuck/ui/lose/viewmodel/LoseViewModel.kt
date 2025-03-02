@@ -46,6 +46,11 @@ class LoseViewModel(private val repository: LoseRepository):ViewModel() {
     val postResult : LiveData<Result<BaseResponse<String>>>
         get() = _postResult
 
+    // 삭제 상태 관리
+    private val _deleteResult = MutableLiveData<Result<BaseResponse<String>>>()
+    val deleteData : LiveData<Result<BaseResponse<String>>>
+        get() = _deleteResult
+
     fun checkLoginStatus() {
         _isLoggedIn.value = !AuthManager.getToken().isNullOrEmpty()
     }
@@ -117,6 +122,22 @@ class LoseViewModel(private val repository: LoseRepository):ViewModel() {
             }
         }
     }
+
+    // 삭제하기
+    fun deleteData (token : String, lostItemId: Int) {
+        viewModelScope.launch {
+            val result =
+                repository.postLoseDelete(token, lostItemId)
+            _deleteResult.value = result
+
+            result.onSuccess {
+                Log.d("LoseViewModel", "데이터 전송 성공: ${it}")
+            }.onFailure { error ->
+                Log.e("LoseViewModel", "데이터 전송 실패: ${error.message}")
+            }
+        }
+    }
+
 
     class LoseViewModelFactory(private val repository: LoseRepository) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {

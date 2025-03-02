@@ -45,7 +45,7 @@ class LoseRepository {
         }
     }
 
-    // 제휴 글쓰기
+    // 분실물 글쓰기
     suspend fun postLoseCreate(
         token: String,
         title : String,
@@ -117,10 +117,15 @@ class LoseRepository {
         token: String,
         lostItemId : Int,
     ) : Result<BaseResponse<String>>{
+        Log.d("LoseRepository", token)
+        Log.d("LoseRepository", lostItemId.toString())
         return try {
-            val response = apiService.postLoseDelete(
-                Authorization = "Bearer $token",
-                request = LoseDeleteRequest(lostItemId),
+
+            val request = LoseDeleteRequest(lostItemId)
+
+            val response = ApiConnection.getRetrofitService.postLoseDelete(
+                Authorization = token,  // Authorization 헤더에 token 추가
+                request = request
             )
 
             if (response.isSuccessful) {

@@ -16,10 +16,12 @@ import com.example.gaechuck.ui.lose.adapter.ImagePagerAdapter
 import com.example.gaechuck.ui.lose.viewmodel.LoseViewModel
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 
+
 class LoseDetailFragment : Fragment(R.layout.fragment_lose_detail) {
     private lateinit var binding: FragmentLoseDetailBinding
     private lateinit var viewModel: LoseViewModel
     private lateinit var loseButton : Button
+
 
     override fun onResume() {
         super.onResume()
@@ -48,6 +50,11 @@ class LoseDetailFragment : Fragment(R.layout.fragment_lose_detail) {
             LoseDetailFragmentArgs.fromBundle(it).lostItemId
         }
 
+        // Activity에 lostItemId 전달
+        if (lostItemId != null) {
+            (activity as? LoseActivity)?.setLostItemId(lostItemId)
+        }
+
         lostItemId?.let {
             viewModel.loseDetailRetrofit(it) // API 호출
         }
@@ -56,6 +63,7 @@ class LoseDetailFragment : Fragment(R.layout.fragment_lose_detail) {
         viewModel.loseDetailData.observe(viewLifecycleOwner) { loseDetail ->
             loseDetail?.let {
                 setupUI(it)
+                (activity as? LoseActivity)?.setLostItemId(it.lostItemId)
             }
         }
 
