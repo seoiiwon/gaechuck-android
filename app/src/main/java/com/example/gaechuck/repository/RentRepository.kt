@@ -10,7 +10,6 @@ import com.example.gaechuck.data.response.BaseResponse
 import com.example.gaechuck.data.response.GetRentDataResponse
 import com.example.gaechuck.data.response.GetRentDetailResponse
 import com.example.gaechuck.data.response.PostRentCreateResponse
-import com.example.gaechuck.data.response.PostRentDeleteResponse
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -115,11 +114,13 @@ class RentRepository {
     suspend fun postRentDelete (
         token: String,
         rentItemId : Int,
-    ) : Result<BaseResponse<PostRentDeleteResponse>>{
+    ) : Result<BaseResponse<String>>{
         return try {
-            val response = apiService.postRentDelete(
-                Authorization = "Bearer $token",
-                request = RentDeleteRequest(rentItemId)
+            val request = RentDeleteRequest(rentItemId)
+
+            val response = ApiConnection.getRetrofitService.postRentDelete(
+                Authorization = token,  // Authorization 헤더에 token 추가
+                request = request
             )
 
             if (response.isSuccessful) {

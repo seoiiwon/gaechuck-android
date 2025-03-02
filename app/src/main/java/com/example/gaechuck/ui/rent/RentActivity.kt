@@ -9,12 +9,16 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.gaechuck.MainActivity
 import com.example.gaechuck.R
+import com.example.gaechuck.repository.RentRepository
+import com.example.gaechuck.ui.rent.viewmodel.RentViewModel
 
 class RentActivity : AppCompatActivity(R.layout.activity_rent) {
 
@@ -24,7 +28,9 @@ class RentActivity : AppCompatActivity(R.layout.activity_rent) {
     private lateinit var backButton: ImageView
     private lateinit var homeButton: ImageView
     private lateinit var etcButton : ImageView
+    private lateinit var rentViewModel : RentViewModel
 
+    private var rentItemId: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +45,11 @@ class RentActivity : AppCompatActivity(R.layout.activity_rent) {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
+        // viewmodel 설정
+        val repository = RentRepository()
+        val viewModelFactory = RentViewModel.RentViewModelFactory(repository)
+        rentViewModel = ViewModelProvider(this, viewModelFactory).get(RentViewModel::class.java)
+
         // NavHostFragment에서 NavController 가져오기
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
@@ -46,8 +57,14 @@ class RentActivity : AppCompatActivity(R.layout.activity_rent) {
 
         // 뒤로가기 버튼 동작 설정
         backButton.setOnClickListener {
-            if (!navController.popBackStack()) {
-                finish() // BackStack에 아무 것도 없으면 Activity 종료
+            if (navController.currentDestination?.id == R.id.rentMainFragment) {
+                // MainFragment에서 뒤로가기 버튼을 눌렀을 때는 MainActivity로 이동
+                val intent = Intent(this, MainActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
+                finish() // LoseActivity 종료
+            } else if (!navController.popBackStack()) {
+                finish() // 다른 경우엔 Activity 종료
             }
         }
 
@@ -90,6 +107,7 @@ class RentActivity : AppCompatActivity(R.layout.activity_rent) {
     }
 
     private fun showDeleteConfirmationDialog() {
+        val rentItemId = getRentItemId()
         val dialogView = layoutInflater.inflate(R.layout.alert_detail_popup, null)
 
         // 커스텀 다이얼로그 생성
@@ -105,7 +123,7 @@ class RentActivity : AppCompatActivity(R.layout.activity_rent) {
 
         positiveButton.setOnClickListener {
             // 확인 버튼 클릭 시 삭제 처리
-            // deleteBusinessItem(businessItemId)
+             deleteRentItem(rentItemId)
             dialog.dismiss()
         }
 
@@ -115,6 +133,24 @@ class RentActivity : AppCompatActivity(R.layout.activity_rent) {
 
 
         dialog.show()
+    }
+
+    private fun deleteRentItem(rentItemId: Int) {
+        val token = "Bearer ${com.example.gaechuck.api.AuthManager.getToken()}"
+        rentViewModel.deleteData(token, rentItemId)
+        // 삭제 작업의 결과를 관찰
+        rentViewModel.deleteResult.observe(this) { result ->
+            result.onSuccess { response ->
+                // 삭제 성공 시 LoseMainFragment로 이동
+                Toast.makeText(this, "삭제 완료.", Toast.LENGTH_SHORT).show()
+                navController.navigate(R.id.action_rentDetailFragment_to_rentMainFragment)
+            }.onFailure { error ->
+                // 삭제 실패 시 사용자에게 알림
+                Toast.makeText(this, "삭제 실패 : ${error.message}", Toast.LENGTH_SHORT).show()
+            }
+            // 옵저버 제거 (메모리 누수 방지)
+            rentViewModel.deleteResult.removeObservers(this)
+        }
     }
 
 
@@ -127,5 +163,13 @@ class RentActivity : AppCompatActivity(R.layout.activity_rent) {
         backButton.visibility = if (showBackButton) View.VISIBLE else View.GONE
         homeButton.visibility = if (showHomeButton) View.VISIBLE else View.GONE
         etcButton.visibility = if (showEtcButton) View.VISIBLE else View.GONE
+    }
+
+    fun setRentItemId(id: Int) {
+        rentItemId = id
+    }
+
+    fun getRentItemId(): Int {
+        return rentItemId
     }
 }

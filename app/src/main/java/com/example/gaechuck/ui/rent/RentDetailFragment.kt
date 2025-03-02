@@ -43,6 +43,11 @@ class RentDetailFragment : Fragment(R.layout.fragment_rent_detail) {
             RentDetailFragmentArgs.fromBundle(it).rentItemId
         }
 
+        // Activity에 lostItemId 전달
+        if (rentItemId != null) {
+            (activity as? RentActivity)?.setRentItemId(rentItemId)
+        }
+
         rentItemId?.let {
             rentViewModel.RentDetailRetrofit(it)
         }
@@ -51,7 +56,7 @@ class RentDetailFragment : Fragment(R.layout.fragment_rent_detail) {
         rentViewModel.rentDetailData.observe(viewLifecycleOwner) {
             rentDetail -> rentDetail?.let {
                 setupUI(it)
-        }
+            }
         }
 
         // 버튼 클릭 시 오픈채팅으로 이동

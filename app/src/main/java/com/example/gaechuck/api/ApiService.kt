@@ -18,7 +18,6 @@ import com.example.gaechuck.data.response.GetUnivNoticeDataResponse
 import com.example.gaechuck.data.response.GetUnivNoticeDetailResponse
 import com.example.gaechuck.data.response.LoginResponse
 import com.example.gaechuck.data.response.PostRentCreateResponse
-import com.example.gaechuck.data.response.PostRentDeleteResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -92,7 +91,7 @@ interface ApiService {
     suspend fun postRentDelete(
         @Header("Authorization") Authorization: String,
         @Body request : RentDeleteRequest
-    ) : Response<BaseResponse<PostRentDeleteResponse>>
+    ) : Response<BaseResponse<String>>
 
     // Business
     // 제휴 리스트 가져오기

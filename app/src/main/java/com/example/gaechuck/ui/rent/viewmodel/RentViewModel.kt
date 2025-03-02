@@ -54,6 +54,11 @@ class RentViewModel(private val repository: RentRepository): ViewModel() {
     val postResult : LiveData<Result<BaseResponse<PostRentCreateResponse>>>
         get() = _postResult
 
+    // 삭제 상태관리
+    private val _deleteResult = MutableLiveData<Result<BaseResponse<String>>>()
+    val deleteResult : LiveData<Result<BaseResponse<String>>>
+        get() = _deleteResult
+
     fun checkLoginStatus() {
         _isLoggedIn.value != AuthManager.getToken().isNullOrEmpty()
     }
@@ -148,6 +153,22 @@ class RentViewModel(private val repository: RentRepository): ViewModel() {
             }
         }
     }
+
+    // 아이템 삭제하기
+    fun deleteData (token : String, rentItemId: Int) {
+        viewModelScope.launch {
+            val result =
+                repository.postRentDelete(token, rentItemId)
+            _deleteResult.value = result
+
+            result.onSuccess {
+                Log.d("RentViewModel", "데이터 전송 성공: ${it}")
+            }.onFailure { error ->
+                Log.e("RentViewModel", "데이터 전송 실패: ${error.message}")
+            }
+        }
+    }
+
 
     class RentViewModelFactory(private val repository: RentRepository) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
