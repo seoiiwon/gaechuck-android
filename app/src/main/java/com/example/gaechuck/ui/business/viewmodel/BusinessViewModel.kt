@@ -44,6 +44,10 @@ class BusinessViewModel(private val repository: BusinessRepository) : ViewModel(
     val postResult : LiveData<Result<BaseResponse<String>>>
         get() = _postResult
 
+    // 삭제 결과 상태관리
+    private val _deleteResult = MutableLiveData<Result<BaseResponse<String>>>()
+    val deleteResult : LiveData<Result<BaseResponse<String>>>
+        get() = _deleteResult
 
     fun checkLoginStatus() {
         _isLoggedIn.value = !AuthManager.getToken().isNullOrEmpty()
@@ -113,6 +117,21 @@ class BusinessViewModel(private val repository: BusinessRepository) : ViewModel(
             val result =
                 repository.postBusinessCreate(token, coalitionName, benefit, category, file, context.contentResolver )
             _postResult.value = result
+
+            result.onSuccess {
+                Log.d("BusinessViewModel", "데이터 전송 성공: ${it}")
+            }.onFailure { error ->
+                Log.e("BusinessViewModel", "데이터 전송 실패: ${error.message}")
+            }
+        }
+    }
+
+    // 아이템 삭제하기
+    fun deleteData (token : String, coalitionId: Int) {
+        viewModelScope.launch {
+            val result =
+                repository.postBusinessDelete(token, coalitionId)
+            _deleteResult.value = result
 
             result.onSuccess {
                 Log.d("BusinessViewModel", "데이터 전송 성공: ${it}")

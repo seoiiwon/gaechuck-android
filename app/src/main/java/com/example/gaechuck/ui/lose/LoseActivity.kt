@@ -177,22 +177,5 @@ class LoseActivity : AppCompatActivity(R.layout.activity_lose) {
         return lostItemId
     }
 
-    override fun onBackPressed() {
-        val currentFragment = navController.currentDestination
-
-        if (currentFragment?.id == R.id.loseMainFragment) {
-            // MainFragment에서 뒤로가기 버튼을 눌렀을 때는 MainActivity로 이동
-            val intent = Intent(this, MainActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(intent)
-            finish() // LoseActivity 종료
-        } else if (currentFragment?.id == R.id.loseDetailFragment) {
-            // DetailFragment에서 뒤로가기 버튼을 눌렀을 때는 LoseActivity 종료
-            finish() // LoseActivity 종료
-        } else {
-            super.onBackPressed() // 기본 뒤로가기 처리
-        }
-    }
-
 
 }

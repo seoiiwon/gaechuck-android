@@ -2,6 +2,7 @@ package com.example.gaechuck.ui.business
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.ContextThemeWrapper
 import android.view.Gravity
 import android.view.View
@@ -9,12 +10,16 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.gaechuck.MainActivity
 import com.example.gaechuck.R
+import com.example.gaechuck.repository.BusinessRepository
+import com.example.gaechuck.ui.business.viewmodel.BusinessViewModel
 
 class BusinessActivity : AppCompatActivity(R.layout.activity_business) {
 
@@ -24,7 +29,9 @@ class BusinessActivity : AppCompatActivity(R.layout.activity_business) {
     private lateinit var backButton: ImageView
     private lateinit var homeButton: ImageView
     private lateinit var etcButton: ImageView
+    private lateinit var businessViewModel : BusinessViewModel
 
+    private var coalitionId: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +46,11 @@ class BusinessActivity : AppCompatActivity(R.layout.activity_business) {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
+        // viewmodel 설정
+        val repository = BusinessRepository()
+        val viewModelFactory = BusinessViewModel.BusinessViewModelFactory(repository)
+        businessViewModel = ViewModelProvider(this, viewModelFactory).get(BusinessViewModel::class.java)
+
         // NavHostFragment에서 NavController 가져오기
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
@@ -46,8 +58,14 @@ class BusinessActivity : AppCompatActivity(R.layout.activity_business) {
 
         // 뒤로가기 버튼 동작 설정
         backButton.setOnClickListener {
-            if (!navController.popBackStack()) {
-                finish() // BackStack에 아무 것도 없으면 Activity 종료
+            if (navController.currentDestination?.id == R.id.businessMainFragment) {
+                // MainFragment에서 뒤로가기 버튼을 눌렀을 때는 MainActivity로 이동
+                val intent = Intent(this, MainActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
+                finish() // LoseActivity 종료
+            } else if (!navController.popBackStack()) {
+                finish() // 다른 경우엔 Activity 종료
             }
         }
 
@@ -89,6 +107,9 @@ class BusinessActivity : AppCompatActivity(R.layout.activity_business) {
     }
 
     private fun showDeleteConfirmationDialog() {
+        val coalitionId = getCoalitionItemId()
+        Log.d("BusinessActivity", "Current coalitionId: $coalitionId")
+
         val dialogView = layoutInflater.inflate(R.layout.alert_detail_popup, null)
 
         // 커스텀 다이얼로그 생성
@@ -104,7 +125,7 @@ class BusinessActivity : AppCompatActivity(R.layout.activity_business) {
 
         positiveButton.setOnClickListener {
             // 확인 버튼 클릭 시 삭제 처리
-            // deleteBusinessItem(businessItemId)
+             deleteBusinessItem(coalitionId)
             dialog.dismiss()
         }
 
@@ -112,8 +133,26 @@ class BusinessActivity : AppCompatActivity(R.layout.activity_business) {
             dialog.dismiss()
         }
 
-
+        dialog.window?.setBackgroundDrawableResource(R.drawable.custom_popup_background)
         dialog.show()
+    }
+
+    private fun deleteBusinessItem(coalitionId: Int) {
+        val token = "Bearer ${com.example.gaechuck.api.AuthManager.getToken()}"
+        businessViewModel.deleteData(token, coalitionId)
+        // 삭제 작업의 결과를 관찰
+        businessViewModel.deleteResult.observe(this) { result ->
+            result.onSuccess { response ->
+                // 삭제 성공 시 LoseMainFragment로 이동
+                Toast.makeText(this, "삭제 완료.", Toast.LENGTH_SHORT).show()
+                navController.navigate(R.id.action_businessDetailFragment_to_businessMainFragment)
+            }.onFailure { error ->
+                // 삭제 실패 시 사용자에게 알림
+                Toast.makeText(this, "삭제 실패 : ${error.message}", Toast.LENGTH_SHORT).show()
+            }
+            // 옵저버 제거 (메모리 누수 방지)
+            businessViewModel.deleteResult.removeObservers(this)
+        }
     }
 
 
@@ -126,5 +165,13 @@ class BusinessActivity : AppCompatActivity(R.layout.activity_business) {
         homeButton.visibility = if (showHomeButton) View.VISIBLE else View.GONE
         etcButton.visibility = if (showEtcButton) View.VISIBLE else View.GONE
 
+    }
+
+    fun setCoalitionItemId(id: Int) {
+        coalitionId = id
+    }
+
+    fun getCoalitionItemId(): Int {
+        return coalitionId
     }
 }

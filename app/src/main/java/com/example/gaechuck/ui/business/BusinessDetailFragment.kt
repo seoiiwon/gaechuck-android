@@ -32,11 +32,21 @@ class BusinessDetailFragment : Fragment(R.layout.fragment_business_detail) {
             updateToolbar(isLoggedIn)
         })
 
-
         // SafeArgs로 데이터 가져오기
         val businessItem = arguments?.let {
             BusinessDetailFragmentArgs.fromBundle(it).coalitionId
         }
+
+        // Arguments에서 lostItemId 가져오기
+        val coalitionId = arguments?.let {
+            BusinessDetailFragmentArgs.fromBundle(it).coalitionId
+        }
+
+        // Activity에 lostItemId 전달
+        if (coalitionId != null) {
+            (activity as? BusinessActivity)?.setCoalitionItemId(coalitionId)
+        }
+
 
         businessItem?.let {
             businessViewModel.BusinessDetailRetrofit(it)

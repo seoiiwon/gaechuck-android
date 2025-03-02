@@ -119,9 +119,11 @@ class BusinessRepository {
         coalitionId : Int,
     ) : Result<BaseResponse<String>>{
         return try {
-            val response = apiService.postBusinessDelete(
-                Authorization = "Bearer $token",
-                request = BusinessDeleteRequest(coalitionId),
+            val request = BusinessDeleteRequest(coalitionId)
+
+            val response = ApiConnection.getRetrofitService.postBusinessDelete(
+                Authorization = token,  // Authorization 헤더에 token 추가
+                request = request
             )
 
             if (response.isSuccessful) {
