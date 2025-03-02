@@ -25,6 +25,9 @@ class BusinessViewModel(private val repository: BusinessRepository) : ViewModel(
     val businessList : LiveData<MutableList<BusinessList>>
         get() = _businessList
 
+    private var lastRequestedCategory: String? = null
+    private var lastRequestedPage: Int? = null
+
     // 제휴 물품 상세
     private val _businessDetailData = MutableLiveData<GetBusinessDetailResponse>()
     val businessDetailData : MutableLiveData<GetBusinessDetailResponse>
@@ -59,6 +62,14 @@ class BusinessViewModel(private val repository: BusinessRepository) : ViewModel(
 
     // 값 불러오기
     fun loadBusinessData(page: Int, category: String? = null) {
+        if (lastRequestedCategory == category && lastRequestedPage == page) {
+            Log.d("BusinessViewModel", "중복 요청 방지: $category, 페이지: $page")
+            return
+        }
+
+        lastRequestedCategory = category
+        lastRequestedPage = page
+
         viewModelScope.launch {
             try {
                 val response = repository.getBusinessData(page, category ?: "")

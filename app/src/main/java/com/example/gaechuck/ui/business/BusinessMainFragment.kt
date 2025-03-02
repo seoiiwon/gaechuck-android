@@ -85,30 +85,18 @@ class BusinessMainFragment : Fragment(R.layout.fragment_business_main), Business
                 val firstVisibleItemPosition = linearLayoutManager.findFirstVisibleItemPosition()
 
                 if (!isLoading && (visibleItemCount + firstVisibleItemPosition) >= totalItemCount && firstVisibleItemPosition >= 0) {
-                    loadData()
+                    loadData(currentCategory ?: "")
                 }
             }
         })
 
         // 카테고리 탭 설정
-//        for (i in category.indices) {
-//            val tab = binding.selectCategoryTl.newTab().setText(category[i])
-//            tab.contentDescription = category[i] // 접근성 설정 추가
-//            binding.selectCategoryTl.addTab(tab)
-//        }
         val categoryArray = resources.getStringArray(R.array.CATEGORY)
         for (i in categoryArray.indices) {
             val tab = binding.selectCategoryTl.newTab().setText(categoryArray[i])
             tab.contentDescription = categoryArray[i]
             binding.selectCategoryTl.addTab(tab)
         }
-
-        // "전체" 카테고리로 데이터를 불러옴
-//        filterBusinessItems("전체")
-//
-//        businessViewModel.businessList.observe(viewLifecycleOwner) { list ->
-//            filterBusinessItems(binding.selectCategoryTl.getTabAt(0)?.text?.toString() ?: "전체")
-//        }
 
         // 기본적으로 첫 번째 탭 "전체"가 선택되도록 설정
         binding.selectCategoryTl.selectTab(binding.selectCategoryTl.getTabAt(0))
@@ -121,7 +109,8 @@ class BusinessMainFragment : Fragment(R.layout.fragment_business_main), Business
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 val selectedCategory = tab?.text.toString()
                 currentPage = 0
-                businessViewModel.clearBusinessList() // 기존 리스트 클리어
+                businessAdapter.updateItems(emptyList()) // UI에서만 초기화하고 ViewModel 데이터는 유지
+                businessViewModel.clearBusinessList()
 
                 if (selectedCategory == "전체") {
                     currentCategory = null
@@ -172,23 +161,6 @@ class BusinessMainFragment : Fragment(R.layout.fragment_business_main), Business
         super.onResume()
         businessViewModel.checkLoginStatus()
     }
-
-    // 비즈니스 아이템을 선택된 카테고리로 필터링하는 함수
-//    private fun filterBusinessItems(category: String) {
-//        val validCategories = resources.getStringArray(R.array.CATEGORY).toList()
-//        val filteredList = when {
-//            category == "전체" -> businessViewModel.businessList.value
-//            else -> businessViewModel.businessList.value?.filter { item ->
-//                when {
-//                    item.category == category -> true
-//                    category == "기타" && item.category !in validCategories -> true
-//                    else -> false
-//                }
-//            }
-//        }
-//        businessAdapter = BusinessAdapter(filteredList ?: mutableListOf(), this)
-//        binding.businessView.adapter = businessAdapter
-//    }
 
     // 비즈니스 아이템 클릭 시 네비게이션 처리
     override fun onBusinessItemClick(item: BusinessList) {
