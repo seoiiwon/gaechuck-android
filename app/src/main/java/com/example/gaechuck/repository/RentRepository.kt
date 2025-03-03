@@ -1,19 +1,23 @@
 package com.example.gaechuck.repository
 
 import android.content.ContentResolver
+import android.content.Context
 import android.net.Uri
-import android.provider.OpenableColumns
 import android.util.Log
 import com.example.gaechuck.api.ApiConnection
+import com.example.gaechuck.data.request.RentCreateRequest
 import com.example.gaechuck.data.request.RentDeleteRequest
 import com.example.gaechuck.data.response.BaseResponse
 import com.example.gaechuck.data.response.GetRentDataResponse
 import com.example.gaechuck.data.response.GetRentDetailResponse
 import com.example.gaechuck.data.response.PostRentCreateResponse
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import com.google.gson.Gson
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.toRequestBody
-import org.json.JSONObject
+import okhttp3.RequestBody
+import java.io.File
+import java.io.FileOutputStream
+import java.io.InputStream
 
 class RentRepository {
     private val apiService = ApiConnection.getRetrofitService
@@ -53,28 +57,18 @@ class RentRepository {
         rentItemName : String,
         rentItemCount : Int,
         file : List<Uri>,
-        contentResolver : ContentResolver
+        context: Context
     ) : Result<BaseResponse<PostRentCreateResponse>> {
         return try {
-            // ✅ "data" 파트 JSON 변환
-            val jsonData = JSONObject().apply {
-                put("rentItemName", rentItemName)
-                put("rentItemCount", rentItemCount)
-            }.toString()
+            val requestBody = createJsonRequestBody(RentCreateRequest(rentItemName, rentItemCount))
+            val imagePart = createImagePart(file.firstOrNull(), context)
 
-            val dataRequestBody = jsonData.toRequestBody("application/json".toMediaTypeOrNull())
+            Log.d("RentRepository", "데이터 전송 시작: name=$rentItemName, rentItemCount=$rentItemCount, data=$requestBody")
 
-            // ✅ 이미지 리스트 -> Multipart 변환
-            val imageParts = file.mapNotNull { uri ->
-                uriToMultipart(uri, contentResolver)
-            }
-
-            Log.d("RentRepository", "데이터 전송 시작: name=$rentItemName, rentItemCount=$rentItemCount, data=$dataRequestBody")
-
-            val response =  apiService.postRentCreate(
+            val response =  ApiConnection.getRetrofitService.postRentCreate(
                 Authorization = token,
-                data = dataRequestBody, // JSON 형식으로 보냄
-                file = imageParts
+                data = requestBody, // JSON 형식으로 보냄
+                file = imagePart
             )
 
             if (response.isSuccessful && response.body()?.isSuccess == true) {
@@ -91,24 +85,28 @@ class RentRepository {
         }
     }
 
-    private fun uriToMultipart(uri: Uri, contentResolver: ContentResolver): MultipartBody.Part? {
-        val inputStream = contentResolver.openInputStream(uri) ?: return null
+    private fun createJsonRequestBody(request: RentCreateRequest): RequestBody {
+        val json = Gson().toJson(request)
+        return RequestBody.create("application/json".toMediaType(), json)
+    }
 
-        // 파일 이름 추출
-        var fileName: String? = null
-        contentResolver.query(uri, null, null, null, null)?.use { cursor ->
-            if (cursor.moveToFirst()) {
-                val displayNameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
-                if (displayNameIndex != -1) {
-                    fileName = cursor.getString(displayNameIndex)
-                }
+    private fun createImagePart(uri: Uri?, context: Context): MultipartBody.Part? {
+        uri ?: return null
+
+        val contentResolver: ContentResolver = context.contentResolver
+        val inputStream: InputStream? = contentResolver.openInputStream(uri)
+        val file = File(context.cacheDir, "upload_image.jpg") // 임시 파일 생성
+
+        inputStream?.use { input ->
+            FileOutputStream(file).use { output ->
+                input.copyTo(output)
             }
         }
-        val mimeType = contentResolver.getType(uri) ?: "image/*"
-        val requestBody = inputStream.readBytes().toRequestBody(mimeType.toMediaTypeOrNull())
 
-        return MultipartBody.Part.createFormData("file", fileName ?: "image.jpg", requestBody)
+        val requestFile = RequestBody.create("image/*".toMediaType(), file)
+        return MultipartBody.Part.createFormData("file", file.name, requestFile)
     }
+
 
     // 대여 글 삭제하기
     suspend fun postRentDelete (

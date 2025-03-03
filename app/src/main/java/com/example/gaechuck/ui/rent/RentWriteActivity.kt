@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -15,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.gaechuck.R
+import com.example.gaechuck.api.AuthManager
 import com.example.gaechuck.databinding.ActivityRentWriteBinding
 import com.example.gaechuck.repository.RentRepository
 import com.example.gaechuck.ui.rent.viewmodel.RentViewModel
@@ -88,8 +90,10 @@ class RentWriteActivity : AppCompatActivity(R.layout.activity_rent_write) {
         viewModel.postResult.observe(this) { result ->
             result.onSuccess {
                 Log.d("RentWriteActivity", "전송 성공: ${it.message}")
+                Toast.makeText(this, "작성 완료", Toast.LENGTH_SHORT).show()
                 finishAndGoToRentActivity() // 성공하면 이동
             }.onFailure { error ->
+                Toast.makeText(this, "작성 실패", Toast.LENGTH_SHORT).show()
                 Log.e("RentWriteActivity", "전송 실패: ${error.message}")
             }
         }
@@ -103,20 +107,20 @@ class RentWriteActivity : AppCompatActivity(R.layout.activity_rent_write) {
     }
 
     private fun sendRentData() {
-        val token = "Bearer ${com.example.gaechuck.api.AuthManager.getToken()}" // 토큰 가져오기
+        val token = "Bearer ${AuthManager.getToken()}" // 🔥 토큰 가져오기
         val rentItemName = binding.fieldTitle.text.toString()
         val rentItemCount = binding.fieldCount.text.toString()
+
+        if (rentItemName.isBlank() || rentItemCount.isBlank()) {
+            Log.e("sendBusinessData", "입력값이 부족합니다.")
+            return
+        }
 
         Log.d("RentWriteActivity", "전송할 데이터: name=$rentItemName, count=$rentItemCount")
 
         val imageUris = viewModel.selectedImages.value
         if (imageUris.isEmpty()) {
             Log.e("sendRentData", "이미지가 없습니다.")
-            return
-        }
-
-        if (rentItemName.isBlank() || rentItemCount.isBlank()) {
-            Log.e("sendBusinessData", "입력값이 부족합니다.")
             return
         }
 

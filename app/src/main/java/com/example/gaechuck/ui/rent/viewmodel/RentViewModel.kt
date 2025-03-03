@@ -143,7 +143,7 @@ class RentViewModel(private val repository: RentRepository): ViewModel() {
 
         viewModelScope.launch {
             val result =
-                repository.postRentCreate(token, rentItemName,rentItemCount, file, context.contentResolver)
+                repository.postRentCreate(token, rentItemName,rentItemCount, file, context)
             _postResult.value = result
 
             result.onSuccess {
