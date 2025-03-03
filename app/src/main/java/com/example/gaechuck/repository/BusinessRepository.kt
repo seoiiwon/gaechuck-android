@@ -1,18 +1,22 @@
 package com.example.gaechuck.repository
 
 import android.content.ContentResolver
+import android.content.Context
 import android.net.Uri
-import android.provider.OpenableColumns
 import android.util.Log
 import com.example.gaechuck.api.ApiConnection
+import com.example.gaechuck.data.request.BusinessCreateRequest
 import com.example.gaechuck.data.request.BusinessDeleteRequest
 import com.example.gaechuck.data.response.BaseResponse
 import com.example.gaechuck.data.response.GetBusinessDataResponse
 import com.example.gaechuck.data.response.GetBusinessDetailResponse
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import com.google.gson.Gson
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.toRequestBody
-import org.json.JSONObject
+import okhttp3.RequestBody
+import java.io.File
+import java.io.FileOutputStream
+import java.io.InputStream
 
 class BusinessRepository {
     private val apiService = ApiConnection.getRetrofitService
@@ -54,29 +58,18 @@ class BusinessRepository {
         benefit : String,
         category : String,
         file : List<Uri>,
-        contentResolver : ContentResolver
+        context: Context
         ) : Result<BaseResponse<String>> {
         return try {
-            // ✅ "data" 파트 JSON 변환
-            val jsonData = JSONObject().apply {
-                put("coalitionName", coalitionName)
-                put("benefit", benefit)
-                put("category", category)
-            }.toString()
+            val requestBody = createJsonRequestBody(BusinessCreateRequest(coalitionName, benefit, category))
+            val imagePart = createImagePart(file.firstOrNull(), context)
 
-            val dataRequestBody = jsonData.toRequestBody("application/json".toMediaTypeOrNull())
+            Log.d("BusinessRepository", "데이터 전송 시작: name=$coalitionName, benefit=$benefit, category=$category, data=$requestBody")
 
-            // ✅ 이미지 리스트 -> Multipart 변환
-            val imageParts = file.mapNotNull { uri ->
-                uriToMultipart(uri, contentResolver)
-            }
-
-            Log.d("BusinessRepository", "데이터 전송 시작: name=$coalitionName, benefit=$benefit, category=$category, data=$dataRequestBody")
-
-            val response =  apiService.postBusinessCreate(
+            val response =  ApiConnection.getRetrofitService.postBusinessCreate(
                 Authorization = token,
-                data = dataRequestBody, // JSON 형식으로 보냄
-                file = imageParts
+                data = requestBody, // JSON 형식으로 보냄
+                file = imagePart
             )
 
             if (response.isSuccessful && response.body()?.isSuccess == true) {
@@ -93,23 +86,26 @@ class BusinessRepository {
         }
     }
 
-    private fun uriToMultipart(uri: Uri, contentResolver: ContentResolver): MultipartBody.Part? {
-        val inputStream = contentResolver.openInputStream(uri) ?: return null
+    private fun createJsonRequestBody(request: BusinessCreateRequest): RequestBody {
+        val json = Gson().toJson(request)
+        return RequestBody.create("application/json".toMediaType(), json)
+    }
 
-        // 파일 이름 추출
-        var fileName: String? = null
-        contentResolver.query(uri, null, null, null, null)?.use { cursor ->
-            if (cursor.moveToFirst()) {
-                val displayNameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
-                if (displayNameIndex != -1) {
-                    fileName = cursor.getString(displayNameIndex)
-                }
+    private fun createImagePart(uri: Uri?, context: Context): MultipartBody.Part? {
+        uri ?: return null
+
+        val contentResolver: ContentResolver = context.contentResolver
+        val inputStream: InputStream? = contentResolver.openInputStream(uri)
+        val file = File(context.cacheDir, "upload_image.jpg") // 임시 파일 생성
+
+        inputStream?.use { input ->
+            FileOutputStream(file).use { output ->
+                input.copyTo(output)
             }
         }
-        val mimeType = contentResolver.getType(uri) ?: "image/*"
-        val requestBody = inputStream.readBytes().toRequestBody(mimeType.toMediaTypeOrNull())
 
-        return MultipartBody.Part.createFormData("file", fileName ?: "image.jpg", requestBody)
+        val requestFile = RequestBody.create("image/*".toMediaType(), file)
+        return MultipartBody.Part.createFormData("file", file.name, requestFile)
     }
 
     // 제휴 글 삭제

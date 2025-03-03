@@ -114,7 +114,7 @@ interface ApiService {
     suspend fun postBusinessCreate(
         @Header("Authorization") Authorization: String,
         @Part("data") data: RequestBody, // "data" 파트 추가
-        @Part file: List<MultipartBody.Part> // "file" 파트 추가
+        @Part file: MultipartBody.Part? // "file" 파트 추가
     ) : Response<BaseResponse<String>>
 
     // 제휴 글 삭제하기

@@ -126,7 +126,7 @@ class BusinessViewModel(private val repository: BusinessRepository) : ViewModel(
 
         viewModelScope.launch {
             val result =
-                repository.postBusinessCreate(token, coalitionName, benefit, category, file, context.contentResolver )
+                repository.postBusinessCreate(token, coalitionName, benefit, category, file, context )
             _postResult.value = result
 
             result.onSuccess {

@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -15,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.gaechuck.R
+import com.example.gaechuck.api.AuthManager
 import com.example.gaechuck.databinding.ActivityBusinessWriteBinding
 import com.example.gaechuck.repository.BusinessRepository
 import com.example.gaechuck.ui.business.viewmodel.BusinessViewModel
@@ -91,8 +93,10 @@ class BusinessWriteActivity : AppCompatActivity(R.layout.activity_business_write
         viewModel.postResult.observe(this) { result ->
             result.onSuccess {
                 Log.d("BusinessWriteActivity", "전송 성공: ${it.message}")
+                Toast.makeText(this, "작성 완료", Toast.LENGTH_SHORT).show()
                 finishAndGoToBusinessActivity() // 성공하면 이동
             }.onFailure { error ->
+                Toast.makeText(this, "작성 실패", Toast.LENGTH_SHORT).show()
                 Log.e("BusinessWriteActivity", "전송 실패: ${error.message}")
             }
         }
@@ -100,7 +104,7 @@ class BusinessWriteActivity : AppCompatActivity(R.layout.activity_business_write
     }
 
     private fun sendBusinessData() {
-        val token = "Bearer ${com.example.gaechuck.api.AuthManager.getToken()}" // 토큰 가져오기
+        val token = "Bearer ${AuthManager.getToken()}" // 🔥 토큰 가져오기
         val coalitionName = binding.fieldTitle.text.toString()
         val benefit = binding.fieldInfo.text.toString()
 
@@ -108,16 +112,16 @@ class BusinessWriteActivity : AppCompatActivity(R.layout.activity_business_write
         val selectedCategoryChip = chipGroup.findViewById<View>(chipGroup.checkedChipId) as? Chip
         val category = selectedCategoryChip?.text.toString()
 
+        if (coalitionName.isBlank() || benefit.isBlank() || category.isBlank()) {
+            Toast.makeText(this, "모든 값을 입력하세요.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         Log.d("BusinessWriteActivity", "전송할 데이터: name=$coalitionName, benefit=$benefit, category=$category")
 
         val imageUris = viewModel.selectedImages.value ?: emptyList()
         if (imageUris.isEmpty()) {
             Log.e("sendBusinessData", "이미지가 없습니다.")
-            return
-        }
-
-        if (coalitionName.isBlank() || benefit.isBlank() || category.isBlank()) {
-            Log.e("sendBusinessData", "입력값이 부족합니다.")
             return
         }
 

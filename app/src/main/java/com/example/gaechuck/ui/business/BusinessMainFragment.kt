@@ -131,6 +131,7 @@ class BusinessMainFragment : Fragment(R.layout.fragment_business_main), Business
 
         // floatBtn 클릭 리스너
         binding.writeBtn.setOnClickListener{
+            // TODO : 클릭했을 때 다시 토큰 검사
             val intent = Intent(activity, BusinessWriteActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
