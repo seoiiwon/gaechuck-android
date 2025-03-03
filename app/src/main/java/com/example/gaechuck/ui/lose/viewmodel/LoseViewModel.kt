@@ -112,7 +112,7 @@ class LoseViewModel(private val repository: LoseRepository):ViewModel() {
 
         viewModelScope.launch {
             val result =
-                repository.postLoseCreate(token, title, lostDate, description, lostLocation, file, context.contentResolver)
+                repository.postLoseCreate(token, title, lostDate, description, lostLocation, file, context)
             _postResult.value = result
 
             result.onSuccess {

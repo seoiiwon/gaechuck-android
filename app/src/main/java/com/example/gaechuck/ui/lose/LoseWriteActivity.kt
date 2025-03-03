@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.gaechuck.R
+import com.example.gaechuck.api.AuthManager
 import com.example.gaechuck.databinding.ActivityLoseWriteBinding
 import com.example.gaechuck.repository.LoseRepository
 import com.example.gaechuck.ui.lose.viewmodel.LoseViewModel
@@ -89,9 +90,12 @@ class LoseWriteActivity : AppCompatActivity() {
         viewModel.postResult.observe(this) { result ->
             result.onSuccess {
                 Log.d("LoseWriteActivity", "전송 성공: ${it.message}")
+                Toast.makeText(this, "작성 완료", Toast.LENGTH_SHORT).show()
                 finishAndGoToLoseActivity() // 성공하면 이동
             }.onFailure { error ->
                 Log.e("LoseWriteActivity", "전송 실패: ${error.message}")
+                Toast.makeText(this, "작성 실패", Toast.LENGTH_SHORT).show()
+
             }
         }
 
@@ -157,11 +161,17 @@ class LoseWriteActivity : AppCompatActivity() {
     }
 
     private fun sendLoseData() {
-        val token = "Bearer ${com.example.gaechuck.api.AuthManager.getToken()}" // 토큰 가져오기
+        val token = "Bearer ${AuthManager.getToken()}" // 토큰 가져오기
         val title = binding.fieldTitle.text.toString()
         val lostDate = binding.fieldDate.text.toString()
         val description = binding.fieldInfo.text.toString()
         val lostLocation = binding.fieldLocation.text.toString()
+
+        if (title.isBlank() || lostDate.isBlank() || description.isBlank() || lostLocation.isBlank()) {
+            Log.e("sendBusinessData", "입력값이 부족합니다.")
+            Toast.makeText(this, "모든 값을 입력해주세요.", Toast.LENGTH_SHORT).show()
+            return
+        }
 
         Log.d("RentWriteActivity", "전송할 데이터: name=$title, lostDate=$lostDate,description=$description, lostLocation=$lostLocation")
 
@@ -171,14 +181,9 @@ class LoseWriteActivity : AppCompatActivity() {
             return
         }
 
-        if (title.isBlank() || lostDate.isBlank() || description.isBlank() || lostLocation.isBlank()) {
-            Log.e("sendBusinessData", "입력값이 부족합니다.")
-            Toast.makeText(this, "입력값이 부족합니다.", Toast.LENGTH_SHORT).show()
-            return
-        }
-
         sendButton.isEnabled = false // 로딩 중 비활성화
-        viewModel.sendData(token, title, lostDate, description, lostLocation,imageUris, applicationContext)    }
+        viewModel.sendData(token, title, lostDate, description, lostLocation,imageUris, applicationContext)
+    }
 
     // 날짜 형식 변환 함수
     private fun formatRawDate(rawDate: String): String {
