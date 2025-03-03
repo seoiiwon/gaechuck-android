@@ -52,7 +52,7 @@ interface ApiService {
     suspend fun postLoseCreate(
         @Header("Authorization") Authorization: String,
         @Part("data") data: RequestBody, // "data" 파트 추가
-        @Part file: MultipartBody.Part? // "file" 파트 추가
+        @Part file: List<MultipartBody.Part> // "file" 파트 추가
     ) : Response<BaseResponse<String>>
 
     // 분실물 글 삭제하기
@@ -83,7 +83,7 @@ interface ApiService {
     suspend fun postRentCreate(
         @Header("Authorization") Authorization: String,
         @Part("data") data: RequestBody, // "data" 파트 추가
-        @Part file: MultipartBody.Part? // "file" 파트 추가
+        @Part file: List<MultipartBody.Part> // "file" 파트 추가
     ) : Response<BaseResponse<PostRentCreateResponse>>
 
     // 대여 글 삭제하기

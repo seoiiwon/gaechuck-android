@@ -108,7 +108,7 @@ class BusinessViewModel(private val repository: BusinessRepository) : ViewModel(
     }
 
     // 이미지 상태관리하기
-    fun addImages(uris : List<Uri>) {
+    fun addImages(uris: List<@JvmSuppressWildcards Uri>) {
         _selectedImages.value += uris
         Log.d("ViewModel", "Images added to ViewModel: ${_selectedImages.value}")
     }

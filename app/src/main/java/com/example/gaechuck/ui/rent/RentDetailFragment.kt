@@ -70,7 +70,7 @@ class RentDetailFragment : Fragment(R.layout.fragment_rent_detail) {
     // RentActivity의 Toolbar 업데이트
     private fun updateToolbar(isLoggedIn: Boolean) {
         (activity as? RentActivity)?.updateToolbar(
-            title = getString(R.string.bar_lose),
+            title = getString(R.string.bar_rent),
             showBackButton = true,
             showHomeButton = !isLoggedIn,
             showEtcButton = isLoggedIn,

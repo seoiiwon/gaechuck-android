@@ -40,6 +40,8 @@ class LoseUrlChangeActivity : AppCompatActivity(R.layout.activity_lose_url) {
         // url 변화 감지
         binding.fieldChangeUrl.addTextChangedListener(textWatcher)
 
+        // TODO : 완료 버튼 누르면 url 정보 저장
+
     }
 
     // url 입력값 확인

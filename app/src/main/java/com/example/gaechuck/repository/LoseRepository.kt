@@ -61,14 +61,14 @@ class LoseRepository {
     ) : Result<BaseResponse<String>> {
         return try {
             val requestBody = createJsonRequestBody(LoseCreateRequest(title, lostDate,description, lostLocation))
-            val imagePart = createImagePart(file.firstOrNull(), context)
+            val imageParts = file.mapIndexedNotNull { index, uri ->  createImagePart(uri, context, index) } // 모든 이미지 변환
 
             Log.d("LoseRepository", "데이터 전송 시작: name: $title, lostDate: $lostDate, description: $description, lostLocation:$lostLocation, data=$requestBody")
 
             val response =  ApiConnection.getRetrofitService.postLoseCreate(
                 Authorization = token,
                 data = requestBody, // JSON 형식으로 보냄
-                file = imagePart
+                file = imageParts
             )
 
             if (response.isSuccessful && response.body()?.isSuccess == true) {
@@ -90,12 +90,12 @@ class LoseRepository {
         return RequestBody.create("application/json".toMediaType(), json)
     }
 
-    private fun createImagePart(uri: Uri?, context: Context): MultipartBody.Part? {
+    private fun createImagePart(uri: Uri?, context: Context, index: Int): MultipartBody.Part? {
         uri ?: return null
 
         val contentResolver: ContentResolver = context.contentResolver
         val inputStream: InputStream? = contentResolver.openInputStream(uri)
-        val file = File(context.cacheDir, "upload_image.jpg") // 임시 파일 생성
+        val file = File(context.cacheDir, "upload_image_$index.jpg")
 
         inputStream?.use { input ->
             FileOutputStream(file).use { output ->

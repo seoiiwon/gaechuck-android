@@ -61,18 +61,19 @@ class RentRepository {
     ) : Result<BaseResponse<PostRentCreateResponse>> {
         return try {
             val requestBody = createJsonRequestBody(RentCreateRequest(rentItemName, rentItemCount))
-            val imagePart = createImagePart(file.firstOrNull(), context)
+            val imageParts = file.mapIndexedNotNull { index, uri ->  createImagePart(uri, context, index) } // 모든 이미지 변환
 
             Log.d("RentRepository", "데이터 전송 시작: name=$rentItemName, rentItemCount=$rentItemCount, data=$requestBody")
 
             val response =  ApiConnection.getRetrofitService.postRentCreate(
                 Authorization = token,
                 data = requestBody, // JSON 형식으로 보냄
-                file = imagePart
+                file = imageParts
             )
 
             if (response.isSuccessful && response.body()?.isSuccess == true) {
                 Log.d("RentRepository", "서버 응답 성공: ${response.body()}")
+                Log.d("RentRepository","${imageParts}")
                 Result.success(response.body()!!)
             } else {
                 Log.e("RentRepository", "서버 응답 실패: ${response.errorBody()?.string()}")
@@ -90,12 +91,12 @@ class RentRepository {
         return RequestBody.create("application/json".toMediaType(), json)
     }
 
-    private fun createImagePart(uri: Uri?, context: Context): MultipartBody.Part? {
+    private fun createImagePart(uri: Uri?, context: Context, index: Int): MultipartBody.Part? {
         uri ?: return null
 
         val contentResolver: ContentResolver = context.contentResolver
         val inputStream: InputStream? = contentResolver.openInputStream(uri)
-        val file = File(context.cacheDir, "upload_image.jpg") // 임시 파일 생성
+        val file = File(context.cacheDir, "upload_image_${index}.jpg") // 임시 파일 생성
 
         inputStream?.use { input ->
             FileOutputStream(file).use { output ->
