@@ -33,6 +33,11 @@ class LoseUrlChangeActivity : AppCompatActivity(R.layout.activity_lose_url) {
             onBackPressedDispatcher.onBackPressed()
         }
 
+        // SharedPreferences에서 기존 URL 가져와서 설정
+        val sharedPreferences = getSharedPreferences("lose_prefs", MODE_PRIVATE)
+        val savedUrl = sharedPreferences.getString("lose_url", "https://www.naver.com")
+        binding.fieldCurrentUrl.setText(savedUrl) // 기존 URL 표시
+
         // 초기 버튼 비활성화
         sendButton.isEnabled = false
         sendButton.setTextColor(getColor(R.color.gnu_grey))
@@ -40,8 +45,12 @@ class LoseUrlChangeActivity : AppCompatActivity(R.layout.activity_lose_url) {
         // url 변화 감지
         binding.fieldChangeUrl.addTextChangedListener(textWatcher)
 
-        // TODO : 완료 버튼 누르면 url 정보 저장
-
+        // 완료 버튼 누르면 url 정보 저장
+        sendButton.setOnClickListener{
+            val url = binding.fieldChangeUrl.text.toString().trim()
+            sharedPreferences.edit().putString("lose_url", url).apply()
+            finish() // 저장 후 액티비티 종료
+        }
     }
 
     // url 입력값 확인

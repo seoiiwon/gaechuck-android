@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -67,9 +68,13 @@ class LoseDetailFragment : Fragment(R.layout.fragment_lose_detail) {
             }
         }
 
+        // SharedPreferences에서 저장된 URL 가져오기
+        val sharedPreferences = requireActivity().getSharedPreferences("lose_prefs", AppCompatActivity.MODE_PRIVATE)
+        val savedUrl = sharedPreferences.getString("lose_url", "https://www.naver.com") // 기본값 설정
+
         // 버튼 클릭 시 오픈채팅으로 이동
         loseButton.setOnClickListener{
-            var intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.naver.com"))
+            var intent = Intent(Intent.ACTION_VIEW, Uri.parse(savedUrl))
             startActivity(intent)
         }
 
