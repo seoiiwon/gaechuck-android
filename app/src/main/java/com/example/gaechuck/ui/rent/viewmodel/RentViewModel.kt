@@ -1,5 +1,7 @@
 package com.example.gaechuck.ui.rent.viewmodel
 
+import android.content.Context
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -7,16 +9,25 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.gaechuck.api.AuthManager
+import com.example.gaechuck.data.response.BaseResponse
 import com.example.gaechuck.data.response.GetRentDetailResponse
+import com.example.gaechuck.data.response.PostRentCreateResponse
 import com.example.gaechuck.data.response.RentList
 import com.example.gaechuck.repository.RentRepository
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class RentViewModel(private val repository: RentRepository): ViewModel() {
 
+    private var currentPage = 0 // 현재 페이지 번호 관리
+    private var isLoading = false // 데이터를 로딩 중인지 확인
+    private var isLastPage = false // 마지막 페이지 여부
+
     // 대여 물품 리스트
-    private val _rentList = MutableLiveData<List<RentList>>()
-    val rentList : LiveData<List<RentList>>
+    private val _rentList = MutableLiveData<MutableList<RentList>>()
+    val rentList : LiveData<MutableList<RentList>>
         get() = _rentList
 
     // 대여 물품 상세
@@ -35,22 +46,54 @@ class RentViewModel(private val repository: RentRepository): ViewModel() {
     }
     val isLoggedIn: LiveData<Boolean> get() = _isLoggedIn
 
+    // 작성 이미지 상태관리
+    private val _selectedImages = MutableStateFlow<List<Uri>>(emptyList())
+    val selectedImages: StateFlow<List<Uri>> = _selectedImages.asStateFlow()
+
+    private val _postResult = MutableLiveData<Result<BaseResponse<PostRentCreateResponse>>>()
+    val postResult : LiveData<Result<BaseResponse<PostRentCreateResponse>>>
+        get() = _postResult
+
+    // 삭제 상태관리
+    private val _deleteResult = MutableLiveData<Result<BaseResponse<String>>>()
+    val deleteResult : LiveData<Result<BaseResponse<String>>>
+        get() = _deleteResult
+
     fun checkLoginStatus() {
         _isLoggedIn.value != AuthManager.getToken().isNullOrEmpty()
     }
 
-
     // 초기화
     init {
+        _rentList.value = mutableListOf()
+    }
+
+    // 초기 데이터
+    fun loadRentData() {
+        if (isLoading || isLastPage) return // 데이터 로딩 중이거나 마지막 페이지인 경우 중복 요청 방지
+        isLoading = true // 데이터 로딩 시작
+
         viewModelScope.launch {
             try {
-                val response = repository.getRentList()
+                val response = repository.getRentList(currentPage)
                 response?.let {
-                    _rentList.value = it.content
+                    val currentList = _rentList.value ?: mutableListOf()
+                    if (currentPage == 0) {
+                        currentList.clear() // 첫 페이지인 경우 기존 데이터 초기화
+                    }
+                    currentList.addAll(it.content)
+                    _rentList.postValue(currentList)
+
+                    // 페이지 번호 증가
+                    currentPage++
                 }
             } catch (e: Exception) {
-                // 에러 처리
-                Log.e("RentViewModel", "에러 발생: ${e.message}")
+                Log.e("BusinessViewModel", "에러 발생: ${e.message}")
+                if (currentPage > 0) {
+                    currentPage--
+                }
+            } finally {
+                isLoading = false // 데이터 로딩 완료
             }
         }
     }
@@ -80,6 +123,52 @@ class RentViewModel(private val repository: RentRepository): ViewModel() {
             _filterRentList.value = originalList.filter { it.rentItemName.contains(query, ignoreCase = true) }
         }
     }
+
+    // 이미지 상태관리하기
+    fun addImages(uris : List<Uri>) {
+        _selectedImages.value += uris
+        Log.d("RentViewModel", "Images added to ViewModel: ${_selectedImages.value}")
+    }
+
+    fun removeImages(index : Int) {
+        _selectedImages.value = _selectedImages.value.toMutableList().apply {
+            removeAt(index)
+        }
+        Log.d("RentViewModel", "Image removed from ViewModel: ${_selectedImages.value}")
+    }
+
+    // data 보내기
+    fun sendData(token: String, rentItemName: String, rentItemCount: Int, file : List<Uri>, context: Context) {
+        Log.d("RentViewModel", "sendData 호출됨 - name: $rentItemName, count: $rentItemCount, file : $file")
+
+        viewModelScope.launch {
+            val result =
+                repository.postRentCreate(token, rentItemName,rentItemCount, file, context)
+            _postResult.value = result
+
+            result.onSuccess {
+                Log.d("BusinessViewModel", "데이터 전송 성공: ${it}")
+            }.onFailure { error ->
+                Log.e("BusinessViewModel", "데이터 전송 실패: ${error.message}")
+            }
+        }
+    }
+
+    // 아이템 삭제하기
+    fun deleteData (token : String, rentItemId: Int) {
+        viewModelScope.launch {
+            val result =
+                repository.postRentDelete(token, rentItemId)
+            _deleteResult.value = result
+
+            result.onSuccess {
+                Log.d("RentViewModel", "데이터 전송 성공: ${it}")
+            }.onFailure { error ->
+                Log.e("RentViewModel", "데이터 전송 실패: ${error.message}")
+            }
+        }
+    }
+
 
     class RentViewModelFactory(private val repository: RentRepository) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {

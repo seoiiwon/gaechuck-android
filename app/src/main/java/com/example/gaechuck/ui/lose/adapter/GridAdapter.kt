@@ -17,7 +17,6 @@ class GridAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: LoseList) {
             // 이미지 바인딩
-            // TODO : 이미지 요청 수정
             Glide.with(binding.loseImage.context)
                 .load(item.image) // image는 URL 문자열
                 .into(binding.loseImage)

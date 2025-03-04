@@ -59,7 +59,7 @@
             android:id="@+id/field_current_url"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="https://open.kakao.com/o/gXyz1234"
+            android:text=""
             android:fontFamily="@font/noto_sans_kr_regular"
             android:textColor="@color/gnu_grey"
             android:letterSpacing="-0.025"

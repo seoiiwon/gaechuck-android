@@ -1,11 +1,12 @@
 package com.example.gaechuck.ui.lose.adapter
 
+import android.util.Log
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gaechuck.data.response.LoseList
 
-class LoseAdapter(private val data: List<LoseList>, // LoseItem 전체 데이터 리스트
+class LoseAdapter(private var data: List<LoseList>, // LoseItem 전체 데이터 리스트
                   private val itemsPerPage: Int = 9, // 한 페이지에 표시할 최대 아이템 개수
                   private val listener: OnLoseItemClickListener)
     : RecyclerView.Adapter<LoseAdapter.PageViewHolder>() {
@@ -26,7 +27,9 @@ class LoseAdapter(private val data: List<LoseList>, // LoseItem 전체 데이터
 
     // Adapter에 필요한 페이지 수 반환
     override fun getItemCount(): Int {
-        return (data.size + itemsPerPage - 1) / itemsPerPage // 페이지 수 계산
+        val pageCount = (data.size + itemsPerPage - 1) / itemsPerPage
+        Log.d("LoseAdapter", "Total pages: $pageCount")
+        return pageCount
     }
 
     // ViewHolder 생성
@@ -45,6 +48,11 @@ class LoseAdapter(private val data: List<LoseList>, // LoseItem 전체 데이터
         val end = minOf(start + itemsPerPage, data.size)
         val pageItems = data.subList(start, end) // 페이지별 데이터 분할
         holder.bind(pageItems)
+    }
+
+    fun updateData(newData: List<LoseList>) {
+        data = newData
+        notifyDataSetChanged()
     }
 
 }

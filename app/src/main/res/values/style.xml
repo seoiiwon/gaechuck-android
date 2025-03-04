@@ -21,4 +21,12 @@
         <item name="rippleColor">@android:color/transparent</item>
         <item name="android:stateListAnimator">@null</item>
     </style>
+
+    <style name="PopupMenuStyle">
+        <item name="android:textColor">@color/black</item> <!-- 텍스트 색상 -->
+        <item name="android:popupMenuStyle">@style/PopupMenuStyle</item>
+        <item name="android:popupBackground">@drawable/custom_popup_background</item>
+        <item name="android:popupElevation">5dp</item>
+    </style>
+
 </resources>
