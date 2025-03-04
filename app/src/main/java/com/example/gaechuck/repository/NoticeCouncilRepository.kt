@@ -37,6 +37,9 @@ class NoticeCouncilRepository {
                 Log.d("NoticeDetail", "API 요청 시작: noticeId = $noticeId")
                 val response: Response<BaseResponse<GetCouncilNoticeDetailResponse>> = apiService.getNoticeCouncilDetailData(noticeId)
 
+                Log.d("hello", "${response.body()}")
+
+
                 if (!response.isSuccessful) {
                     Log.e("NoticeDetail", "API 응답 실패: HTTP ${response.code()}")
                     return@withContext null

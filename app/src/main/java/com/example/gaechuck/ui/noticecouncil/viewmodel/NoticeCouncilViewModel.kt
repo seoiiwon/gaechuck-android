@@ -39,26 +39,4 @@ class NoticeCouncilViewModel : ViewModel() {
     suspend fun getNoticeDetail(noticeId: Int): GetCouncilNoticeDetailResponse? {
         return repository.getNoticeDetail(noticeId)
     }
-
-
-
-
-
-//    // MutableLiveData는 내부에서 값을 변경할 수 있고, 외부에서는 LiveData로 읽기만 가능
-//    private val _notice = MutableLiveData<NoticeCouncilModel>()
-//    val notice: LiveData<NoticeCouncilModel> get() = _notice
-//
-//    // 데이터를 설정하는 함수
-//    fun setNotice(noticeCouncilModel: NoticeCouncilModel) {
-//        _notice.value = noticeCouncilModel
-//    }
-
-//    // 공지 리스트
-//    private val _noticeList = MutableLiveData<List<LoseList>>()
-//    val noticeList : LiveData<List<LoseList>>
-//        get() = _noticeList
-//    // 공지 개별 정보
-//    private val _noticeDetailData = MutableLiveData<GetLoseDetailResponse>()
-//    val noticeDetailData : MutableLiveData<GetLoseDetailResponse>
-//        get() = _noticeDetailData
 }

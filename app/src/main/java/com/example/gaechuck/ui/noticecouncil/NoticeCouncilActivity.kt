@@ -75,10 +75,6 @@ class NoticeCouncilActivity : AppCompatActivity() {
                 }
             }
         })
-
-
-
-
-
     }
+
 }
