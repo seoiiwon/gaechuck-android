@@ -9,12 +9,14 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
+import com.example.gaechuck.api.AuthManager
 import com.example.gaechuck.ui.bus.BusRouteActivity
 import com.example.gaechuck.ui.business.BusinessActivity
 import com.example.gaechuck.ui.lose.LoseActivity
 import com.example.gaechuck.ui.main.adaptor.ViewPagerAdapter
 import com.example.gaechuck.ui.menu.CafeteriaMenuActivity
 import com.example.gaechuck.ui.noticecouncil.NoticeCouncilActivity
+import com.example.gaechuck.ui.noticecouncil.NoticeCouncilWriteActivity
 import com.example.gaechuck.ui.noticeuniv.NoticeUnivActivity
 import com.example.gaechuck.ui.rent.RentActivity
 import com.example.gaechuck.ui.setting.SettingActivity
@@ -63,11 +65,15 @@ class MainActivity : AppCompatActivity() {
             BusinessActivity::class.java,
             NoticeCouncilActivity::class.java,
             NoticeUnivActivity::class.java,
-            BusRouteActivity::class.java,
+            NoticeCouncilActivity::class.java
         )
 
+//        val secondPageActivity = SubPage2Activity::class.java
 
-        val secondPageActivity = SubPage2Activity::class.java
+        val secondPageActivity = listOf(
+            NoticeCouncilWriteActivity::class.java,
+//            BusRouteActivity::class.java
+        )
 
         for (i in 0 until gridLayout.childCount) {
             val child = gridLayout.getChildAt(i) as? LinearLayout ?: continue
@@ -77,7 +83,7 @@ class MainActivity : AppCompatActivity() {
                 val targetClass = if (position == 0) {
                     activityClasses.getOrNull(targetIndex)
                 } else {
-                    secondPageActivity
+                    secondPageActivity.getOrNull(0)
                 }
 
                 if (targetClass != null) {
@@ -86,6 +92,7 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     Log.e("MainActivity", "Invalid targetIndex: $targetIndex")
                 }
+
             }
         }
     }

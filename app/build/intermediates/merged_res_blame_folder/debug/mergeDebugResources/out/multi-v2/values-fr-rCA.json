@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.gaechuck.app-mergeDebugResources-68:/values-fr-rCA/values-fr-rCA.xml",
+            "outputFile": "com.example.gaechuck.app-mergeDebugResources-69:/values-fr-rCA/values-fr-rCA.xml",
             "map": [
                 {
                     "source": "/Users/seojiwon/.gradle/caches/transforms-4/6f237a4b383bbff0b10dee9cb8cc9ed7/transformed/core-1.15.0/res/values-fr-rCA/values-fr-rCA.xml",

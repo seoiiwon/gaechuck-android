@@ -14,6 +14,7 @@
     <color name="divider_grey">#E8E8E9</color>
     <color name="divider_grey2">#8A8D8F</color>
     <color name="gnu_blue">#FF0086C0</color>
+    <color name="gnu_grey">#53565A</color>
     <color name="gnu_lightBlue">#4D0086C0</color>
     <color name="grey">#999999</color>
     <color name="info_grey">#767676</color>
@@ -134,19 +135,28 @@
     <string name="setting_title_1">알림 받기</string>
     <string name="setting_title_2">이용약관</string>
     <style name="Base.Theme.Gaechuck" parent="Theme.Material3.DayNight.NoActionBar">
-        
-        
     </style>
     <style name="CustomButtonStyle">
         <item name="android:background">@drawable/rounded_button</item>
         <item name="android:textColor">#000000</item> 
         <item name="android:padding">8dp</item>
     </style>
-    <style name="Theme.Gaechuck" parent="Base.Theme.Gaechuck"/>
+    <style name="CustomChipStyle" parent="Widget.MaterialComponents.Chip.Action">
+        <item name="rippleColor">@android:color/transparent</item>
+        <item name="android:stateListAnimator">@null</item>
+    </style>
+    <style name="Theme.Gaechuck" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:color">@color/gnu_blue</item>
+        <item name="colorSurface">@color/white</item>
+    </style>
     <style name="alarm_toggle">
         <item name="thumbTint">@color/white</item>
         <item name="track">@drawable/style_toggle_btn</item>
         <item name="android:thumb">@drawable/style_toggle_thumb</item>
         <item name="android:state_checked">true</item>
+    </style>
+    <style name="custom_chip_style">
+        <item name="backgroundTint">@color/white</item>
+
     </style>
 </resources>
