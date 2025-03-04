@@ -7,7 +7,7 @@ import com.bumptech.glide.Glide
 import com.example.gaechuck.data.response.BusinessList
 import com.example.gaechuck.databinding.RowBusinessItemBinding
 
-class BusinessAdapter(private val data: List<BusinessList>,
+class BusinessAdapter(private val data: MutableList<BusinessList>,
                       private val listener: OnBusinessItemClickListener) : RecyclerView.Adapter<BusinessAdapter.ViewHolder>() {
 
     interface OnBusinessItemClickListener {
@@ -29,6 +29,13 @@ class BusinessAdapter(private val data: List<BusinessList>,
             }
         }
 
+    }
+
+    // 아이템 업데이트 메소드 추가
+    fun updateItems(newItems: List<BusinessList>) {
+        data.clear()
+        data.addAll(newItems)
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

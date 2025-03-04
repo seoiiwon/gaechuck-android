@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -16,10 +17,12 @@ import com.example.gaechuck.ui.lose.adapter.ImagePagerAdapter
 import com.example.gaechuck.ui.lose.viewmodel.LoseViewModel
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 
+
 class LoseDetailFragment : Fragment(R.layout.fragment_lose_detail) {
     private lateinit var binding: FragmentLoseDetailBinding
     private lateinit var viewModel: LoseViewModel
-    private lateinit var LoseButton : Button
+    private lateinit var loseButton : Button
+
 
     override fun onResume() {
         super.onResume()
@@ -29,7 +32,7 @@ class LoseDetailFragment : Fragment(R.layout.fragment_lose_detail) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentLoseDetailBinding.bind(view)
-        LoseButton = view.findViewById(R.id.lose_button)
+        loseButton = view.findViewById(R.id.lose_button)
 
         // ViewModel 초기화
         val repository = LoseRepository()
@@ -48,6 +51,11 @@ class LoseDetailFragment : Fragment(R.layout.fragment_lose_detail) {
             LoseDetailFragmentArgs.fromBundle(it).lostItemId
         }
 
+        // Activity에 lostItemId 전달
+        if (lostItemId != null) {
+            (activity as? LoseActivity)?.setLostItemId(lostItemId)
+        }
+
         lostItemId?.let {
             viewModel.loseDetailRetrofit(it) // API 호출
         }
@@ -56,24 +64,29 @@ class LoseDetailFragment : Fragment(R.layout.fragment_lose_detail) {
         viewModel.loseDetailData.observe(viewLifecycleOwner) { loseDetail ->
             loseDetail?.let {
                 setupUI(it)
+                (activity as? LoseActivity)?.setLostItemId(it.lostItemId)
             }
         }
 
+        // SharedPreferences에서 저장된 URL 가져오기
+        val sharedPreferences = requireActivity().getSharedPreferences("lose_prefs", AppCompatActivity.MODE_PRIVATE)
+        val savedUrl = sharedPreferences.getString("lose_url", "https://www.naver.com") // 기본값 설정
+
         // 버튼 클릭 시 오픈채팅으로 이동
-        LoseButton.setOnClickListener{
-            var intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.naver.com"))
+        loseButton.setOnClickListener{
+            var intent = Intent(Intent.ACTION_VIEW, Uri.parse(savedUrl))
             startActivity(intent)
         }
 
 
     }
-    // RentActivity의 Toolbar 업데이트
+    // LoseActivity의 Toolbar 업데이트
     private fun updateToolbar(isLoggedIn: Boolean) {
         (activity as? LoseActivity)?.updateToolbar(
             title = getString(R.string.bar_lose),
             showBackButton = true,
             showHomeButton = !isLoggedIn,
-            showEtcButton = isLoggedIn
+            showEtcButton = isLoggedIn,
         )
     }
 

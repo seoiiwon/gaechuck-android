@@ -3,6 +3,7 @@ package com.example.gaechuck.ui.rent.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -56,5 +57,22 @@ class RentAdapter(private val listener: OnRentItemClickListener):
     // filtering 함수
     fun filteredList(newList : List<RentList>) {
         submitList(newList) // 필터링된 리스트를 적용
+    }
+
+    // 스크롤 리스너 추가
+    fun setOnScrollListener(recyclerView: RecyclerView, onScrolledToEnd: () -> Unit) {
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                val visibleItemCount = layoutManager.childCount
+                val totalItemCount = layoutManager.itemCount
+                val pastVisibleItems = layoutManager.findFirstVisibleItemPosition()
+
+                if (!recyclerView.canScrollVertically(1)) { // 리스트의 끝에 도달하면
+                    onScrolledToEnd()
+                }
+            }
+        })
     }
 }

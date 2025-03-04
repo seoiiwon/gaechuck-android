@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.gaechuck.R
 import com.example.gaechuck.data.response.GetRentDetailResponse
@@ -19,27 +20,32 @@ class RentDetailFragment : Fragment(R.layout.fragment_rent_detail) {
 
     private lateinit var binding: FragmentRentDetailBinding
     private lateinit var rentViewModel: RentViewModel
-    private lateinit var RentButton : Button
+    private lateinit var rentButton : Button
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentRentDetailBinding.bind(view)
-        RentButton = view.findViewById(R.id.rent_button)
+        rentButton = view.findViewById(R.id.rent_button)
 
-        // RentActivity의 Toolbar 업데이트
-        (activity as? RentActivity)?.updateToolbar(
-            title = getString(R.string.bar_rent), // 제목 설정
-            showBackButton = true, // 뒤로가기 버튼 표시
-            showHomeButton = true // 홈 버튼 표시
-        )
-
-        // ViwModel 초기화
+        //
         val repository = RentRepository()
         val viewModelFactory = RentViewModel.RentViewModelFactory(repository)
         rentViewModel = ViewModelProvider(this, viewModelFactory).get(RentViewModel::class.java)
 
+        // 로그인 상태 확인
+        rentViewModel.checkLoginStatus()
+        rentViewModel.isLoggedIn.observe(viewLifecycleOwner, Observer { isLoggedIn ->
+            updateToolbar(isLoggedIn)
+        })
+
+
         val rentItemId = arguments?.let {
             RentDetailFragmentArgs.fromBundle(it).rentItemId
+        }
+
+        // Activity에 lostItemId 전달
+        if (rentItemId != null) {
+            (activity as? RentActivity)?.setRentItemId(rentItemId)
         }
 
         rentItemId?.let {
@@ -50,15 +56,25 @@ class RentDetailFragment : Fragment(R.layout.fragment_rent_detail) {
         rentViewModel.rentDetailData.observe(viewLifecycleOwner) {
             rentDetail -> rentDetail?.let {
                 setupUI(it)
-        }
+            }
         }
 
         // 버튼 클릭 시 오픈채팅으로 이동
-        RentButton.setOnClickListener{
+        rentButton.setOnClickListener{
             var intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.naver.com"))
             startActivity(intent)
         }
 
+    }
+
+    // RentActivity의 Toolbar 업데이트
+    private fun updateToolbar(isLoggedIn: Boolean) {
+        (activity as? RentActivity)?.updateToolbar(
+            title = getString(R.string.bar_rent),
+            showBackButton = true,
+            showHomeButton = !isLoggedIn,
+            showEtcButton = isLoggedIn,
+        )
     }
 
     private fun setupUI(item: GetRentDetailResponse) {
