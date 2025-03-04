@@ -4,10 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.gaechuck.data.response.DeleteCouncilNoticeResponse
 import com.example.gaechuck.data.response.GetCouncilNoticeDataResponse
 import com.example.gaechuck.data.response.GetCouncilNoticeDetailResponse
 import com.example.gaechuck.repository.NoticeCouncilRepository
 import kotlinx.coroutines.launch
+import retrofit2.Response
 
 class NoticeCouncilViewModel : ViewModel() {
     private val repository = NoticeCouncilRepository()
@@ -39,4 +41,19 @@ class NoticeCouncilViewModel : ViewModel() {
     suspend fun getNoticeDetail(noticeId: Int): GetCouncilNoticeDetailResponse? {
         return repository.getNoticeDetail(noticeId)
     }
-}
+
+    fun deleteNotice(noticeId: Int, onSuccess: () -> Unit, onError: (String) -> Unit) {
+        viewModelScope.launch {
+            try {
+                val response: Response<DeleteCouncilNoticeResponse> = repository.deleteNotice(noticeId)
+
+                if (response.isSuccessful && response.body()?.isSuccess == true) {
+                    onSuccess()
+                } else {
+                    onError(response.body()?.message ?: "삭제 실패")
+                }
+            } catch (e: Exception) {
+                onError(e.message ?: "알 수 없는 오류 발생")
+            }
+        }
+    }}

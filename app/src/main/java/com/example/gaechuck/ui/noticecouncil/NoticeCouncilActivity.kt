@@ -3,6 +3,7 @@ package com.example.gaechuck.ui.noticecouncil
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -52,9 +53,15 @@ class NoticeCouncilActivity : AppCompatActivity() {
 
     private fun initRecyclerView() {
         val recyclerView = findViewById<RecyclerView>(R.id.noticeRecyclerView)
-        noticeAdapter = NoticeCouncilAdapter(mutableListOf())
+
+        noticeAdapter = NoticeCouncilAdapter(
+            mutableListOf(),
+            onDeleteClick = { noticeId -> deleteNotice(noticeId) }
+        )
+
         recyclerView.adapter = noticeAdapter
         recyclerView.layoutManager = LinearLayoutManager(this)
+
 
         viewModel.noticeList.observe(this) { notices ->
             noticeAdapter.addNotices(notices)
@@ -75,6 +82,21 @@ class NoticeCouncilActivity : AppCompatActivity() {
                 }
             }
         })
+    }
+
+    private fun deleteNotice(noticeId: Int) {
+        lifecycleScope.launch {
+            viewModel.deleteNotice(
+                noticeId,
+                onSuccess = {
+                    noticeAdapter.removeNotice(noticeId)
+                    Toast.makeText(this@NoticeCouncilActivity, "게시글이 삭제되었습니다.", Toast.LENGTH_SHORT).show()
+                },
+                onError = { errorMessage ->
+                    Toast.makeText(this@NoticeCouncilActivity, "삭제 실패: $errorMessage", Toast.LENGTH_SHORT).show()
+                }
+            )
+        }
     }
 
 }

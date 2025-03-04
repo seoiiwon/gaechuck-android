@@ -203,6 +203,7 @@ id noticeDescription
 id noticeImage
 id noticeRecyclerView
 id noticeTitle
+id notice_delete_button
 id notificationSwitch
 id option_btn
 id photo_add_btn

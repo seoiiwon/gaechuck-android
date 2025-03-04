@@ -3,6 +3,7 @@ package com.example.gaechuck.api
 import com.example.gaechuck.data.request.LoginRequest
 import com.example.gaechuck.data.response.BaseListResponse
 import com.example.gaechuck.data.response.BaseResponse
+import com.example.gaechuck.data.response.DeleteCouncilNoticeResponse
 import com.example.gaechuck.data.response.GetAllNoticeDataResponse
 import com.example.gaechuck.data.response.GetBusinessDataResponse
 import com.example.gaechuck.data.response.GetBusinessDetailResponse
@@ -19,6 +20,7 @@ import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Multipart
@@ -80,6 +82,11 @@ interface ApiService {
         @Part("data") data: RequestBody,
         @Part file: MultipartBody.Part?
     ): Response<BaseResponse<String>>
+
+    @DELETE("api/v1/council/{id}")
+    suspend fun deleteNoticeCouncil(
+        @Path("id") noticeId: Int
+    ): Response<DeleteCouncilNoticeResponse>
 
     // 학교 공지 리스트
     @GET("/api/v1/notifications/allNotification")
