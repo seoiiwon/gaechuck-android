@@ -38,3 +38,15 @@ local.properties
 misc.xml
 deploymentTargetDropDown.xml
 render.experimental.xml
+
+
+# Android 관련 빌드 및 IDE 파일 무시
+.gradle/
+.idea/
+*.iml
+local.properties
+.DS_Store
+*.log
+*.lock
+build/
+app/build/
