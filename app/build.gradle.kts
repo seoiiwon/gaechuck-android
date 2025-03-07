@@ -81,10 +81,18 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
     implementation ("com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2")
 
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
+
+
     implementation ("com.google.android.material:material:1.4.0")
 
     //splash screen
     implementation ("androidx.core:core-splashscreen:1.0.0")
 
     implementation("com.tbuonomo:dotsindicator:5.1.0")
+
+    // viewModel
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+
 }

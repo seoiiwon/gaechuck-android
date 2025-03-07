@@ -1,7 +1,6 @@
 package com.example.gaechuck.api
 
 import okhttp3.OkHttpClient
-
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -19,8 +18,8 @@ object ApiConnection {
     private val getRetrofit by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
             .build()
     }
 

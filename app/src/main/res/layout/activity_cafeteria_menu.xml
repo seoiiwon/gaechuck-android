@@ -104,6 +104,7 @@
 
         </HorizontalScrollView>
 
+
         <ImageView
             android:id="@+id/rightArrow"
             android:layout_width="wrap_content"
@@ -111,6 +112,110 @@
             android:src="@drawable/right_btn"
             android:layout_marginStart="8dp"/>
     </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/oneWeekPeriod"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="0000.00.00 ~ 0000.00.00"
+        android:textSize="10sp"
+        android:textColor="@color/gnu_grey"
+        android:textStyle="bold" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="4dp">
+
+        <Button
+            android:id="@+id/buttonMonday"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="2dp"
+            android:backgroundTint="@color/gnu_blue"
+            android:text="월"
+            android:textSize="10sp"
+            android:minWidth="0dp"
+            android:paddingHorizontal="4dp"/>
+
+        <Button
+            android:id="@+id/buttonTuesday"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="2dp"
+            android:backgroundTint="@color/gnu_blue"
+            android:text="화"
+            android:textSize="10sp"
+            android:minWidth="0dp"
+            android:paddingHorizontal="4dp"/>
+
+        <Button
+            android:id="@+id/buttonWednesday"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="2dp"
+            android:backgroundTint="@color/gnu_blue"
+            android:text="수"
+            android:textSize="10sp"
+            android:minWidth="0dp"
+            android:paddingHorizontal="4dp"/>
+
+        <Button
+            android:id="@+id/buttonThursday"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="2dp"
+            android:backgroundTint="@color/gnu_blue"
+            android:text="목"
+            android:textSize="10sp"
+            android:minWidth="0dp"
+            android:paddingHorizontal="4dp"/>
+
+        <Button
+            android:id="@+id/buttonFriday"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="2dp"
+            android:backgroundTint="@color/gnu_blue"
+            android:text="금"
+            android:textSize="10sp"
+            android:minWidth="0dp"
+            android:paddingHorizontal="4dp"/>
+
+        <Button
+            android:id="@+id/buttonSaturday"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="2dp"
+            android:backgroundTint="@color/gnu_blue"
+            android:text="토"
+            android:textSize="10sp"
+            android:minWidth="0dp"
+            android:paddingHorizontal="4dp"/>
+
+        <Button
+            android:id="@+id/buttonSunday"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="2dp"
+            android:backgroundTint="@color/gnu_blue"
+            android:text="일"
+            android:textSize="10sp"
+            android:minWidth="0dp"
+            android:paddingHorizontal="4dp"/>
+    </LinearLayout>
+
 
     <!-- ScrollView에 Fragment를 추가할 영역 -->
     <ScrollView

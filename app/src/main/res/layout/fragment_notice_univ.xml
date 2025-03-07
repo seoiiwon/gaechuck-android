@@ -27,7 +27,7 @@
         android:layout_marginTop="4dp">
 
         <TextView
-            android:id="@+id/noticeDepartment"
+            android:id="@+id/noticeBody"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

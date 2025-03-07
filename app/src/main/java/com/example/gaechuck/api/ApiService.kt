@@ -153,14 +153,19 @@ interface ApiService {
 
     // 학교 공지 리스트
     @GET("/api/v1/notifications/allNotification")
-    fun getAllNoticeData()
-            : Call<BaseResponse<GetAllNoticeDataResponse>>
+    suspend fun getAllNoticeData(
+        @Query("page") page: Int,
+        @Query("size") pageSize: Int,
+        @Query("bbsId") bbsId: String? = null
+    ): BaseResponse<List<GetAllNoticeDataResponse>>
 
     // Food
     // 식당 메뉴 보기
     @GET("/api/v1/menus/weeklyMenu")
-    fun getFoodData(@Query("cafeteriaSeq") seq : Int, @Query("startDate") date : String)
-            : Call<BaseListResponse<GetFoodDataResponse>>
+    fun getFoodData(
+        @Query("cafeteriaSeq") seq : Int,
+        @Query("startDate") date : String
+    ): Call<BaseListResponse<GetFoodDataResponse>>
 
     // Admin
     @POST("/api/v1/master/sign-in")
