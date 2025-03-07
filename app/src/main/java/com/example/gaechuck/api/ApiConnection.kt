@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiConnection {
     // 서버 주소
-    private val BASE_URL = "http://203.255.15.32:30001/"
+    private val BASE_URL = "http://117.16.152.191:30001"
 
     private val okHttpClient = OkHttpClient.Builder()
         .addInterceptor(HttpLoggingInterceptor().apply {

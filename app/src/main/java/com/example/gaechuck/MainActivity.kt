@@ -63,7 +63,6 @@ class MainActivity : AppCompatActivity() {
             RentActivity::class.java,
             LoseActivity::class.java,
             BusinessActivity::class.java,
-            NoticeCouncilActivity::class.java,
             NoticeUnivActivity::class.java,
             NoticeCouncilActivity::class.java
         )
