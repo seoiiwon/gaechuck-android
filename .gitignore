@@ -7,7 +7,6 @@ build/
 # Local configuration
 /local.properties
 
-
 /.idea/caches
 /.idea/libraries
 /.idea/modules.xml
@@ -25,7 +24,6 @@ captures/
 *.apk
 output.json
 
-
 .DS_Store
 /build
 /captures
@@ -39,14 +37,10 @@ misc.xml
 deploymentTargetDropDown.xml
 render.experimental.xml
 
-
-# Android 관련 빌드 및 IDE 파일 무시
+# Gradle 관련
 .gradle/
-.idea/
-*.iml
-local.properties
-.DS_Store
-*.log
+**/build/
+**/out/
 *.lock
-build/
+
 app/build/
