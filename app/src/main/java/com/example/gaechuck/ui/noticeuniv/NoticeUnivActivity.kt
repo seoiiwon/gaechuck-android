@@ -63,7 +63,7 @@ class NoticeUnivActivity : AppCompatActivity() {
 
         // 데이터 로드
         Log.d("Activity", "Fetching notices onCreate")
-        viewModel.fetchNotices(0, 10, currentBbsId)
+        viewModel.fetchNotices(0, currentBbsId)
 
         val tabAll = findViewById<TextView>(R.id.tabInstitution)
 //        val tabAllUnderline = findViewById<View>(R.id.tabAllUnderline)
@@ -83,8 +83,11 @@ class NoticeUnivActivity : AppCompatActivity() {
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 val layoutManager = recyclerView.layoutManager as LinearLayoutManager
-                if (!isLoading && dy > 0 && layoutManager.findLastVisibleItemPosition() + 1 == layoutManager.itemCount) {
-                    loadMoreData()
+                val totalItemCount = layoutManager.itemCount
+                val lastVisibleItem = layoutManager.findLastVisibleItemPosition()
+
+                if (!viewModel.isLoading && viewModel.hasMoreData && lastVisibleItem + 1 >= totalItemCount) {
+                    viewModel.loadMoreNotices(currentBbsId)
                 }
             }
         })
@@ -100,12 +103,6 @@ class NoticeUnivActivity : AppCompatActivity() {
             Log.e("Activity", "Error occurred: $error")
             Toast.makeText(this, "오류 발생: $error", Toast.LENGTH_SHORT).show()
         }
-    }
-
-    private fun loadMoreData() {
-        isLoading = true
-        currentPage++
-        viewModel.fetchNotices(currentPage, itemsPerPage, currentBbsId)
     }
 
     private fun setupTabs() {
@@ -131,8 +128,9 @@ class NoticeUnivActivity : AppCompatActivity() {
             textView.setOnClickListener {
                 selectTab(textView, underlines[index])
                 currentBbsId = textView.text.toString()
-                currentPage = 0
-                viewModel.fetchNotices(currentPage, itemsPerPage, currentBbsId)
+                viewModel.hasMoreData = true
+                viewModel.currentPage = 0
+                viewModel.fetchNotices(0, currentBbsId)
             }
         }
     }

@@ -9,19 +9,17 @@ class NoticeUnivRepository {
     private val apiService = ApiConnection.getRetrofitService
 
     // 교내 공지 리스트 가져오기
-    suspend fun getNoticeUnivList(page: Int, pageSize: Int, bbsId: String): List<NoticeUnivModel> {
+    suspend fun getNoticeUnivList(page: Int, bbsId: String): Pair<List<NoticeUnivModel>, Boolean> {
         return try {
 
             val requestBbsId = if (bbsId.isNullOrEmpty()) "2" else bbsId
+            val maxSize = 100
 
-            Log.d("API_REQUEST", "Fetching notices with page=$page, pageSize=$pageSize, bbsId=$requestBbsId")
-
-            val result = apiService.getAllNoticeData(page, pageSize, requestBbsId)
-
+            val result = apiService.getAllNoticeData(page, maxSize, requestBbsId)
             if (result.isSuccess && result.result != null) {
                 Log.d("API_SUCCESS", "Response: ${result.result}")
 
-                result.result.map {
+                val notices = result.result.map {
                     NoticeUnivModel(
                         id = it.id,
                         title = it.title,
@@ -32,6 +30,12 @@ class NoticeUnivRepository {
                         bbsId = it.bbsId
                     )
                 }
+
+                // 데이터 로그 출력
+                Log.d("API_SUCCESS", "Page: $page, Fetched: ${notices.size} items")
+
+                val hasMoreData = notices.isNotEmpty()
+                Pair(notices, hasMoreData)
 
             } else {
                 Log.e("API_ERROR", "Error Message: ${result.message}")

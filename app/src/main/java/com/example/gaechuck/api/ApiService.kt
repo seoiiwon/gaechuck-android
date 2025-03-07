@@ -155,7 +155,7 @@ interface ApiService {
     @GET("/api/v1/notifications/allNotification")
     suspend fun getAllNoticeData(
         @Query("page") page: Int,
-        @Query("size") pageSize: Int,
+        @Query("size") size: Int,
         @Query("bbsId") bbsId: String? = null
     ): BaseResponse<List<GetAllNoticeDataResponse>>
 
