@@ -38,3 +38,18 @@ local.properties
 misc.xml
 deploymentTargetDropDown.xml
 render.experimental.xml
+
+# Gradle 관련
+.gradle/
+**/build/
+build/
+**/out/
+*.lock
+
+# Android Studio 관련
+.idea/
+*.iml
+.DS_Store
+*.log
+local.properties
+
