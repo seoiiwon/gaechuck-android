@@ -4,6 +4,7 @@ import VerticalItemDecorate
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,6 +34,9 @@ class RentMainFragment : Fragment(R.layout.fragment_rent_main),RentAdapter.OnRen
     private lateinit var recyclerView: RecyclerView
     private lateinit var backButton : Button
     private lateinit var callButoon : Button
+
+    private var isSearchMode = false
+    private var searchResults: List<RentList> = listOf()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -73,29 +77,51 @@ class RentMainFragment : Fragment(R.layout.fragment_rent_main),RentAdapter.OnRen
         (activity as? RentActivity)?.updateToolbar(
             title = getString(R.string.bar_rent), // 제목 설정
             showBackButton = true, // 뒤로가기 버튼 표시
-            showHomeButton = false // 홈 버튼 표시
+            showHomeButton = false, // 홈 버튼 표시
+            showEtcButton = false,
         )
 
-        // RecyclerView 설정
+        // RecyclerView 설정 (어댑터 설정 *이전*)
         recyclerView = view.findViewById(R.id.rent_view)
         binding.rentView.layoutManager = LinearLayoutManager(context)
-
-        // Adapter 설정
         rentAdapter = RentAdapter(this)
         binding.rentView.adapter = rentAdapter
+
+        // LiveData 관찰 설정 (데이터 로딩 *이전*)
+        rentViewModel.rentList.observe(viewLifecycleOwner, Observer { rentItems ->
+            Log.d("RentMainFragment", "LiveData observed: ${rentItems.size} items")
+            rentAdapter.submitList(rentItems.toList())
+        })
+
+        // 페이지네이션을 위해 스크롤 리스너 추가
+        rentAdapter.setOnScrollListener(recyclerView) {
+            if (!isSearchMode) {
+                rentViewModel.loadRentData() // 검색 모드가 아닐 때만 추가 데이터 로드
+            }
+        }
+
+
+        // 초기 데이터 로드
+        rentViewModel.loadRentData()
+        rentViewModel.rentList.observe(viewLifecycleOwner, Observer { rentItems ->
+            Log.d("RentMainFragment", "LiveData observed: ${rentItems.size} items")
+            if (!isSearchMode) {
+                rentAdapter.submitList(rentItems.toList())
+                originalList = rentItems.toList() // 초기 데이터 로드 후 originalList 초기화
+            }
+        })
 
         // VerticalItemDecorate 추가
         val itemDecoration = VerticalItemDecorate(20)
         binding.rentView.addItemDecoration(itemDecoration)
 
-        // 데이터 가져오는 함수 호출
-        ShowRentItems()
 
         // search 버튼 찾기
-        searchButton.setOnClickListener{
+        searchButton.setOnClickListener {
             val query = binding.searchEditText.text.toString().trim()
             filterList(query)
         }
+
 
         // 버튼 클릭 이벤트
         backButton.setOnClickListener{
@@ -103,7 +129,7 @@ class RentMainFragment : Fragment(R.layout.fragment_rent_main),RentAdapter.OnRen
 
             binding.root.findViewById<View>(R.id.search_fragment).visibility = View.GONE // 완전히 숨기기
             binding.root.findViewById<View>(R.id.search_fragment).startAnimation(fadeOut)
-            ShowRentItems()
+            rentViewModel.loadRentData()
             fadeOut.setAnimationListener(object : Animation.AnimationListener {
                 override fun onAnimationStart(animation: Animation?) {
                     // 애니메이션 시작 시 처리할 내용
@@ -124,6 +150,9 @@ class RentMainFragment : Fragment(R.layout.fragment_rent_main),RentAdapter.OnRen
                 }
             })
 
+            isSearchMode = false
+            rentAdapter.submitList(originalList)
+            rentViewModel.loadRentData()
             // editText 없어지게 만들기
             binding.searchEditText.text.clear()
 
@@ -158,17 +187,44 @@ class RentMainFragment : Fragment(R.layout.fragment_rent_main),RentAdapter.OnRen
     }
 
     // 검색 기능
+//    private fun filterList(query: String) {
+//        val filterList = originalList.filter {
+//            it.rentItemName.contains(query, ignoreCase = true)
+//        }
+//        if (filterList.isNotEmpty()) {
+//            binding.root.findViewById<View>(R.id.search_fragment).animate()
+//                .alpha(0f)
+//                .setDuration(300)
+//                .withEndAction { binding.root.findViewById<View>(R.id.search_fragment).visibility = View.GONE }
+//                .start()
+//            binding.rentView.visibility = View.VISIBLE // RecyclerView 보이기
+//        } else {
+//            binding.root.findViewById<View>(R.id.search_fragment).apply {
+//                alpha = 0f
+//                visibility = View.VISIBLE
+//                animate().alpha(1f).setDuration(300).start()
+//            }
+//            binding.rentView.visibility = View.GONE // RecyclerView 숨기기
+//        }
+//
+//        rentAdapter.submitList(filterList) // 필터링된 리스트 적용
+//    }
+    // 검색 기능
     private fun filterList(query: String) {
-        val filterList = originalList.filter {
+        isSearchMode = query.isNotEmpty()
+        searchResults = originalList.filter {
             it.rentItemName.contains(query, ignoreCase = true)
         }
-        if (filterList.isNotEmpty()) {
+        if (searchResults.isNotEmpty()) {
             binding.root.findViewById<View>(R.id.search_fragment).animate()
                 .alpha(0f)
                 .setDuration(300)
-                .withEndAction { binding.root.findViewById<View>(R.id.search_fragment).visibility = View.GONE }
+                .withEndAction {
+                    binding.root.findViewById<View>(R.id.search_fragment).visibility = View.GONE
+                }
                 .start()
             binding.rentView.visibility = View.VISIBLE // RecyclerView 보이기
+            rentAdapter.submitList(searchResults) // 검색 결과 표시
         } else {
             binding.root.findViewById<View>(R.id.search_fragment).apply {
                 alpha = 0f
@@ -177,7 +233,5 @@ class RentMainFragment : Fragment(R.layout.fragment_rent_main),RentAdapter.OnRen
             }
             binding.rentView.visibility = View.GONE // RecyclerView 숨기기
         }
-
-        rentAdapter.filteredList(filterList) // 필터링된 리스트 적용
     }
 }

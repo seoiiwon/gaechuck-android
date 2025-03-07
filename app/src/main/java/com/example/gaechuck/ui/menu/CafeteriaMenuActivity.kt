@@ -1,38 +1,32 @@
 package com.example.gaechuck.ui.menu
 import android.os.Bundle
-import android.util.Log
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import com.example.gaechuck.R
-import com.example.gaechuck.api.ApiService
-import com.example.gaechuck.data.response.BaseListResponse
 import com.example.gaechuck.data.response.FoodMenuItem
-import com.example.gaechuck.data.response.GetFoodDataResponse
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import com.example.gaechuck.ui.menu.viewmodel.CafeteriaMenuViewModdel
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
 class CafeteriaMenuActivity : AppCompatActivity() {
 
-    private val BASE_URL = "http://203.255.15.32:30001"
-
-    private lateinit var apiService: ApiService
     private lateinit var campusSpinner: Spinner
     private lateinit var restaurantLayout: LinearLayout
     private lateinit var leftArrow: ImageView
     private lateinit var rightArrow: ImageView
     private lateinit var selectedCafeteriaSeq: List<Int>
     private var currentIndex = 0
+    private val viewModel: CafeteriaMenuViewModdel by viewModels()
+
 
     private val campusMap = mapOf(
         "가좌캠퍼스" to listOf("가좌 교직원식당", "가좌 중앙1식당", "가좌 교육문화1층식당"),
@@ -50,6 +44,34 @@ class CafeteriaMenuActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cafeteria_menu)
 
+        val buttonMonday: Button = findViewById(R.id.buttonMonday)
+        val buttonTuesday: Button = findViewById(R.id.buttonTuesday)
+        val buttonWednesday: Button = findViewById(R.id.buttonWednesday)
+        val buttonThursday: Button = findViewById(R.id.buttonThursday)
+        val buttonFriday: Button = findViewById(R.id.buttonFriday)
+        val buttonSaturday: Button = findViewById(R.id.buttonSaturday)
+        val buttonSunday: Button = findViewById(R.id.buttonSunday)
+
+        val dayButtons = mapOf(
+            "월요일" to buttonMonday,
+            "화요일" to buttonTuesday,
+            "수요일" to buttonWednesday,
+            "목요일" to buttonThursday,
+            "금요일" to buttonFriday,
+            "토요일" to buttonSaturday,
+            "일요일" to buttonSunday
+        )
+
+        dayButtons.forEach { (day, button) ->
+            button.setOnClickListener {
+                filterMenuByDay(day)
+            }
+        }
+
+        viewModel.menuList.observe(this, Observer { menuList ->
+            updateMenuUI(menuList) // 초기 전체 메뉴 표시
+        })
+
         val backBtn: ImageView = findViewById(R.id.backBtn)
         backBtn.setOnClickListener { finish() }
 
@@ -61,39 +83,27 @@ class CafeteriaMenuActivity : AppCompatActivity() {
         leftArrow = findViewById(R.id.leftArrow)
         rightArrow = findViewById(R.id.rightArrow)
 
-        // Retrofit 초기화
-        val retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        apiService = retrofit.create(ApiService::class.java)
-
         val campusList = campusMap.keys.toList()
-        val campusAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, campusList)
-        campusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        campusSpinner.adapter = campusAdapter
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, campusList)
+        campusSpinner.adapter = adapter
 
-        campusSpinner.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+        campusSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: android.view.View?, position: Int, id: Long) {
-                val selectedCampus = campusList[position]
-                val restaurantList = campusMap[selectedCampus] ?: emptyList()
-                selectedCafeteriaSeq = cafeteriaSeqMap[selectedCampus] ?: emptyList()
+                selectedCafeteriaSeq = cafeteriaSeqMap[campusList[position]] ?: emptyList()
+                currentIndex = 0
 
-                if (selectedCafeteriaSeq.isNotEmpty()) {
-                    currentIndex = 0
-                    updateRestaurantDisplay(restaurantList)
-                    fetchMenuData()
-                }
+                updateRestaurantDisplay(campusMap[campusList[position]] ?: emptyList())
+                viewModel.fetchFoodMenu(selectedCafeteriaSeq[currentIndex])
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
-        })
+        }
 
         leftArrow.setOnClickListener {
             if (currentIndex > 0) {
                 currentIndex--
                 updateRestaurantDisplay(campusMap[campusSpinner.selectedItem] ?: emptyList())
-                fetchMenuData()
+                viewModel.fetchFoodMenu(selectedCafeteriaSeq[currentIndex])
             }
         }
 
@@ -101,15 +111,54 @@ class CafeteriaMenuActivity : AppCompatActivity() {
             if (currentIndex < selectedCafeteriaSeq.size - 1) {
                 currentIndex++
                 updateRestaurantDisplay(campusMap[campusSpinner.selectedItem] ?: emptyList())
-                fetchMenuData()
+                viewModel.fetchFoodMenu(selectedCafeteriaSeq[currentIndex])
             }
         }
 
-        if (savedInstanceState == null) {
-            val fragment = MenuItemFragment()
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.menuItemLayout, fragment)
-                .commit()
+        viewModel.menuList.observe(this, Observer { menuList ->
+            updateMenuUI(menuList)
+        })
+    }
+
+
+
+    private fun filterMenuByDay(selectedDay: String) {
+        val filteredMenu = viewModel.menuList.value?.filter { menuItem ->
+            val dayOfWeek = getDayOfWeek(menuItem.date)
+            dayOfWeek == selectedDay
+        } ?: emptyList()
+
+        updateMenuUI(filteredMenu)
+    }
+
+    private fun getDayOfWeek(dateString: String): String {
+        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val date = sdf.parse(dateString)
+        val calendar = Calendar.getInstance().apply { time = date!! }
+
+        return when (calendar.get(Calendar.DAY_OF_WEEK)) {
+            Calendar.SUNDAY -> "일요일"
+            Calendar.MONDAY -> "월요일"
+            Calendar.TUESDAY -> "화요일"
+            Calendar.WEDNESDAY -> "수요일"
+            Calendar.THURSDAY -> "목요일"
+            Calendar.FRIDAY -> "금요일"
+            Calendar.SATURDAY -> "토요일"
+            else -> ""
+        }
+    }
+
+    private fun updateMenuUI(menuList: List<FoodMenuItem>) {
+        val menuItemLayout = findViewById<LinearLayout>(R.id.menuItemLayout)
+        menuItemLayout.removeAllViews()
+
+        menuList.forEach { menu ->
+            val textView = TextView(this).apply {
+                text = menu.menu
+                textSize = 16f
+                setPadding(16, 16, 16, 16)
+            }
+            menuItemLayout.addView(textView)
         }
     }
 
@@ -121,76 +170,6 @@ class CafeteriaMenuActivity : AppCompatActivity() {
         textView.textSize = 16f
         textView.gravity = android.view.Gravity.CENTER
         restaurantLayout.addView(textView)
-    }
-
-    private fun fetchMenuData() {
-        val calendar = Calendar.getInstance(Locale.getDefault())
-        val today = calendar.time
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-
-        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
-        val startDateList = (0..6).map {
-            val date = dateFormat.format(calendar.time)
-            calendar.add(Calendar.DAY_OF_WEEK, 1)
-            date
-        }
-
-        val selectedSeq = selectedCafeteriaSeq.getOrElse(currentIndex) { 0 }
-        val allMenus = mutableListOf<FoodMenuItem>()
-
-        startDateList.forEach { startDate ->
-            val call: Call<BaseListResponse<GetFoodDataResponse>> = apiService.getFoodData(selectedSeq, startDate)
-
-            call.enqueue(object : Callback<BaseListResponse<GetFoodDataResponse>> {
-                override fun onResponse(
-                    call: Call<BaseListResponse<GetFoodDataResponse>>,
-                    response: Response<BaseListResponse<GetFoodDataResponse>>
-                ) {
-                    if (response.isSuccessful && response.body() != null) {
-                        val baseResponse = response.body()!!
-                        if (baseResponse.isSuccess) {
-                            val menuList = baseResponse.result.flatMap { responseItem ->
-                                responseItem.menu.split(", ").map { menuItem ->
-                                    FoodMenuItem(
-                                        menu = menuItem,
-                                        menuDivision = responseItem.menuDivision,
-                                        date = responseItem.date,
-                                        menuSeq = responseItem.menuSeq
-                                    )
-                                }
-                            }
-                            allMenus.addAll(menuList)
-                            Log.d("API_SUCCESS", "날짜: $startDate, 데이터: $menuList")
-
-                            if (allMenus.size >= startDateList.size) {
-                                updateFragment(allMenus)
-                            }
-                        } else {
-                            Log.e("API_ERROR", "API 응답 실패: ${baseResponse.message}")
-                        }
-                    } else {
-                        Log.e("API_ERROR", "서버 응답 오류: ${response.errorBody()?.string()}")
-                    }
-                }
-
-                override fun onFailure(call: Call<BaseListResponse<GetFoodDataResponse>>, t: Throwable) {
-                    Log.e("API_ERROR", "네트워크 오류: ${t.message}")
-                }
-            })
-        }
-    }
-
-
-    private fun updateFragment(menuList: List<FoodMenuItem>) {
-        val fragment = MenuItemFragment()
-        val args = Bundle()
-        args.putInt("cafeteriaSeq", selectedCafeteriaSeq[currentIndex])
-        args.putSerializable("menuList", ArrayList(menuList))
-        fragment.arguments = args
-
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.menuItemLayout, fragment)
-            .commit()
     }
 
 }

@@ -17,6 +17,9 @@ import com.example.gaechuck.repository.NoticeUnivRepository
 import com.example.gaechuck.ui.noticeuniv.adaptor.NoticeUnivAdapter
 import com.example.gaechuck.ui.noticeuniv.viewmodel.NoticeUnivViewModel
 import com.example.gaechuck.ui.noticeuniv.viewmodel.NoticeUnivViewModelFactory
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 
 class NoticeUnivActivity : AppCompatActivity() {
@@ -51,6 +54,10 @@ class NoticeUnivActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        val noticeDateTextView: TextView = findViewById(R.id.noticeDateTextView)
+        val currentDate = SimpleDateFormat("MM월 dd일", Locale.getDefault()).format(Date())
+        noticeDateTextView.text = currentDate
+
         initRecyclerView()
         observeViewModel()
 
@@ -58,8 +65,9 @@ class NoticeUnivActivity : AppCompatActivity() {
         Log.d("Activity", "Fetching notices onCreate")
         viewModel.fetchNotices(0, 10, currentBbsId)
 
-        val tabAll = findViewById<TextView>(R.id.tabAll)
-        val tabAllUnderline = findViewById<View>(R.id.tabAllUnderline)
+        val tabAll = findViewById<TextView>(R.id.tabInstitution)
+//        val tabAllUnderline = findViewById<View>(R.id.tabAllUnderline)
+        val tabAllUnderline = findViewById<View>(R.id.tabInstitutionUnderline)
         selectTab(tabAll, tabAllUnderline)
 
         setupTabs()
@@ -102,7 +110,7 @@ class NoticeUnivActivity : AppCompatActivity() {
 
     private fun setupTabs() {
         val tabs = listOf(
-            findViewById<TextView>(R.id.tabAll),
+//            findViewById<TextView>(R.id.tabAll),
             findViewById<TextView>(R.id.tabInstitution),
             findViewById<TextView>(R.id.tabAcademic),
             findViewById<TextView>(R.id.tabScholarship),
@@ -111,7 +119,7 @@ class NoticeUnivActivity : AppCompatActivity() {
         )
 
         val underlines = listOf(
-            findViewById<View>(R.id.tabAllUnderline),
+//            findViewById<View>(R.id.tabAllUnderline),
             findViewById<View>(R.id.tabInstitutionUnderline),
             findViewById<View>(R.id.tabAcademicUnderline),
             findViewById<View>(R.id.tabScholarshipUnderline),
@@ -131,7 +139,7 @@ class NoticeUnivActivity : AppCompatActivity() {
 
     private fun selectTab(selectedTab: TextView, selectedUnderline: View) {
         val allTabs = listOf(
-            findViewById<TextView>(R.id.tabAll),
+//            findViewById<TextView>(R.id.tabAll),
             findViewById<TextView>(R.id.tabInstitution),
             findViewById<TextView>(R.id.tabAcademic),
             findViewById<TextView>(R.id.tabScholarship),
@@ -140,7 +148,7 @@ class NoticeUnivActivity : AppCompatActivity() {
         )
 
         val allUnderlines = listOf(
-            findViewById<View>(R.id.tabAllUnderline),
+//            findViewById<View>(R.id.tabAllUnderline),
             findViewById<View>(R.id.tabInstitutionUnderline),
             findViewById<View>(R.id.tabAcademicUnderline),
             findViewById<View>(R.id.tabScholarshipUnderline),

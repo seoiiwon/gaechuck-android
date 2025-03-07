@@ -7,7 +7,6 @@ build/
 # Local configuration
 /local.properties
 
-
 /.idea/caches
 /.idea/libraries
 /.idea/modules.xml
@@ -25,7 +24,6 @@ captures/
 *.apk
 output.json
 
-
 .DS_Store
 /build
 /captures
@@ -42,14 +40,7 @@ render.experimental.xml
 # Gradle 관련
 .gradle/
 **/build/
-build/
 **/out/
 *.lock
 
-# Android Studio 관련
-.idea/
-*.iml
-.DS_Store
-*.log
-local.properties
-
+app/build/

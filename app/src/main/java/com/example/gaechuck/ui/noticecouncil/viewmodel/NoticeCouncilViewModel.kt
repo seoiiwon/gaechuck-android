@@ -4,10 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.gaechuck.data.response.DeleteCouncilNoticeResponse
 import com.example.gaechuck.data.response.GetCouncilNoticeDataResponse
 import com.example.gaechuck.data.response.GetCouncilNoticeDetailResponse
 import com.example.gaechuck.repository.NoticeCouncilRepository
 import kotlinx.coroutines.launch
+import retrofit2.Response
 
 class NoticeCouncilViewModel : ViewModel() {
     private val repository = NoticeCouncilRepository()
@@ -40,25 +42,18 @@ class NoticeCouncilViewModel : ViewModel() {
         return repository.getNoticeDetail(noticeId)
     }
 
+    fun deleteNotice(noticeId: Int, onSuccess: () -> Unit, onError: (String) -> Unit) {
+        viewModelScope.launch {
+            try {
+                val response: Response<DeleteCouncilNoticeResponse> = repository.deleteNotice(noticeId)
 
-
-
-
-//    // MutableLiveData는 내부에서 값을 변경할 수 있고, 외부에서는 LiveData로 읽기만 가능
-//    private val _notice = MutableLiveData<NoticeCouncilModel>()
-//    val notice: LiveData<NoticeCouncilModel> get() = _notice
-//
-//    // 데이터를 설정하는 함수
-//    fun setNotice(noticeCouncilModel: NoticeCouncilModel) {
-//        _notice.value = noticeCouncilModel
-//    }
-
-//    // 공지 리스트
-//    private val _noticeList = MutableLiveData<List<LoseList>>()
-//    val noticeList : LiveData<List<LoseList>>
-//        get() = _noticeList
-//    // 공지 개별 정보
-//    private val _noticeDetailData = MutableLiveData<GetLoseDetailResponse>()
-//    val noticeDetailData : MutableLiveData<GetLoseDetailResponse>
-//        get() = _noticeDetailData
-}
+                if (response.isSuccessful && response.body()?.isSuccess == true) {
+                    onSuccess()
+                } else {
+                    onError(response.body()?.message ?: "삭제 실패")
+                }
+            } catch (e: Exception) {
+                onError(e.message ?: "알 수 없는 오류 발생")
+            }
+        }
+    }}

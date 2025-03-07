@@ -26,6 +26,9 @@
         <argument
             android:name="lostItemId"
             app:argType="integer"/>
+        <action
+            android:id="@+id/action_loseDetailFragment_to_loseMainFragment"
+            app:destination="@id/loseMainFragment" />
     </fragment>
 
 </navigation>

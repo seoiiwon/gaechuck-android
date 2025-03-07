@@ -26,7 +26,6 @@ class LoginViewModel : ViewModel() {
 
     // 로그인 시도
     fun login(id: String, pw: String, onResult: (Boolean) -> Unit) {
-        // TODO: 로그인 로직 (예: 서버 요청 등)
         viewModelScope.launch {
             try {
                 val response = ApiConnection.getRetrofitService.login(LoginRequest(id, pw))

@@ -89,6 +89,8 @@
             android:layout_height="wrap_content"
             android:padding="8dp"
             android:src="@drawable/search_icon" />
+
+
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

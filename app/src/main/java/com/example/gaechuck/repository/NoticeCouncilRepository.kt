@@ -3,6 +3,7 @@ package com.example.gaechuck.repository
 import android.util.Log
 import com.example.gaechuck.api.ApiConnection
 import com.example.gaechuck.data.response.BaseResponse
+import com.example.gaechuck.data.response.DeleteCouncilNoticeResponse
 import com.example.gaechuck.data.response.GetCouncilNoticeDataResponse
 import com.example.gaechuck.data.response.GetCouncilNoticeDetailResponse
 import kotlinx.coroutines.Dispatchers
@@ -37,6 +38,9 @@ class NoticeCouncilRepository {
                 Log.d("NoticeDetail", "API 요청 시작: noticeId = $noticeId")
                 val response: Response<BaseResponse<GetCouncilNoticeDetailResponse>> = apiService.getNoticeCouncilDetailData(noticeId)
 
+                Log.d("hello", "${response.body()}")
+
+
                 if (!response.isSuccessful) {
                     Log.e("NoticeDetail", "API 응답 실패: HTTP ${response.code()}")
                     return@withContext null
@@ -65,7 +69,7 @@ class NoticeCouncilRepository {
         }
     }
 
-
-
-
+    suspend fun deleteNotice(noticeId: Int): Response<DeleteCouncilNoticeResponse> {
+        return ApiConnection.getRetrofitService.deleteNoticeCouncil(noticeId)
+    }
 }
