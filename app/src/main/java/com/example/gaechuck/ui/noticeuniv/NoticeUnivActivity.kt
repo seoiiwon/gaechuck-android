@@ -28,7 +28,7 @@ class NoticeUnivActivity : AppCompatActivity() {
     private lateinit var dateTextView: TextView
     private var currentPage = 0
     private val itemsPerPage = 10
-    private var currentBbsId: String = "전체"
+    private var currentBbsId: String = "기관"
     private var isLoading = false
 
     override fun onCreate(savedInstanceState: Bundle?) {

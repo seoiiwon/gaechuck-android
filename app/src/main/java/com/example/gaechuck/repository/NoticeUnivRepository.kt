@@ -11,15 +11,16 @@ class NoticeUnivRepository {
     // 교내 공지 리스트 가져오기
     suspend fun getNoticeUnivList(page: Int, pageSize: Int, bbsId: String): List<NoticeUnivModel> {
         return try {
-            val requestBbsId = if (bbsId == "전체") null else bbsId
+
+            val requestBbsId = if (bbsId.isNullOrEmpty()) "2" else bbsId
 
             Log.d("API_REQUEST", "Fetching notices with page=$page, pageSize=$pageSize, bbsId=$requestBbsId")
 
             val result = apiService.getAllNoticeData(page, pageSize, requestBbsId)
+
             if (result.isSuccess && result.result != null) {
                 Log.d("API_SUCCESS", "Response: ${result.result}")
 
-                // ✅ map을 통해 List<NoticeUnivModel>로 변환
                 result.result.map {
                     NoticeUnivModel(
                         id = it.id,
@@ -27,8 +28,8 @@ class NoticeUnivRepository {
                         body = it.body,
                         representationImages = it.representationImages,
                         time = it.time,
-                        departmentName = it.departmentName, // ✅ departmentName 추가
-                        bbsId = it.bbsId                    // ✅ bbsId 추가
+                        departmentName = it.departmentName,
+                        bbsId = it.bbsId
                     )
                 }
 
