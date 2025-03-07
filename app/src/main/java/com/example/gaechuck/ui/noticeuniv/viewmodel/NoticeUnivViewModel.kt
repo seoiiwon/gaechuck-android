@@ -38,6 +38,8 @@ class NoticeUnivViewModel(private val repository: NoticeUnivRepository) : ViewMo
                 hasMoreData = hasNextPage
                 currentPage = page
 
+                Log.d("VIEWMODEL", "Total items fetched so far: ${currentList.size}")
+
             } catch (e: Exception) {
                 _errorMessage.value = e.message
             } finally {

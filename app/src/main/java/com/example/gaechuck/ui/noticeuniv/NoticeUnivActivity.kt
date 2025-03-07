@@ -87,6 +87,7 @@ class NoticeUnivActivity : AppCompatActivity() {
                 val lastVisibleItem = layoutManager.findLastVisibleItemPosition()
 
                 if (!viewModel.isLoading && viewModel.hasMoreData && lastVisibleItem + 1 >= totalItemCount) {
+                    Log.d("SCROLL", "Loading more data... Current page: ${viewModel.currentPage}")
                     viewModel.loadMoreNotices(currentBbsId)
                 }
             }
@@ -128,8 +129,9 @@ class NoticeUnivActivity : AppCompatActivity() {
             textView.setOnClickListener {
                 selectTab(textView, underlines[index])
                 currentBbsId = textView.text.toString()
-                viewModel.hasMoreData = true
-                viewModel.currentPage = 0
+
+                val recyclerView = findViewById<RecyclerView>(R.id.noticeRecyclerView)
+                recyclerView.scrollToPosition(0)
                 viewModel.fetchNotices(0, currentBbsId)
             }
         }

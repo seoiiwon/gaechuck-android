@@ -13,11 +13,12 @@ class NoticeUnivRepository {
         return try {
 
             val requestBbsId = if (bbsId.isNullOrEmpty()) "2" else bbsId
-            val maxSize = 100
+            val size = 1000
 
-            val result = apiService.getAllNoticeData(page, maxSize, requestBbsId)
+            Log.d("API_REQUEST", "🔹 Fetching notices → page=$page, size=$size, bbsId=$requestBbsId")
+
+            val result = apiService.getAllNoticeData(page, size, requestBbsId)
             if (result.isSuccess && result.result != null) {
-                Log.d("API_SUCCESS", "Response: ${result.result}")
 
                 val notices = result.result.map {
                     NoticeUnivModel(
@@ -31,8 +32,10 @@ class NoticeUnivRepository {
                     )
                 }
 
-                // 데이터 로그 출력
-                Log.d("API_SUCCESS", "Page: $page, Fetched: ${notices.size} items")
+                Log.d("API_SUCCESS", "Page: $page → Fetched: ${notices.size} items")
+
+                val totalDataCount = notices.size
+                Log.d("API_SUCCESS", "Total fetched so far: ${totalDataCount} items")
 
                 val hasMoreData = notices.isNotEmpty()
                 Pair(notices, hasMoreData)
