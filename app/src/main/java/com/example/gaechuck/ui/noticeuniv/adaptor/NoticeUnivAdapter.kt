@@ -8,13 +8,25 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.gaechuck.R
 import com.example.gaechuck.data.model.NoticeUnivModel
 
-class NoticeUnivAdapter(private val noticeUnivModels: MutableList<NoticeUnivModel>) :
-    RecyclerView.Adapter<NoticeUnivAdapter.NoticeViewHolder>() {
+class NoticeUnivAdapter(
+    private val noticeUnivModels: MutableList<NoticeUnivModel>,
+    private val onItemClick: (String) -> Unit
+) : RecyclerView.Adapter<NoticeUnivAdapter.NoticeViewHolder>() {
 
     class NoticeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title: TextView = view.findViewById(R.id.noticeTitle)
         val body: TextView = view.findViewById(R.id.noticeBody)
         val category: TextView = view.findViewById(R.id.noticeCategory)
+
+        fun bind(notice: NoticeUnivModel, onItemClick: (String) -> Unit) {
+            title.text = notice.title
+            body.text = notice.departmentName ?: "부서 없음"
+            category.text = notice.bbsId ?: "카테고리 없음"
+
+            itemView.setOnClickListener {
+                notice.url?.let { url -> onItemClick(url) }
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoticeViewHolder {
@@ -24,10 +36,7 @@ class NoticeUnivAdapter(private val noticeUnivModels: MutableList<NoticeUnivMode
     }
 
     override fun onBindViewHolder(holder: NoticeViewHolder, position: Int) {
-        val notice = noticeUnivModels[position]
-        holder.title.text = notice.title
-        holder.body.text = notice.departmentName ?: "부서 없음"
-        holder.category.text = notice.bbsId ?: "카테고리 없음"
+        holder.bind(noticeUnivModels[position], onItemClick)
     }
 
     override fun getItemCount(): Int = noticeUnivModels.size
@@ -41,4 +50,6 @@ class NoticeUnivAdapter(private val noticeUnivModels: MutableList<NoticeUnivMode
     fun getItem(position: Int): NoticeUnivModel? {
         return if (position in noticeUnivModels.indices) noticeUnivModels[position] else null
     }
+
+
 }

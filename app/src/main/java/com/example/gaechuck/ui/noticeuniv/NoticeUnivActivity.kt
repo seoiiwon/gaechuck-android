@@ -1,6 +1,7 @@
 package com.example.gaechuck.ui.noticeuniv
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -69,7 +70,9 @@ class NoticeUnivActivity : AppCompatActivity() {
     private fun initRecyclerView() {
         val recyclerView = findViewById<RecyclerView>(R.id.noticeRecyclerView)
         recyclerView.setLayerType(View.LAYER_TYPE_SOFTWARE, null)
-        noticeUnivAdapter = NoticeUnivAdapter(mutableListOf())
+        noticeUnivAdapter = NoticeUnivAdapter(mutableListOf()) { url ->
+            openUrl(url)
+        }
         recyclerView.adapter = noticeUnivAdapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -175,5 +178,10 @@ class NoticeUnivActivity : AppCompatActivity() {
         } catch (e: Exception) {
             "날짜 오류"
         }
+    }
+
+    private fun openUrl(url: String) {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        startActivity(intent)
     }
 }
