@@ -17,6 +17,7 @@ import com.example.gaechuck.repository.NoticeUnivRepository
 import com.example.gaechuck.ui.noticeuniv.adaptor.NoticeUnivAdapter
 import com.example.gaechuck.ui.noticeuniv.viewmodel.NoticeUnivViewModel
 import com.example.gaechuck.ui.noticeuniv.viewmodel.NoticeUnivViewModelFactory
+import okhttp3.internal.format
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -26,10 +27,7 @@ class NoticeUnivActivity : AppCompatActivity() {
     private lateinit var noticeUnivAdapter: NoticeUnivAdapter
     private lateinit var viewModel: NoticeUnivViewModel
     private lateinit var dateTextView: TextView
-    private var currentPage = 0
-    private val itemsPerPage = 10
     private var currentBbsId: String = "기관"
-    private var isLoading = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,10 +52,6 @@ class NoticeUnivActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        val noticeDateTextView: TextView = findViewById(R.id.noticeDateTextView)
-        val currentDate = SimpleDateFormat("MM월 dd일", Locale.getDefault()).format(Date())
-        noticeDateTextView.text = currentDate
-
         initRecyclerView()
         observeViewModel()
 
@@ -66,7 +60,6 @@ class NoticeUnivActivity : AppCompatActivity() {
         viewModel.fetchNotices(0, currentBbsId)
 
         val tabAll = findViewById<TextView>(R.id.tabInstitution)
-//        val tabAllUnderline = findViewById<View>(R.id.tabAllUnderline)
         val tabAllUnderline = findViewById<View>(R.id.tabInstitutionUnderline)
         selectTab(tabAll, tabAllUnderline)
 
@@ -80,6 +73,8 @@ class NoticeUnivActivity : AppCompatActivity() {
         recyclerView.adapter = noticeUnivAdapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
+        val dateTextView = findViewById<TextView>(R.id.noticeDateTextView)
+
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 val layoutManager = recyclerView.layoutManager as LinearLayoutManager
@@ -87,9 +82,17 @@ class NoticeUnivActivity : AppCompatActivity() {
                 val lastVisibleItem = layoutManager.findLastVisibleItemPosition()
 
                 if (!viewModel.isLoading && viewModel.hasMoreData && lastVisibleItem + 1 >= totalItemCount) {
-                    Log.d("SCROLL", "Loading more data... Current page: ${viewModel.currentPage}")
                     viewModel.loadMoreNotices(currentBbsId)
                 }
+
+                val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+                if (firstVisibleItemPosition != RecyclerView.NO_POSITION) {
+                    val firstVisibleItem = noticeUnivAdapter.getItem(firstVisibleItemPosition)
+                    firstVisibleItem?.let {
+                        dateTextView.text = formatDate(it.regiDate)
+                    }
+                }
+
             }
         })
     }
@@ -161,5 +164,16 @@ class NoticeUnivActivity : AppCompatActivity() {
 
         allTabs.forEach { it.setTextColor(resources.getColor(R.color.tab_colors)) }
         selectedTab.setTextColor(resources.getColor(R.color.gnu_blue))
+    }
+
+    private fun formatDate(regiDate: String): String {
+        return try {
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            val outputFormat = SimpleDateFormat("MM월 dd일", Locale.getDefault())
+            val date = inputFormat.parse(regiDate)
+            outputFormat.format(date!!)
+        } catch (e: Exception) {
+            "날짜 오류"
+        }
     }
 }

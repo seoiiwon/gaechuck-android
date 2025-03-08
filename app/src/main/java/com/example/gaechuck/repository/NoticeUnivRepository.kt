@@ -22,13 +22,15 @@ class NoticeUnivRepository {
 
                 val notices = result.result.map {
                     NoticeUnivModel(
-                        id = it.id,
+                        notiSeq = it.notiSeq,
+                        notiNum = it.notiNum,
                         title = it.title,
-                        body = it.body,
-                        representationImages = it.representationImages,
-                        time = it.time,
+                        regiDate = it.regiDate,
+                        categoryName = it.categoryName,
                         departmentName = it.departmentName,
-                        bbsId = it.bbsId
+                        url = it.url,
+                        bbsId = it.bbsId,
+                        dataId = it.dataId
                     )
                 }
 
@@ -52,13 +54,15 @@ class NoticeUnivRepository {
 
     private fun GetAllNoticeDataResponse.toNoticeUnivModel(): NoticeUnivModel {
         return NoticeUnivModel(
-            id = this.id,
+            notiSeq = this.notiSeq,
+            notiNum = this.notiNum,
             title = this.title,
-            body = this.body,
-            representationImages = this.representationImages,
-            time = this.time,
+            regiDate = this.regiDate,
+            categoryName = this.categoryName,
             departmentName = this.departmentName,
-            bbsId = this.bbsId
+            url = this.url,
+            bbsId = this.bbsId,
+            dataId = this.dataId
         )
     }
 

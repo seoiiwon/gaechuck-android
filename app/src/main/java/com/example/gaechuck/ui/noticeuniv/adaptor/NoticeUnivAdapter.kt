@@ -38,21 +38,7 @@ class NoticeUnivAdapter(private val noticeUnivModels: MutableList<NoticeUnivMode
         notifyDataSetChanged()
     }
 
-    fun addNotices(newNoticeUnivModels: List<NoticeUnivModel>) {
-        val startPosition = noticeUnivModels.size
-        noticeUnivModels.addAll(newNoticeUnivModels)
-        notifyItemRangeInserted(startPosition, newNoticeUnivModels.size)
-    }
-
-
-    private fun getCategoryByBbsId(id: Int): String {
-        return when (id) {
-            1 -> "학사"
-            2 -> "기관"
-            3 -> "채용"
-            4 -> "장학"
-            5 -> "입법예고"
-            else -> "기타"
-        }
+    fun getItem(position: Int): NoticeUnivModel? {
+        return if (position in noticeUnivModels.indices) noticeUnivModels[position] else null
     }
 }
