@@ -4,7 +4,9 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import android.view.View
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -22,6 +24,7 @@ import okhttp3.internal.format
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import java.util.Queue
 
 
 class NoticeUnivActivity : AppCompatActivity() {
@@ -55,6 +58,8 @@ class NoticeUnivActivity : AppCompatActivity() {
 
         initRecyclerView()
         observeViewModel()
+        initSearch()
+
 
         // 데이터 로드
         Log.d("Activity", "Fetching notices onCreate")
@@ -69,7 +74,7 @@ class NoticeUnivActivity : AppCompatActivity() {
 
     private fun initRecyclerView() {
         val recyclerView = findViewById<RecyclerView>(R.id.noticeRecyclerView)
-        recyclerView.setLayerType(View.LAYER_TYPE_SOFTWARE, null)
+        recyclerView.setLayerType(View.LAYER_TYPE_HARDWARE, null)
         noticeUnivAdapter = NoticeUnivAdapter(mutableListOf()) { url ->
             openUrl(url)
         }
@@ -136,9 +141,15 @@ class NoticeUnivActivity : AppCompatActivity() {
                 selectTab(textView, underlines[index])
                 currentBbsId = textView.text.toString()
 
+                val searchEditText = findViewById<EditText>(R.id.searchEditText)
+                searchEditText.text.clear()
+
+                noticeUnivAdapter.filter("")
+                viewModel.fetchNotices(0, currentBbsId)
+
+
                 val recyclerView = findViewById<RecyclerView>(R.id.noticeRecyclerView)
                 recyclerView.scrollToPosition(0)
-                viewModel.fetchNotices(0, currentBbsId)
             }
         }
     }
@@ -183,5 +194,51 @@ class NoticeUnivActivity : AppCompatActivity() {
     private fun openUrl(url: String) {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
         startActivity(intent)
+    }
+
+    private fun initSearch() {
+        val searchEditText = findViewById<EditText>(R.id.searchEditText)
+        val searchButton = findViewById<ImageView>(R.id.searchButton)
+
+        // 🔍 검색 버튼 클릭 시
+        searchButton.setOnClickListener {
+            val query = searchEditText.text.toString().trim()
+            Log.d("Search", "Search button clicked, query: $query") // 로그 추가
+            performSearch(query)
+        }
+
+        // 🔍 키보드의 "검색" 버튼 클릭 시
+        searchEditText.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH) {
+                val query = searchEditText.text.toString().trim()
+                Log.d("Search", "IME_ACTION_SEARCH triggered, query: $query") // 로그 추가
+                performSearch(query)
+                true
+            } else {
+                false
+            }
+        }
+
+        // 🔍 하드웨어 키보드의 엔터 키 감지
+        searchEditText.setOnKeyListener { _, keyCode, event ->
+            if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                val query = searchEditText.text.toString().trim()
+                Log.d("Search", "Hardware ENTER key pressed, query: $query") // 로그 추가
+                performSearch(query)
+                true
+            } else {
+                false
+            }
+        }
+    }
+
+    // 🔍 검색 실행
+    private fun performSearch(query: String) {
+        Log.d("Search", "Performing search for query: $query")
+        noticeUnivAdapter.filter(query)
+
+        // ✅ 검색 후 RecyclerView 최상단으로 이동
+        val recyclerView = findViewById<RecyclerView>(R.id.noticeRecyclerView)
+        recyclerView.scrollToPosition(0)
     }
 }
