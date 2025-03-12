@@ -71,6 +71,7 @@ interface ApiService {
     suspend fun getRentData(
         @Query("page") page : Int,
         @Query("size") size : Int = 9,
+        @Query("rentItemName") rentItemId: String
     )
             : Response<BaseResponse<GetRentDataResponse>>
 
