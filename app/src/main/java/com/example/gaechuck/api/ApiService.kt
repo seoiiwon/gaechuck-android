@@ -69,9 +69,9 @@ interface ApiService {
     // 대여 리스트 가져오기
     @GET("/api/v1/rent/list")
     suspend fun getRentData(
-        @Query("page") page : Int,
-        @Query("size") size : Int = 9,
-        @Query("rentItemName") rentItemId: String
+        @Query("page") page : Int = 0,
+        @Query("size") size : Int = 10,
+        @Query("rentItemName") rentItemId: String? = null
     )
             : Response<BaseResponse<GetRentDataResponse>>
 

@@ -23,9 +23,9 @@ class RentRepository {
     private val apiService = ApiConnection.getRetrofitService
 
     // 대여 리스트 가져오기
-    suspend fun getRentList(page:Int): GetRentDataResponse? {
+    suspend fun getRentList(page:Int, rentItemName: String): GetRentDataResponse? {
         return try {
-            val response = apiService.getRentData(page)
+            val response = apiService.getRentData(page, 9, rentItemName)
             if (response.isSuccessful && response.body()?.isSuccess == true) {
                 response.body()?.result
             } else {

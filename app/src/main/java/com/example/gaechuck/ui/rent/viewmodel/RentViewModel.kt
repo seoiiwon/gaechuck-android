@@ -40,6 +40,10 @@ class RentViewModel(private val repository: RentRepository): ViewModel() {
     val filterRentList : LiveData<List<RentList>>
         get() = _filterRentList
 
+    // 검색 상태 관리
+    private val _isSearchResultEmpty = MutableLiveData<Boolean>()
+    val isSearchResultEmpty: LiveData<Boolean> get() = _isSearchResultEmpty
+
     // 로그인 상태관리
     private val _isLoggedIn = MutableLiveData<Boolean>().apply {
         value = !AuthManager.getToken().isNullOrEmpty()
@@ -75,7 +79,7 @@ class RentViewModel(private val repository: RentRepository): ViewModel() {
 
         viewModelScope.launch {
             try {
-                val response = repository.getRentList(currentPage)
+                val response = repository.getRentList(currentPage, "")
                 response?.let {
                     val currentList = _rentList.value ?: mutableListOf()
                     if (currentPage == 0) {
@@ -87,8 +91,9 @@ class RentViewModel(private val repository: RentRepository): ViewModel() {
                     // 페이지 번호 증가
                     currentPage++
                 }
+                Log.d("RentViewModel", "${response}")
             } catch (e: Exception) {
-                Log.e("BusinessViewModel", "에러 발생: ${e.message}")
+                Log.e("RentViewModel", "에러 발생: ${e.message}")
                 if (currentPage > 0) {
                     currentPage--
                 }
@@ -115,12 +120,29 @@ class RentViewModel(private val repository: RentRepository): ViewModel() {
     }
 
     // 검색 (필터링) 기능
-    fun searchRentItems(query: String) {
-        val originalList = _rentList.value ?: emptyList()
-        if (query.isBlank()) {
-            _filterRentList.value = originalList
-        } else {
-            _filterRentList.value = originalList.filter { it.rentItemName.contains(query, ignoreCase = true) }
+    fun searchRentItems(rentItemName: String) {
+//        val originalList = _rentList.value ?: emptyList()
+//        if (query.isBlank()) {
+//            _filterRentList.value = originalList
+//        } else {
+//            _filterRentList.value = originalList.filter { it.rentItemName.contains(query, ignoreCase = true) }
+//        }
+        viewModelScope.launch {
+            try {
+                val response = repository.getRentList(0, rentItemName)
+                response?.let {
+                    if(it.content.isEmpty()) {
+                        _isSearchResultEmpty.postValue(true) // 검색 결과 없음
+
+                    } else {
+                        _filterRentList.postValue(it.content) // 검색 결과를 새로운 값으로 설정
+                        _isSearchResultEmpty.postValue(false)
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("RentViewModel", "에러 발생: ${e.message}")
+                _isSearchResultEmpty.postValue(true) // 검색 결과 없음
+            }
         }
     }
 
