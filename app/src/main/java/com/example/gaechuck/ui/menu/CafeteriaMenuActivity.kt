@@ -44,6 +44,9 @@ class CafeteriaMenuActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cafeteria_menu)
 
+        val oneWeekPeriodTextView = findViewById<TextView>(R.id.oneWeekPeriod)
+        oneWeekPeriodTextView.text = getCurrentWeekRange()
+
         val buttonMonday: Button = findViewById(R.id.buttonMonday)
         val buttonTuesday: Button = findViewById(R.id.buttonTuesday)
         val buttonWednesday: Button = findViewById(R.id.buttonWednesday)
@@ -167,9 +170,24 @@ class CafeteriaMenuActivity : AppCompatActivity() {
         val textView = TextView(this)
         textView.text = restaurantList.getOrElse(currentIndex) { "식당 정보 없음" }
         textView.setPadding(16, 16, 16, 16)
-        textView.textSize = 16f
+        textView.textSize = 14f
         textView.gravity = android.view.Gravity.CENTER
+        textView.setTypeface(null, android.graphics.Typeface.BOLD)
         restaurantLayout.addView(textView)
     }
 
+    private fun getCurrentWeekRange(): String {
+        val calendar = Calendar.getInstance()
+        calendar.firstDayOfWeek = Calendar.MONDAY
+
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+        val monday = calendar.time
+
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
+        val sunday = calendar.time
+
+        val dateFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
+
+        return "${dateFormat.format(monday)} ~ ${dateFormat.format(sunday)}"
+    }
 }
