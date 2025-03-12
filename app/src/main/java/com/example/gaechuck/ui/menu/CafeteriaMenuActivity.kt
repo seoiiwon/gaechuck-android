@@ -1,5 +1,7 @@
 package com.example.gaechuck.ui.menu
 import android.os.Bundle
+import android.view.View
+import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -9,10 +11,12 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.marginBottom
 import androidx.lifecycle.Observer
 import com.example.gaechuck.R
 import com.example.gaechuck.data.response.FoodMenuItem
 import com.example.gaechuck.ui.menu.viewmodel.CafeteriaMenuViewModdel
+import org.w3c.dom.Text
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -87,7 +91,33 @@ class CafeteriaMenuActivity : AppCompatActivity() {
         rightArrow = findViewById(R.id.rightArrow)
 
         val campusList = campusMap.keys.toList()
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, campusList)
+
+        val adapter = object : ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, campusList) {
+            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val textView = super.getView(position, convertView, parent) as TextView
+                textView.textSize = 14f
+                textView.setTypeface(null, android.graphics.Typeface.BOLD) // ✅ Bold 적용
+                textView.gravity = android.view.Gravity.CENTER // ✅ 중앙 정렬 적용
+                return textView
+            }
+
+            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val textView = super.getDropDownView(position, convertView, parent) as TextView
+                textView.textSize = 14f
+                textView.setTypeface(null, android.graphics.Typeface.NORMAL) // ✅ Bold 적용 가능
+                textView.gravity = android.view.Gravity.CENTER // ✅ 중앙 정렬 적용
+
+                // ✅ 부모의 너비를 match_parent로 설정하여 중앙 정렬 적용
+                textView.layoutParams = ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT, // 너비를 MATCH_PARENT로 설정
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                )
+
+                return textView
+            }
+        }
+
+        campusSpinner.adapter = adapter
         campusSpinner.adapter = adapter
 
         campusSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
