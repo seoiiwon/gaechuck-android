@@ -1,8 +1,13 @@
 package com.example.gaechuck.ui.bus
 
 import android.content.Intent
+import android.graphics.Typeface
 import android.os.Bundle
+import android.util.TypedValue
+import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewTreeObserver
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.GridLayout
@@ -11,14 +16,20 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.example.gaechuck.MainActivity
 import com.example.gaechuck.R
+import com.example.gaechuck.ui.bus.viewmodel.BusRouteViewModel
+import com.example.gaechuck.ui.bus.viewmodel.BusStop
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.InputStream
 
 class BusRouteActivity : AppCompatActivity() {
+
+    private val busRouteViewModel: BusRouteViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,29 +51,23 @@ class BusRouteActivity : AppCompatActivity() {
 
         // Spinner 초기화
         val spinner = findViewById<Spinner>(R.id.categorySpinner)
-        val categories = listOf("캠퍼스긴 셔틀버스(오전)", "캠퍼스간 셔틀버스(오후)", "진주역 셔틀버스", "통학노선버스(시외)")
+        val categories = listOf("캠퍼스(오전)", "캠퍼스(오후)", "진주역", "시외")
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, categories)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
 
-        // JSON 데이터 로드
-        val jsonString = loadJSONFromAsset()
-        val jsonArray = JSONArray(jsonString)
-
         // Spinner 선택 이벤트 처리
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: android.view.View?, position: Int, id: Long) {
-                // 선택된 JSON 데이터 가져오기
                 val selectedCategory = categories[position]
-                val selectedRoute = jsonArray.find { it.getString("type") == selectedCategory }
+                val selectedRoute = busRouteViewModel.getBusRouteByType(selectedCategory)
 
-                // 버스 노선 데이터 갱신
+                // UI 업데이트
                 if (selectedRoute != null) {
                     val busRouteContainer = findViewById<LinearLayout>(R.id.busRouteContainer)
-                    busRouteContainer.removeAllViews() // 기존 항목 제거
-                    val serviceTime = selectedRoute.getJSONObject("serviceTime")
-                    for (key in serviceTime.keys()) {
-                        val departures = serviceTime.getJSONArray(key)
+                    busRouteContainer.removeAllViews()
+
+                    selectedRoute.serviceTime.forEach { (key, departures) ->
                         addBusRoute(busRouteContainer, key, departures)
                     }
                 }
@@ -72,70 +77,123 @@ class BusRouteActivity : AppCompatActivity() {
         }
     }
 
-    private fun addBusRoute(container: LinearLayout, title: String, departures: JSONArray) {
-        // "n회 출발" 제목 추가
-        val titleTextView = TextView(this)
-        titleTextView.text = "$title 출발"
-        titleTextView.textSize = 14f
-        titleTextView.setTextColor(resources.getColor(android.R.color.holo_blue_dark))
-        titleTextView.setPadding(0, 16, 0, 8)
-        container.addView(titleTextView)
+    private fun addBusRoute(container: LinearLayout, title: String, departures: List<BusStop>) {
+        val titleLayout = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+        }
 
-        // ScrollView 및 GridLayout 생성
+        val titleTextView = TextView(this).apply {
+            text = "$title 출발"
+            textSize = 10f
+            setTypeface(null, Typeface.BOLD)
+            setTextColor(ContextCompat.getColor(context, R.color.gnu_blue))
+            setPadding(0, 16, 0, 8)
+            layoutParams = LinearLayout.LayoutParams(
+                0,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                1f
+            )
+        }
+
+        val swipeLayout = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
+            visibility = View.GONE
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+        }
+
+        val swipeTextView = TextView(this).apply {
+            text = "스와이프"
+            textSize = 8f
+            setTypeface(null, Typeface.BOLD)
+            setTextColor(ContextCompat.getColor(context, R.color.lables_secondary))
+        }
+
+        val swipeImageView = ImageView(this).apply {
+            setImageResource(R.drawable.swipe) // swipe.png 사용
+            layoutParams = LinearLayout.LayoutParams(
+                dpToPx(8), // 너비
+                dpToPx(8)  // 높이
+            ).apply {
+                setMargins(dpToPx(2), 0, 0, 0)
+            }
+        }
+
+        swipeLayout.addView(swipeTextView)
+        swipeLayout.addView(swipeImageView)
+
+        titleLayout.addView(titleTextView)
+        titleLayout.addView(swipeLayout)
+        container.addView(titleLayout)
+
+
         val scrollView = HorizontalScrollView(this)
         val gridLayout = GridLayout(this)
         gridLayout.setPadding(8, 8, 8, 8)
+        gridLayout.columnCount = departures.size
 
-        // 동적으로 열의 개수를 데이터 수에 맞게 설정
-        gridLayout.columnCount = departures.length()
-
-        // 첫 번째 행 (정류장 정보)
-        for (i in 0 until departures.length()) {
-            val station = departures.getJSONArray(i).getString(0)
-            val stationTextView = createTextViewFromXml(station)
+        // 정류장 정보
+        departures.forEach { busStop ->
+            val stationTextView = createTextView(busStop.name).apply {
+                textSize = 10f
+            }
+            val layoutParams = GridLayout.LayoutParams().apply {
+                setGravity(Gravity.CENTER)
+            }
+            stationTextView.layoutParams = layoutParams
             gridLayout.addView(stationTextView)
         }
 
-        // 두 번째 행 (시간 정보)
-        for (i in 0 until departures.length()) {
-            val time = departures.getJSONArray(i).optString(1, "-")
-            val timeTextView = createTextViewFromXml(time)
+        // 시간 정보
+        departures.forEach { busStop ->
+            val timeTextView = createTextView(busStop.time ?: "-")
+            val layoutParams = GridLayout.LayoutParams().apply {
+                setGravity(Gravity.CENTER)
+            }
+            timeTextView.layoutParams = layoutParams
             gridLayout.addView(timeTextView)
         }
 
-        // ScrollView에 GridLayout 추가 후 컨테이너에 추가
         scrollView.addView(gridLayout)
         container.addView(scrollView)
 
         scrollView.isHorizontalScrollBarEnabled = false
         scrollView.isVerticalScrollBarEnabled = false
+
+        // 스크롤이 필요한 경우에만 "스와이프" 표시
+        scrollView.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                if (scrollView.getChildAt(0).width > scrollView.width) {
+                    swipeLayout.visibility = View.VISIBLE
+                } else {
+                    swipeLayout.visibility = View.GONE
+                }
+                scrollView.viewTreeObserver.removeOnGlobalLayoutListener(this)
+            }
+        })
     }
 
 
-    private fun createTextViewFromXml(text: String?): TextView {
-        // XML로부터 TextView 인플레이트
+    private fun dpToPx(dp: Int): Int {
+        return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP, dp.toFloat(), resources.displayMetrics
+        ).toInt()
+    }
+
+
+    private fun createTextView(text: String): TextView {
         val textView = LayoutInflater.from(this).inflate(R.layout.fragment_bus_route_item, null) as TextView
-        textView.text = text ?: "-" // null 값일 경우 "-" 표시
+        textView.text = text
         val params = GridLayout.LayoutParams()
         params.setMargins(16, 16, 16, 16)
         textView.layoutParams = params
         return textView
-    }
-
-
-
-    private fun loadJSONFromAsset(): String {
-        val inputStream: InputStream = assets.open("suttle_bus_route.json")
-        return inputStream.bufferedReader().use { it.readText() }
-    }
-
-    private fun JSONArray.find(predicate: (JSONObject) -> Boolean): JSONObject? {
-        for (i in 0 until this.length()) {
-            val obj = this.getJSONObject(i)
-            if (predicate(obj)) {
-                return obj
-            }
-        }
-        return null
     }
 }
