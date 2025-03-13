@@ -1,26 +1,25 @@
 package com.example.gaechuck.ui.menu
+import DayButtonAdapter
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.marginBottom
 import androidx.lifecycle.Observer
 import com.example.gaechuck.R
 import com.example.gaechuck.data.response.FoodMenuItem
 import com.example.gaechuck.ui.menu.viewmodel.CafeteriaMenuViewModdel
-import org.w3c.dom.Text
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
-import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 class CafeteriaMenuActivity : AppCompatActivity() {
 
@@ -29,6 +28,7 @@ class CafeteriaMenuActivity : AppCompatActivity() {
     private lateinit var leftArrow: ImageView
     private lateinit var rightArrow: ImageView
     private lateinit var selectedCafeteriaSeq: List<Int>
+    private lateinit var dayRecyclerView: RecyclerView
     private var currentIndex = 0
     private val viewModel: CafeteriaMenuViewModdel by viewModels()
 
@@ -52,39 +52,8 @@ class CafeteriaMenuActivity : AppCompatActivity() {
         val oneWeekPeriodTextView = findViewById<TextView>(R.id.oneWeekPeriod)
         oneWeekPeriodTextView.text = getCurrentWeekRange()
 
-        val buttonMonday: Button = findViewById(R.id.buttonMonday)
-        val buttonTuesday: Button = findViewById(R.id.buttonTuesday)
-        val buttonWednesday: Button = findViewById(R.id.buttonWednesday)
-        val buttonThursday: Button = findViewById(R.id.buttonThursday)
-        val buttonFriday: Button = findViewById(R.id.buttonFriday)
-        val buttonSaturday: Button = findViewById(R.id.buttonSaturday)
-        val buttonSunday: Button = findViewById(R.id.buttonSunday)
-
-        val dayButtons = mapOf(
-            "월요일" to buttonMonday,
-            "화요일" to buttonTuesday,
-            "수요일" to buttonWednesday,
-            "목요일" to buttonThursday,
-            "금요일" to buttonFriday,
-            "토요일" to buttonSaturday,
-            "일요일" to buttonSunday
-        )
-
-        val today = getDayOfWeek(SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Calendar.getInstance().time))
-        val todayButton = dayButtons[today]
-        todayButton?.setBackgroundColor(ContextCompat.getColor(this, R.color.gnu_blue))
-
-        dayButtons.forEach { (day, button) ->
-            button.setOnClickListener {
-                resetButtonColors(dayButtons) // 다른 버튼 원래 색으로 변경
-                button.setBackgroundColor(ContextCompat.getColor(this, R.color.gnu_blue)) // 클릭된 버튼 강조
-                filterMenuByDay(day)
-            }
-        }
-
-        viewModel.menuList.observe(this, Observer { menuList ->
-            updateMenuUI(menuList) // 초기 전체 메뉴 표시
-        })
+        dayRecyclerView = findViewById(R.id.dayRecyclerView)
+        setupDayRecyclerView()
 
         val backBtn: ImageView = findViewById(R.id.backBtn)
         backBtn.setOnClickListener { finish() }
@@ -97,45 +66,20 @@ class CafeteriaMenuActivity : AppCompatActivity() {
         leftArrow = findViewById(R.id.leftArrow)
         rightArrow = findViewById(R.id.rightArrow)
 
-        val campusList = campusMap.keys.toList()
+        setupCampusSpinner()
 
-        val adapter = object : ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, campusList) {
-            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-                val textView = super.getView(position, convertView, parent) as TextView
-                textView.textSize = 14f
-                textView.setTypeface(null, android.graphics.Typeface.BOLD)
-                textView.gravity = android.view.Gravity.CENTER
-                return textView
-            }
+        viewModel.menuList.observe(this, Observer { menuList ->
+            updateMenuUI(menuList)
+        })
 
-            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
-                val textView = super.getDropDownView(position, convertView, parent) as TextView
-                textView.textSize = 14f
-                textView.setTypeface(null, android.graphics.Typeface.NORMAL)
-                textView.gravity = android.view.Gravity.CENTER
+        val days = listOf("월", "화", "수", "목", "금", "토", "일")
 
-                textView.layoutParams = ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-                )
+        val today = getDayOfWeek(SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Calendar.getInstance().time))
 
-                return textView
-            }
-        }
-
-        campusSpinner.adapter = adapter
-        campusSpinner.adapter = adapter
-
-        campusSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: android.view.View?, position: Int, id: Long) {
-                selectedCafeteriaSeq = cafeteriaSeqMap[campusList[position]] ?: emptyList()
-                currentIndex = 0
-
-                updateRestaurantDisplay(campusMap[campusList[position]] ?: emptyList())
-                viewModel.fetchFoodMenu(selectedCafeteriaSeq[currentIndex])
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        dayRecyclerView = findViewById(R.id.dayRecyclerView)
+        dayRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        dayRecyclerView.adapter = DayButtonAdapter(this, days, today) { selectedDay ->
+            filterMenuByDay(selectedDay)
         }
 
         leftArrow.setOnClickListener {
@@ -154,20 +98,55 @@ class CafeteriaMenuActivity : AppCompatActivity() {
             }
         }
 
-        viewModel.menuList.observe(this, Observer { menuList ->
-            updateMenuUI(menuList)
-        })
+    }
+
+    private fun setupDayRecyclerView() {
+        val days = listOf("월", "화", "수", "목", "금", "토", "일")
+        val today = getDayOfWeek(SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Calendar.getInstance().time))
+
+        dayRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        dayRecyclerView.adapter = DayButtonAdapter(this, days, today) { selectedDay ->
+            filterMenuByDay(selectedDay)
+        }
+
+        // 항목 간 간격 추가 (선택 사항)
+        dayRecyclerView.addItemDecoration(SpacingItemDecoration(8))
+    }
+
+    class SpacingItemDecoration(private val space: Int) : RecyclerView.ItemDecoration() {
+        override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+            outRect.right = space
+        }
+    }
+
+    private fun setupCampusSpinner() {
+        val campusList = campusMap.keys.toList()
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, campusList)
+        campusSpinner.adapter = adapter
+
+        campusSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: android.view.View?, position: Int, id: Long) {
+                selectedCafeteriaSeq = cafeteriaSeqMap[campusList[position]] ?: emptyList()
+                currentIndex = 0
+
+                updateRestaurantDisplay(campusMap[campusList[position]] ?: emptyList())
+                viewModel.fetchFoodMenu(selectedCafeteriaSeq[currentIndex])
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
     }
 
 
-
-    private fun filterMenuByDay(selectedDay: String) {
+    private fun filterMenuByDay(selectedDay: String): Boolean {
         val filteredMenu = viewModel.menuList.value?.filter { menuItem ->
             val dayOfWeek = getDayOfWeek(menuItem.date)
             dayOfWeek == selectedDay
         } ?: emptyList()
 
         updateMenuUI(filteredMenu)
+
+        return filteredMenu.isNotEmpty()
     }
 
     private fun getDayOfWeek(dateString: String): String {
@@ -176,13 +155,13 @@ class CafeteriaMenuActivity : AppCompatActivity() {
         val calendar = Calendar.getInstance().apply { time = date!! }
 
         return when (calendar.get(Calendar.DAY_OF_WEEK)) {
-            Calendar.SUNDAY -> "일요일"
-            Calendar.MONDAY -> "월요일"
-            Calendar.TUESDAY -> "화요일"
-            Calendar.WEDNESDAY -> "수요일"
-            Calendar.THURSDAY -> "목요일"
-            Calendar.FRIDAY -> "금요일"
-            Calendar.SATURDAY -> "토요일"
+            Calendar.SUNDAY -> "일"
+            Calendar.MONDAY -> "월"
+            Calendar.TUESDAY -> "화"
+            Calendar.WEDNESDAY -> "수"
+            Calendar.THURSDAY -> "목"
+            Calendar.FRIDAY -> "금"
+            Calendar.SATURDAY -> "토"
             else -> ""
         }
     }
@@ -227,9 +206,4 @@ class CafeteriaMenuActivity : AppCompatActivity() {
         return "${dateFormat.format(monday)} ~ ${dateFormat.format(sunday)}"
     }
 
-    private fun resetButtonColors(dayButtons: Map<String, Button>) {
-        dayButtons.values.forEach { button ->
-            button.setBackgroundColor(ContextCompat.getColor(this, R.color.default_tab_color)) // 원래 색상
-        }
-    }
 }
