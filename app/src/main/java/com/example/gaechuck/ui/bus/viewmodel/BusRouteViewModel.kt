@@ -9,6 +9,7 @@ data class BusStop(
 
 data class BusRoute(
     val type: String,
+    val type_detail: String,
     val serviceArea: String?,
     val serviceTime: Map<String, List<BusStop>>
 )
@@ -18,6 +19,7 @@ class BusRouteViewModel : ViewModel() {
     val busRoute = listOf(
         BusRoute(
             type =  "캠퍼스(오전)",
+            type_detail = "오전",
             serviceArea = "내동 - 가좌 - 칠암 - 가좌 - 내동",
             serviceTime = mapOf(
                 "1회" to listOf(
@@ -76,6 +78,7 @@ class BusRouteViewModel : ViewModel() {
         ),
         BusRoute(
             type = "캠퍼스(오후)",
+            type_detail = "오후",
             serviceArea = "칠암 - 가좌 - 내동 - 가좌 - 칠암",
             serviceTime = mapOf(
                 "1회" to listOf(
@@ -154,6 +157,7 @@ class BusRouteViewModel : ViewModel() {
         ),
         BusRoute(
             type = "진주역",
+            type_detail = "진주역",
             serviceArea = "가좌캠퍼스 - 진주역 - 가좌캠퍼스 - 내동캠퍼스",
             serviceTime = mapOf(
                 "1회" to listOf(
@@ -166,6 +170,7 @@ class BusRouteViewModel : ViewModel() {
         ),
         BusRoute(
             type = "시외",
+            type_detail = "시외",
             serviceArea = null,
             serviceTime = mapOf(
                 "1회" to listOf(

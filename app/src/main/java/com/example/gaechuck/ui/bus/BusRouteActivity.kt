@@ -62,6 +62,16 @@ class BusRouteActivity : AppCompatActivity() {
                 val selectedCategory = categories[position]
                 val selectedRoute = busRouteViewModel.getBusRouteByType(selectedCategory)
 
+                val routeTitleTextView = findViewById<TextView>(R.id.routeTitleTextView)
+                selectedRoute?.let {
+                    routeTitleTextView.text = "캠퍼스간 셔틀버스(${it.type_detail})"
+                }
+
+                val serviceAreaTextView = findViewById<TextView>(R.id.serviceAreaTextView)
+                selectedRoute?.let {
+                    serviceAreaTextView.text = it.serviceArea?.let { area -> "운행구간 : $area" } ?: ""
+                }
+
                 // UI 업데이트
                 if (selectedRoute != null) {
                     val busRouteContainer = findViewById<LinearLayout>(R.id.busRouteContainer)
