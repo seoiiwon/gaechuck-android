@@ -23,6 +23,10 @@ class RentDetailFragment : Fragment(R.layout.fragment_rent_detail) {
     private lateinit var rentViewModel: RentViewModel
     private lateinit var rentButton : Button
 
+    private var rentItemCount: Int = 0
+    private var rentItemName: String = ""
+    private var rentItemImage: String = ""
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentRentDetailBinding.bind(view)
@@ -57,6 +61,14 @@ class RentDetailFragment : Fragment(R.layout.fragment_rent_detail) {
         rentViewModel.rentDetailData.observe(viewLifecycleOwner) {
             rentDetail -> rentDetail?.let {
                 setupUI(it)
+
+                // RentActivity로 데이터 전달
+                (activity as? RentActivity)?.setRentItemData(
+                    rentItemId = rentItemId ?: -1,
+                    rentItemName = it.rentItemName,
+                    rentItemCount = it.rentItemCount,
+                    rentItemImage = ArrayList(it.images)
+                )
             }
         }
 

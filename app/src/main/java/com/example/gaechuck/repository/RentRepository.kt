@@ -5,6 +5,7 @@ import android.content.Context
 import android.net.Uri
 import android.util.Log
 import com.example.gaechuck.api.ApiConnection
+import com.example.gaechuck.data.request.RentPatchRequest
 import com.example.gaechuck.data.request.RentCreateRequest
 import com.example.gaechuck.data.request.RentDeleteRequest
 import com.example.gaechuck.data.response.BaseResponse
@@ -129,6 +130,40 @@ class RentRepository {
             }
         } catch (e: Exception) {
             Result.failure(e)
+        }
+    }
+
+    // 대여 글 수정하기
+    suspend fun patchRentData(
+        token: String,
+        rentItemId : Int,
+        rentItemName : String,
+        rentItemCount : Int,
+        file : List<Uri>,
+        context: Context
+    ) : Result<BaseResponse<String>> {
+        return try {
+            val requestBody = RentPatchRequest(rentItemId, rentItemCount, rentItemName)
+            val imageParts = file.mapIndexedNotNull { index, uri ->  createImagePart(uri, context, index) } // 모든 이미지 변환
+
+            val response =  ApiConnection.getRetrofitService.patchRentData(
+                Authorization = token,
+                data = requestBody, // JSON 형식으로 보냄
+                file = imageParts
+            )
+
+            if (response.isSuccessful && response.body()?.isSuccess == true) {
+                Log.d("RentRepository", "서버 응답 성공: ${response.body()}")
+                Log.d("RentRepository","${imageParts}")
+                Result.success(response.body()!!)
+            } else {
+                Log.e("RentRepository", "서버 응답 실패: ${response.errorBody()?.string()}")
+                Result.failure(Exception(response.body()?.message ?: "Unknown error"))
+            }
+
+        } catch(e: Exception) {
+            Log.e("RentRepository", "네트워크 오류 발생: ${e.message}")
+            Result.failure(Exception("Network error: ${e.message}"))
         }
     }
 

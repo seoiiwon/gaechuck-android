@@ -27,17 +27,17 @@ class RentViewModel(private val repository: RentRepository): ViewModel() {
 
     // 대여 물품 리스트
     private val _rentList = MutableLiveData<MutableList<RentList>>()
-    val rentList : LiveData<MutableList<RentList>>
+    val rentList: LiveData<MutableList<RentList>>
         get() = _rentList
 
     // 대여 물품 상세
     private val _rentDetailData = MutableLiveData<GetRentDetailResponse>()
-    val rentDetailData :MutableLiveData<GetRentDetailResponse>
+    val rentDetailData: MutableLiveData<GetRentDetailResponse>
         get() = _rentDetailData
 
     // 검색 필터링 변수
     private val _filterRentList = MutableLiveData<List<RentList>>()
-    val filterRentList : LiveData<List<RentList>>
+    val filterRentList: LiveData<List<RentList>>
         get() = _filterRentList
 
     // 검색 상태 관리
@@ -55,12 +55,17 @@ class RentViewModel(private val repository: RentRepository): ViewModel() {
     val selectedImages: StateFlow<List<Uri>> = _selectedImages.asStateFlow()
 
     private val _postResult = MutableLiveData<Result<BaseResponse<PostRentCreateResponse>>>()
-    val postResult : LiveData<Result<BaseResponse<PostRentCreateResponse>>>
+    val postResult: LiveData<Result<BaseResponse<PostRentCreateResponse>>>
         get() = _postResult
+
+    // 수정 상태관리
+    private val _patchResult = MutableLiveData<Result<BaseResponse<String>>>()
+    val patchResult : LiveData<Result<BaseResponse<String>>>
+        get() = _patchResult
 
     // 삭제 상태관리
     private val _deleteResult = MutableLiveData<Result<BaseResponse<String>>>()
-    val deleteResult : LiveData<Result<BaseResponse<String>>>
+    val deleteResult: LiveData<Result<BaseResponse<String>>>
         get() = _deleteResult
 
     fun checkLoginStatus() {
@@ -104,7 +109,7 @@ class RentViewModel(private val repository: RentRepository): ViewModel() {
     }
 
     // 디테일 불러오기
-    fun RentDetailRetrofit(rentItemId : Int) {
+    fun RentDetailRetrofit(rentItemId: Int) {
         viewModelScope.launch {
             try {
                 val response = repository.getRentDetailData(rentItemId)
@@ -121,17 +126,11 @@ class RentViewModel(private val repository: RentRepository): ViewModel() {
 
     // 검색 (필터링) 기능
     fun searchRentItems(rentItemName: String) {
-//        val originalList = _rentList.value ?: emptyList()
-//        if (query.isBlank()) {
-//            _filterRentList.value = originalList
-//        } else {
-//            _filterRentList.value = originalList.filter { it.rentItemName.contains(query, ignoreCase = true) }
-//        }
         viewModelScope.launch {
             try {
                 val response = repository.getRentList(0, rentItemName)
                 response?.let {
-                    if(it.content.isEmpty()) {
+                    if (it.content.isEmpty()) {
                         _isSearchResultEmpty.postValue(true) // 검색 결과 없음
 
                     } else {
@@ -147,12 +146,12 @@ class RentViewModel(private val repository: RentRepository): ViewModel() {
     }
 
     // 이미지 상태관리하기
-    fun addImages(uris : List<Uri>) {
+    fun addImages(uris: List<Uri>) {
         _selectedImages.value += uris
         Log.d("RentViewModel", "Images added to ViewModel: ${_selectedImages.value}")
     }
 
-    fun removeImages(index : Int) {
+    fun removeImages(index: Int) {
         _selectedImages.value = _selectedImages.value.toMutableList().apply {
             removeAt(index)
         }
@@ -160,12 +159,21 @@ class RentViewModel(private val repository: RentRepository): ViewModel() {
     }
 
     // data 보내기
-    fun sendData(token: String, rentItemName: String, rentItemCount: Int, file : List<Uri>, context: Context) {
-        Log.d("RentViewModel", "sendData 호출됨 - name: $rentItemName, count: $rentItemCount, file : $file")
+    fun sendData(
+        token: String,
+        rentItemName: String,
+        rentItemCount: Int,
+        file: List<Uri>,
+        context: Context
+    ) {
+        Log.d(
+            "RentViewModel",
+            "sendData 호출됨 - name: $rentItemName, count: $rentItemCount, file : $file"
+        )
 
         viewModelScope.launch {
             val result =
-                repository.postRentCreate(token, rentItemName,rentItemCount, file, context)
+                repository.postRentCreate(token, rentItemName, rentItemCount, file, context)
             _postResult.value = result
 
             result.onSuccess {
@@ -177,7 +185,7 @@ class RentViewModel(private val repository: RentRepository): ViewModel() {
     }
 
     // 아이템 삭제하기
-    fun deleteData (token : String, rentItemId: Int) {
+    fun deleteData(token: String, rentItemId: Int) {
         viewModelScope.launch {
             val result =
                 repository.postRentDelete(token, rentItemId)
@@ -191,13 +199,48 @@ class RentViewModel(private val repository: RentRepository): ViewModel() {
         }
     }
 
+    // 아이템 수정하기
+    fun patchData(
+        token: String,
+        rentItemId: Int,
+        rentItemName: String,
+        rentItemCount: Int,
+        file: List<Uri>,
+        context: Context
+    ) {
+        Log.d(
+            "RentViewModel",
+            "patchData 호출됨 - name: $rentItemName, count: $rentItemCount, file : $file"
+        )
 
-    class RentViewModelFactory(private val repository: RentRepository) : ViewModelProvider.Factory {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(RentViewModel::class.java)) {
-                return RentViewModel(repository) as T
+        viewModelScope.launch {
+            val result =
+                repository.patchRentData(
+                    token,
+                    rentItemId,
+                    rentItemName,
+                    rentItemCount,
+                    file,
+                    context
+                )
+            _patchResult.value = result
+
+            result.onSuccess {
+                Log.d("BusinessViewModel", "데이터 전송 성공: ${it}")
+            }.onFailure { error ->
+                Log.e("BusinessViewModel", "데이터 전송 실패: ${error.message}")
             }
-            throw IllegalArgumentException("Unknown ViewModel class")
         }
     }
-}
+
+
+        class RentViewModelFactory(private val repository: RentRepository) :
+            ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                if (modelClass.isAssignableFrom(RentViewModel::class.java)) {
+                    return RentViewModel(repository) as T
+                }
+                throw IllegalArgumentException("Unknown ViewModel class")
+            }
+        }
+    }
