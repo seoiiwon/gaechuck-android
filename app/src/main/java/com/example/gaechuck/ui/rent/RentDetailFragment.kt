@@ -3,6 +3,7 @@ package com.example.gaechuck.ui.rent
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import androidx.fragment.app.Fragment
@@ -81,7 +82,9 @@ class RentDetailFragment : Fragment(R.layout.fragment_rent_detail) {
         binding.rentName.text = item.rentItemName
         binding.rentCount.text = item.rentItemCount.toString()
 
-        val imageList = listOf(item.rentItemImage)
+        val imageList = item.images
+
+        Log.d("rent", imageList.toString())
 
         // ViewPager2에 이미지 설정 (수정)
         val adapter = ImagePagerAdapter(imageList)

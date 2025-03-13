@@ -88,6 +88,7 @@ class RentActivity : AppCompatActivity(R.layout.activity_rent) {
                 when (menuItem.itemId) {
                     R.id.menu_edit -> {
                         // 수정 로직
+                        // TODO : 수정액티비티로 이동 (intent로 데이터 전달)
                         true
                     }
                     R.id.menu_delete -> {
