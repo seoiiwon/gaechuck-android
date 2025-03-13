@@ -43,8 +43,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginBottom="24dp">
+        android:orientation="vertical">
 
         <Spinner
             android:id="@+id/campusSpinner"
@@ -53,7 +52,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="12dp"
             android:layout_marginRight="10dp"
-            android:layout_marginBottom="12dp"
+            android:layout_marginBottom="8dp"
             android:background="@drawable/spinner_background"
             android:gravity="center" />
 
@@ -61,7 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="캠퍼스를 선택하세요"
-            android:textSize="12sp"
+            android:textSize="10sp"
             android:textColor="@color/tab_colors"
             android:layout_gravity="center"/>
 
@@ -71,8 +70,8 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#CCCCCC"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="12dp"/>
 
     <!-- 식당 선택 HorizontalScrollView -->
     <LinearLayout
@@ -123,7 +122,8 @@
         android:textSize="10sp"
         android:textColor="@color/gnu_grey"
         android:textStyle="normal"
-        android:layout_marginVertical="5dp"/>
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="20dp"/>
 
 
     <LinearLayout
@@ -135,86 +135,94 @@
         <Button
             android:id="@+id/buttonMonday"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="20dp"
+            android:layout_marginRight="7.5dp"
             android:layout_weight="1"
-            android:layout_marginHorizontal="2dp"
-            android:backgroundTint="@color/gnu_blue"
-            android:text="월"
-            android:textSize="10sp"
+            android:background="@drawable/menu_button"
+            android:paddingHorizontal="5dp"
+            android:paddingVertical="0dp"
             android:minWidth="0dp"
-            android:paddingHorizontal="4dp"/>
+            android:text="월"
+            android:textSize="8sp" />
 
         <Button
             android:id="@+id/buttonTuesday"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="20dp"
             android:layout_weight="1"
-            android:layout_marginHorizontal="2dp"
-            android:backgroundTint="@color/gnu_blue"
+            android:layout_marginHorizontal="7.5dp"
+            android:background="@drawable/menu_button"
+            android:paddingHorizontal="5dp"
+            android:paddingVertical="0dp"
             android:text="화"
-            android:textSize="10sp"
-            android:minWidth="0dp"
-            android:paddingHorizontal="4dp"/>
+            android:textSize="8sp"
+            android:minWidth="0dp" />
 
         <Button
             android:id="@+id/buttonWednesday"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="20dp"
             android:layout_weight="1"
-            android:layout_marginHorizontal="2dp"
-            android:backgroundTint="@color/gnu_blue"
+            android:layout_marginHorizontal="7.5dp"
+            android:background="@drawable/menu_button"
+            android:paddingHorizontal="5dp"
+            android:paddingVertical="0dp"
             android:text="수"
-            android:textSize="10sp"
-            android:minWidth="0dp"
-            android:paddingHorizontal="4dp"/>
+            android:textSize="8sp"
+            android:minWidth="0dp" />
 
         <Button
             android:id="@+id/buttonThursday"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="20dp"
             android:layout_weight="1"
-            android:layout_marginHorizontal="2dp"
-            android:backgroundTint="@color/gnu_blue"
+            android:layout_marginHorizontal="7.5dp"
+            android:background="@drawable/menu_button"
+            android:paddingHorizontal="5dp"
+            android:paddingVertical="0dp"
             android:text="목"
-            android:textSize="10sp"
-            android:minWidth="0dp"
-            android:paddingHorizontal="4dp"/>
+            android:textSize="8sp"
+            android:minWidth="0dp" />
 
         <Button
             android:id="@+id/buttonFriday"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="20dp"
             android:layout_weight="1"
-            android:layout_marginHorizontal="2dp"
-            android:backgroundTint="@color/gnu_blue"
+            android:layout_marginHorizontal="7.5dp"
+            android:background="@drawable/menu_button"
+            android:paddingHorizontal="5dp"
+            android:paddingVertical="0dp"
             android:text="금"
-            android:textSize="10sp"
-            android:minWidth="0dp"
-            android:paddingHorizontal="4dp"/>
+            android:textSize="8sp"
+            android:minWidth="0dp" />
 
         <Button
             android:id="@+id/buttonSaturday"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="20dp"
             android:layout_weight="1"
-            android:layout_marginHorizontal="2dp"
-            android:backgroundTint="@color/gnu_blue"
+            android:layout_marginHorizontal="7.5dp"
+            android:background="@drawable/menu_button"
+            android:paddingHorizontal="5dp"
+            android:paddingVertical="0dp"
             android:text="토"
-            android:textSize="10sp"
-            android:minWidth="0dp"
-            android:paddingHorizontal="4dp"/>
+            android:textSize="8sp"
+            android:minWidth="0dp" />
 
         <Button
             android:id="@+id/buttonSunday"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="7.5dp"
             android:layout_weight="1"
-            android:layout_marginHorizontal="2dp"
-            android:backgroundTint="@color/gnu_blue"
-            android:text="일"
-            android:textSize="10sp"
+            android:background="@drawable/menu_button"
             android:minWidth="0dp"
-            android:paddingHorizontal="4dp"/>
+            android:paddingHorizontal="5dp"
+            android:paddingVertical="0dp"
+            android:text="일"
+            android:textSize="8sp" />
+
     </LinearLayout>
 
 

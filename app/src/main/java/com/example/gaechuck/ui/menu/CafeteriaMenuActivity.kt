@@ -20,6 +20,7 @@ import org.w3c.dom.Text
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+import androidx.core.content.ContextCompat
 
 class CafeteriaMenuActivity : AppCompatActivity() {
 
@@ -69,8 +70,14 @@ class CafeteriaMenuActivity : AppCompatActivity() {
             "일요일" to buttonSunday
         )
 
+        val today = getDayOfWeek(SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Calendar.getInstance().time))
+        val todayButton = dayButtons[today]
+        todayButton?.setBackgroundColor(ContextCompat.getColor(this, R.color.gnu_blue))
+
         dayButtons.forEach { (day, button) ->
             button.setOnClickListener {
+                resetButtonColors(dayButtons) // 다른 버튼 원래 색으로 변경
+                button.setBackgroundColor(ContextCompat.getColor(this, R.color.gnu_blue)) // 클릭된 버튼 강조
                 filterMenuByDay(day)
             }
         }
@@ -96,20 +103,19 @@ class CafeteriaMenuActivity : AppCompatActivity() {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val textView = super.getView(position, convertView, parent) as TextView
                 textView.textSize = 14f
-                textView.setTypeface(null, android.graphics.Typeface.BOLD) // ✅ Bold 적용
-                textView.gravity = android.view.Gravity.CENTER // ✅ 중앙 정렬 적용
+                textView.setTypeface(null, android.graphics.Typeface.BOLD)
+                textView.gravity = android.view.Gravity.CENTER
                 return textView
             }
 
             override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val textView = super.getDropDownView(position, convertView, parent) as TextView
                 textView.textSize = 14f
-                textView.setTypeface(null, android.graphics.Typeface.NORMAL) // ✅ Bold 적용 가능
-                textView.gravity = android.view.Gravity.CENTER // ✅ 중앙 정렬 적용
+                textView.setTypeface(null, android.graphics.Typeface.NORMAL)
+                textView.gravity = android.view.Gravity.CENTER
 
-                // ✅ 부모의 너비를 match_parent로 설정하여 중앙 정렬 적용
                 textView.layoutParams = ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT, // 너비를 MATCH_PARENT로 설정
+                    ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT
                 )
 
@@ -219,5 +225,11 @@ class CafeteriaMenuActivity : AppCompatActivity() {
         val dateFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
 
         return "${dateFormat.format(monday)} ~ ${dateFormat.format(sunday)}"
+    }
+
+    private fun resetButtonColors(dayButtons: Map<String, Button>) {
+        dayButtons.values.forEach { button ->
+            button.setBackgroundColor(ContextCompat.getColor(this, R.color.default_tab_color)) // 원래 색상
+        }
     }
 }
