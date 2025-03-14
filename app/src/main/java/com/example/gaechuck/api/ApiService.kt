@@ -1,6 +1,7 @@
 package com.example.gaechuck.api
 
 import com.example.gaechuck.data.request.BusinessDeleteRequest
+import com.example.gaechuck.data.request.BusinessPatchRequest
 import com.example.gaechuck.data.request.LoginRequest
 import com.example.gaechuck.data.request.LoseDeleteRequest
 import com.example.gaechuck.data.request.LosePatchRequest
@@ -20,6 +21,7 @@ import com.example.gaechuck.data.response.GetLoseDetailResponse
 import com.example.gaechuck.data.response.GetRentDataResponse
 import com.example.gaechuck.data.response.GetRentDetailResponse
 import com.example.gaechuck.data.response.LoginResponse
+import com.example.gaechuck.data.response.PatchBusinessResponse
 import com.example.gaechuck.data.response.PatchLoseResponse
 import com.example.gaechuck.data.response.PostRentCreateResponse
 import com.example.gaechuck.data.response.PostUrlResponse
@@ -149,6 +151,15 @@ interface ApiService {
         @Header("Authorization") Authorization: String,
         @Body request : BusinessDeleteRequest
     ) : Response<BaseResponse<String>>
+
+    // 제휴 글 수정하기
+    @Multipart
+    @PATCH("/api/v1/coalition/update")
+    suspend fun patchBusinessData(
+        @Header("Authorization") Authorization: String,
+        @Part("data") data: BusinessPatchRequest,
+        @Part file: MultipartBody.Part?
+    ) : Response<BaseResponse<PatchBusinessResponse>>
 
     // Notice
     // 총학생회 공지 리스트

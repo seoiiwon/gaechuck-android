@@ -47,6 +47,7 @@
         <activity android:name=".ui.lose.LoseUrlChangeActivity"/>
         <activity android:name=".ui.rent.RentEditActivity"/>
         <activity android:name=".ui.lose.LoseEditActivity"/>
+        <activity android:name=".ui.business.BusinessEditActivity"/>
     </application>
 
 </manifest>

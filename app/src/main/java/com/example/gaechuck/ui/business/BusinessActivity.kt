@@ -20,6 +20,7 @@ import com.example.gaechuck.MainActivity
 import com.example.gaechuck.R
 import com.example.gaechuck.repository.BusinessRepository
 import com.example.gaechuck.ui.business.viewmodel.BusinessViewModel
+import com.example.gaechuck.ui.lose.LoseEditActivity
 
 class BusinessActivity : AppCompatActivity(R.layout.activity_business) {
 
@@ -32,6 +33,10 @@ class BusinessActivity : AppCompatActivity(R.layout.activity_business) {
     private lateinit var businessViewModel : BusinessViewModel
 
     private var coalitionId: Int = -1
+    private var coalitionName: String = ""
+    private var benefit: String = ""
+    private var category: String = ""
+    private var images: ArrayList<String> = arrayListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,6 +94,7 @@ class BusinessActivity : AppCompatActivity(R.layout.activity_business) {
                 when (menuItem.itemId) {
                     R.id.menu_edit -> {
                         // 수정 로직
+                        startEditActivity()
                         true
                     }
                     R.id.menu_delete -> {
@@ -104,6 +110,26 @@ class BusinessActivity : AppCompatActivity(R.layout.activity_business) {
 
         }
 
+    }
+
+    fun setLoseItemData(coalitionId: Int, coalitionName: String, benefit: String,category:String, images: ArrayList<String>) {
+        this.coalitionId = coalitionId
+        this.coalitionName = coalitionName
+        this.benefit = benefit
+        this.category = category
+        this.images = images
+
+    }
+
+    private fun startEditActivity() {
+        val intent = Intent(this, BusinessEditActivity::class.java).apply {
+            putExtra("coalitionId", coalitionId)
+            putExtra("coalitionName", coalitionName)
+            putExtra("benefit", benefit)
+            putExtra("category", category)
+            putStringArrayListExtra("images", images)
+        }
+        startActivity(intent)
     }
 
     private fun showDeleteConfirmationDialog() {

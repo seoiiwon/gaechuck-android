@@ -7,9 +7,11 @@ import android.util.Log
 import com.example.gaechuck.api.ApiConnection
 import com.example.gaechuck.data.request.BusinessCreateRequest
 import com.example.gaechuck.data.request.BusinessDeleteRequest
+import com.example.gaechuck.data.request.BusinessPatchRequest
 import com.example.gaechuck.data.response.BaseResponse
 import com.example.gaechuck.data.response.GetBusinessDataResponse
 import com.example.gaechuck.data.response.GetBusinessDetailResponse
+import com.example.gaechuck.data.response.PatchBusinessResponse
 import com.google.gson.Gson
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
@@ -128,6 +130,40 @@ class BusinessRepository {
             }
         } catch (e: Exception) {
             Result.failure(e)
+        }
+    }
+
+    // 제휴 수정하기
+    suspend fun patchBusinessData(
+        token: String,
+        coalitionId: Int,
+        coalitionName : String,
+        benefit : String,
+        category : String,
+        file : List<Uri>,
+        context: Context
+    ) : Result<BaseResponse<PatchBusinessResponse>> {
+        return try {
+            val requestBody = BusinessPatchRequest(coalitionId, category, coalitionName, benefit)
+            val imagePart = createImagePart(file.firstOrNull(), context)
+
+            val response =  ApiConnection.getRetrofitService.patchBusinessData(
+                Authorization = token,
+                data = requestBody, // JSON 형식으로 보냄
+                file = imagePart
+            )
+
+            if (response.isSuccessful && response.body()?.isSuccess == true) {
+                Log.d("BusinessRepository", "서버 응답 성공: ${response.body()}")
+                Result.success(response.body()!!)
+            } else {
+                Log.e("BusinessRepository", "서버 응답 실패: ${response.errorBody()?.string()}")
+                Result.failure(Exception(response.body()?.message ?: "Unknown error"))
+            }
+
+        } catch(e: Exception) {
+            Log.e("BusinessRepository", "네트워크 오류 발생: ${e.message}")
+            Result.failure(Exception("Network error: ${e.message}"))
         }
     }
 
