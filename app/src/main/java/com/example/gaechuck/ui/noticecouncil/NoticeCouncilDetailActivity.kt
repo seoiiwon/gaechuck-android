@@ -4,10 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
 import com.example.gaechuck.MainActivity
 import com.example.gaechuck.R
 import com.example.gaechuck.ui.noticecouncil.viewmodel.NoticeCouncilViewModel
@@ -54,6 +56,30 @@ class NoticeCouncilDetailActivity : AppCompatActivity() {
                     findViewById<TextView>(R.id.noticeTitle).text = noticeDetail.title
                     findViewById<TextView>(R.id.noticeBody).text = noticeDetail.body
                     findViewById<TextView>(R.id.noticeDate).text = noticeDetail.time
+                    val imageContainer = findViewById<LinearLayout>(R.id.imageContainer)
+
+                    imageContainer?.let { container ->
+                        container.removeAllViews()
+
+                        noticeDetail.images?.forEach { imageUrl ->
+                            val imageView = ImageView(this@NoticeCouncilDetailActivity).apply {
+                                layoutParams = LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.MATCH_PARENT,
+                                    LinearLayout.LayoutParams.WRAP_CONTENT
+                                ).apply {
+                                    setMargins(0, 16, 0, 16)
+                                }
+                                adjustViewBounds = true
+                                scaleType = ImageView.ScaleType.CENTER_CROP
+                            }
+
+                            Glide.with(this@NoticeCouncilDetailActivity)
+                                .load(imageUrl)
+                                .into(imageView)
+
+                            container.addView(imageView)
+                        }
+                    } ?: Log.e("NoticeDetail", "imageContainer is null")
                 }
             } catch (e: Exception) {
                 Log.e("NoticeDetail", "API 요청 실패: ${e.message}")

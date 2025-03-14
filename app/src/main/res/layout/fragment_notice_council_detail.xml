@@ -28,4 +28,14 @@
         android:text="날짜"
         android:textSize="12sp"
         android:layout_marginTop="8dp" />
+
+<!--    <LinearLayout-->
+<!--        android:id="@+id/imageContainer"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="vertical"-->
+<!--        android:gravity="center"-->
+<!--        android:layout_marginTop="16dp"/>-->
+
+
 </LinearLayout>
