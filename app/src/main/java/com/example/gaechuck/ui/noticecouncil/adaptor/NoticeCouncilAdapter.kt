@@ -3,8 +3,10 @@ package com.example.gaechuck.ui.noticecouncil.adaptor
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.gaechuck.R
@@ -23,7 +25,7 @@ class NoticeCouncilAdapter(
         val noticeTitle: TextView = view.findViewById(R.id.noticeTitle)
         val noticeDescription: TextView = view.findViewById(R.id.noticeDescription)
         val noticeDate: TextView = view.findViewById(R.id.noticeDate)
-        val deleteButton: ImageView = view.findViewById(R.id.notice_delete_button)
+        val deleteButton: Button = view.findViewById(R.id.notice_delete_button)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoticeCouncilViewHolder {
@@ -55,7 +57,7 @@ class NoticeCouncilAdapter(
         }
 
         holder.itemView.setOnClickListener {
-            listener?.onItemClick(position)
+            listener?.onItemClick(notice.id)
         }
     }
 
@@ -71,11 +73,7 @@ class NoticeCouncilAdapter(
     }
 
     fun addNotices(newNotices: List<GetCouncilNoticeDataResponse>) {
-//        val startPosition = noticeList.size
-//        noticeList.addAll(newNotices)
-//        notifyItemRangeInserted(startPosition, newNotices.size)
-
-        noticeList.clear() // ✅ 기존 목록 초기화 후 새로 추가
+        noticeList.clear()
         noticeList.addAll(newNotices)
         notifyDataSetChanged()
     }
@@ -87,4 +85,5 @@ class NoticeCouncilAdapter(
     fun setOnItemClickListener(listener: OnItemClickListener) {
         this.listener = listener
     }
+
 }

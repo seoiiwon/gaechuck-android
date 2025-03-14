@@ -1,5 +1,6 @@
 package com.example.gaechuck.api
 
+import android.media.session.MediaSession.Token
 import com.example.gaechuck.data.request.BusinessDeleteRequest
 import com.example.gaechuck.data.request.LoginRequest
 import com.example.gaechuck.data.request.LoseDeleteRequest
@@ -148,7 +149,8 @@ interface ApiService {
 
     @DELETE("api/v1/council/{id}")
     suspend fun deleteNoticeCouncil(
-        @Path("id") noticeId: Int
+        @Path("id") noticeId: Int,
+        @Header("Authorization") token: String
     ): Response<DeleteCouncilNoticeResponse>
 
     // 학교 공지 리스트

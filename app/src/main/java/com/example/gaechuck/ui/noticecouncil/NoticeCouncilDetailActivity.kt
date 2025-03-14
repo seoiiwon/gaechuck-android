@@ -48,9 +48,7 @@ class NoticeCouncilDetailActivity : AppCompatActivity() {
                     Log.e("NoticeDetail", "API 응답이 null입니다. noticeId: $noticeId")
                     return@launch
                 }
-                Log.d("NoticeId", noticeDetail.id.toString())
 
-//                Log.d("NoticeDetail", "API 응답: ${noticeDetail.title}, ${noticeDetail.body}, ${noticeDetail.time}")
 
                 runOnUiThread {
                     findViewById<TextView>(R.id.noticeTitle).text = noticeDetail.title
@@ -58,7 +56,6 @@ class NoticeCouncilDetailActivity : AppCompatActivity() {
                     findViewById<TextView>(R.id.noticeDate).text = noticeDetail.time
                 }
             } catch (e: Exception) {
-                Log.e("Hello", "${ e.message }")
                 Log.e("NoticeDetail", "API 요청 실패: ${e.message}")
             }
         }
