@@ -2,9 +2,12 @@ package com.example.gaechuck.api
 
 import android.media.session.MediaSession.Token
 import com.example.gaechuck.data.request.BusinessDeleteRequest
+import com.example.gaechuck.data.request.BusinessPatchRequest
 import com.example.gaechuck.data.request.LoginRequest
 import com.example.gaechuck.data.request.LoseDeleteRequest
+import com.example.gaechuck.data.request.LosePatchRequest
 import com.example.gaechuck.data.request.RentDeleteRequest
+import com.example.gaechuck.data.request.RentPatchRequest
 import com.example.gaechuck.data.response.BaseListResponse
 import com.example.gaechuck.data.response.BaseResponse
 import com.example.gaechuck.data.response.DeleteCouncilNoticeResponse
@@ -19,7 +22,10 @@ import com.example.gaechuck.data.response.GetLoseDetailResponse
 import com.example.gaechuck.data.response.GetRentDataResponse
 import com.example.gaechuck.data.response.GetRentDetailResponse
 import com.example.gaechuck.data.response.LoginResponse
+import com.example.gaechuck.data.response.PatchBusinessResponse
+import com.example.gaechuck.data.response.PatchLoseResponse
 import com.example.gaechuck.data.response.PostRentCreateResponse
+import com.example.gaechuck.data.response.PostUrlResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -29,6 +35,7 @@ import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Multipart
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Part
 import retrofit2.http.Path
@@ -65,13 +72,23 @@ interface ApiService {
         @Body request : LoseDeleteRequest
     ) : Response<BaseResponse<String>>
 
+    // 분실물 글 수정하기
+    @Multipart
+    @PATCH("/api/v1/lostitems/update")
+    suspend fun patchLoseData(
+        @Header("Authorization") Authorization: String,
+        @Part("data") data: LosePatchRequest,
+        @Part file: List<MultipartBody.Part>
+    ) : Response<BaseResponse<PatchLoseResponse>>
+
 
     // Rent
     // 대여 리스트 가져오기
     @GET("/api/v1/rent/list")
     suspend fun getRentData(
-        @Query("page") page : Int,
-        @Query("size") size : Int = 9,
+        @Query("page") page : Int = 0,
+        @Query("size") size : Int = 10,
+        @Query("rentItemName") rentItemId: String? = null
     )
             : Response<BaseResponse<GetRentDataResponse>>
 
@@ -87,13 +104,22 @@ interface ApiService {
         @Header("Authorization") Authorization: String,
         @Part("data") data: RequestBody, // "data" 파트 추가
         @Part file: List<MultipartBody.Part> // "file" 파트 추가
-    ) : Response<BaseResponse<PostRentCreateResponse>>
+    ) : Response<BaseResponse<String>>
 
     // 대여 글 삭제하기
     @POST("/api/v1/rent/deleteItem")
     suspend fun postRentDelete(
         @Header("Authorization") Authorization: String,
         @Body request : RentDeleteRequest
+    ) : Response<BaseResponse<String>>
+
+    // 대여 글 수정하기
+    @Multipart
+    @PATCH("/api/v1/rent/updateItem")
+    suspend fun patchRentData(
+        @Header("Authorization") Authorization: String,
+        @Part("data") data: RentPatchRequest,
+        @Part file: List<MultipartBody.Part>
     ) : Response<BaseResponse<String>>
 
     // Business
@@ -126,6 +152,15 @@ interface ApiService {
         @Header("Authorization") Authorization: String,
         @Body request : BusinessDeleteRequest
     ) : Response<BaseResponse<String>>
+
+    // 제휴 글 수정하기
+    @Multipart
+    @PATCH("/api/v1/coalition/update")
+    suspend fun patchBusinessData(
+        @Header("Authorization") Authorization: String,
+        @Part("data") data: BusinessPatchRequest,
+        @Part file: MultipartBody.Part?
+    ) : Response<BaseResponse<PatchBusinessResponse>>
 
     // Notice
     // 총학생회 공지 리스트
@@ -168,6 +203,21 @@ interface ApiService {
         @Query("cafeteriaSeq") seq : Int,
         @Query("startDate") date : String
     ): Call<BaseListResponse<GetFoodDataResponse>>
+
+
+    // Url
+    // URL 수정 및 생성
+    @POST("/api/v1/chaturl/insertUrl")
+    suspend fun postUrl(
+        @Header("Authorization") authToken: String,
+        @Query("chatName") chatName: String,
+        ) : Call<BaseResponse<PostUrlResponse>>
+
+    // URL 불러오기
+    @GET("/api/v1/chaturl/insertUrl")
+    suspend fun getUrl(
+        @Query("chatName") chatName: String,
+    ) : Call<BaseResponse<PostUrlResponse>>
 
     // Admin
     @POST("/api/v1/master/sign-in")

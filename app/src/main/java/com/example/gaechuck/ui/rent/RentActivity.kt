@@ -31,6 +31,9 @@ class RentActivity : AppCompatActivity(R.layout.activity_rent) {
     private lateinit var rentViewModel : RentViewModel
 
     private var rentItemId: Int = -1
+    private var rentItemName: String = ""
+    private var rentItemCount: Int = 0
+    private var rentItemImage: ArrayList<String> = arrayListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,6 +91,7 @@ class RentActivity : AppCompatActivity(R.layout.activity_rent) {
                 when (menuItem.itemId) {
                     R.id.menu_edit -> {
                         // 수정 로직
+                        startEditActivity()
                         true
                     }
                     R.id.menu_delete -> {
@@ -171,5 +175,22 @@ class RentActivity : AppCompatActivity(R.layout.activity_rent) {
 
     fun getRentItemId(): Int {
         return rentItemId
+    }
+
+    fun setRentItemData(rentItemId: Int, rentItemName: String, rentItemCount: Int, rentItemImage: ArrayList<String>) {
+        this.rentItemId = rentItemId
+        this.rentItemName = rentItemName
+        this.rentItemCount = rentItemCount
+        this.rentItemImage = rentItemImage
+    }
+
+    private fun startEditActivity() {
+        val intent = Intent(this, RentEditActivity::class.java).apply {
+            putExtra("rentItemId", rentItemId)
+            putExtra("rentItemName", rentItemName)
+            putExtra("rentItemCount", rentItemCount)
+            putStringArrayListExtra("rentItemImage", rentItemImage)
+        }
+        startActivity(intent)
     }
 }

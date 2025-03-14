@@ -20,7 +20,7 @@ class RentAdapter(private val listener: OnRentItemClickListener):
         fun bind(item: RentList) {
             // TODO : 이미지 요청 수정
             Glide.with(binding.rentImage.context)
-                .load(item.rentItemImage) // image는 URL 문자열
+                .load(item.image) // image는 URL 문자열
                 .into(binding.rentImage)
             binding.rentName.text = item.rentItemName // name 바인딩
             binding.rentCount.text = item.rentItemCount.toString() // count 바인딩

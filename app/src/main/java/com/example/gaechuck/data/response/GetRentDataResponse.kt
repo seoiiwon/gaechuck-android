@@ -9,6 +9,6 @@ data class GetRentDataResponse(
 data class RentList(
     val rentItemCount: Int,
     val rentItemId: Int,
-    val rentItemImage: String,
+    val image: String,
     val rentItemName: String
 )

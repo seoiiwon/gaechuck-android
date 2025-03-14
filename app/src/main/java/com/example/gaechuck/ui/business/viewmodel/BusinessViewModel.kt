@@ -12,6 +12,7 @@ import com.example.gaechuck.api.AuthManager
 import com.example.gaechuck.data.response.BaseResponse
 import com.example.gaechuck.data.response.BusinessList
 import com.example.gaechuck.data.response.GetBusinessDetailResponse
+import com.example.gaechuck.data.response.PatchBusinessResponse
 import com.example.gaechuck.repository.BusinessRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -43,9 +44,18 @@ class BusinessViewModel(private val repository: BusinessRepository) : ViewModel(
     private val _selectedImages = MutableStateFlow<List<Uri>>(emptyList())
     val selectedImages: StateFlow<List<Uri>> = _selectedImages.asStateFlow()
 
+    fun setSelectedImages(images: List<Uri>) {
+        _selectedImages.value = images
+    }
+
     private val _postResult = MutableLiveData<Result<BaseResponse<String>>>()
     val postResult : LiveData<Result<BaseResponse<String>>>
         get() = _postResult
+
+    // 수정 상태관리
+    private val _patchResult = MutableLiveData<Result<BaseResponse<PatchBusinessResponse>>>()
+    val patchResult : LiveData<Result<BaseResponse<PatchBusinessResponse>>>
+        get() = _patchResult
 
     // 삭제 결과 상태관리
     private val _deleteResult = MutableLiveData<Result<BaseResponse<String>>>()
@@ -143,6 +153,42 @@ class BusinessViewModel(private val repository: BusinessRepository) : ViewModel(
             val result =
                 repository.postBusinessDelete(token, coalitionId)
             _deleteResult.value = result
+
+            result.onSuccess {
+                Log.d("BusinessViewModel", "데이터 전송 성공: ${it}")
+            }.onFailure { error ->
+                Log.e("BusinessViewModel", "데이터 전송 실패: ${error.message}")
+            }
+        }
+    }
+
+    // 아이템 수정하기
+    fun patchData(
+        token: String,
+        coalitionId: Int,
+        coalitionName : String,
+        benefit : String,
+        category : String,
+        file: List<Uri>,
+        context: Context
+    ) {
+        Log.d(
+            "BusinessViewModel",
+            "patchData 호출됨 - name: $coalitionId, count: $coalitionName, file : $file"
+        )
+
+        viewModelScope.launch {
+            val result =
+                repository.patchBusinessData(
+                    token,
+                    coalitionId,
+                    coalitionName,
+                    benefit,
+                    category,
+                    file,
+                    context
+                )
+            _patchResult.value = result
 
             result.onSuccess {
                 Log.d("BusinessViewModel", "데이터 전송 성공: ${it}")

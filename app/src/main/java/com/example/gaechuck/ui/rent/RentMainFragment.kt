@@ -118,9 +118,26 @@ class RentMainFragment : Fragment(R.layout.fragment_rent_main),RentAdapter.OnRen
 
         // search 버튼 찾기
         searchButton.setOnClickListener {
-            val query = binding.searchEditText.text.toString().trim()
-            filterList(query)
+            val rentItemName = binding.searchEditText.text.toString().trim()
+            filterList(rentItemName)
         }
+
+        rentViewModel.filterRentList.observe(viewLifecycleOwner, Observer { filteredItems ->
+            Log.d("RentMainFragment", "Filtered LiveData observed: ${filteredItems.size} items")
+            rentAdapter.submitList(filteredItems.toList())
+        })
+
+        // 검색 결과가 없으면 검색 화면 다시 표시
+        rentViewModel.isSearchResultEmpty.observe(viewLifecycleOwner, Observer { isEmpty ->
+            if (isEmpty) {
+                binding.root.findViewById<View>(R.id.search_fragment).apply {
+                    alpha = 0f
+                    visibility = View.VISIBLE
+                    animate().alpha(1f).setDuration(300).start()
+                }
+                binding.rentView.visibility = View.GONE
+            }
+        })
 
 
         // 버튼 클릭 이벤트
@@ -187,35 +204,10 @@ class RentMainFragment : Fragment(R.layout.fragment_rent_main),RentAdapter.OnRen
     }
 
     // 검색 기능
-//    private fun filterList(query: String) {
-//        val filterList = originalList.filter {
-//            it.rentItemName.contains(query, ignoreCase = true)
-//        }
-//        if (filterList.isNotEmpty()) {
-//            binding.root.findViewById<View>(R.id.search_fragment).animate()
-//                .alpha(0f)
-//                .setDuration(300)
-//                .withEndAction { binding.root.findViewById<View>(R.id.search_fragment).visibility = View.GONE }
-//                .start()
-//            binding.rentView.visibility = View.VISIBLE // RecyclerView 보이기
-//        } else {
-//            binding.root.findViewById<View>(R.id.search_fragment).apply {
-//                alpha = 0f
-//                visibility = View.VISIBLE
-//                animate().alpha(1f).setDuration(300).start()
-//            }
-//            binding.rentView.visibility = View.GONE // RecyclerView 숨기기
-//        }
-//
-//        rentAdapter.submitList(filterList) // 필터링된 리스트 적용
-//    }
-    // 검색 기능
-    private fun filterList(query: String) {
-        isSearchMode = query.isNotEmpty()
-        searchResults = originalList.filter {
-            it.rentItemName.contains(query, ignoreCase = true)
-        }
-        if (searchResults.isNotEmpty()) {
+    private fun filterList(rentItemName: String) {
+        isSearchMode = rentItemName.isNotEmpty()
+        if (isSearchMode) {
+            rentViewModel.searchRentItems(rentItemName) // API 호출
             binding.root.findViewById<View>(R.id.search_fragment).animate()
                 .alpha(0f)
                 .setDuration(300)
@@ -226,12 +218,15 @@ class RentMainFragment : Fragment(R.layout.fragment_rent_main),RentAdapter.OnRen
             binding.rentView.visibility = View.VISIBLE // RecyclerView 보이기
             rentAdapter.submitList(searchResults) // 검색 결과 표시
         } else {
-            binding.root.findViewById<View>(R.id.search_fragment).apply {
-                alpha = 0f
-                visibility = View.VISIBLE
-                animate().alpha(1f).setDuration(300).start()
-            }
-            binding.rentView.visibility = View.GONE // RecyclerView 숨기기
+            rentAdapter.submitList(originalList) // 검색어가 없으면 원래 리스트로 복귀
+            binding.root.findViewById<View>(R.id.search_fragment).animate()
+                .alpha(0f)
+                .setDuration(300)
+                .withEndAction {
+                    binding.root.findViewById<View>(R.id.search_fragment).visibility = View.GONE
+                }
+                .start()
+            binding.rentView.visibility = View.VISIBLE // RecyclerView 보이기
         }
     }
 }

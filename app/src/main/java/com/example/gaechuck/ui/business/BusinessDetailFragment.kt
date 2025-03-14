@@ -11,6 +11,7 @@ import com.example.gaechuck.databinding.FragmentBusinessDetailBinding
 import com.example.gaechuck.repository.BusinessRepository
 import com.example.gaechuck.ui.business.adapter.ImagePagerAdapter
 import com.example.gaechuck.ui.business.viewmodel.BusinessViewModel
+import com.example.gaechuck.ui.rent.RentActivity
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 
 class BusinessDetailFragment : Fragment(R.layout.fragment_business_detail) {
@@ -52,10 +53,20 @@ class BusinessDetailFragment : Fragment(R.layout.fragment_business_detail) {
             businessViewModel.BusinessDetailRetrofit(it)
         }
 
-        businessViewModel.businessDetailData.observe(viewLifecycleOwner) { businessDetail ->
-            businessDetail.let {
-                setupUI(it)
-            }
+        businessViewModel.businessDetailData.observe(viewLifecycleOwner) {
+            businessDetail ->
+                businessDetail.let {
+                    setupUI(it)
+
+                    // BusinessActivity로 데이터 전달
+                    (activity as? BusinessActivity)?.setLoseItemData(
+                        coalitionId = coalitionId ?: -1,
+                        coalitionName = it.coalitionName,
+                        benefit = it.benefit,
+                        category = it.category,
+                        images = ArrayList(it.images)
+                    )
+                }
         }
     }
 
@@ -74,7 +85,6 @@ class BusinessDetailFragment : Fragment(R.layout.fragment_business_detail) {
         binding.businessName.text = item.coalitionName
         binding.businessCategory.text = item.category
         binding.businessInfo.text = item.benefit
-
 
         // ViewPager2에 이미지 설정
         val adapter = ImagePagerAdapter(item.images)

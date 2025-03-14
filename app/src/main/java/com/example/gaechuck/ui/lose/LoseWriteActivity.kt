@@ -173,11 +173,11 @@ class LoseWriteActivity : AppCompatActivity() {
             return
         }
 
-        Log.d("RentWriteActivity", "전송할 데이터: name=$title, lostDate=$lostDate,description=$description, lostLocation=$lostLocation")
+        Log.d("LoseWriteActivity", "전송할 데이터: name=$title, lostDate=$lostDate,description=$description, lostLocation=$lostLocation")
 
         val imageUris = viewModel.selectedImages.value
         if (imageUris.isEmpty()) {
-            Log.e("sendRentData", "이미지가 없습니다.")
+            Log.e("sendLoseData", "이미지가 없습니다.")
             return
         }
 
