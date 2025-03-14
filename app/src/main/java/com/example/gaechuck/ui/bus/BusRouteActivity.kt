@@ -23,9 +23,6 @@ import com.example.gaechuck.MainActivity
 import com.example.gaechuck.R
 import com.example.gaechuck.ui.bus.viewmodel.BusRouteViewModel
 import com.example.gaechuck.ui.bus.viewmodel.BusStop
-import org.json.JSONArray
-import org.json.JSONObject
-import java.io.InputStream
 
 class BusRouteActivity : AppCompatActivity() {
 
