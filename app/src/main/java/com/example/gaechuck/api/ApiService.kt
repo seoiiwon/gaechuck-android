@@ -24,8 +24,9 @@ import com.example.gaechuck.data.response.GetRentDetailResponse
 import com.example.gaechuck.data.response.LoginResponse
 import com.example.gaechuck.data.response.PatchBusinessResponse
 import com.example.gaechuck.data.response.PatchLoseResponse
+import com.example.gaechuck.data.response.PatchNoticeResponse
 import com.example.gaechuck.data.response.PostRentCreateResponse
-import com.example.gaechuck.data.response.PostUrlResponse
+//import com.example.gaechuck.data.response.PostUrlResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -38,6 +39,7 @@ import retrofit2.http.Multipart
 import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Part
+import retrofit2.http.PartMap
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -182,6 +184,16 @@ interface ApiService {
         @Part file: MultipartBody.Part?
     ): Response<BaseResponse<String>>
 
+    @Multipart
+    @PATCH("api/v1/council/{id}")
+    suspend fun updateNoticeCouncil(
+        @Path("id") noticeId: Int,
+        @Header("Authorization") token: String,
+        @PartMap requestBody: Map<String, @JvmSuppressWildcards RequestBody>,
+        @Part images: List<MultipartBody.Part>
+    ): Response<PatchNoticeResponse>
+
+
     @DELETE("api/v1/council/{id}")
     suspend fun deleteNoticeCouncil(
         @Path("id") noticeId: Int,
@@ -207,17 +219,17 @@ interface ApiService {
 
     // Url
     // URL 수정 및 생성
-    @POST("/api/v1/chaturl/insertUrl")
-    suspend fun postUrl(
-        @Header("Authorization") authToken: String,
-        @Query("chatName") chatName: String,
-        ) : Call<BaseResponse<PostUrlResponse>>
-
-    // URL 불러오기
-    @GET("/api/v1/chaturl/insertUrl")
-    suspend fun getUrl(
-        @Query("chatName") chatName: String,
-    ) : Call<BaseResponse<PostUrlResponse>>
+//    @POST("/api/v1/chaturl/insertUrl")
+//    suspend fun postUrl(
+//        @Header("Authorization") authToken: String,
+//        @Query("chatName") chatName: String,
+//        ) : Call<BaseResponse<PostUrlResponse>>
+//
+//    // URL 불러오기
+//    @GET("/api/v1/chaturl/insertUrl")
+//    suspend fun getUrl(
+//        @Query("chatName") chatName: String,
+//    ) : Call<BaseResponse<PostUrlResponse>>
 
     // Admin
     @POST("/api/v1/master/sign-in")

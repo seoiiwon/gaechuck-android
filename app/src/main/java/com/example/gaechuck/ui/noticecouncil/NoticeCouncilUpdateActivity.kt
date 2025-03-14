@@ -2,6 +2,8 @@ package com.example.gaechuck.ui.noticecouncil
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -15,6 +17,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.example.gaechuck.R
 import com.example.gaechuck.api.ApiConnection
 import com.example.gaechuck.api.AuthManager
@@ -24,7 +29,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.File
+import java.io.FileOutputStream
 
 class NoticeCouncilUpdateActivity : AppCompatActivity() {
 
@@ -105,22 +113,24 @@ class NoticeCouncilUpdateActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             try {
-                val requestBody = mapOf(
-                    "title" to title.toRequestBody(),
-                    "body" to body.toRequestBody()
-                )
+                val requestBody = mutableMapOf<String, RequestBody>()
+                requestBody["title"] = title.toRequestBody(MultipartBody.FORM)
+                requestBody["body"] = body.toRequestBody(MultipartBody.FORM)
 
-                val imageParts = selectedImages.map { imageUri ->
-                    val file = contentResolver.openInputStream(imageUri) ?: return@map null
-                    val requestFile = file.readBytes().toRequestBody()
-                    MultipartBody.Part.createFormData("images", imageUri.lastPathSegment, requestFile)
-                }.filterNotNull()
+                val imageParts = selectedImages.mapNotNull { imageUri ->
+                    val file = uriToFile(imageUri) ?: return@mapNotNull null
+                    val requestFile = file.readBytes().toRequestBody(MultipartBody.FORM)
+                    MultipartBody.Part.createFormData("images", file.name, requestFile)
+                }
 
                 val response = withContext(Dispatchers.IO) {
                     ApiConnection.getRetrofitService.updateNoticeCouncil(
                         noticeId, "Bearer $token", requestBody, imageParts
                     )
                 }
+
+                val errorResponse = response.errorBody()?.string()
+                Log.e("UpdateNotice", "서버 응답: $errorResponse")
 
                 if (response.isSuccessful) {
                     Toast.makeText(this@NoticeCouncilUpdateActivity, "공지사항이 수정되었습니다.", Toast.LENGTH_SHORT).show()
@@ -130,9 +140,23 @@ class NoticeCouncilUpdateActivity : AppCompatActivity() {
                     Toast.makeText(this@NoticeCouncilUpdateActivity, "수정 실패: ${response.code()}", Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
-                Log.e("UpdateNotice", "예외 발생: ${e.message}")
+                Log.e("UpdateNotice", "예외 발생: ${e.message}", e)
                 Toast.makeText(this@NoticeCouncilUpdateActivity, "네트워크 오류 발생", Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+
+    private fun uriToFile(uri: Uri): File? {
+        return try {
+            val inputStream = contentResolver.openInputStream(uri) ?: return null
+            val tempFile = File(cacheDir, "temp_image_${System.currentTimeMillis()}.jpg")
+            tempFile.outputStream().use { output ->
+                inputStream.copyTo(output)
+            }
+            tempFile
+        } catch (e: Exception) {
+            Log.e("UpdateNotice", "파일 변환 오류: ${e.message}")
+            null
         }
     }
 
