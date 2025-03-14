@@ -22,6 +22,7 @@ import com.example.gaechuck.R
 import com.example.gaechuck.data.response.RentList
 import com.example.gaechuck.databinding.FragmentRentMainBinding
 import com.example.gaechuck.repository.RentRepository
+import com.example.gaechuck.ui.lose.LoseUrlChangeActivity
 import com.example.gaechuck.ui.rent.adapter.RentAdapter
 import com.example.gaechuck.ui.rent.viewmodel.RentViewModel
 
@@ -34,6 +35,7 @@ class RentMainFragment : Fragment(R.layout.fragment_rent_main),RentAdapter.OnRen
     private lateinit var recyclerView: RecyclerView
     private lateinit var backButton : Button
     private lateinit var callButoon : Button
+    private lateinit var urlButton : Button
 
     private var isSearchMode = false
     private var searchResults: List<RentList> = listOf()
@@ -65,6 +67,7 @@ class RentMainFragment : Fragment(R.layout.fragment_rent_main),RentAdapter.OnRen
         searchButton = view.findViewById(R.id.searchButton)
         backButton = view.findViewById(R.id.search_back_btn)
         callButoon = view.findViewById(R.id.search_call_btn)
+        urlButton = view.findViewById(R.id.url_btn)
 
         // 로그인 상태 확인
         rentViewModel.checkLoginStatus()
@@ -183,6 +186,13 @@ class RentMainFragment : Fragment(R.layout.fragment_rent_main),RentAdapter.OnRen
         binding.writeBtn.setOnClickListener{
             val intent = Intent(activity, RentWriteActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+        }
+
+        // urlBtn 클릭 리스너
+        binding.urlBtn.setOnClickListener{
+            val intent = Intent(activity, LoseUrlChangeActivity::class.java)
+            intent.putExtra("chatName", "렌트")
             startActivity(intent)
         }
 

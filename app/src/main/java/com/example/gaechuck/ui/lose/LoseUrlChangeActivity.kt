@@ -3,11 +3,18 @@ package com.example.gaechuck.ui.lose
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.example.gaechuck.R
+import com.example.gaechuck.api.ApiConnection
+import com.example.gaechuck.api.AuthManager
+import com.example.gaechuck.data.request.UrlChangeRequest
 import com.example.gaechuck.databinding.ActivityLoseUrlBinding
+import kotlinx.coroutines.launch
 
 class LoseUrlChangeActivity : AppCompatActivity(R.layout.activity_lose_url) {
 
@@ -15,6 +22,8 @@ class LoseUrlChangeActivity : AppCompatActivity(R.layout.activity_lose_url) {
     private lateinit var backButton : ImageView
     private lateinit var sendButton : TextView
     private lateinit var binding: ActivityLoseUrlBinding
+    private lateinit var chatName: String  // chatName 값을 저장할 변수
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,10 +42,13 @@ class LoseUrlChangeActivity : AppCompatActivity(R.layout.activity_lose_url) {
             onBackPressedDispatcher.onBackPressed()
         }
 
-        // SharedPreferences에서 기존 URL 가져와서 설정
-        val sharedPreferences = getSharedPreferences("lose_prefs", MODE_PRIVATE)
-        val savedUrl = sharedPreferences.getString("lose_url", "https://www.naver.com")
-        binding.fieldCurrentUrl.setText(savedUrl) // 기존 URL 표시
+//        // SharedPreferences에서 기존 URL 가져와서 설정
+//        val sharedPreferences = getSharedPreferences("lose_prefs", MODE_PRIVATE)
+//        val savedUrl = sharedPreferences.getString("lose_url", "https://www.naver.com")
+//        binding.fieldCurrentUrl.setText(savedUrl) // 기존 URL 표시
+
+        // Intent에서 chatName 가져오기
+        chatName = intent.getStringExtra("chatName") ?: ""
 
         // 초기 버튼 비활성화
         sendButton.isEnabled = false
@@ -45,11 +57,14 @@ class LoseUrlChangeActivity : AppCompatActivity(R.layout.activity_lose_url) {
         // url 변화 감지
         binding.fieldChangeUrl.addTextChangedListener(textWatcher)
 
+        loadUrlFromServer()
+
         // 완료 버튼 누르면 url 정보 저장
         sendButton.setOnClickListener{
-            val url = binding.fieldChangeUrl.text.toString().trim()
-            sharedPreferences.edit().putString("lose_url", url).apply()
-            finish() // 저장 후 액티비티 종료
+            val newUrl = binding.fieldChangeUrl.text.toString().trim()
+            if (newUrl.isNotEmpty()) {
+                updateUrl(newUrl)
+            }
         }
     }
 
@@ -72,5 +87,41 @@ class LoseUrlChangeActivity : AppCompatActivity(R.layout.activity_lose_url) {
 
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
         override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+    }
+
+    // 초기값
+    private fun loadUrlFromServer() {
+        lifecycleScope.launch {
+            try {
+                val response = ApiConnection.getRetrofitService.getUrl(chatName)
+                if (response.isSuccessful) {
+                    val url = response.body()?.result?.chatUrl ?: "https://www.naver.com"
+                    binding.fieldCurrentUrl.setText(url)
+                } else {
+                    Log.e("LoseUrlChangeActivity", "URL 불러오기 실패")
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    // url 업데이트
+    private fun updateUrl(newUrl: String) {
+        lifecycleScope.launch {
+            try {
+                val token = "Bearer ${AuthManager.getToken()}"
+                val request = UrlChangeRequest(chatName, newUrl)
+                val response = ApiConnection.getRetrofitService.postUrl(token, request)
+                if (response.isSuccessful) {
+                    Toast.makeText(this@LoseUrlChangeActivity, "URL이 변경되었습니다.", Toast.LENGTH_SHORT).show()
+                    finish()
+                } else {
+                    Log.e("LoseUrlChangeActivity", "URL 변경 실패")
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 }

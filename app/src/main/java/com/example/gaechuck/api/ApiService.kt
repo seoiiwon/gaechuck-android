@@ -8,6 +8,7 @@ import com.example.gaechuck.data.request.LoseDeleteRequest
 import com.example.gaechuck.data.request.LosePatchRequest
 import com.example.gaechuck.data.request.RentDeleteRequest
 import com.example.gaechuck.data.request.RentPatchRequest
+import com.example.gaechuck.data.request.UrlChangeRequest
 import com.example.gaechuck.data.response.BaseListResponse
 import com.example.gaechuck.data.response.BaseResponse
 import com.example.gaechuck.data.response.DeleteCouncilNoticeResponse
@@ -210,14 +211,14 @@ interface ApiService {
     @POST("/api/v1/chaturl/insertUrl")
     suspend fun postUrl(
         @Header("Authorization") authToken: String,
-        @Query("chatName") chatName: String,
-        ) : Call<BaseResponse<PostUrlResponse>>
+        @Body request: UrlChangeRequest
+        ) : Response<BaseResponse<PostUrlResponse>>
 
     // URL 불러오기
-    @GET("/api/v1/chaturl/insertUrl")
+    @GET("/api/v1/chaturl/url")
     suspend fun getUrl(
         @Query("chatName") chatName: String,
-    ) : Call<BaseResponse<PostUrlResponse>>
+    ) : Response<BaseResponse<PostUrlResponse>>
 
     // Admin
     @POST("/api/v1/master/sign-in")

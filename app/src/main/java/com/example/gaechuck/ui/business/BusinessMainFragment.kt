@@ -19,6 +19,7 @@ import com.example.gaechuck.databinding.FragmentBusinessMainBinding
 import com.example.gaechuck.repository.BusinessRepository
 import com.example.gaechuck.ui.business.adapter.BusinessAdapter
 import com.example.gaechuck.ui.business.viewmodel.BusinessViewModel
+import com.example.gaechuck.ui.lose.LoseUrlChangeActivity
 import com.google.android.material.tabs.TabLayout
 
 class BusinessMainFragment : Fragment(R.layout.fragment_business_main), BusinessAdapter.OnBusinessItemClickListener {
