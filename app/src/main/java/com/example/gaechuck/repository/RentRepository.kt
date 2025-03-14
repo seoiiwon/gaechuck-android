@@ -59,7 +59,7 @@ class RentRepository {
         rentItemCount : Int,
         file : List<Uri>,
         context: Context
-    ) : Result<BaseResponse<PostRentCreateResponse>> {
+    ) : Result<BaseResponse<String>> {
         return try {
             val requestBody = createJsonRequestBody(RentCreateRequest(rentItemName, rentItemCount))
             val imageParts = file.mapIndexedNotNull { index, uri ->  createImagePart(uri, context, index) } // 모든 이미지 변환

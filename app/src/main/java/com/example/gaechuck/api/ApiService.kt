@@ -103,7 +103,7 @@ interface ApiService {
         @Header("Authorization") Authorization: String,
         @Part("data") data: RequestBody, // "data" 파트 추가
         @Part file: List<MultipartBody.Part> // "file" 파트 추가
-    ) : Response<BaseResponse<PostRentCreateResponse>>
+    ) : Response<BaseResponse<String>>
 
     // 대여 글 삭제하기
     @POST("/api/v1/rent/deleteItem")

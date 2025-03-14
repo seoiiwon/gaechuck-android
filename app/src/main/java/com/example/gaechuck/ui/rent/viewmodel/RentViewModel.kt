@@ -58,8 +58,8 @@ class RentViewModel(private val repository: RentRepository): ViewModel() {
         _selectedImages.value = images
     }
 
-    private val _postResult = MutableLiveData<Result<BaseResponse<PostRentCreateResponse>>>()
-    val postResult: LiveData<Result<BaseResponse<PostRentCreateResponse>>>
+    private val _postResult = MutableLiveData<Result<BaseResponse<String>>>()
+    val postResult: LiveData<Result<BaseResponse<String>>>
         get() = _postResult
 
     // 수정 상태관리
