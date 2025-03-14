@@ -10,6 +10,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.gaechuck.R
+import com.example.gaechuck.api.AuthManager
 import com.example.gaechuck.data.response.GetCouncilNoticeDataResponse
 
 class NoticeCouncilAdapter(
@@ -26,6 +27,7 @@ class NoticeCouncilAdapter(
         val noticeDescription: TextView = view.findViewById(R.id.noticeDescription)
         val noticeDate: TextView = view.findViewById(R.id.noticeDate)
         val deleteButton: Button = view.findViewById(R.id.notice_delete_button)
+        val updateButton: Button = view.findViewById(R.id.notice_update_button)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoticeCouncilViewHolder {
@@ -36,6 +38,7 @@ class NoticeCouncilAdapter(
 
     override fun onBindViewHolder(holder: NoticeCouncilViewHolder, position: Int) {
         val notice = noticeList[position]
+        val token = AuthManager.getToken()
 
         if (!notice.representationImages.isNullOrEmpty()) {
             holder.noticeImage.visibility = View.VISIBLE
@@ -46,6 +49,14 @@ class NoticeCouncilAdapter(
         } else {
             holder.noticeImage.visibility = View.GONE
             holder.imagePlaceholder.visibility = View.VISIBLE
+        }
+
+        if (token.isNullOrEmpty()) {
+            holder.updateButton.visibility = View.GONE
+            holder.deleteButton.visibility = View.GONE
+        } else {
+            holder.updateButton.visibility = View.VISIBLE
+            holder.deleteButton.visibility = View.VISIBLE
         }
 
         holder.noticeTitle.text = notice.title
