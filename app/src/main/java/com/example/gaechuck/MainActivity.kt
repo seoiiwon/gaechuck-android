@@ -70,8 +70,8 @@ class MainActivity : AppCompatActivity() {
 //        val secondPageActivity = SubPage2Activity::class.java
 
         val secondPageActivity = listOf(
-            NoticeCouncilWriteActivity::class.java,
-//            BusRouteActivity::class.java
+//            NoticeCouncilWriteActivity::class.java,
+            BusRouteActivity::class.java
         )
 
         for (i in 0 until gridLayout.childCount) {

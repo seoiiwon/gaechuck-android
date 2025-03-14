@@ -14,4 +14,9 @@
     <color name="divider_grey">#E8E8E9</color>
     <color name="black_1">#FF111111</color>
     <color name="divider_grey2">#8A8D8F</color>
+    <color name="panton_877C">#8A8D8F</color>
+    <color name="menu_tab_bg">#F2F3F5</color>
+    
+    <color name="lables_secondary">#3C3C43</color>
+    <color name="divider_color">#1A8A8D8F</color>
 </resources>

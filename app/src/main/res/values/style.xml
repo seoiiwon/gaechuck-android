@@ -29,4 +29,9 @@
         <item name="android:popupElevation">5dp</item>
     </style>
 
+    <style name="ButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:background">@drawable/menu_button</item>
+        <item name="android:backgroundTint">?attr/colorPrimary</item>
+    </style>
+
 </resources>

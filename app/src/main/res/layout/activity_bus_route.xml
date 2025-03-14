@@ -50,7 +50,7 @@
 
         <Spinner
             android:id="@+id/categorySpinner"
-            android:layout_width="150dp"
+            android:layout_width="110dp"
             android:layout_height="wrap_content"
             android:background="@drawable/spinner_background"
             android:layout_marginBottom="12dp"
@@ -81,16 +81,20 @@
         android:layout_marginBottom="20dp">
 
         <TextView
+            android:id="@+id/routeTitleTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
-            android:text="캠퍼스간 셔틀버스(오전)"
+            android:text="캠퍼스간 셔틀버스"
             android:textSize="14sp"
             android:textStyle="bold"
             android:layout_gravity="center"/>
+
         <TextView
+            android:id="@+id/serviceAreaTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:textColor="@color/tab_colors"
             android:text="운행구간 : 내동 - 가좌 - 칠암 - 가좌 - 내동"
             android:textSize="10sp"
@@ -101,8 +105,10 @@
 
 
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:fillViewport="true"
         android:fadeScrollbars="true">
 
@@ -127,15 +133,30 @@
                     android:layout_height="wrap_content"
                     android:scrollbars="none"
                     android:fadeScrollbars="false">
-
-
                 </HorizontalScrollView>
 
             </LinearLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@android:color/transparent" />
+
+            <TextView
+                android:id="@+id/scrollBottomTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="12sp"
+                android:textColor="@android:color/darker_gray"
+                android:padding="16dp"
+                android:text="모든 노선을 확인했습니다" />
+
+
         </LinearLayout>
 
     </ScrollView>
+
 
 
 </LinearLayout>
