@@ -9,28 +9,38 @@ class NoticeUnivRepository {
     private val apiService = ApiConnection.getRetrofitService
 
     // 교내 공지 리스트 가져오기
-    suspend fun getNoticeUnivList(page: Int, pageSize: Int, bbsId: String): List<NoticeUnivModel> {
+    suspend fun getNoticeUnivList(page: Int, bbsId: String): Pair<List<NoticeUnivModel>, Boolean> {
         return try {
-            val requestBbsId = if (bbsId == "전체") null else bbsId
 
-            Log.d("API_REQUEST", "Fetching notices with page=$page, pageSize=$pageSize, bbsId=$requestBbsId")
+            val requestBbsId = if (bbsId.isNullOrEmpty()) "2" else bbsId
+            val size = 1000
 
-            val result = apiService.getAllNoticeData(page, pageSize, requestBbsId)
+            Log.d("API_REQUEST", "🔹 Fetching notices → page=$page, size=$size, bbsId=$requestBbsId")
+
+            val result = apiService.getAllNoticeData(page, size, requestBbsId)
             if (result.isSuccess && result.result != null) {
-                Log.d("API_SUCCESS", "Response: ${result.result}")
 
-                // ✅ map을 통해 List<NoticeUnivModel>로 변환
-                result.result.map {
+                val notices = result.result.map {
                     NoticeUnivModel(
-                        id = it.id,
+                        notiSeq = it.notiSeq,
+                        notiNum = it.notiNum,
                         title = it.title,
-                        body = it.body,
-                        representationImages = it.representationImages,
-                        time = it.time,
-                        departmentName = it.departmentName, // ✅ departmentName 추가
-                        bbsId = it.bbsId                    // ✅ bbsId 추가
+                        regiDate = it.regiDate,
+                        categoryName = it.categoryName,
+                        departmentName = it.departmentName,
+                        url = it.url,
+                        bbsId = it.bbsId,
+                        dataId = it.dataId
                     )
                 }
+
+                Log.d("API_SUCCESS", "Page: $page → Fetched: ${notices.size} items")
+
+                val totalDataCount = notices.size
+                Log.d("API_SUCCESS", "Total fetched so far: ${totalDataCount} items")
+
+                val hasMoreData = notices.isNotEmpty()
+                Pair(notices, hasMoreData)
 
             } else {
                 Log.e("API_ERROR", "Error Message: ${result.message}")
@@ -44,13 +54,15 @@ class NoticeUnivRepository {
 
     private fun GetAllNoticeDataResponse.toNoticeUnivModel(): NoticeUnivModel {
         return NoticeUnivModel(
-            id = this.id,
+            notiSeq = this.notiSeq,
+            notiNum = this.notiNum,
             title = this.title,
-            body = this.body,
-            representationImages = this.representationImages,
-            time = this.time,
+            regiDate = this.regiDate,
+            categoryName = this.categoryName,
             departmentName = this.departmentName,
-            bbsId = this.bbsId
+            url = this.url,
+            bbsId = this.bbsId,
+            dataId = this.dataId
         )
     }
 

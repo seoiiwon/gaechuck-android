@@ -1,9 +1,12 @@
 package com.example.gaechuck.ui.noticeuniv
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import android.view.View
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -17,19 +20,18 @@ import com.example.gaechuck.repository.NoticeUnivRepository
 import com.example.gaechuck.ui.noticeuniv.adaptor.NoticeUnivAdapter
 import com.example.gaechuck.ui.noticeuniv.viewmodel.NoticeUnivViewModel
 import com.example.gaechuck.ui.noticeuniv.viewmodel.NoticeUnivViewModelFactory
+import okhttp3.internal.format
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import java.util.Queue
 
 
 class NoticeUnivActivity : AppCompatActivity() {
     private lateinit var noticeUnivAdapter: NoticeUnivAdapter
     private lateinit var viewModel: NoticeUnivViewModel
     private lateinit var dateTextView: TextView
-    private var currentPage = 0
-    private val itemsPerPage = 10
-    private var currentBbsId: String = "전체"
-    private var isLoading = false
+    private var currentBbsId: String = "기관"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,19 +56,16 @@ class NoticeUnivActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        val noticeDateTextView: TextView = findViewById(R.id.noticeDateTextView)
-        val currentDate = SimpleDateFormat("MM월 dd일", Locale.getDefault()).format(Date())
-        noticeDateTextView.text = currentDate
-
         initRecyclerView()
         observeViewModel()
+        initSearch()
+
 
         // 데이터 로드
         Log.d("Activity", "Fetching notices onCreate")
-        viewModel.fetchNotices(0, 10, currentBbsId)
+        viewModel.fetchNotices(0, currentBbsId)
 
         val tabAll = findViewById<TextView>(R.id.tabInstitution)
-//        val tabAllUnderline = findViewById<View>(R.id.tabAllUnderline)
         val tabAllUnderline = findViewById<View>(R.id.tabInstitutionUnderline)
         selectTab(tabAll, tabAllUnderline)
 
@@ -75,17 +74,33 @@ class NoticeUnivActivity : AppCompatActivity() {
 
     private fun initRecyclerView() {
         val recyclerView = findViewById<RecyclerView>(R.id.noticeRecyclerView)
-        recyclerView.setLayerType(View.LAYER_TYPE_SOFTWARE, null)
-        noticeUnivAdapter = NoticeUnivAdapter(mutableListOf())
+        recyclerView.setLayerType(View.LAYER_TYPE_HARDWARE, null)
+        noticeUnivAdapter = NoticeUnivAdapter(mutableListOf()) { url ->
+            openUrl(url)
+        }
         recyclerView.adapter = noticeUnivAdapter
         recyclerView.layoutManager = LinearLayoutManager(this)
+
+        val dateTextView = findViewById<TextView>(R.id.noticeDateTextView)
 
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 val layoutManager = recyclerView.layoutManager as LinearLayoutManager
-                if (!isLoading && dy > 0 && layoutManager.findLastVisibleItemPosition() + 1 == layoutManager.itemCount) {
-                    loadMoreData()
+                val totalItemCount = layoutManager.itemCount
+                val lastVisibleItem = layoutManager.findLastVisibleItemPosition()
+
+                if (!viewModel.isLoading && viewModel.hasMoreData && lastVisibleItem + 1 >= totalItemCount) {
+                    viewModel.loadMoreNotices(currentBbsId)
                 }
+
+                val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+                if (firstVisibleItemPosition != RecyclerView.NO_POSITION) {
+                    val firstVisibleItem = noticeUnivAdapter.getItem(firstVisibleItemPosition)
+                    firstVisibleItem?.let {
+                        dateTextView.text = formatDate(it.regiDate)
+                    }
+                }
+
             }
         })
     }
@@ -100,12 +115,6 @@ class NoticeUnivActivity : AppCompatActivity() {
             Log.e("Activity", "Error occurred: $error")
             Toast.makeText(this, "오류 발생: $error", Toast.LENGTH_SHORT).show()
         }
-    }
-
-    private fun loadMoreData() {
-        isLoading = true
-        currentPage++
-        viewModel.fetchNotices(currentPage, itemsPerPage, currentBbsId)
     }
 
     private fun setupTabs() {
@@ -131,8 +140,16 @@ class NoticeUnivActivity : AppCompatActivity() {
             textView.setOnClickListener {
                 selectTab(textView, underlines[index])
                 currentBbsId = textView.text.toString()
-                currentPage = 0
-                viewModel.fetchNotices(currentPage, itemsPerPage, currentBbsId)
+
+                val searchEditText = findViewById<EditText>(R.id.searchEditText)
+                searchEditText.text.clear()
+
+                noticeUnivAdapter.filter("")
+                viewModel.fetchNotices(0, currentBbsId)
+
+
+                val recyclerView = findViewById<RecyclerView>(R.id.noticeRecyclerView)
+                recyclerView.scrollToPosition(0)
             }
         }
     }
@@ -161,5 +178,67 @@ class NoticeUnivActivity : AppCompatActivity() {
 
         allTabs.forEach { it.setTextColor(resources.getColor(R.color.tab_colors)) }
         selectedTab.setTextColor(resources.getColor(R.color.gnu_blue))
+    }
+
+    private fun formatDate(regiDate: String): String {
+        return try {
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            val outputFormat = SimpleDateFormat("MM월 dd일", Locale.getDefault())
+            val date = inputFormat.parse(regiDate)
+            outputFormat.format(date!!)
+        } catch (e: Exception) {
+            "날짜 오류"
+        }
+    }
+
+    private fun openUrl(url: String) {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        startActivity(intent)
+    }
+
+    private fun initSearch() {
+        val searchEditText = findViewById<EditText>(R.id.searchEditText)
+        val searchButton = findViewById<ImageView>(R.id.searchButton)
+
+        // 🔍 검색 버튼 클릭 시
+        searchButton.setOnClickListener {
+            val query = searchEditText.text.toString().trim()
+            Log.d("Search", "Search button clicked, query: $query") // 로그 추가
+            performSearch(query)
+        }
+
+        // 🔍 키보드의 "검색" 버튼 클릭 시
+        searchEditText.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH) {
+                val query = searchEditText.text.toString().trim()
+                Log.d("Search", "IME_ACTION_SEARCH triggered, query: $query") // 로그 추가
+                performSearch(query)
+                true
+            } else {
+                false
+            }
+        }
+
+        // 🔍 하드웨어 키보드의 엔터 키 감지
+        searchEditText.setOnKeyListener { _, keyCode, event ->
+            if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                val query = searchEditText.text.toString().trim()
+                Log.d("Search", "Hardware ENTER key pressed, query: $query") // 로그 추가
+                performSearch(query)
+                true
+            } else {
+                false
+            }
+        }
+    }
+
+    // 🔍 검색 실행
+    private fun performSearch(query: String) {
+        Log.d("Search", "Performing search for query: $query")
+        noticeUnivAdapter.filter(query)
+
+        // ✅ 검색 후 RecyclerView 최상단으로 이동
+        val recyclerView = findViewById<RecyclerView>(R.id.noticeRecyclerView)
+        recyclerView.scrollToPosition(0)
     }
 }

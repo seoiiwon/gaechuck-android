@@ -16,18 +16,41 @@ class NoticeUnivViewModel(private val repository: NoticeUnivRepository) : ViewMo
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> get() = _errorMessage
 
-    fun fetchNotices(page: Int, pageSize: Int, bbsId: String) {
-        viewModelScope.launch {
-            Log.d("ViewModel", "Fetching notices: page=$page, pageSize=$pageSize, bbsId=$bbsId")
+    private var currentList: MutableList<NoticeUnivModel> = mutableListOf()
+    var isLoading = false
+    var hasMoreData = true
+    var currentPage = 0
 
+    fun fetchNotices(page: Int = 0, bbsId: String) {
+        if (isLoading || !hasMoreData) return // 불러올 데이터가 없는 경우 중단
+
+        isLoading = true
+        viewModelScope.launch {
             try {
-                val noticeList = repository.getNoticeUnivList(page, pageSize, bbsId)
-                _notices.postValue(noticeList)
-                Log.d("ViewModel", "Data fetched successfully: ${noticeList.size} items")
+                Log.d("VIEWMODEL", "Fetching page: $page for bbsId: $bbsId")
+
+                val (newNotices, hasNextPage) = repository.getNoticeUnivList(page, bbsId)
+
+                if (page == 0) { currentList.clear() }
+                currentList.addAll(newNotices)
+
+                _notices.value = currentList
+                hasMoreData = hasNextPage
+                currentPage = page
+
+                Log.d("VIEWMODEL", "Total items fetched so far: ${currentList.size}")
+
             } catch (e: Exception) {
-                Log.e("ViewModel", "Error fetching notices: ${e.message}")
-                _errorMessage.postValue("오류 발생: ${e.message}")
+                _errorMessage.value = e.message
+            } finally {
+                isLoading = false
             }
+        }
+    }
+
+    fun loadMoreNotices(bbsId: String) {
+        if (!isLoading && hasMoreData) {
+            fetchNotices(currentPage + 1, bbsId)
         }
     }
 }
