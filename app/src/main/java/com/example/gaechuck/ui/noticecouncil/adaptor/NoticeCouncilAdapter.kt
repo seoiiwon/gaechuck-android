@@ -1,5 +1,6 @@
 package com.example.gaechuck.ui.noticecouncil.adaptor
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.example.gaechuck.R
 import com.example.gaechuck.api.AuthManager
 import com.example.gaechuck.data.response.GetCouncilNoticeDataResponse
+import com.example.gaechuck.ui.noticecouncil.NoticeCouncilUpdateActivity
 
 class NoticeCouncilAdapter(
     private val noticeList: MutableList<GetCouncilNoticeDataResponse>,
@@ -65,6 +67,12 @@ class NoticeCouncilAdapter(
 
         holder.deleteButton.setOnClickListener {
             onDeleteClick(notice.id)
+        }
+
+        holder.updateButton.setOnClickListener {
+            val intent = Intent(holder.itemView.context, NoticeCouncilUpdateActivity::class.java)
+            intent.putExtra("notice_id", notice.id)
+            holder.itemView.context.startActivity(intent)
         }
 
         holder.itemView.setOnClickListener {
