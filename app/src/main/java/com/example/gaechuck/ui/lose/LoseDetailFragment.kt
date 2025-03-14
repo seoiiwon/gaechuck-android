@@ -3,6 +3,7 @@ package com.example.gaechuck.ui.lose
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
@@ -76,14 +77,18 @@ class LoseDetailFragment : Fragment(R.layout.fragment_lose_detail) {
             }
         }
 
-        // SharedPreferences에서 저장된 URL 가져오기
-        val sharedPreferences = requireActivity().getSharedPreferences("lose_prefs", AppCompatActivity.MODE_PRIVATE)
-        val savedUrl = sharedPreferences.getString("lose_url", "https://www.naver.com") // 기본값 설정
+        viewModel.LoseDetailRetrofit("분실물")
 
-        // 버튼 클릭 시 오픈채팅으로 이동
-        loseButton.setOnClickListener{
-            var intent = Intent(Intent.ACTION_VIEW, Uri.parse(savedUrl))
-            startActivity(intent)
+        // loseUrl 옵저빙하여 버튼 클릭 시 해당 URL로 이동하도록 설정
+        viewModel.loseUrl.observe(viewLifecycleOwner) { url ->
+            loseButton.setOnClickListener {
+                if (!url.isNullOrEmpty()) {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                    startActivity(intent)
+                } else {
+                    Log.e("LoseDetailFragment", "URL is empty or null")
+                }
+            }
         }
 
 

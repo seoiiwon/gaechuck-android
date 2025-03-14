@@ -1,5 +1,6 @@
 package com.example.gaechuck.ui.lose
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -14,6 +15,7 @@ import com.example.gaechuck.api.ApiConnection
 import com.example.gaechuck.api.AuthManager
 import com.example.gaechuck.data.request.UrlChangeRequest
 import com.example.gaechuck.databinding.ActivityLoseUrlBinding
+import com.example.gaechuck.ui.rent.RentActivity
 import kotlinx.coroutines.launch
 
 class LoseUrlChangeActivity : AppCompatActivity(R.layout.activity_lose_url) {
@@ -41,11 +43,6 @@ class LoseUrlChangeActivity : AppCompatActivity(R.layout.activity_lose_url) {
         backButton.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
-
-//        // SharedPreferences에서 기존 URL 가져와서 설정
-//        val sharedPreferences = getSharedPreferences("lose_prefs", MODE_PRIVATE)
-//        val savedUrl = sharedPreferences.getString("lose_url", "https://www.naver.com")
-//        binding.fieldCurrentUrl.setText(savedUrl) // 기존 URL 표시
 
         // Intent에서 chatName 가져오기
         chatName = intent.getStringExtra("chatName") ?: ""
@@ -115,6 +112,17 @@ class LoseUrlChangeActivity : AppCompatActivity(R.layout.activity_lose_url) {
                 val response = ApiConnection.getRetrofitService.postUrl(token, request)
                 if (response.isSuccessful) {
                     Toast.makeText(this@LoseUrlChangeActivity, "URL이 변경되었습니다.", Toast.LENGTH_SHORT).show()
+                    // chatName 값에 따라 이동할 Activity 결정
+                    val intent = when (chatName) {
+                        "렌트" -> Intent(this@LoseUrlChangeActivity, RentActivity::class.java)
+                        "분실물" -> Intent(this@LoseUrlChangeActivity, LoseActivity::class.java)
+                        else -> null
+                    }
+                    // Intent가 null이 아닐 때만 실행
+                    intent?.let {
+                        startActivity(it)
+                    }
+
                     finish()
                 } else {
                     Log.e("LoseUrlChangeActivity", "URL 변경 실패")
