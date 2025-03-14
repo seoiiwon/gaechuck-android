@@ -2,6 +2,7 @@ package com.example.gaechuck.repository
 
 import android.util.Log
 import com.example.gaechuck.api.ApiConnection
+import com.example.gaechuck.api.AuthManager
 import com.example.gaechuck.data.response.BaseResponse
 import com.example.gaechuck.data.response.DeleteCouncilNoticeResponse
 import com.example.gaechuck.data.response.GetCouncilNoticeDataResponse
@@ -53,10 +54,6 @@ class NoticeCouncilRepository {
                     val result = body.result
                     Log.d("NoticeDetail", "Parsed Result: id=${result?.id}, title=${result?.title}, body=${result?.body}, images=${result?.images}, time=${result?.time}")
 
-                    if (result?.id == 0) {
-                        Log.e("NoticeDetail", "⚠️ API에서 id 값이 0으로 반환됨! 백엔드 확인 필요")
-                    }
-
                     result
                 } else {
                     Log.e("NoticeDetail", "API 요청 실패: ${body?.message}")
@@ -70,6 +67,7 @@ class NoticeCouncilRepository {
     }
 
     suspend fun deleteNotice(noticeId: Int): Response<DeleteCouncilNoticeResponse> {
-        return ApiConnection.getRetrofitService.deleteNoticeCouncil(noticeId)
+        val token = AuthManager.getToken() ?: throw IllegalStateException("토큰이 존재하지 않습니다.")
+        return ApiConnection.getRetrofitService.deleteNoticeCouncil(noticeId, "Bearer $token")
     }
 }

@@ -2,19 +2,28 @@ package com.example.gaechuck.ui.noticecouncil
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gaechuck.MainActivity
 import com.example.gaechuck.R
+import com.example.gaechuck.api.ApiConnection
 import com.example.gaechuck.api.AuthManager
 import com.example.gaechuck.ui.noticecouncil.adaptor.NoticeCouncilAdapter
 import com.example.gaechuck.ui.noticecouncil.viewmodel.NoticeCouncilViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import okhttp3.OkHttpClient
+import okhttp3.Request
 
 class NoticeCouncilActivity : AppCompatActivity() {
 
@@ -68,16 +77,13 @@ class NoticeCouncilActivity : AppCompatActivity() {
         }
 
         noticeAdapter.setOnItemClickListener(object : NoticeCouncilAdapter.OnItemClickListener {
-            override fun onItemClick(position: Int) {
-                val notice = viewModel.noticeList.value?.get(position)
-                if (notice != null) {
-                    lifecycleScope.launch {
-                        val detail = viewModel.getNoticeDetail(notice.id)
-                        if (detail != null) {
-                            val intent = Intent(this@NoticeCouncilActivity, NoticeCouncilDetailActivity::class.java)
-                            intent.putExtra("notice_detail", detail)
-                            startActivity(intent)
-                        }
+            override fun onItemClick(noticeId: Int) {
+                lifecycleScope.launch {
+                    val detail = viewModel.getNoticeDetail(noticeId)
+                    if (detail != null) {
+                        val intent = Intent(this@NoticeCouncilActivity, NoticeCouncilDetailActivity::class.java)
+                        intent.putExtra("notice_id", noticeId)
+                        startActivity(intent)
                     }
                 }
             }
@@ -86,16 +92,36 @@ class NoticeCouncilActivity : AppCompatActivity() {
 
     private fun deleteNotice(noticeId: Int) {
         lifecycleScope.launch {
-            viewModel.deleteNotice(
-                noticeId,
-                onSuccess = {
-                    noticeAdapter.removeNotice(noticeId)
-                    Toast.makeText(this@NoticeCouncilActivity, "게시글이 삭제되었습니다.", Toast.LENGTH_SHORT).show()
-                },
-                onError = { errorMessage ->
-                    Toast.makeText(this@NoticeCouncilActivity, "삭제 실패: $errorMessage", Toast.LENGTH_SHORT).show()
+            val token = AuthManager.getToken()
+            if (token.isNullOrEmpty()) {
+                Toast.makeText(this@NoticeCouncilActivity, "인증 정보가 없습니다.", Toast.LENGTH_SHORT).show()
+                return@launch
+            }
+
+            try {
+                val response = withContext(Dispatchers.IO) {
+                    ApiConnection.getRetrofitService.deleteNoticeCouncil(noticeId, "Bearer $token")
                 }
-            )
+
+                val responseBody = response.errorBody()?.string() ?: "응답 없음"
+
+                if (response.isSuccessful) {
+                    Handler(Looper.getMainLooper()).post {
+                        noticeAdapter.removeNotice(noticeId)
+                        Toast.makeText(this@NoticeCouncilActivity, "게시글이 삭제되었습니다.", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Log.e("DeleteNotice", "삭제 요청 실패: ${response.code()} - ${response.message()} \n 응답 본문: $responseBody")
+                    Handler(Looper.getMainLooper()).post {
+                        Toast.makeText(this@NoticeCouncilActivity, "삭제 실패: ${response.code()}", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("DeleteNotice", "예외 발생", e)
+                Handler(Looper.getMainLooper()).post {
+                    Toast.makeText(this@NoticeCouncilActivity, "네트워크 오류 발생", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 
