@@ -142,22 +142,10 @@
 
     </LinearLayout>
 
-
-    <!-- ScrollView에 Fragment를 추가할 영역 -->
-    <ScrollView
-        android:id="@+id/menuItemScrollView"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/menuGridRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        android:layout_weight="1">
-
-        <LinearLayout
-            android:id="@+id/menuItemLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:layout_gravity="center"/>
-    </ScrollView>
-
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:numColumns="2"/>
 </LinearLayout>

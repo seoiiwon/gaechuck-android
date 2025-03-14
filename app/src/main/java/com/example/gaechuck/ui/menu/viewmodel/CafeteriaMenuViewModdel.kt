@@ -28,4 +28,16 @@ class CafeteriaMenuViewModdel : ViewModel() {
         )
     }
 
+    fun fetchFoodMenuByDate(cafeteriaSeq: Int, startDate: String) {
+        repository.getFoodMenuByDate(
+            cafeteriaSeq,
+            startDate,
+            onSuccess = { menuData ->
+                _menuList.postValue(menuData)
+            },
+            onError = { error ->
+                _errorMessage.postValue(error)
+            }
+        )
+    }
 }
