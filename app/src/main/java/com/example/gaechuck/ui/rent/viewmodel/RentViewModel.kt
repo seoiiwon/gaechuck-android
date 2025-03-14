@@ -54,6 +54,10 @@ class RentViewModel(private val repository: RentRepository): ViewModel() {
     private val _selectedImages = MutableStateFlow<List<Uri>>(emptyList())
     val selectedImages: StateFlow<List<Uri>> = _selectedImages.asStateFlow()
 
+    fun setSelectedImages(images: List<Uri>) {
+        _selectedImages.value = images
+    }
+
     private val _postResult = MutableLiveData<Result<BaseResponse<PostRentCreateResponse>>>()
     val postResult: LiveData<Result<BaseResponse<PostRentCreateResponse>>>
         get() = _postResult

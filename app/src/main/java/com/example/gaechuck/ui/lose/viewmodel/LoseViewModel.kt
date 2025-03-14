@@ -12,6 +12,7 @@ import com.example.gaechuck.api.AuthManager
 import com.example.gaechuck.data.response.BaseResponse
 import com.example.gaechuck.data.response.GetLoseDetailResponse
 import com.example.gaechuck.data.response.LoseList
+import com.example.gaechuck.data.response.PatchLoseResponse
 import com.example.gaechuck.repository.LoseRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -21,7 +22,6 @@ import kotlinx.coroutines.launch
 class LoseViewModel(private val repository: LoseRepository):ViewModel() {
 
     private var isLastPage = false
-
 
     // 분실물 리스트
     private val _loseList = MutableLiveData<List<LoseList>>()
@@ -42,9 +42,18 @@ class LoseViewModel(private val repository: LoseRepository):ViewModel() {
     private val _selectedImages = MutableStateFlow<List<Uri>>(emptyList())
     val selectedImages: StateFlow<List<Uri>> = _selectedImages.asStateFlow()
 
+    fun setSelectedImages(images: List<Uri>) {
+        _selectedImages.value = images
+    }
+
     private val _postResult = MutableLiveData<Result<BaseResponse<String>>>()
     val postResult : LiveData<Result<BaseResponse<String>>>
         get() = _postResult
+
+    // 수정 상태 관리
+    private val _patchResult =  MutableLiveData<Result<BaseResponse<PatchLoseResponse>>>()
+    val patchResult : LiveData<Result<BaseResponse<PatchLoseResponse>>>
+        get() = _patchResult
 
     // 삭제 상태 관리
     private val _deleteResult = MutableLiveData<Result<BaseResponse<String>>>()
@@ -54,11 +63,6 @@ class LoseViewModel(private val repository: LoseRepository):ViewModel() {
     fun checkLoginStatus() {
         _isLoggedIn.value = !AuthManager.getToken().isNullOrEmpty()
     }
-
-    // 초기화
-//    init {
-//
-//    }
 
     fun loadLoseData(page: Int) {
         if (isLastPage) return
@@ -94,16 +98,16 @@ class LoseViewModel(private val repository: LoseRepository):ViewModel() {
     }
 
     // 이미지 상태관리하기
-    fun addImages(uris : List<Uri>) {
+    fun addImages(uris: List<Uri>) {
         _selectedImages.value += uris
-        Log.d("LoseViewModel", "Images added to ViewModel: ${_selectedImages.value}")
+        Log.d("RentViewModel", "Images added to ViewModel: ${_selectedImages.value}")
     }
 
-    fun removeImages(index : Int) {
+    fun removeImages(index: Int) {
         _selectedImages.value = _selectedImages.value.toMutableList().apply {
             removeAt(index)
         }
-        Log.d("LoseViewModel", "Image removed from ViewModel: ${_selectedImages.value}")
+        Log.d("RentViewModel", "Image removed from ViewModel: ${_selectedImages.value}")
     }
 
     // data 보내기
@@ -129,6 +133,44 @@ class LoseViewModel(private val repository: LoseRepository):ViewModel() {
             val result =
                 repository.postLoseDelete(token, lostItemId)
             _deleteResult.value = result
+
+            result.onSuccess {
+                Log.d("LoseViewModel", "데이터 전송 성공: ${it}")
+            }.onFailure { error ->
+                Log.e("LoseViewModel", "데이터 전송 실패: ${error.message}")
+            }
+        }
+    }
+
+    // 아이템 수정하기
+    fun patchData(
+        token: String,
+        lostItemId: Int,
+        title : String,
+        lostDate: String,
+        description : String,
+        lostLocation : String,
+        file: List<Uri>,
+        context: Context
+    ) {
+        Log.d(
+            "LoseViewModel",
+            "patchData 호출됨 - name: $lostItemId, count: $title, file : $file"
+        )
+
+        viewModelScope.launch {
+            val result =
+                repository.patchLoseData(
+                    token,
+                    lostItemId,
+                    title,
+                    lostDate,
+                    description,
+                    lostLocation,
+                    file,
+                    context
+                )
+            _patchResult.value = result
 
             result.onSuccess {
                 Log.d("LoseViewModel", "데이터 전송 성공: ${it}")

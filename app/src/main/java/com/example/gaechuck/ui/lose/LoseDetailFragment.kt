@@ -15,6 +15,7 @@ import com.example.gaechuck.databinding.FragmentLoseDetailBinding
 import com.example.gaechuck.repository.LoseRepository
 import com.example.gaechuck.ui.lose.adapter.ImagePagerAdapter
 import com.example.gaechuck.ui.lose.viewmodel.LoseViewModel
+import com.example.gaechuck.ui.rent.RentActivity
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 
 
@@ -64,7 +65,14 @@ class LoseDetailFragment : Fragment(R.layout.fragment_lose_detail) {
         viewModel.loseDetailData.observe(viewLifecycleOwner) { loseDetail ->
             loseDetail?.let {
                 setupUI(it)
-                (activity as? LoseActivity)?.setLostItemId(it.lostItemId)
+                (activity as? LoseActivity)?.setLoseItemData(
+                    lostItemId = lostItemId ?: -1,
+                    title = it.title,
+                    lostDate = it.lostDate,
+                    lostLocation = it.lostLocation,
+                    description = it.description,
+                    images = ArrayList(it.images)
+                )
             }
         }
 

@@ -3,6 +3,7 @@ package com.example.gaechuck.api
 import com.example.gaechuck.data.request.BusinessDeleteRequest
 import com.example.gaechuck.data.request.LoginRequest
 import com.example.gaechuck.data.request.LoseDeleteRequest
+import com.example.gaechuck.data.request.LosePatchRequest
 import com.example.gaechuck.data.request.RentDeleteRequest
 import com.example.gaechuck.data.request.RentPatchRequest
 import com.example.gaechuck.data.response.BaseListResponse
@@ -19,6 +20,7 @@ import com.example.gaechuck.data.response.GetLoseDetailResponse
 import com.example.gaechuck.data.response.GetRentDataResponse
 import com.example.gaechuck.data.response.GetRentDetailResponse
 import com.example.gaechuck.data.response.LoginResponse
+import com.example.gaechuck.data.response.PatchLoseResponse
 import com.example.gaechuck.data.response.PostRentCreateResponse
 import com.example.gaechuck.data.response.PostUrlResponse
 import okhttp3.MultipartBody
@@ -66,6 +68,15 @@ interface ApiService {
         @Header("Authorization") Authorization: String,
         @Body request : LoseDeleteRequest
     ) : Response<BaseResponse<String>>
+
+    // 분실물 글 수정하기
+    @Multipart
+    @PATCH("/api/v1/lostitems/update")
+    suspend fun patchLoseData(
+        @Header("Authorization") Authorization: String,
+        @Part("data") data: LosePatchRequest,
+        @Part file: List<MultipartBody.Part>
+    ) : Response<BaseResponse<PatchLoseResponse>>
 
 
     // Rent

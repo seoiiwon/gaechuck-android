@@ -46,6 +46,7 @@
         <activity android:name=".ui.lose.LoseWriteActivity"/>
         <activity android:name=".ui.lose.LoseUrlChangeActivity"/>
         <activity android:name=".ui.rent.RentEditActivity"/>
+        <activity android:name=".ui.lose.LoseEditActivity"/>
     </application>
 
 </manifest>

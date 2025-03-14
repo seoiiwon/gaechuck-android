@@ -20,6 +20,7 @@ import com.example.gaechuck.MainActivity
 import com.example.gaechuck.R
 import com.example.gaechuck.repository.LoseRepository
 import com.example.gaechuck.ui.lose.viewmodel.LoseViewModel
+import com.example.gaechuck.ui.rent.RentEditActivity
 
 class LoseActivity : AppCompatActivity(R.layout.activity_lose) {
 
@@ -32,6 +33,11 @@ class LoseActivity : AppCompatActivity(R.layout.activity_lose) {
     private lateinit var loseViewModel : LoseViewModel
 
     private var lostItemId: Int = -1
+    private var title: String = ""
+    private var lostDate: String = ""
+    private var description: String = ""
+    private var lostLocation: String = ""
+    private var images: ArrayList<String> = arrayListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,6 +96,7 @@ class LoseActivity : AppCompatActivity(R.layout.activity_lose) {
                 when (menuItem.itemId) {
                     R.id.menu_edit -> {
                         // 수정 로직
+                        startEditActivity()
                         true
                     }
                     R.id.menu_delete -> {
@@ -105,6 +112,28 @@ class LoseActivity : AppCompatActivity(R.layout.activity_lose) {
 
         }
 
+    }
+
+    fun setLoseItemData(lostItemId: Int, title: String, lostDate: String,lostLocation:String, description: String, images: ArrayList<String>) {
+        this.lostItemId = lostItemId
+        this.title = title
+        this.lostDate = lostDate
+        this.lostLocation = lostLocation
+        this.description = description
+        this.images = images
+
+    }
+
+    private fun startEditActivity() {
+        val intent = Intent(this, LoseEditActivity::class.java).apply {
+            putExtra("lostItemId", lostItemId)
+            putExtra("title", title)
+            putExtra("lostDate", lostDate)
+            putExtra("lostLocation", lostLocation)
+            putExtra("description", description)
+            putStringArrayListExtra("images", images)
+        }
+        startActivity(intent)
     }
 
     private fun showDeleteConfirmationDialog() {

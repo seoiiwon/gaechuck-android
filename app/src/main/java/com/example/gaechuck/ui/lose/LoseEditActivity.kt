@@ -1,4 +1,4 @@
-package com.example.gaechuck.ui.rent
+package com.example.gaechuck.ui.lose
 
 import android.content.Intent
 import android.net.Uri
@@ -16,40 +16,41 @@ import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.gaechuck.R
 import com.example.gaechuck.api.AuthManager
-import com.example.gaechuck.databinding.ActivityRentWriteBinding
-import com.example.gaechuck.repository.RentRepository
-import com.example.gaechuck.ui.rent.viewmodel.RentViewModel
+import com.example.gaechuck.databinding.ActivityLoseWriteBinding
+import com.example.gaechuck.repository.LoseRepository
+import com.example.gaechuck.ui.lose.viewmodel.LoseViewModel
 import kotlinx.coroutines.launch
 
-class RentEditActivity : AppCompatActivity(R.layout.activity_rent_write) {
+class LoseEditActivity : AppCompatActivity(R.layout.activity_lose_write) {
 
-    private lateinit var toolbar : androidx.appcompat.widget.Toolbar
-    private lateinit var backButton : ImageView
-    private lateinit var sendButton : TextView
+    private lateinit var toolbar: androidx.appcompat.widget.Toolbar
+    private lateinit var backButton: ImageView
+    private lateinit var sendButton: TextView
     private lateinit var photoCountTextView: TextView
-    private lateinit var binding: ActivityRentWriteBinding
-    private lateinit var photoBtn : View
-    private lateinit var viewModel: RentViewModel
+    private lateinit var binding: ActivityLoseWriteBinding
+    private lateinit var photoBtn: View
+    private lateinit var viewModel: LoseViewModel
 
 
     // 갤러리에서 여러 개의 이미지를 선택하는 ActivityResult
-    private val getContent = registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia(3)) { uris ->
-        if (uris.isNotEmpty()) {
-            viewModel.addImages(uris)
-        } else {
-            Log.w("getContent", "No URIs selected")
+    private val getContent =
+        registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia(3)) { uris ->
+            if (uris.isNotEmpty()) {
+                viewModel.addImages(uris)
+            } else {
+                Log.w("getContent", "No URIs selected")
+            }
         }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityRentWriteBinding.inflate(layoutInflater)
+        binding = ActivityLoseWriteBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         //
-        val repository = RentRepository()
-        val viewModelFactory = RentViewModel.RentViewModelFactory(repository)
-        viewModel = ViewModelProvider(this, viewModelFactory).get(RentViewModel::class.java)
+        val repository = LoseRepository()
+        val viewModelFactory = LoseViewModel.LoseViewModelFactory(repository)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(LoseViewModel::class.java)
 
         // photo_count TextView 찾기
         photoBtn = binding.photoAddBtn.root
@@ -61,15 +62,20 @@ class RentEditActivity : AppCompatActivity(R.layout.activity_rent_write) {
         backButton = toolbar.findViewById(R.id.button_back)
         sendButton = toolbar.findViewById(R.id.form_send)
 
-        // RentActivity에서 전달된 데이터 받기
-        val rentItemId = intent.getIntExtra("rentItemId", -1)
-        val rentItemName = intent.getStringExtra("rentItemName") ?: ""
-        val rentItemCount = intent.getIntExtra("rentItemCount", 0)
-        val rentItemImages = intent.getStringArrayListExtra("rentItemImage") ?: arrayListOf()
+        // LoseActivity에 전달된 데이터 받기
+        val loseItemId = intent.getIntExtra("lostItemId", -1)
+        val title = intent.getStringExtra("title") ?: ""
+        val lostDate = intent.getStringExtra("lostDate") ?: ""
+        val lostLocation = intent.getStringExtra("lostLocation") ?: ""
+        val description = intent.getStringExtra("description") ?: ""
+        val LostImages = intent.getStringArrayListExtra("images") ?: arrayListOf()
+
 
         // UI 설정
-        findViewById<TextView>(R.id.field_title).text = rentItemName
-        findViewById<TextView>(R.id.field_count).text = rentItemCount.toString()
+        findViewById<TextView>(R.id.field_title).text = title
+        findViewById<TextView>(R.id.field_date).text = lostDate
+        findViewById<TextView>(R.id.field_location).text = lostLocation
+        findViewById<TextView>(R.id.field_info).text = description
 
         lifecycleScope.launch {
             viewModel.selectedImages.collect { images ->
@@ -77,7 +83,8 @@ class RentEditActivity : AppCompatActivity(R.layout.activity_rent_write) {
             }
         }
 
-        val imageUris = rentItemImages.map { Uri.parse(it) }
+        // 변수명 수정
+        val imageUris = LostImages.map { Uri.parse(it) }
         viewModel.addImages(imageUris)
 
         setSupportActionBar(toolbar)
@@ -93,61 +100,76 @@ class RentEditActivity : AppCompatActivity(R.layout.activity_rent_write) {
         }
 
         sendButton.setOnClickListener {
-            patchRentData(rentItemId)
+            patchRentData(loseItemId)
         }
 
-        // PatchResult로 바꾸기
         viewModel.patchResult.observe(this) { result ->
             result.onSuccess {
-                Log.d("RentEditActivity", "전송 성공: ${it.message}")
+                Log.d("LoseEditActivity", "전송 성공: ${it.message}")
                 Toast.makeText(this, "수정 완료", Toast.LENGTH_SHORT).show()
                 finishAndGoToRentActivity() // 성공하면 이동
             }.onFailure { error ->
                 Toast.makeText(this, "수정 실패", Toast.LENGTH_SHORT).show()
-                Log.e("RentEditActivity", "전송 실패: ${error.message}")
+                Log.e("LoseEditActivity", "전송 실패: ${error.message}")
             }
         }
     }
 
     private fun finishAndGoToRentActivity() {
-        val intent = Intent(this, RentActivity::class.java)
+        val intent = Intent(this, LoseActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(intent)
         finish()
     }
 
-    private fun patchRentData(rentItemId:Int) {
+    private fun patchRentData(loseItemId: Int) {
         val token = "Bearer ${AuthManager.getToken()}" // 🔥 토큰 가져오기
-        val rentItemName = binding.fieldTitle.text.toString()
-        val rentItemCount = binding.fieldCount.text.toString()
+        val title = binding.fieldTitle.text.toString()
+        val lostDate = binding.fieldDate.text.toString()
+        val description = binding.fieldInfo.text.toString()
+        val lostLocation = binding.fieldLocation.text.toString()
 
-        if (rentItemName.isBlank() || rentItemCount.isBlank()) {
+        if (title.isBlank() || lostDate.isBlank() || description.isBlank() || lostLocation.isBlank()) {
             Log.e("sendBusinessData", "입력값이 부족합니다.")
+            Toast.makeText(this, "모든 값을 입력해주세요.", Toast.LENGTH_SHORT).show()
             return
         }
 
-        Log.d("RentEditActivity", "전송할 데이터: name=$rentItemName, count=$rentItemCount")
+        Log.d(
+            "LoseWriteActivity",
+            "전송할 데이터: name=$title, lostDate=$lostDate,description=$description, lostLocation=$lostLocation"
+        )
 
         val imageUris = viewModel.selectedImages.value
-        Log.d("RentEditActivity", "전송이미지 ${imageUris}")
+        Log.d("LoseEditActivity", "전송이미지 ${imageUris}")
         if (imageUris.isEmpty()) {
-            Log.e("sendRentData", "이미지가 없습니다.")
+            Log.e("sendLoseData", "이미지가 없습니다.")
             return
         }
 
         sendButton.isEnabled = false // 로딩 중 비활성화
-        viewModel.patchData(token, rentItemId, rentItemName, rentItemCount.toInt(), imageUris, applicationContext)
+        viewModel.patchData(
+            token,
+            loseItemId,
+            title,
+            lostDate,
+            description,
+            lostLocation,
+            imageUris,
+            applicationContext
+        )
     }
 
 
     private fun updateUI(images: List<Uri>) {
         // photoAddBtn 숨기기
-        photoBtn.visibility = if(images.isEmpty()) View.VISIBLE else View.GONE
+        photoBtn.visibility = if (images.isEmpty()) View.VISIBLE else View.GONE
         binding.photoContainer.removeAllViews()
 
         // 사진 추가
         images.forEachIndexed { index, uri ->
-            val photoView = layoutInflater.inflate(R.layout.fragment_photo_view, binding.photoContainer, false)
+            val photoView =
+                layoutInflater.inflate(R.layout.fragment_photo_view, binding.photoContainer, false)
             val imageView = photoView.findViewById<ImageView>(R.id.photo_view)
             val deleteBtn = photoView.findViewById<ImageView>(R.id.delete_btn)
 
