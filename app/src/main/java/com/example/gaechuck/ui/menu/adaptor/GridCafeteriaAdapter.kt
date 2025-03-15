@@ -30,31 +30,31 @@ class GridCafeteriaAdapter(
         val menuItem = menuList[position]
 
         when (menuItem.menuSeq) {
-            -2 -> { // 카테고리
+            -2 -> { // 카테고리 row
                 holder.menuDivisionTextView.text = menuItem.menuDivision
-                holder.menuDivisionTextView.setTextColor(Color.parseColor("#005BAC")) // GNU 블루 적용
+                holder.menuDivisionTextView.setTextColor(Color.parseColor("#005BAC")) // GNU 블루
                 holder.menuDivisionTextView.textSize = 16f
                 holder.menuDivisionTextView.setTypeface(null, Typeface.BOLD)
                 holder.menuDivisionTextView.visibility = View.VISIBLE
 
                 holder.menuTextView.text = ""
-                holder.menuTextView.visibility = View.INVISIBLE
+                holder.menuTextView.visibility = View.GONE
             }
 
-            -1 -> { // "식단 정보가 없습니다."
-                holder.menuDivisionTextView.text = ""
-                holder.menuDivisionTextView.visibility = View.INVISIBLE
+            -1 -> { // "식단 정보가 없습니다." row → 1열에 출력
+                holder.menuDivisionTextView.text = menuItem.menu  // 여기 menu에 "식단 정보가 없습니다."가 있어야 함
+                holder.menuDivisionTextView.setTextColor(Color.parseColor("#A0A0A0")) // 회색
+                holder.menuDivisionTextView.textSize = 14f
+                holder.menuDivisionTextView.gravity = Gravity.CENTER
+                holder.menuDivisionTextView.visibility = View.VISIBLE
 
-                holder.menuTextView.text = menuItem.menu
-                holder.menuTextView.setTextColor(Color.parseColor("#A0A0A0")) // 회색 적용
-                holder.menuTextView.textSize = 14f
-                holder.menuTextView.gravity = Gravity.CENTER
-                holder.menuTextView.visibility = View.VISIBLE
+                holder.menuTextView.text = ""
+                holder.menuTextView.visibility = View.GONE
             }
 
-            else -> { // 일반 메뉴 (2열 오른쪽)
+            else -> { // 일반 메뉴 row (오른쪽, 2열)
                 holder.menuDivisionTextView.text = ""
-                holder.menuDivisionTextView.visibility = View.INVISIBLE
+                holder.menuDivisionTextView.visibility = View.GONE
 
                 holder.menuTextView.text = menuItem.menu.replace(" ", "\n") // 줄 바꿈 적용
                 holder.menuTextView.setTextColor(Color.BLACK)

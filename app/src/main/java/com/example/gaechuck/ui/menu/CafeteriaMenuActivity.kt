@@ -1,13 +1,13 @@
 package com.example.gaechuck.ui.menu
 
-import DayButtonAdapter
-import android.graphics.Rect
+import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,7 +25,7 @@ class CafeteriaMenuActivity : AppCompatActivity() {
     private lateinit var restaurantLayout: LinearLayout
     private lateinit var leftArrow: ImageView
     private lateinit var rightArrow: ImageView
-    private lateinit var dayRecyclerView: RecyclerView
+    private lateinit var buttonContainer: LinearLayout
     private lateinit var menuGridRecyclerView: RecyclerView
     private lateinit var gridAdapter: GridCafeteriaAdapter
 
@@ -73,9 +73,8 @@ class CafeteriaMenuActivity : AppCompatActivity() {
         leftArrow = findViewById(R.id.leftArrow)
         rightArrow = findViewById(R.id.rightArrow)
 
-        dayRecyclerView = findViewById(R.id.dayRecyclerView)
-        dayRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-
+        buttonContainer = findViewById(R.id.dayButtonContainer)
+        buttonContainer.orientation = LinearLayout.HORIZONTAL
         leftArrow.setOnClickListener { navigateCafeteria(-1) }
         rightArrow.setOnClickListener { navigateCafeteria(1) }
     }
@@ -105,16 +104,47 @@ class CafeteriaMenuActivity : AppCompatActivity() {
             updateMenuForSelectedDay(getTodayDate())
         })
 
-        setupDayRecyclerView()
+        setupDayButtons()
     }
 
-    private fun setupDayRecyclerView() {
+
+    private fun setupDayButtons() {
         val days = listOf("월", "화", "수", "목", "금", "토", "일")
         val weekDates = getWeekDates()
+        val container = findViewById<LinearLayout>(R.id.dayButtonContainer)
+        container.removeAllViews()
+        container.orientation = LinearLayout.HORIZONTAL
+        container.weightSum = days.size.toFloat()
 
-        dayRecyclerView.adapter = DayButtonAdapter(this, days, days[getDayOfWeekIndex(getTodayDate())]) { selectedDay ->
-            val selectedDate = weekDates[days.indexOf(selectedDay)]
-            updateMenuForSelectedDay(selectedDate)
+        fun dpToPx(dp: Int): Int {
+            return (dp * resources.displayMetrics.density).toInt()
+        }
+
+        val todayIndex = getDayOfWeekIndex(getTodayDate())
+
+        days.forEachIndexed { index, day ->
+            val button = Button(this)
+            val params = LinearLayout.LayoutParams(0, dpToPx(20), 1f)
+            params.setMargins(dpToPx(4), dpToPx(4), dpToPx(4), dpToPx(4))
+            button.layoutParams = params
+
+            button.text = day
+            button.textSize = 8f
+            button.setTypeface(null, Typeface.BOLD)
+            button.background = ContextCompat.getDrawable(this, R.drawable.week_button)
+            button.setTextColor(ContextCompat.getColor(this, R.color.black))
+            button.setPadding(0, 0, 0, 0)
+
+            button.isSelected = index == todayIndex
+            button.setOnClickListener {
+                for (i in 0 until container.childCount) {
+                    container.getChildAt(i).isSelected = false
+                }
+                button.isSelected = true
+                val selectedDate = weekDates[index]
+                updateMenuForSelectedDay(selectedDate)
+            }
+            container.addView(button)
         }
     }
 
@@ -232,18 +262,21 @@ class CafeteriaMenuActivity : AppCompatActivity() {
             menuList
         }
 
-        sortedMenuList
-            .filter { it.menu.isNotBlank() }
+        val groupedMenu = sortedMenuList.filter { it.menu.isNotBlank() }
             .groupBy { it.menuDivision }
-            .forEach { (division, items) ->
+
+        if (groupedMenu.isEmpty()) {
+            categorizedMenu.add(FoodMenuItem(menuDivision = "식단 정보가 없습니다.", menu = "", date = "", menuSeq = -2))
+        } else {
+            groupedMenu.forEach { (division, items) ->
                 if (items.isNotEmpty()) {
-                    categorizedMenu.add(FoodMenuItem(menuDivision = division, menu = "", date = "", menuSeq = -2)) // ✅ 1열 (카테고리)
+                    categorizedMenu.add(FoodMenuItem(menuDivision = division, menu = "", date = "", menuSeq = -2))
                     categorizedMenu.addAll(items)
                 }
             }
+        }
 
         val layoutManager = GridLayoutManager(this, 3)
-
         layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
                 return if (categorizedMenu[position].menuSeq == -2) 1 else 2
