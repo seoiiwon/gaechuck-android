@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -30,16 +31,13 @@ class NoticeCouncilActivity : AppCompatActivity() {
     private lateinit var noticeAdapter: NoticeCouncilAdapter
     private val viewModel: NoticeCouncilViewModel by viewModels()
 
-    private val isAdmin = AuthManager.getToken()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notice_council)
 
-        val postNoticeButton = findViewById<ImageView>(R.id.postNoticeButton)
+        val postNoticeButton = findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.postNoticeButton)
 
-        // 버튼을 항상 화면 상단에 배치 (RecyclerView 스크롤 영향 X)
-        postNoticeButton.bringToFront()
+        updateUI()
 
         postNoticeButton.setOnClickListener {
             val intent = Intent(this, NoticeCouncilWriteActivity::class.java)
@@ -60,6 +58,19 @@ class NoticeCouncilActivity : AppCompatActivity() {
         viewModel.fetchNotices()
     }
 
+
+    private fun updateUI() {
+        val token = AuthManager.getToken()
+        val postNoticeButton = findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.postNoticeButton)
+
+        // ✅ 토큰이 없으면 버튼 숨김
+        if (token.isNullOrEmpty()) {
+            postNoticeButton.visibility = View.GONE
+        } else {
+            postNoticeButton.visibility = View.VISIBLE
+        }
+    }
+
     private fun initRecyclerView() {
         val recyclerView = findViewById<RecyclerView>(R.id.noticeRecyclerView)
 
@@ -71,9 +82,9 @@ class NoticeCouncilActivity : AppCompatActivity() {
         recyclerView.adapter = noticeAdapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-
         viewModel.noticeList.observe(this) { notices ->
             noticeAdapter.addNotices(notices)
+            updateUI()
         }
 
         noticeAdapter.setOnItemClickListener(object : NoticeCouncilAdapter.OnItemClickListener {
@@ -109,6 +120,7 @@ class NoticeCouncilActivity : AppCompatActivity() {
                     Handler(Looper.getMainLooper()).post {
                         noticeAdapter.removeNotice(noticeId)
                         Toast.makeText(this@NoticeCouncilActivity, "게시글이 삭제되었습니다.", Toast.LENGTH_SHORT).show()
+                        updateUI()
                     }
                 } else {
                     Log.e("DeleteNotice", "삭제 요청 실패: ${response.code()} - ${response.message()} \n 응답 본문: $responseBody")

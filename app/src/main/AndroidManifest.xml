@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:hardwareAccelerated="true"
@@ -38,6 +39,7 @@
         <activity android:name=".ui.noticecouncil.NoticeCouncilDetailActivity"/>
         <activity android:name=".ui.noticeuniv.NoticeUnivDetailActivity"/>
         <activity android:name=".ui.noticecouncil.NoticeCouncilWriteActivity"/>
+        <activity android:name=".ui.noticecouncil.NoticeCouncilUpdateActivity" />
 
         <activity android:name=".ui.lose.LoseActivity"/>
         <activity android:name=".ui.login.LoginActivity"/>
