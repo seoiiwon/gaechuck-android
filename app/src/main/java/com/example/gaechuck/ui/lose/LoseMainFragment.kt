@@ -123,6 +123,7 @@ class LoseMainFragment : Fragment(R.layout.fragment_lose_main), LoseAdapter.OnLo
         }
         binding.urlBtn.setOnClickListener {
             val intent = Intent(activity, LoseUrlChangeActivity::class.java)
+            intent.putExtra("chatName", "분실물")
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
         }

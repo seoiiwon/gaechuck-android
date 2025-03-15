@@ -8,10 +8,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.gaechuck.api.ApiConnection
 import com.example.gaechuck.api.AuthManager
 import com.example.gaechuck.data.response.BaseResponse
 import com.example.gaechuck.data.response.GetRentDetailResponse
 import com.example.gaechuck.data.response.PostRentCreateResponse
+import com.example.gaechuck.data.response.PostUrlResponse
 import com.example.gaechuck.data.response.RentList
 import com.example.gaechuck.repository.RentRepository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -71,6 +73,13 @@ class RentViewModel(private val repository: RentRepository): ViewModel() {
     private val _deleteResult = MutableLiveData<Result<BaseResponse<String>>>()
     val deleteResult: LiveData<Result<BaseResponse<String>>>
         get() = _deleteResult
+
+    // url 상태관리
+    private val _urlResult = MutableLiveData<Result<BaseResponse<PostUrlResponse>>>()
+    val urlResult : LiveData<Result<BaseResponse<PostUrlResponse>>>
+        get() = _urlResult
+    private val _rentUrl = MutableLiveData<String>()
+    val rentUrl: LiveData<String> get() = _rentUrl
 
     fun checkLoginStatus() {
         _isLoggedIn.value != AuthManager.getToken().isNullOrEmpty()
@@ -237,14 +246,33 @@ class RentViewModel(private val repository: RentRepository): ViewModel() {
         }
     }
 
+    // url 변경
+    fun RentDetailRetrofit(chatName: String) {
+        viewModelScope.launch {
+            try {
+                val response = ApiConnection.getRetrofitService.getUrl(chatName)
 
-        class RentViewModelFactory(private val repository: RentRepository) :
-            ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                if (modelClass.isAssignableFrom(RentViewModel::class.java)) {
-                    return RentViewModel(repository) as T
+                if (response.isSuccessful && response.body()?.isSuccess == true) {
+                    // API에서 받은 URL을 LiveData에 저장
+                    _rentUrl.postValue(response.body()?.result?.chatUrl ?: "")
+                } else {
+                    Log.e("RentViewModel", "Failed to fetch URL: ${response.errorBody()?.string()}")
                 }
-                throw IllegalArgumentException("Unknown ViewModel class")
+
+            } catch (e: Exception) {
+                Log.e("RentViewModel", "Error fetching rent details", e)
             }
         }
     }
+
+
+    class RentViewModelFactory(private val repository: RentRepository) :
+        ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(RentViewModel::class.java)) {
+                return RentViewModel(repository) as T
+            }
+            throw IllegalArgumentException("Unknown ViewModel class")
+        }
+    }
+}
