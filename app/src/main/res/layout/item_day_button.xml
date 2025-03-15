@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.AppCompatButton
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<Button xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/dayButton"
-    android:layout_width="40dp"
+    android:layout_width="wrap_content"
     android:layout_height="20dp"
-    android:background="@drawable/menu_button"
-    android:textSize="8.26sp"
-    android:textColor="@color/black"
-    android:gravity="center"
-    android:padding="4dp"/>
+    android:layout_margin="4dp"
+    android:padding="0dp"
+    android:text="월"
+    android:textSize="8sp"
+    android:textStyle="bold"
+    android:background="@drawable/week_button"
+    android:textColor="@color/black"/>

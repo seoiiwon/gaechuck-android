@@ -27,7 +27,7 @@ class ImageAdapter(
         val imageUri = imageList[position]
 
         Glide.with(holder.itemView.context)
-            .load(imageUri)
+            .load(imageUri.toString())
             .into(holder.imageView)
 
         holder.deleteButton.setOnClickListener {
