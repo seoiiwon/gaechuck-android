@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.KeyEvent
 import android.view.View
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -56,6 +58,7 @@ class NoticeCouncilActivity : AppCompatActivity() {
 
         initRecyclerView()
         viewModel.fetchNotices()
+        initSearch()
     }
 
 
@@ -137,4 +140,44 @@ class NoticeCouncilActivity : AppCompatActivity() {
         }
     }
 
+    private fun initSearch() {
+        val searchEditText = findViewById<EditText>(R.id.searchEditText)
+        val searchButton = findViewById<ImageView>(R.id.searchButton)
+
+        searchButton.setOnClickListener {
+            val query = searchEditText.text.toString().trim()
+            Log.d("Search", "Search button clicked, query: $query") // 로그 추가
+            performSearch(query)
+        }
+
+        searchEditText.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH) {
+                val query = searchEditText.text.toString().trim()
+                Log.d("Search", "IME_ACTION_SEARCH triggered, query: $query") // 로그 추가
+                performSearch(query)
+                true
+            } else {
+                false
+            }
+        }
+
+        searchEditText.setOnKeyListener { _, keyCode, event ->
+            if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                val query = searchEditText.text.toString().trim()
+                Log.d("Search", "Hardware ENTER key pressed, query: $query") // 로그 추가
+                performSearch(query)
+                true
+            } else {
+                false
+            }
+        }
+    }
+
+    private fun performSearch(query: String) {
+        Log.d("Search", "Performing search for query: $query")
+        noticeAdapter.filter(query)
+
+        val recyclerView = findViewById<RecyclerView>(R.id.noticeRecyclerView)
+        recyclerView.scrollToPosition(0)
+    }
 }

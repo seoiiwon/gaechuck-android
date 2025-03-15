@@ -1,6 +1,7 @@
 package com.example.gaechuck.ui.noticecouncil.adaptor
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +22,7 @@ class NoticeCouncilAdapter(
 ) : RecyclerView.Adapter<NoticeCouncilAdapter.NoticeCouncilViewHolder>() {
 
     private var listener: OnItemClickListener? = null
+    private var originalList: List<GetCouncilNoticeDataResponse> = noticeList.toList() // ✅ 최신 데이터를 유지
 
     class NoticeCouncilViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val noticeImage: ImageView = view.findViewById(R.id.noticeImage)
@@ -94,6 +96,7 @@ class NoticeCouncilAdapter(
     fun addNotices(newNotices: List<GetCouncilNoticeDataResponse>) {
         noticeList.clear()
         noticeList.addAll(newNotices)
+        originalList = newNotices.toList()
         notifyDataSetChanged()
     }
 
@@ -105,4 +108,16 @@ class NoticeCouncilAdapter(
         this.listener = listener
     }
 
+    fun filter(query: String) {
+        val filtered = if (query.isEmpty()) {
+            originalList
+        } else {
+            originalList.filter { it.title.contains(query, ignoreCase = true) }
+        }
+        (noticeList as? MutableList<GetCouncilNoticeDataResponse>)?.let {
+            it.clear()
+            it.addAll(filtered)
+        }
+        notifyDataSetChanged()
+    }
 }
