@@ -15,100 +15,39 @@
         android:padding="16dp"
         android:background="@color/white">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_main"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:elevation="4dp"
-            app:titleTextColor="@color/transparent"
-            app:title=""
-            >
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingBottom="8dp">
 
             <ImageView
-                android:id="@+id/button_back"
+                android:id="@+id/backBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                app:srcCompat="@drawable/ic_back"
-                app:tint="@color/gnu_blue"
-                android:layout_gravity="start|center_vertical"
-                />
+                android:src="@drawable/back_btn"
+                android:padding="8dp"/>
 
             <TextView
-                android:id="@+id/textView_title"
-                android:layout_width="wrap_content"
+                android:id="@+id/noticeTitle"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/noto_sans_kr_bold"
+                android:layout_weight="1"
+                android:text="총학생회 공지"
                 android:textSize="20sp"
-                android:layout_gravity="center"
-                app:layout_constraintTop_toTopOf="@id/button_back"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                android:textStyle="bold"
+                android:gravity="center"
+                android:padding="8dp"/>
 
             <ImageView
-                android:id="@+id/button_home"
+                android:id="@+id/homeBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:paddingHorizontal="16dp"
-                app:srcCompat="@drawable/ic_home"
-                app:tint="@color/gnu_blue"
-                android:layout_gravity="end|center_vertical"
-                />
-            <ImageView
-                android:id="@+id/button_etc"
-                android:layout_width="wrap_content"
-                android:layout_height="16dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:paddingHorizontal="16dp"
-                app:srcCompat="@drawable/ic_etc"
-                app:tint="@color/gnu_blue"
-                android:layout_gravity="end|center_vertical"
-                android:layout_marginRight="4dp"
-                android:visibility="gone"
-                />
-        </androidx.appcompat.widget.Toolbar>
+                android:src="@drawable/home_btn"
+                android:padding="8dp" />
 
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:orientation="horizontal"-->
-<!--            android:gravity="center_vertical"-->
-<!--            android:paddingBottom="8dp">-->
-
-<!--            <ImageView-->
-<!--                android:id="@+id/backBtn"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:src="@drawable/back_btn"-->
-<!--                android:padding="8dp"/>-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/noticeTitle"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_weight="1"-->
-<!--                android:text="총학생회 공지"-->
-<!--                android:textSize="20sp"-->
-<!--                android:textStyle="bold"-->
-<!--                android:gravity="center"-->
-<!--                android:padding="8dp"/>-->
-
-<!--            <ImageView-->
-<!--                android:id="@+id/homeBtn"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:src="@drawable/home_btn"-->
-<!--                android:padding="8dp" />-->
-
-<!--        </LinearLayout>-->
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

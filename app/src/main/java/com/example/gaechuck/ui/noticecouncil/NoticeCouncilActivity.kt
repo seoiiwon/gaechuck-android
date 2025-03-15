@@ -5,11 +5,10 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import android.view.KeyEvent
 import android.view.View
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -33,6 +32,13 @@ class NoticeCouncilActivity : AppCompatActivity() {
     private lateinit var noticeAdapter: NoticeCouncilAdapter
     private val viewModel: NoticeCouncilViewModel by viewModels()
 
+    private val writeNoticeLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == RESULT_OK) {
+            // ✅ 공지 작성 성공 시 리스트 자동 갱신
+            viewModel.fetchNotices()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notice_council)
@@ -44,6 +50,7 @@ class NoticeCouncilActivity : AppCompatActivity() {
         postNoticeButton.setOnClickListener {
             val intent = Intent(this, NoticeCouncilWriteActivity::class.java)
             startActivity(intent)
+            writeNoticeLauncher.launch(intent)
         }
 
         val backBtn: ImageView = findViewById(R.id.backBtn)
@@ -58,7 +65,6 @@ class NoticeCouncilActivity : AppCompatActivity() {
 
         initRecyclerView()
         viewModel.fetchNotices()
-        initSearch()
     }
 
 
@@ -66,7 +72,7 @@ class NoticeCouncilActivity : AppCompatActivity() {
         val token = AuthManager.getToken()
         val postNoticeButton = findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.postNoticeButton)
 
-        // ✅ 토큰이 없으면 버튼 숨김
+        // 토큰이 없으면 버튼 숨김
         if (token.isNullOrEmpty()) {
             postNoticeButton.visibility = View.GONE
         } else {
@@ -139,45 +145,8 @@ class NoticeCouncilActivity : AppCompatActivity() {
             }
         }
     }
-
-    private fun initSearch() {
-        val searchEditText = findViewById<EditText>(R.id.searchEditText)
-        val searchButton = findViewById<ImageView>(R.id.searchButton)
-
-        searchButton.setOnClickListener {
-            val query = searchEditText.text.toString().trim()
-            Log.d("Search", "Search button clicked, query: $query") // 로그 추가
-            performSearch(query)
-        }
-
-        searchEditText.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH) {
-                val query = searchEditText.text.toString().trim()
-                Log.d("Search", "IME_ACTION_SEARCH triggered, query: $query") // 로그 추가
-                performSearch(query)
-                true
-            } else {
-                false
-            }
-        }
-
-        searchEditText.setOnKeyListener { _, keyCode, event ->
-            if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-                val query = searchEditText.text.toString().trim()
-                Log.d("Search", "Hardware ENTER key pressed, query: $query") // 로그 추가
-                performSearch(query)
-                true
-            } else {
-                false
-            }
-        }
-    }
-
-    private fun performSearch(query: String) {
-        Log.d("Search", "Performing search for query: $query")
-        noticeAdapter.filter(query)
-
-        val recyclerView = findViewById<RecyclerView>(R.id.noticeRecyclerView)
-        recyclerView.scrollToPosition(0)
+    override fun onResume() {
+        super.onResume()
+        viewModel.fetchNotices()
     }
 }

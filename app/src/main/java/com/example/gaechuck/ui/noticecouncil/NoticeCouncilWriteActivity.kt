@@ -85,7 +85,7 @@ class NoticeCouncilWriteActivity : AppCompatActivity() {
             return
         }
 
-        val authToken = AuthManager.getToken() // 🔥 토큰 가져오기
+        val authToken = AuthManager.getToken()
         if (authToken.isNullOrEmpty()) {
             Toast.makeText(this, "로그인이 필요합니다.", Toast.LENGTH_SHORT).show()
             return
@@ -97,14 +97,20 @@ class NoticeCouncilWriteActivity : AppCompatActivity() {
                 val imagePart = createImagePart(imageList.firstOrNull(), this@NoticeCouncilWriteActivity)
 
                 val response = ApiConnection.getRetrofitService.postNoticeCouncil(
-                    authToken = "Bearer $authToken", // ✅ 실제 토큰 적용
+                    authToken = "Bearer $authToken",
                     data = requestBody,
                     file = imagePart
                 )
 
                 if (response.isSuccessful && response.body()?.isSuccess == true) {
                     Toast.makeText(this@NoticeCouncilWriteActivity, "게시물이 등록되었습니다!", Toast.LENGTH_SHORT).show()
-                    finish()
+
+                    // ✅ 공지 등록 후 NoticeCouncilActivity 실행
+                    val intent = Intent(this@NoticeCouncilWriteActivity, NoticeCouncilActivity::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                    }
+                    startActivity(intent)
+                    finish() // 현재 Activity 종료
                 } else {
                     Log.e("PostNotice", "게시 실패: ${response.body()?.message}")
                     Toast.makeText(this@NoticeCouncilWriteActivity, "게시 실패: ${response.body()?.message}", Toast.LENGTH_SHORT).show()
