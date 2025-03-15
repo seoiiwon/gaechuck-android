@@ -2,6 +2,7 @@ package com.example.gaechuck.ui.noticecouncil
 
 import android.content.ContentResolver
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -14,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.gaechuck.MainActivity
 import com.example.gaechuck.R
 import com.example.gaechuck.api.ApiConnection
 import com.example.gaechuck.api.AuthManager
@@ -69,6 +71,9 @@ class NoticeCouncilWriteActivity : AppCompatActivity() {
         postButton.setOnClickListener {
             postNotice()
         }
+
+        val backBtn: ImageView = findViewById(R.id.backBtn)
+        backBtn.setOnClickListener { finish() }
     }
 
     private fun postNotice() {

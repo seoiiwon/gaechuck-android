@@ -1,5 +1,6 @@
 package com.example.gaechuck.ui.menu
 import DayButtonAdapter
+import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
@@ -20,6 +21,7 @@ import java.util.Calendar
 import java.util.Locale
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.gaechuck.MainActivity
 
 class CafeteriaMenuActivity : AppCompatActivity() {
 
@@ -59,7 +61,11 @@ class CafeteriaMenuActivity : AppCompatActivity() {
         backBtn.setOnClickListener { finish() }
 
         val homeBtn: ImageView = findViewById(R.id.homeBtn)
-        homeBtn.setOnClickListener { /* 홈 이동 구현 */ }
+        homeBtn.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            startActivity(intent)
+        }
 
         campusSpinner = findViewById(R.id.campusSpinner)
         restaurantLayout = findViewById(R.id.restaurantLayout)

@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import com.example.gaechuck.MainActivity
 import com.example.gaechuck.R
 import com.example.gaechuck.api.ApiConnection
 import com.example.gaechuck.api.AuthManager
@@ -77,6 +78,9 @@ class NoticeCouncilUpdateActivity : AppCompatActivity() {
         updateButton.setOnClickListener {
             updateNotice()
         }
+
+        val backBtn: ImageView = findViewById(R.id.backBtn)
+        backBtn.setOnClickListener { finish() }
     }
 
     private fun loadNoticeDetails(noticeId: Int) {
