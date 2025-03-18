@@ -1,6 +1,7 @@
 package com.example.gaechuck.ui.noticecouncil.adaptor
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,14 +14,19 @@ import com.bumptech.glide.Glide
 import com.example.gaechuck.R
 import com.example.gaechuck.api.AuthManager
 import com.example.gaechuck.data.response.GetCouncilNoticeDataResponse
+import com.example.gaechuck.ui.noticecouncil.NoticeCouncilActivity
 import com.example.gaechuck.ui.noticecouncil.NoticeCouncilUpdateActivity
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class NoticeCouncilAdapter(
     private val noticeList: MutableList<GetCouncilNoticeDataResponse>,
-    private val onDeleteClick: (Int) -> Unit
+    private val onDeleteClick: (Int) -> Unit,
+    private val onUpdateClick: (Int) -> Unit
 ) : RecyclerView.Adapter<NoticeCouncilAdapter.NoticeCouncilViewHolder>() {
 
     private var listener: OnItemClickListener? = null
+    private var originalList: List<GetCouncilNoticeDataResponse> = noticeList.toList()
 
     class NoticeCouncilViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val noticeImage: ImageView = view.findViewById(R.id.noticeImage)
@@ -63,16 +69,24 @@ class NoticeCouncilAdapter(
 
         holder.noticeTitle.text = notice.title
         holder.noticeDescription.text = notice.body
-        holder.noticeDate.text = notice.time
+        holder.noticeDate.text = formatNoticeDate(notice.time)
 
         holder.deleteButton.setOnClickListener {
             onDeleteClick(notice.id)
         }
 
         holder.updateButton.setOnClickListener {
-            val intent = Intent(holder.itemView.context, NoticeCouncilUpdateActivity::class.java)
-            intent.putExtra("notice_id", notice.id)
-            holder.itemView.context.startActivity(intent)
+            val context = holder.itemView.context
+            if (context is NoticeCouncilActivity) {
+                val intent = Intent(context, NoticeCouncilUpdateActivity::class.java)
+                intent.putExtra("notice_id", notice.id)
+                context.updateNoticeLauncher.launch(intent)
+            } else {
+                // 만약 context 캐스팅이 불가능하면 일반 startActivity() 사용
+                val intent = Intent(context, NoticeCouncilUpdateActivity::class.java)
+                intent.putExtra("notice_id", notice.id)
+                context.startActivity(intent)
+            }
         }
 
         holder.itemView.setOnClickListener {
@@ -94,6 +108,7 @@ class NoticeCouncilAdapter(
     fun addNotices(newNotices: List<GetCouncilNoticeDataResponse>) {
         noticeList.clear()
         noticeList.addAll(newNotices)
+        originalList = newNotices.toList()
         notifyDataSetChanged()
     }
 
@@ -105,4 +120,27 @@ class NoticeCouncilAdapter(
         this.listener = listener
     }
 
+    fun filter(query: String) {
+        val filtered = if (query.isEmpty()) {
+            originalList
+        } else {
+            originalList.filter { it.title.contains(query, ignoreCase = true) }
+        }
+        (noticeList as? MutableList<GetCouncilNoticeDataResponse>)?.let {
+            it.clear()
+            it.addAll(filtered)
+        }
+        notifyDataSetChanged()
+    }
+
+    private fun formatNoticeDate(inputDate: String): String {
+        return try {
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+            val outputFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
+            val date = inputFormat.parse(inputDate)
+            outputFormat.format(date)
+        } catch (e: Exception) {
+            inputDate
+        }
+    }
 }

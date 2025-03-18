@@ -1,13 +1,15 @@
 package com.example.gaechuck.ui.noticecouncil
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
+import android.view.KeyEvent
 import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -16,32 +18,48 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gaechuck.MainActivity
 import com.example.gaechuck.R
-import com.example.gaechuck.api.ApiConnection
 import com.example.gaechuck.api.AuthManager
+import com.example.gaechuck.repository.NoticeCouncilRepository
 import com.example.gaechuck.ui.noticecouncil.adaptor.NoticeCouncilAdapter
 import com.example.gaechuck.ui.noticecouncil.viewmodel.NoticeCouncilViewModel
-import kotlinx.coroutines.Dispatchers
+import com.example.gaechuck.ui.noticecouncil.viewmodel.NoticeCouncilViewModelFactory
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import okhttp3.OkHttpClient
-import okhttp3.Request
+
 
 class NoticeCouncilActivity : AppCompatActivity() {
 
     private lateinit var noticeAdapter: NoticeCouncilAdapter
-    private val viewModel: NoticeCouncilViewModel by viewModels()
+    private val viewModel: NoticeCouncilViewModel by viewModels {
+        NoticeCouncilViewModelFactory(NoticeCouncilRepository())
+    }
+
+    // NoticeCouncilActivity 내에 추가
+    val updateNoticeLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            viewModel.fetchNotices()
+        }
+    }
+
+    private val writeNoticeLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == RESULT_OK) {
+            // 공지 작성 시 리스트 갱신
+            viewModel.fetchNotices()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notice_council)
 
         val postNoticeButton = findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.postNoticeButton)
+        val searchEditText = findViewById<EditText>(R.id.searchEditText)
+        val searchButton = findViewById<ImageView>(R.id.searchButton)
 
         updateUI()
 
         postNoticeButton.setOnClickListener {
             val intent = Intent(this, NoticeCouncilWriteActivity::class.java)
-            startActivity(intent)
+            writeNoticeLauncher.launch(intent)
         }
 
         val backBtn: ImageView = findViewById(R.id.backBtn)
@@ -55,7 +73,23 @@ class NoticeCouncilActivity : AppCompatActivity() {
         }
 
         initRecyclerView()
+        observeViewModel()
         viewModel.fetchNotices()
+
+        searchButton.setOnClickListener {
+            performSearch(searchEditText.text.toString())
+        }
+
+        searchEditText.setOnEditorActionListener { _, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH ||
+                (event != null && event.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN)
+            ) {
+                performSearch(searchEditText.text.toString())
+                true
+            } else {
+                false
+            }
+        }
     }
 
 
@@ -63,7 +97,7 @@ class NoticeCouncilActivity : AppCompatActivity() {
         val token = AuthManager.getToken()
         val postNoticeButton = findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.postNoticeButton)
 
-        // ✅ 토큰이 없으면 버튼 숨김
+        // 토큰이 없으면 버튼 숨김
         if (token.isNullOrEmpty()) {
             postNoticeButton.visibility = View.GONE
         } else {
@@ -76,7 +110,12 @@ class NoticeCouncilActivity : AppCompatActivity() {
 
         noticeAdapter = NoticeCouncilAdapter(
             mutableListOf(),
-            onDeleteClick = { noticeId -> deleteNotice(noticeId) }
+            onDeleteClick = { noticeId -> performDeleteNotice(noticeId) },
+            onUpdateClick = { noticeId ->
+                val intent = Intent(this, NoticeCouncilUpdateActivity::class.java)
+                intent.putExtra("notice_id", noticeId)
+                startActivity(intent)
+            }
         )
 
         recyclerView.adapter = noticeAdapter
@@ -101,40 +140,39 @@ class NoticeCouncilActivity : AppCompatActivity() {
         })
     }
 
-    private fun deleteNotice(noticeId: Int) {
-        lifecycleScope.launch {
-            val token = AuthManager.getToken()
-            if (token.isNullOrEmpty()) {
-                Toast.makeText(this@NoticeCouncilActivity, "인증 정보가 없습니다.", Toast.LENGTH_SHORT).show()
-                return@launch
+    // 공지 삭제
+    private fun performDeleteNotice(noticeId: Int) {
+        AlertDialog.Builder(this)
+            .setTitle("공지 삭제")
+            .setMessage("공지를 삭제하시겠습니까?")
+            .setPositiveButton("확인") { _, _ ->
+                viewModel.deleteNotice(noticeId)
             }
+            .setNegativeButton("취소", null)
+            .show()
+    }
 
-            try {
-                val response = withContext(Dispatchers.IO) {
-                    ApiConnection.getRetrofitService.deleteNoticeCouncil(noticeId, "Bearer $token")
-                }
-
-                val responseBody = response.errorBody()?.string() ?: "응답 없음"
-
-                if (response.isSuccessful) {
-                    Handler(Looper.getMainLooper()).post {
-                        noticeAdapter.removeNotice(noticeId)
-                        Toast.makeText(this@NoticeCouncilActivity, "게시글이 삭제되었습니다.", Toast.LENGTH_SHORT).show()
-                        updateUI()
-                    }
-                } else {
-                    Log.e("DeleteNotice", "삭제 요청 실패: ${response.code()} - ${response.message()} \n 응답 본문: $responseBody")
-                    Handler(Looper.getMainLooper()).post {
-                        Toast.makeText(this@NoticeCouncilActivity, "삭제 실패: ${response.code()}", Toast.LENGTH_SHORT).show()
-                    }
-                }
-            } catch (e: Exception) {
-                Log.e("DeleteNotice", "예외 발생", e)
-                Handler(Looper.getMainLooper()).post {
-                    Toast.makeText(this@NoticeCouncilActivity, "네트워크 오류 발생", Toast.LENGTH_SHORT).show()
-                }
+    private fun observeViewModel() {
+        viewModel.deleteStatus.observe(this) { deletedNoticeId ->
+            deletedNoticeId?.let {
+                noticeAdapter.removeNotice(it)
+                Toast.makeText(this, "게시글이 삭제되었습니다.", Toast.LENGTH_SHORT).show()
+                updateUI()
             }
         }
+
+        viewModel.errorMessage.observe(this) { errorMsg ->
+            Toast.makeText(this, "삭제 실패: $errorMsg", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.fetchNotices()
+    }
+
+    private fun performSearch(query: String) {
+        noticeAdapter.filter(query)
     }
 
 }

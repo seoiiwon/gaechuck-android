@@ -66,8 +66,12 @@ class NoticeCouncilRepository {
         }
     }
 
+
     suspend fun deleteNotice(noticeId: Int): Response<DeleteCouncilNoticeResponse> {
-        val token = AuthManager.getToken() ?: throw IllegalStateException("토큰이 존재하지 않습니다.")
-        return ApiConnection.getRetrofitService.deleteNoticeCouncil(noticeId, "Bearer $token")
+        return withContext(Dispatchers.IO) {
+            val token = AuthManager.getToken() ?: throw IllegalStateException("토큰이 존재하지 않습니다.")
+            ApiConnection.getRetrofitService.deleteNoticeCouncil(noticeId, "Bearer $token")
+        }
     }
+
 }

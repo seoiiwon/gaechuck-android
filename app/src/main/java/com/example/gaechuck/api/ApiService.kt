@@ -182,7 +182,7 @@ interface ApiService {
     suspend fun postNoticeCouncil(
         @Header("Authorization") authToken: String,
         @Part("data") data: RequestBody,
-        @Part file: MultipartBody.Part?
+        @Part file: List<MultipartBody.Part>
     ): Response<BaseResponse<String>>
 
     @Multipart
@@ -190,8 +190,8 @@ interface ApiService {
     suspend fun updateNoticeCouncil(
         @Path("id") noticeId: Int,
         @Header("Authorization") token: String,
-        @PartMap requestBody: Map<String, @JvmSuppressWildcards RequestBody>,
-        @Part images: List<MultipartBody.Part>
+        @Part("data") data: RequestBody,
+        @Part files: List<MultipartBody.Part>?
     ): Response<PatchNoticeResponse>
 
 

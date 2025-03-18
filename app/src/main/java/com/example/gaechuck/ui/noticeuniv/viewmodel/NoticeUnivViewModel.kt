@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.gaechuck.data.model.NoticeUnivModel
 import com.example.gaechuck.repository.NoticeUnivRepository
@@ -51,6 +52,15 @@ class NoticeUnivViewModel(private val repository: NoticeUnivRepository) : ViewMo
     fun loadMoreNotices(bbsId: String) {
         if (!isLoading && hasMoreData) {
             fetchNotices(currentPage + 1, bbsId)
+        }
+    }
+
+    class Factory(private val repository: NoticeUnivRepository) : ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(NoticeUnivViewModel::class.java)) {
+                return NoticeUnivViewModel(repository) as T
+            }
+            throw IllegalArgumentException("Unknown ViewModel class")
         }
     }
 }

@@ -2,6 +2,7 @@ package com.example.gaechuck.ui.noticecouncil
 
 import android.content.ContentResolver
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -38,9 +39,9 @@ class NoticeCouncilWriteActivity : AppCompatActivity() {
     private val imageList = mutableListOf<Uri>()
     private lateinit var imageAdapter: ImageAdapter
 
-    private val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        uri?.let {
-            imageList.add(it)
+    private val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.GetMultipleContents()) { uris ->
+        uris?.let {
+            imageList.addAll(it)
             imageAdapter.notifyDataSetChanged()
         }
     }
@@ -69,6 +70,9 @@ class NoticeCouncilWriteActivity : AppCompatActivity() {
         postButton.setOnClickListener {
             postNotice()
         }
+
+        val backBtn: ImageView = findViewById(R.id.backBtn)
+        backBtn.setOnClickListener { finish() }
     }
 
     private fun postNotice() {
@@ -80,7 +84,7 @@ class NoticeCouncilWriteActivity : AppCompatActivity() {
             return
         }
 
-        val authToken = AuthManager.getToken() // 🔥 토큰 가져오기
+        val authToken = AuthManager.getToken()
         if (authToken.isNullOrEmpty()) {
             Toast.makeText(this, "로그인이 필요합니다.", Toast.LENGTH_SHORT).show()
             return
@@ -89,17 +93,25 @@ class NoticeCouncilWriteActivity : AppCompatActivity() {
         lifecycleScope.launch {
             try {
                 val requestBody = createJsonRequestBody(NoticeCouncilRequest(title, body))
-                val imagePart = createImagePart(imageList.firstOrNull(), this@NoticeCouncilWriteActivity)
+                val imageParts = imageList.mapNotNull { uri ->
+                    createImagePart(uri, this@NoticeCouncilWriteActivity)
+                }
 
                 val response = ApiConnection.getRetrofitService.postNoticeCouncil(
-                    authToken = "Bearer $authToken", // ✅ 실제 토큰 적용
+                    authToken = "Bearer $authToken",
                     data = requestBody,
-                    file = imagePart
+                    file = imageParts
                 )
 
                 if (response.isSuccessful && response.body()?.isSuccess == true) {
                     Toast.makeText(this@NoticeCouncilWriteActivity, "게시물이 등록되었습니다!", Toast.LENGTH_SHORT).show()
-                    finish()
+
+                    // 게시 등록 후 NoticeCouncilActivity 실행
+                    val intent = Intent(this@NoticeCouncilWriteActivity, NoticeCouncilActivity::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                    }
+                    startActivity(intent)
+                    finish() // 현재 Activity 종료
                 } else {
                     Log.e("PostNotice", "게시 실패: ${response.body()?.message}")
                     Toast.makeText(this@NoticeCouncilWriteActivity, "게시 실패: ${response.body()?.message}", Toast.LENGTH_SHORT).show()
@@ -111,10 +123,10 @@ class NoticeCouncilWriteActivity : AppCompatActivity() {
         }
     }
 
-
+    // JSON RequestBody 생성 시 UTF-8 인코딩
     private fun createJsonRequestBody(request: NoticeCouncilRequest): RequestBody {
         val json = Gson().toJson(request)
-        return RequestBody.create("application/json".toMediaType(), json)
+        return RequestBody.create("application/json; charset=utf-8".toMediaType(), json)
     }
 
     private fun createImagePart(uri: Uri?, context: Context): MultipartBody.Part? {
@@ -122,7 +134,7 @@ class NoticeCouncilWriteActivity : AppCompatActivity() {
 
         val contentResolver: ContentResolver = context.contentResolver
         val inputStream: InputStream? = contentResolver.openInputStream(uri)
-        val file = File(context.cacheDir, "upload_image.jpg") // 임시 파일 생성
+        val file = File(context.cacheDir, "upload_image_${System.currentTimeMillis()}.jpg")
 
         inputStream?.use { input ->
             FileOutputStream(file).use { output ->
@@ -133,5 +145,4 @@ class NoticeCouncilWriteActivity : AppCompatActivity() {
         val requestFile = RequestBody.create("image/*".toMediaType(), file)
         return MultipartBody.Part.createFormData("file", file.name, requestFile)
     }
-
 }

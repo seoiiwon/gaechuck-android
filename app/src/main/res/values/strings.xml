@@ -13,13 +13,19 @@
 
     <string name="notice">공지</string>
     <string name="notice_detail">새로운 공지를 확인해보세요</string>
-
-    <string name="notice_type_1">교내 공지</string>
+    <string name="notice_univ_description">교내 공지를 한 눈에 확인해보세요</string>
+    <string name="notice_type_1">교내공지</string>
     <string name="notice_type_2">총학생회 공지</string>
     <string name="notice_more">더보기</string>
     <string name="notice_title">제목</string>
     <string name="notice_posted_at">등록일</string>
-    
+    <string name="notice_search">내용을 검색해보세요</string>
+    <string name="notice_tab_1">기관</string>
+    <string name="notice_tab_2">학사</string>
+    <string name="notice_tab_3">장학</string>
+    <string name="notice_tab_4">채용</string>
+    <string name="notice_tab_5">입법예고</string>
+
 <!--    toolbar제목-->
     <string name="bar_food">학식 안내</string>
     <string name="bar_lose">분실물 센터</string>

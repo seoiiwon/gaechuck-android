@@ -28,7 +28,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="교내공지"
+            android:text="@string/notice_type_1"
             android:textSize="20sp"
             android:textStyle="bold"
             android:gravity="center"
@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="left"
-            android:text="교내 공지를 한 눈에 확인해보세요"
+            android:text="@string/notice_univ_description"
             android:textSize="12sp" />
 
     </LinearLayout>
@@ -75,7 +75,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@null"
-            android:hint="내용을 검색해보세요"
+            android:hint="@string/notice_search"
             android:textSize="12sp"
             android:padding="8dp"
             android:imeOptions="actionSearch"
@@ -111,7 +111,7 @@
                 android:id="@+id/tabInstitution"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="기관"
+                android:text="@string/notice_tab_1"
                 android:padding="8dp"
                 android:gravity="center"
                 android:textColor="@color/tab_colors" />
@@ -138,7 +138,7 @@
                 android:id="@+id/tabAcademic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="학사"
+                android:text="@string/notice_tab_2"
                 android:padding="8dp"
                 android:gravity="center"
                 android:textColor="@color/tab_colors" />
@@ -165,7 +165,7 @@
                 android:id="@+id/tabScholarship"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="장학"
+                android:text="@string/notice_tab_3"
                 android:padding="8dp"
                 android:gravity="center"
                 android:textColor="@color/tab_colors" />
@@ -192,7 +192,7 @@
                 android:id="@+id/tabRecruitment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="채용"
+                android:text="@string/notice_tab_4"
                 android:padding="8dp"
                 android:gravity="center"
                 android:textColor="@color/tab_colors" />
@@ -219,7 +219,7 @@
                 android:id="@+id/tabLegislative"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="입법예고"
+                android:text="@string/notice_tab_5"
                 android:textSize="12sp"
                 android:padding="8dp"
                 android:gravity="center"

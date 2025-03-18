@@ -19,7 +19,6 @@ import com.example.gaechuck.R
 import com.example.gaechuck.repository.NoticeUnivRepository
 import com.example.gaechuck.ui.noticeuniv.adaptor.NoticeUnivAdapter
 import com.example.gaechuck.ui.noticeuniv.viewmodel.NoticeUnivViewModel
-import com.example.gaechuck.ui.noticeuniv.viewmodel.NoticeUnivViewModelFactory
 import okhttp3.internal.format
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -37,11 +36,9 @@ class NoticeUnivActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notice_univ)
 
-        // ViewModel 초기화
+        // viewModel 초기화
         val repository = NoticeUnivRepository()
-        val factory = NoticeUnivViewModelFactory(repository)
-        viewModel = ViewModelProvider(this, factory).get(NoticeUnivViewModel::class.java)
-
+        viewModel = ViewModelProvider(this, NoticeUnivViewModel.Factory(repository)).get(NoticeUnivViewModel::class.java)
 
         // UI 요소 초기화
         dateTextView = findViewById(R.id.noticeDateTextView)
@@ -59,7 +56,6 @@ class NoticeUnivActivity : AppCompatActivity() {
         initRecyclerView()
         observeViewModel()
         initSearch()
-
 
         // 데이터 로드
         Log.d("Activity", "Fetching notices onCreate")
@@ -200,18 +196,16 @@ class NoticeUnivActivity : AppCompatActivity() {
         val searchEditText = findViewById<EditText>(R.id.searchEditText)
         val searchButton = findViewById<ImageView>(R.id.searchButton)
 
-        // 🔍 검색 버튼 클릭 시
         searchButton.setOnClickListener {
             val query = searchEditText.text.toString().trim()
-            Log.d("Search", "Search button clicked, query: $query") // 로그 추가
+            Log.d("Search", "Search button clicked, query: $query")
             performSearch(query)
         }
 
-        // 🔍 키보드의 "검색" 버튼 클릭 시
         searchEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH) {
                 val query = searchEditText.text.toString().trim()
-                Log.d("Search", "IME_ACTION_SEARCH triggered, query: $query") // 로그 추가
+                Log.d("Search", "IME_ACTION_SEARCH triggered, query: $query")
                 performSearch(query)
                 true
             } else {
@@ -219,7 +213,6 @@ class NoticeUnivActivity : AppCompatActivity() {
             }
         }
 
-        // 🔍 하드웨어 키보드의 엔터 키 감지
         searchEditText.setOnKeyListener { _, keyCode, event ->
             if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
                 val query = searchEditText.text.toString().trim()
@@ -232,12 +225,10 @@ class NoticeUnivActivity : AppCompatActivity() {
         }
     }
 
-    // 🔍 검색 실행
     private fun performSearch(query: String) {
         Log.d("Search", "Performing search for query: $query")
         noticeUnivAdapter.filter(query)
 
-        // ✅ 검색 후 RecyclerView 최상단으로 이동
         val recyclerView = findViewById<RecyclerView>(R.id.noticeRecyclerView)
         recyclerView.scrollToPosition(0)
     }

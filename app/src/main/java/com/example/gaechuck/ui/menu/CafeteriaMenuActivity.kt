@@ -17,6 +17,11 @@ import com.example.gaechuck.data.response.FoodMenuItem
 import com.example.gaechuck.ui.menu.adaptor.GridCafeteriaAdapter
 import com.example.gaechuck.ui.menu.viewmodel.CafeteriaMenuViewModdel
 import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.gaechuck.MainActivity
 import java.util.*
 
 class CafeteriaMenuActivity : AppCompatActivity() {
@@ -63,6 +68,12 @@ class CafeteriaMenuActivity : AppCompatActivity() {
     private fun setupViews() {
         findViewById<TextView>(R.id.oneWeekPeriod).text = getCurrentWeekRange()
 
+        val homeBtn: ImageView = findViewById(R.id.homeBtn)
+        homeBtn.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            startActivity(intent)
+        }
         menuGridRecyclerView = findViewById(R.id.menuGridRecyclerView)
         menuGridRecyclerView.layoutManager = LinearLayoutManager(this)
         gridAdapter = GridCafeteriaAdapter(emptyList())

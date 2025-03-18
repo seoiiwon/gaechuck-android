@@ -56,8 +56,6 @@ class NoticeUnivAdapter(
         return if (position in noticeUnivModels.indices) noticeUnivModels[position] else null
     }
 
-//    override fun getItemCount(): Int = filteredNotices.size
-
     fun filter(query: String) {
         filteredNotices = if (query.isEmpty()) {
             noticeUnivModels.toList() // 검색어 없을 경우 전체 리스트 유지

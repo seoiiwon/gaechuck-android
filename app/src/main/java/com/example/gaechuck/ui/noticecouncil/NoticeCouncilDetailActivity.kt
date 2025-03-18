@@ -12,12 +12,19 @@ import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.gaechuck.MainActivity
 import com.example.gaechuck.R
+import com.example.gaechuck.repository.NoticeCouncilRepository
+import com.example.gaechuck.ui.noticecouncil.adaptor.NoticeCouncilAdapter
 import com.example.gaechuck.ui.noticecouncil.viewmodel.NoticeCouncilViewModel
+import com.example.gaechuck.ui.noticecouncil.viewmodel.NoticeCouncilViewModelFactory
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class NoticeCouncilDetailActivity : AppCompatActivity() {
 
-    private val viewModel: NoticeCouncilViewModel by viewModels()
+    private val viewModel: NoticeCouncilViewModel by viewModels {
+        NoticeCouncilViewModelFactory(NoticeCouncilRepository())
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,16 +58,13 @@ class NoticeCouncilDetailActivity : AppCompatActivity() {
                     return@launch
                 }
 
-
                 runOnUiThread {
                     findViewById<TextView>(R.id.noticeTitle).text = noticeDetail.title
                     findViewById<TextView>(R.id.noticeBody).text = noticeDetail.body
-                    findViewById<TextView>(R.id.noticeDate).text = noticeDetail.time
+                    findViewById<TextView>(R.id.noticeDate).text = formatNoticeDate(noticeDetail.time)
                     val imageContainer = findViewById<LinearLayout>(R.id.imageContainer)
-
                     imageContainer?.let { container ->
                         container.removeAllViews()
-
                         noticeDetail.images?.forEach { imageUrl ->
                             val imageView = ImageView(this@NoticeCouncilDetailActivity).apply {
                                 layoutParams = LinearLayout.LayoutParams(
@@ -70,7 +74,9 @@ class NoticeCouncilDetailActivity : AppCompatActivity() {
                                     setMargins(0, 16, 0, 16)
                                 }
                                 adjustViewBounds = true
-                                scaleType = ImageView.ScaleType.CENTER_CROP
+                                scaleType = ImageView.ScaleType.FIT_CENTER
+                                setBackgroundResource(R.drawable.rounded_image_bg)
+                                clipToOutline = true
                             }
 
                             Glide.with(this@NoticeCouncilDetailActivity)
@@ -84,6 +90,17 @@ class NoticeCouncilDetailActivity : AppCompatActivity() {
             } catch (e: Exception) {
                 Log.e("NoticeDetail", "API 요청 실패: ${e.message}")
             }
+        }
+    }
+
+    private fun formatNoticeDate(inputDate: String): String {
+        return try {
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+            val outputFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
+            val date = inputFormat.parse(inputDate)
+            outputFormat.format(date)
+        } catch (e: Exception) {
+            inputDate
         }
     }
 }

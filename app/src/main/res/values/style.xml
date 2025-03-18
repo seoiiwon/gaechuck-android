@@ -34,4 +34,10 @@
         <item name="android:backgroundTint">?attr/colorPrimary</item>
     </style>
 
+    <style name="ShapeAppearanceOverlay.Fab" parent="">
+        <!-- 50%로 지정하면 원형 모양이 됩니다 -->
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
 </resources>
