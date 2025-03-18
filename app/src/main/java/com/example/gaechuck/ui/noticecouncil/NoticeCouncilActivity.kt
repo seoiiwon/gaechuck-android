@@ -33,7 +33,9 @@ import okhttp3.Request
 class NoticeCouncilActivity : AppCompatActivity() {
 
     private lateinit var noticeAdapter: NoticeCouncilAdapter
-    private lateinit var viewModel: NoticeCouncilViewModel
+    private val viewModel: NoticeCouncilViewModel by viewModels {
+        NoticeCouncilViewModelFactory(NoticeCouncilRepository())
+    }
 
     private val writeNoticeLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == RESULT_OK) {
@@ -46,9 +48,10 @@ class NoticeCouncilActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notice_council)
 
-        val repository = NoticeCouncilRepository()
-        val factory = NoticeCouncilViewModelFactory(repository)
-        viewModel = ViewModelProvider(this, factory).get(NoticeCouncilViewModel::class.java)
+//        val repository = NoticeCouncilRepository()
+//        val factory = NoticeCouncilViewModelFactory(repository)
+//        viewModel = ViewModelProvider(this, factory).get(NoticeCouncilViewModel::class.java)
+
 
         val postNoticeButton = findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.postNoticeButton)
 

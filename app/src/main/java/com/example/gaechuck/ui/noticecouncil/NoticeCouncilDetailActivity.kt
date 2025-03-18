@@ -12,12 +12,17 @@ import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.gaechuck.MainActivity
 import com.example.gaechuck.R
+import com.example.gaechuck.repository.NoticeCouncilRepository
 import com.example.gaechuck.ui.noticecouncil.viewmodel.NoticeCouncilViewModel
+import com.example.gaechuck.ui.noticecouncil.viewmodel.NoticeCouncilViewModelFactory
 import kotlinx.coroutines.launch
 
 class NoticeCouncilDetailActivity : AppCompatActivity() {
 
-    private val viewModel: NoticeCouncilViewModel by viewModels()
+//    private val viewModel: NoticeCouncilViewModel by viewModels()
+    private val viewModel: NoticeCouncilViewModel by viewModels {
+        NoticeCouncilViewModelFactory(NoticeCouncilRepository())
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
