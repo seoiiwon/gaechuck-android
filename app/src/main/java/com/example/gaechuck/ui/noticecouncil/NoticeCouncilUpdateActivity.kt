@@ -17,6 +17,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.ItemTouchHelper.Callback.makeMovementFlags
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -86,6 +88,11 @@ class NoticeCouncilUpdateActivity : AppCompatActivity() {
         imageRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         imageRecyclerView.adapter = imageAdapter
 
+        // 드래그 앤 드랍으로 구현
+        val callback = SimpleItemTouchHelperCallback(imageAdapter)
+        val touchHelper = ItemTouchHelper(callback)
+        touchHelper.attachToRecyclerView(imageRecyclerView)
+
         addImageButton.setOnClickListener {
             imagePickerLauncher.launch("image/*")
         }
@@ -107,7 +114,7 @@ class NoticeCouncilUpdateActivity : AppCompatActivity() {
                     titleEditText.setText(noticeDetail.title)
                     bodyEditText.setText(noticeDetail.body)
                     selectedImages.clear()
-                    selectedImages.addAll(noticeDetail.images?.map { Uri.parse(it) } ?: emptyList())
+//                    selectedImages.addAll(noticeDetail.images?.map { Uri.parse(it) } ?: emptyList())
                     imageAdapter.notifyDataSetChanged()
                 }
             } catch (e: Exception) {
@@ -141,8 +148,8 @@ class NoticeCouncilUpdateActivity : AppCompatActivity() {
 
                 val newImageParts = selectedImages.filter { uri ->
                     uri.scheme.equals("content", ignoreCase = true) || uri.scheme.equals("file", ignoreCase = true)
-                }.mapNotNull { uri ->
-                    createImagePart(uri, this@NoticeCouncilUpdateActivity)
+                }.mapIndexedNotNull { index, uri ->
+                    createImagePart(uri, this@NoticeCouncilUpdateActivity, index)
                 }
 
                 val fileParts = if (newImageParts.isNotEmpty()) newImageParts else null
@@ -151,12 +158,14 @@ class NoticeCouncilUpdateActivity : AppCompatActivity() {
                     noticeId = noticeId,
                     token = "Bearer $token",
                     data = dataBody,
-                    files = fileParts
+                    files = fileParts ?: emptyList()
                 )
 
                 if (response.isSuccessful) {
-                    Toast.makeText(this@NoticeCouncilUpdateActivity, "공지사항이 수정되었습니다.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@NoticeCouncilUpdateActivity, "수정 완료", Toast.LENGTH_SHORT).show()
+                    setResult(Activity.RESULT_OK)
                     finish()
+
                 } else {
                     Log.e("UpdateNotice", "공지사항 수정 실패: ${response.code()} - ${response.message()}")
                     Toast.makeText(this@NoticeCouncilUpdateActivity, "수정 실패: ${response.code()}", Toast.LENGTH_SHORT).show()
@@ -168,11 +177,11 @@ class NoticeCouncilUpdateActivity : AppCompatActivity() {
         }
     }
 
-    private fun createImagePart(uri: Uri?, context: Context): MultipartBody.Part? {
+    private fun createImagePart(uri: Uri?, context: Context, index: Int): MultipartBody.Part? {
         uri ?: return null
         val contentResolver: ContentResolver = context.contentResolver
         val inputStream: InputStream? = contentResolver.openInputStream(uri)
-        val file = File(context.cacheDir, "upload_image_${System.currentTimeMillis()}.jpg")
+        val file = File(context.cacheDir, "upload_image_$index.jpg")
         inputStream?.use { input ->
             FileOutputStream(file).use { output ->
                 input.copyTo(output)
@@ -182,5 +191,35 @@ class NoticeCouncilUpdateActivity : AppCompatActivity() {
         return MultipartBody.Part.createFormData("file", file.name, requestFile)
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.fetchNotices()
+    }
 
+    class SimpleItemTouchHelperCallback(private val adapter: ImageAdapter) : ItemTouchHelper.Callback() {
+        override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
+            // 수직 이동만 허용
+            val dragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN
+            val swipeFlags = 0 // 스와이프는 사용하지 않음
+            return makeMovementFlags(dragFlags, swipeFlags)
+        }
+
+        override fun onMove(
+            recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
+            target: RecyclerView.ViewHolder
+        ): Boolean {
+            val fromPos = viewHolder.adapterPosition
+            val toPos = target.adapterPosition
+            adapter.onItemMove(fromPos, toPos)
+            return true
+        }
+
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            // 스와이프 시 삭제
+        }
+
+        // 드래그 시작, 종료 시 효과를 위해 (선택 사항)
+        override fun isLongPressDragEnabled(): Boolean = true
+        override fun isItemViewSwipeEnabled(): Boolean = false
+    }
 }

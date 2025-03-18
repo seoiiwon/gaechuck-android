@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide
 import com.example.gaechuck.R
 import com.example.gaechuck.api.AuthManager
 import com.example.gaechuck.data.response.GetCouncilNoticeDataResponse
+import com.example.gaechuck.ui.noticecouncil.NoticeCouncilActivity
 import com.example.gaechuck.ui.noticecouncil.NoticeCouncilUpdateActivity
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -76,9 +77,16 @@ class NoticeCouncilAdapter(
 
         holder.updateButton.setOnClickListener {
             val context = holder.itemView.context
-            val intent = Intent(context, NoticeCouncilUpdateActivity::class.java)
-            intent.putExtra("notice_id", notice.id)
-            context.startActivity(intent)
+            if (context is NoticeCouncilActivity) {
+                val intent = Intent(context, NoticeCouncilUpdateActivity::class.java)
+                intent.putExtra("notice_id", notice.id)
+                context.updateNoticeLauncher.launch(intent)
+            } else {
+                // 만약 context 캐스팅이 불가능하면 일반 startActivity() 사용
+                val intent = Intent(context, NoticeCouncilUpdateActivity::class.java)
+                intent.putExtra("notice_id", notice.id)
+                context.startActivity(intent)
+            }
         }
 
         holder.itemView.setOnClickListener {

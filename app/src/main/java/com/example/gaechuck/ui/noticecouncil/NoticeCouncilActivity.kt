@@ -1,5 +1,6 @@
 package com.example.gaechuck.ui.noticecouncil
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
@@ -32,6 +33,12 @@ class NoticeCouncilActivity : AppCompatActivity() {
         NoticeCouncilViewModelFactory(NoticeCouncilRepository())
     }
 
+    // NoticeCouncilActivity 내에 추가
+    val updateNoticeLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            viewModel.fetchNotices()
+        }
+    }
 
     private val writeNoticeLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == RESULT_OK) {

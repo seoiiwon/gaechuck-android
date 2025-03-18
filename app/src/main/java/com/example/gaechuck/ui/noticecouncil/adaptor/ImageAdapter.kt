@@ -36,4 +36,17 @@ class ImageAdapter(
     }
 
     override fun getItemCount(): Int = imageList.size
+
+    fun onItemMove(fromPosition: Int, toPosition: Int) {
+        if (fromPosition < toPosition) {
+            for (i in fromPosition until toPosition) {
+                imageList[i] = imageList.set(i + 1, imageList[i])
+            }
+        } else {
+            for (i in fromPosition downTo toPosition + 1) {
+                imageList[i] = imageList.set(i - 1, imageList[i])
+            }
+        }
+        notifyItemMoved(fromPosition, toPosition)
+    }
 }
