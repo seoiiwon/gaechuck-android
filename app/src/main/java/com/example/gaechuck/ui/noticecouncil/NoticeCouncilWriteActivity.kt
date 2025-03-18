@@ -39,9 +39,9 @@ class NoticeCouncilWriteActivity : AppCompatActivity() {
     private val imageList = mutableListOf<Uri>()
     private lateinit var imageAdapter: ImageAdapter
 
-    private val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        uri?.let {
-            imageList.add(it)
+    private val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.GetMultipleContents()) { uris ->
+        uris?.let {
+            imageList.addAll(it)
             imageAdapter.notifyDataSetChanged()
         }
     }
