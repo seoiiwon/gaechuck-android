@@ -8,11 +8,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.gaechuck.api.ApiConnection
 import com.example.gaechuck.api.AuthManager
 import com.example.gaechuck.data.response.BaseResponse
 import com.example.gaechuck.data.response.GetLoseDetailResponse
 import com.example.gaechuck.data.response.LoseList
 import com.example.gaechuck.data.response.PatchLoseResponse
+import com.example.gaechuck.data.response.PostUrlResponse
 import com.example.gaechuck.repository.LoseRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -59,6 +61,13 @@ class LoseViewModel(private val repository: LoseRepository):ViewModel() {
     private val _deleteResult = MutableLiveData<Result<BaseResponse<String>>>()
     val deleteData : LiveData<Result<BaseResponse<String>>>
         get() = _deleteResult
+
+    // url 상태관리
+    private val _urlResult = MutableLiveData<Result<BaseResponse<PostUrlResponse>>>()
+    val urlResult : LiveData<Result<BaseResponse<PostUrlResponse>>>
+        get() = _urlResult
+    private val _loseUrl = MutableLiveData<String>()
+    val loseUrl: LiveData<String> get() = _loseUrl
 
     fun checkLoginStatus() {
         _isLoggedIn.value = !AuthManager.getToken().isNullOrEmpty()
@@ -176,6 +185,25 @@ class LoseViewModel(private val repository: LoseRepository):ViewModel() {
                 Log.d("LoseViewModel", "데이터 전송 성공: ${it}")
             }.onFailure { error ->
                 Log.e("LoseViewModel", "데이터 전송 실패: ${error.message}")
+            }
+        }
+    }
+
+    // url 변경
+    fun LoseDetailRetrofit(chatName: String) {
+        viewModelScope.launch {
+            try {
+                val response = ApiConnection.getRetrofitService.getUrl(chatName)
+
+                if (response.isSuccessful && response.body()?.isSuccess == true) {
+                    // API에서 받은 URL을 LiveData에 저장
+                    _loseUrl.postValue(response.body()?.result?.chatUrl ?: "")
+                } else {
+                    Log.e("LoseViewModel", "Failed to fetch URL: ${response.errorBody()?.string()}")
+                }
+
+            } catch (e: Exception) {
+                Log.e("LoseViewModel", "Error fetching rent details", e)
             }
         }
     }

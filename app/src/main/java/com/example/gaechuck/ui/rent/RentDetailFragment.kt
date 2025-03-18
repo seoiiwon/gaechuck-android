@@ -72,10 +72,18 @@ class RentDetailFragment : Fragment(R.layout.fragment_rent_detail) {
             }
         }
 
-        // 버튼 클릭 시 오픈채팅으로 이동
-        rentButton.setOnClickListener{
-            var intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.naver.com"))
-            startActivity(intent)
+        rentViewModel.RentDetailRetrofit("렌트")
+
+        // rentUrl 옵저빙하여 버튼 클릭 시 해당 URL로 이동하도록 설정
+        rentViewModel.rentUrl.observe(viewLifecycleOwner) { url ->
+            rentButton.setOnClickListener {
+                if (!url.isNullOrEmpty()) {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                    startActivity(intent)
+                } else {
+                    Log.e("RentDetailFragment", "URL is empty or null")
+                }
+            }
         }
 
     }
