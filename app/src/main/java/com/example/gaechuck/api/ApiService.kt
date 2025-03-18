@@ -181,7 +181,7 @@ interface ApiService {
     suspend fun postNoticeCouncil(
         @Header("Authorization") authToken: String,
         @Part("data") data: RequestBody,
-        @Part file: MultipartBody.Part?
+        @Part file: List<MultipartBody.Part>
     ): Response<BaseResponse<String>>
 
     @Multipart

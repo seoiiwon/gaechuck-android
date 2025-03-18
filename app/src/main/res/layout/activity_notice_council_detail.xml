@@ -59,14 +59,14 @@
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="@color/black_1"
-                android:layout_marginVertical="20dp"/>
+                android:layout_marginBottom="16dp"/>
 
             <TextView
                 android:id="@+id/noticeBody"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="내용"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:layout_marginTop="8dp" />
 
             <TextView
@@ -74,8 +74,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="날짜"
-                android:textSize="12sp"
-                android:textColor="@color/black"
+                android:textSize="8sp"
+                android:textColor="@color/gnu_grey"
                 android:layout_marginTop="8dp" />
 
             <LinearLayout

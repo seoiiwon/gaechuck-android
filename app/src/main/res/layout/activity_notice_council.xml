@@ -109,12 +109,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:elevation="8dp"
         android:layout_gravity="bottom|end"
+        android:elevation="8dp"
         app:fabSize="normal"
         app:backgroundTint="@color/gnu_blue"
         app:srcCompat="@drawable/ic_add"
         app:tint="@color/white"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Fab"
         android:visibility="gone"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

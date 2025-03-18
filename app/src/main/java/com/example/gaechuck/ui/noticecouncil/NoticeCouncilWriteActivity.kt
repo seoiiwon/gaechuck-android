@@ -15,7 +15,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.gaechuck.MainActivity
 import com.example.gaechuck.R
 import com.example.gaechuck.api.ApiConnection
 import com.example.gaechuck.api.AuthManager
@@ -94,18 +93,20 @@ class NoticeCouncilWriteActivity : AppCompatActivity() {
         lifecycleScope.launch {
             try {
                 val requestBody = createJsonRequestBody(NoticeCouncilRequest(title, body))
-                val imagePart = createImagePart(imageList.firstOrNull(), this@NoticeCouncilWriteActivity)
+                val imageParts = imageList.mapNotNull { uri ->
+                    createImagePart(uri, this@NoticeCouncilWriteActivity)
+                }
 
                 val response = ApiConnection.getRetrofitService.postNoticeCouncil(
                     authToken = "Bearer $authToken",
                     data = requestBody,
-                    file = imagePart
+                    file = imageParts
                 )
 
                 if (response.isSuccessful && response.body()?.isSuccess == true) {
                     Toast.makeText(this@NoticeCouncilWriteActivity, "게시물이 등록되었습니다!", Toast.LENGTH_SHORT).show()
 
-                    // ✅ 공지 등록 후 NoticeCouncilActivity 실행
+                    // 게시 등록 후 NoticeCouncilActivity 실행
                     val intent = Intent(this@NoticeCouncilWriteActivity, NoticeCouncilActivity::class.java).apply {
                         flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
                     }
@@ -122,10 +123,10 @@ class NoticeCouncilWriteActivity : AppCompatActivity() {
         }
     }
 
-
+    // JSON RequestBody 생성 시 UTF-8 인코딩
     private fun createJsonRequestBody(request: NoticeCouncilRequest): RequestBody {
         val json = Gson().toJson(request)
-        return RequestBody.create("application/json".toMediaType(), json)
+        return RequestBody.create("application/json; charset=utf-8".toMediaType(), json)
     }
 
     private fun createImagePart(uri: Uri?, context: Context): MultipartBody.Part? {
@@ -133,7 +134,7 @@ class NoticeCouncilWriteActivity : AppCompatActivity() {
 
         val contentResolver: ContentResolver = context.contentResolver
         val inputStream: InputStream? = contentResolver.openInputStream(uri)
-        val file = File(context.cacheDir, "upload_image.jpg") // 임시 파일 생성
+        val file = File(context.cacheDir, "upload_image_${System.currentTimeMillis()}.jpg")
 
         inputStream?.use { input ->
             FileOutputStream(file).use { output ->
@@ -144,5 +145,4 @@ class NoticeCouncilWriteActivity : AppCompatActivity() {
         val requestFile = RequestBody.create("image/*".toMediaType(), file)
         return MultipartBody.Part.createFormData("file", file.name, requestFile)
     }
-
 }

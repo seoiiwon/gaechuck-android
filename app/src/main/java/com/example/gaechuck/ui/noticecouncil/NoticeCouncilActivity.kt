@@ -2,9 +2,6 @@ package com.example.gaechuck.ui.noticecouncil
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
@@ -12,23 +9,18 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gaechuck.MainActivity
 import com.example.gaechuck.R
-import com.example.gaechuck.api.ApiConnection
 import com.example.gaechuck.api.AuthManager
 import com.example.gaechuck.repository.NoticeCouncilRepository
 import com.example.gaechuck.ui.noticecouncil.adaptor.NoticeCouncilAdapter
 import com.example.gaechuck.ui.noticecouncil.viewmodel.NoticeCouncilViewModel
 import com.example.gaechuck.ui.noticecouncil.viewmodel.NoticeCouncilViewModelFactory
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import okhttp3.OkHttpClient
-import okhttp3.Request
+
 
 class NoticeCouncilActivity : AppCompatActivity() {
 
@@ -48,18 +40,12 @@ class NoticeCouncilActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notice_council)
 
-//        val repository = NoticeCouncilRepository()
-//        val factory = NoticeCouncilViewModelFactory(repository)
-//        viewModel = ViewModelProvider(this, factory).get(NoticeCouncilViewModel::class.java)
-
-
         val postNoticeButton = findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.postNoticeButton)
 
         updateUI()
 
         postNoticeButton.setOnClickListener {
             val intent = Intent(this, NoticeCouncilWriteActivity::class.java)
-            startActivity(intent)
             writeNoticeLauncher.launch(intent)
         }
 
@@ -151,6 +137,5 @@ class NoticeCouncilActivity : AppCompatActivity() {
         super.onResume()
         viewModel.fetchNotices()
     }
-
 
 }

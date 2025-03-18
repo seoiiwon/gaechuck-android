@@ -15,6 +15,8 @@ import com.example.gaechuck.R
 import com.example.gaechuck.api.AuthManager
 import com.example.gaechuck.data.response.GetCouncilNoticeDataResponse
 import com.example.gaechuck.ui.noticecouncil.NoticeCouncilUpdateActivity
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class NoticeCouncilAdapter(
     private val noticeList: MutableList<GetCouncilNoticeDataResponse>,
@@ -22,7 +24,7 @@ class NoticeCouncilAdapter(
 ) : RecyclerView.Adapter<NoticeCouncilAdapter.NoticeCouncilViewHolder>() {
 
     private var listener: OnItemClickListener? = null
-    private var originalList: List<GetCouncilNoticeDataResponse> = noticeList.toList() // ✅ 최신 데이터를 유지
+    private var originalList: List<GetCouncilNoticeDataResponse> = noticeList.toList()
 
     class NoticeCouncilViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val noticeImage: ImageView = view.findViewById(R.id.noticeImage)
@@ -65,7 +67,7 @@ class NoticeCouncilAdapter(
 
         holder.noticeTitle.text = notice.title
         holder.noticeDescription.text = notice.body
-        holder.noticeDate.text = notice.time
+        holder.noticeDate.text = formatNoticeDate(notice.time)
 
         holder.deleteButton.setOnClickListener {
             onDeleteClick(notice.id)
@@ -119,5 +121,16 @@ class NoticeCouncilAdapter(
             it.addAll(filtered)
         }
         notifyDataSetChanged()
+    }
+
+    private fun formatNoticeDate(inputDate: String): String {
+        return try {
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+            val outputFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
+            val date = inputFormat.parse(inputDate)
+            outputFormat.format(date)
+        } catch (e: Exception) {
+            inputDate
+        }
     }
 }
