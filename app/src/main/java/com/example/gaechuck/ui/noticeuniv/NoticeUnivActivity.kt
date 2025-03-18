@@ -19,7 +19,6 @@ import com.example.gaechuck.R
 import com.example.gaechuck.repository.NoticeUnivRepository
 import com.example.gaechuck.ui.noticeuniv.adaptor.NoticeUnivAdapter
 import com.example.gaechuck.ui.noticeuniv.viewmodel.NoticeUnivViewModel
-import com.example.gaechuck.ui.noticeuniv.viewmodel.NoticeUnivViewModelFactory
 import okhttp3.internal.format
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -37,11 +36,9 @@ class NoticeUnivActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notice_univ)
 
-        // ViewModel 초기화
+        // viewModel 초기화
         val repository = NoticeUnivRepository()
-        val factory = NoticeUnivViewModelFactory(repository)
-        viewModel = ViewModelProvider(this, factory).get(NoticeUnivViewModel::class.java)
-
+        viewModel = ViewModelProvider(this, NoticeUnivViewModel.Factory(repository)).get(NoticeUnivViewModel::class.java)
 
         // UI 요소 초기화
         dateTextView = findViewById(R.id.noticeDateTextView)
@@ -59,7 +56,6 @@ class NoticeUnivActivity : AppCompatActivity() {
         initRecyclerView()
         observeViewModel()
         initSearch()
-
 
         // 데이터 로드
         Log.d("Activity", "Fetching notices onCreate")
