@@ -189,8 +189,8 @@ interface ApiService {
     suspend fun updateNoticeCouncil(
         @Path("id") noticeId: Int,
         @Header("Authorization") token: String,
-        @PartMap requestBody: Map<String, @JvmSuppressWildcards RequestBody>,
-        @Part images: List<MultipartBody.Part>
+        @Part("data") data: RequestBody,
+        @Part files: List<MultipartBody.Part>?
     ): Response<PatchNoticeResponse>
 
 

@@ -1,6 +1,8 @@
 package com.example.gaechuck.ui.noticecouncil
 
 import android.app.Activity
+import android.content.ContentResolver
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
@@ -24,29 +26,43 @@ import com.example.gaechuck.MainActivity
 import com.example.gaechuck.R
 import com.example.gaechuck.api.ApiConnection
 import com.example.gaechuck.api.AuthManager
+import com.example.gaechuck.repository.NoticeCouncilRepository
 import com.example.gaechuck.ui.noticecouncil.adaptor.ImageAdapter
 import com.example.gaechuck.ui.noticecouncil.viewmodel.NoticeCouncilViewModel
+import com.example.gaechuck.ui.noticecouncil.viewmodel.NoticeCouncilViewModelFactory
+import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import java.io.FileOutputStream
+import java.io.InputStream
+
 
 class NoticeCouncilUpdateActivity : AppCompatActivity() {
 
-    private val viewModel: NoticeCouncilViewModel by viewModels()
     private lateinit var titleEditText: EditText
     private lateinit var bodyEditText: EditText
     private lateinit var imageRecyclerView: RecyclerView
     private lateinit var addImageButton: ImageView
     private lateinit var updateButton: Button
-
-    private var noticeId: Int = -1
     private lateinit var imageAdapter: ImageAdapter
-    private val selectedImages = mutableListOf<Uri>() // 기존 및 추가된 이미지 저장
+
+    private val viewModel: NoticeCouncilViewModel by viewModels {
+        NoticeCouncilViewModelFactory(NoticeCouncilRepository())
+    }
+    private var noticeId: Int = -1
+    private val selectedImages = mutableListOf<Uri>()
+    private val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.GetMultipleContents()) { uris ->
+        uris?.let {
+            selectedImages.addAll(it)
+            imageAdapter.notifyDataSetChanged()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,7 +75,6 @@ class NoticeCouncilUpdateActivity : AppCompatActivity() {
         updateButton = findViewById(R.id.postButton)
 
         noticeId = intent.getIntExtra("notice_id", -1)
-
         if (noticeId != -1) {
             loadNoticeDetails(noticeId)
         }
@@ -68,19 +83,18 @@ class NoticeCouncilUpdateActivity : AppCompatActivity() {
             selectedImages.removeAt(position)
             imageAdapter.notifyItemRemoved(position)
         }
-        imageRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        imageRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         imageRecyclerView.adapter = imageAdapter
 
         addImageButton.setOnClickListener {
-            selectImageFromGallery()
+            imagePickerLauncher.launch("image/*")
         }
 
         updateButton.setOnClickListener {
             updateNotice()
         }
 
-        val backBtn: ImageView = findViewById(R.id.backBtn)
-        backBtn.setOnClickListener { finish() }
+        findViewById<ImageView>(R.id.backBtn).setOnClickListener { finish() }
     }
 
     private fun loadNoticeDetails(noticeId: Int) {
@@ -89,12 +103,9 @@ class NoticeCouncilUpdateActivity : AppCompatActivity() {
                 val noticeDetail = withContext(Dispatchers.IO) {
                     viewModel.getNoticeDetail(noticeId)
                 }
-
                 if (noticeDetail != null) {
                     titleEditText.setText(noticeDetail.title)
                     bodyEditText.setText(noticeDetail.body)
-
-                    // 기존 이미지 URL을 Uri로 변환하여 추가
                     selectedImages.clear()
                     selectedImages.addAll(noticeDetail.images?.map { Uri.parse(it) } ?: emptyList())
                     imageAdapter.notifyDataSetChanged()
@@ -106,35 +117,42 @@ class NoticeCouncilUpdateActivity : AppCompatActivity() {
     }
 
     private fun updateNotice() {
-        val title = titleEditText.text.toString()
-        val body = bodyEditText.text.toString()
+        val title = titleEditText.text.toString().trim()
+        val body = bodyEditText.text.toString().trim()
         val token = AuthManager.getToken()
 
+        if (title.isEmpty() || body.isEmpty()) {
+            Toast.makeText(this, "제목과 내용을 입력하세요.", Toast.LENGTH_SHORT).show()
+            return
+        }
         if (token.isNullOrEmpty()) {
-            Toast.makeText(this, "인증 정보가 없습니다.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "로그인이 필요합니다.", Toast.LENGTH_SHORT).show()
             return
         }
 
         lifecycleScope.launch {
             try {
-                val requestBody = mutableMapOf<String, RequestBody>()
-                requestBody["title"] = title.toRequestBody(MultipartBody.FORM)
-                requestBody["body"] = body.toRequestBody(MultipartBody.FORM)
+                val dataMap = mapOf(
+                    "title" to title,
+                    "body" to body
+                )
+                val dataJson = Gson().toJson(dataMap)
+                val dataBody = dataJson.toRequestBody("application/json; charset=utf-8".toMediaType())
 
-                val imageParts = selectedImages.mapNotNull { imageUri ->
-                    val file = uriToFile(imageUri) ?: return@mapNotNull null
-                    val requestFile = file.readBytes().toRequestBody(MultipartBody.FORM)
-                    MultipartBody.Part.createFormData("images", file.name, requestFile)
+                val newImageParts = selectedImages.filter { uri ->
+                    uri.scheme.equals("content", ignoreCase = true) || uri.scheme.equals("file", ignoreCase = true)
+                }.mapNotNull { uri ->
+                    createImagePart(uri, this@NoticeCouncilUpdateActivity)
                 }
 
-                val response = withContext(Dispatchers.IO) {
-                    ApiConnection.getRetrofitService.updateNoticeCouncil(
-                        noticeId, "Bearer $token", requestBody, imageParts
-                    )
-                }
+                val fileParts = if (newImageParts.isNotEmpty()) newImageParts else null
 
-                val errorResponse = response.errorBody()?.string()
-                Log.e("UpdateNotice", "서버 응답: $errorResponse")
+                val response = ApiConnection.getRetrofitService.updateNoticeCouncil(
+                    noticeId = noticeId,
+                    token = "Bearer $token",
+                    data = dataBody,
+                    files = fileParts
+                )
 
                 if (response.isSuccessful) {
                     Toast.makeText(this@NoticeCouncilUpdateActivity, "공지사항이 수정되었습니다.", Toast.LENGTH_SHORT).show()
@@ -150,34 +168,19 @@ class NoticeCouncilUpdateActivity : AppCompatActivity() {
         }
     }
 
-    private fun uriToFile(uri: Uri): File? {
-        return try {
-            val inputStream = contentResolver.openInputStream(uri) ?: return null
-            val tempFile = File(cacheDir, "temp_image_${System.currentTimeMillis()}.jpg")
-            tempFile.outputStream().use { output ->
-                inputStream.copyTo(output)
-            }
-            tempFile
-        } catch (e: Exception) {
-            Log.e("UpdateNotice", "파일 변환 오류: ${e.message}")
-            null
-        }
-    }
-
-    private fun selectImageFromGallery() {
-        val galleryIntent = Intent(Intent.ACTION_PICK).apply {
-            type = "image/*"
-        }
-        resultLauncher.launch(galleryIntent)
-    }
-
-    private val resultLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK && result.data != null) {
-                result.data?.data?.let { uri ->
-                    selectedImages.add(uri)
-                    imageAdapter.notifyItemInserted(selectedImages.size - 1)
-                }
+    private fun createImagePart(uri: Uri?, context: Context): MultipartBody.Part? {
+        uri ?: return null
+        val contentResolver: ContentResolver = context.contentResolver
+        val inputStream: InputStream? = contentResolver.openInputStream(uri)
+        val file = File(context.cacheDir, "upload_image_${System.currentTimeMillis()}.jpg")
+        inputStream?.use { input ->
+            FileOutputStream(file).use { output ->
+                input.copyTo(output)
             }
         }
+        val requestFile = RequestBody.create("image/*".toMediaType(), file)
+        return MultipartBody.Part.createFormData("file", file.name, requestFile)
+    }
+
+
 }

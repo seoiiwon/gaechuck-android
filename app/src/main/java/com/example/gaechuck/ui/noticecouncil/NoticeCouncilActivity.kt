@@ -103,7 +103,12 @@ class NoticeCouncilActivity : AppCompatActivity() {
 
         noticeAdapter = NoticeCouncilAdapter(
             mutableListOf(),
-            onDeleteClick = { noticeId -> performDeleteNotice(noticeId) }
+            onDeleteClick = { noticeId -> performDeleteNotice(noticeId) },
+            onUpdateClick = { noticeId ->
+                val intent = Intent(this, NoticeCouncilUpdateActivity::class.java)
+                intent.putExtra("notice_id", noticeId)
+                startActivity(intent)
+            }
         )
 
         recyclerView.adapter = noticeAdapter

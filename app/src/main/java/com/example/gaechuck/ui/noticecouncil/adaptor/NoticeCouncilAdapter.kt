@@ -20,7 +20,8 @@ import java.util.Locale
 
 class NoticeCouncilAdapter(
     private val noticeList: MutableList<GetCouncilNoticeDataResponse>,
-    private val onDeleteClick: (Int) -> Unit
+    private val onDeleteClick: (Int) -> Unit,
+    private val onUpdateClick: (Int) -> Unit
 ) : RecyclerView.Adapter<NoticeCouncilAdapter.NoticeCouncilViewHolder>() {
 
     private var listener: OnItemClickListener? = null
@@ -74,9 +75,10 @@ class NoticeCouncilAdapter(
         }
 
         holder.updateButton.setOnClickListener {
-            val intent = Intent(holder.itemView.context, NoticeCouncilUpdateActivity::class.java)
+            val context = holder.itemView.context
+            val intent = Intent(context, NoticeCouncilUpdateActivity::class.java)
             intent.putExtra("notice_id", notice.id)
-            holder.itemView.context.startActivity(intent)
+            context.startActivity(intent)
         }
 
         holder.itemView.setOnClickListener {
