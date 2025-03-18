@@ -2,7 +2,10 @@ package com.example.gaechuck.ui.noticecouncil
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -29,6 +32,7 @@ class NoticeCouncilActivity : AppCompatActivity() {
         NoticeCouncilViewModelFactory(NoticeCouncilRepository())
     }
 
+
     private val writeNoticeLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == RESULT_OK) {
             // 공지 작성 시 리스트 갱신
@@ -41,6 +45,8 @@ class NoticeCouncilActivity : AppCompatActivity() {
         setContentView(R.layout.activity_notice_council)
 
         val postNoticeButton = findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.postNoticeButton)
+        val searchEditText = findViewById<EditText>(R.id.searchEditText)
+        val searchButton = findViewById<ImageView>(R.id.searchButton)
 
         updateUI()
 
@@ -62,6 +68,21 @@ class NoticeCouncilActivity : AppCompatActivity() {
         initRecyclerView()
         observeViewModel()
         viewModel.fetchNotices()
+
+        searchButton.setOnClickListener {
+            performSearch(searchEditText.text.toString())
+        }
+
+        searchEditText.setOnEditorActionListener { _, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH ||
+                (event != null && event.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN)
+            ) {
+                performSearch(searchEditText.text.toString())
+                true
+            } else {
+                false
+            }
+        }
     }
 
 
@@ -136,6 +157,10 @@ class NoticeCouncilActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         viewModel.fetchNotices()
+    }
+
+    private fun performSearch(query: String) {
+        noticeAdapter.filter(query)
     }
 
 }
