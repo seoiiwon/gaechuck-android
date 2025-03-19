@@ -1,5 +1,6 @@
 package com.example.gaechuck.ui.menu
 
+import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
@@ -11,7 +12,6 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.gaechuck.R
 import com.example.gaechuck.data.response.FoodMenuItem
 import com.example.gaechuck.ui.menu.adaptor.GridCafeteriaAdapter
@@ -19,7 +19,6 @@ import com.example.gaechuck.ui.menu.viewmodel.CafeteriaMenuViewModdel
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gaechuck.MainActivity
 import java.util.*
