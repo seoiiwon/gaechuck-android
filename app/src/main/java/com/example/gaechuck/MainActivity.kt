@@ -32,6 +32,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        if (intent.getBooleanExtra("refreshNotice", false)) {
+            val noticeIntent = Intent(this, NoticeCouncilActivity::class.java)
+            startActivity(noticeIntent)
+            finish()
+        }
+
         val viewPager = findViewById<ViewPager2>(R.id.viewPager)
         val layouts = listOf(R.layout.fragment_main1, R.layout.fragment_main2)
         val adapter = ViewPagerAdapter(layouts) { gridLayout, position ->

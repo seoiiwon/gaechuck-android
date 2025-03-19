@@ -168,7 +168,12 @@ class NoticeCouncilUpdateActivity : AppCompatActivity() {
 
                 if (response.isSuccessful) {
                     Toast.makeText(this@NoticeCouncilUpdateActivity, "공지사항이 수정되었습니다.", Toast.LENGTH_SHORT).show()
-                    setResult(Activity.RESULT_OK)
+                    val intent = Intent(this@NoticeCouncilUpdateActivity, MainActivity::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                        putExtra("refreshNotice", true)
+                    }
+                    startActivity(intent)
+                    finish()
                     finish()
                 } else {
                     Log.e("UpdateNotice", "공지사항 수정 실패: ${response.code()} - ${response.message()}")

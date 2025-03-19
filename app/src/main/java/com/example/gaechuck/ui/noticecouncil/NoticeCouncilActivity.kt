@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.gaechuck.MainActivity
 import com.example.gaechuck.R
 import com.example.gaechuck.api.AuthManager
+import com.example.gaechuck.data.response.GetCouncilNoticeDataResponse
 import com.example.gaechuck.repository.NoticeCouncilRepository
 import com.example.gaechuck.ui.noticecouncil.adaptor.NoticeCouncilAdapter
 import com.example.gaechuck.ui.noticecouncil.viewmodel.NoticeCouncilViewModel
@@ -121,8 +122,9 @@ class NoticeCouncilActivity : AppCompatActivity() {
         recyclerView.adapter = noticeAdapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
+
         viewModel.noticeList.observe(this) { notices ->
-            noticeAdapter.addNotices(notices)
+            noticeAdapter.updateData(notices)
             updateUI()
         }
 
