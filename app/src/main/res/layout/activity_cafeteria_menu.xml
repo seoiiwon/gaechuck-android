@@ -133,12 +133,6 @@
         android:paddingHorizontal="4dp"
         android:gravity="center">
 
-<!--        <androidx.recyclerview.widget.RecyclerView-->
-<!--            android:id="@+id/dayRecyclerView"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:paddingHorizontal="16dp"-->
-<!--            android:orientation="horizontal"/>-->
         <LinearLayout
             android:id="@+id/dayButtonContainer"
             android:layout_width="match_parent"
@@ -147,6 +141,16 @@
             android:padding="8dp"/>
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/subTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="중식"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/menuGridRecyclerView"
