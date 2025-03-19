@@ -16,10 +16,12 @@ import com.example.gaechuck.data.response.LoseList
 import com.example.gaechuck.data.response.PatchLoseResponse
 import com.example.gaechuck.data.response.PostUrlResponse
 import com.example.gaechuck.repository.LoseRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class LoseViewModel(private val repository: LoseRepository):ViewModel() {
 
@@ -167,7 +169,7 @@ class LoseViewModel(private val repository: LoseRepository):ViewModel() {
             "patchData 호출됨 - name: $lostItemId, count: $title, file : $file"
         )
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val result =
                 repository.patchLoseData(
                     token,
@@ -179,7 +181,9 @@ class LoseViewModel(private val repository: LoseRepository):ViewModel() {
                     file,
                     context
                 )
-            _patchResult.value = result
+            withContext(Dispatchers.Main) {  // 메인 스레드에서 실행
+                _patchResult.value = result
+            }
 
             result.onSuccess {
                 Log.d("LoseViewModel", "데이터 전송 성공: ${it}")

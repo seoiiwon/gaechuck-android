@@ -20,6 +20,8 @@ import okhttp3.RequestBody
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
+import java.net.HttpURLConnection
+import java.net.URL
 
 class LoseRepository {
     private val apiService = ApiConnection.getRetrofitService
@@ -96,18 +98,50 @@ class LoseRepository {
     private fun createImagePart(uri: Uri?, context: Context, index: Int): MultipartBody.Part? {
         uri ?: return null
 
-        val contentResolver: ContentResolver = context.contentResolver
-        val inputStream: InputStream? = contentResolver.openInputStream(uri)
-        val file = File(context.cacheDir, "upload_image_$index.jpg")
+        return when{
+            uri.toString().startsWith("http") -> {
+                try {
+                    // 1. URL에서 이미지 다운로드
+                    val url = URL(uri.toString())
+                    val connection = url.openConnection() as HttpURLConnection
+                    connection.requestMethod = "GET"
+                    connection.doInput = true
+                    connection.connect()
 
-        inputStream?.use { input ->
-            FileOutputStream(file).use { output ->
-                input.copyTo(output)
+
+                    // 2. 다운로드한 이미지 데이터를 임시 파일에 저장
+                    val file = File(context.cacheDir, "upload_image_$index.jpg")
+                    connection.inputStream.use { input ->
+                        FileOutputStream(file).use { output ->
+                            input.copyTo(output)
+                        }
+                    }
+
+                    // 3. MultiPart 변환
+                    val requestFile = RequestBody.create("image/*".toMediaType(), file)
+                    MultipartBody.Part.createFormData("file", file.name, requestFile)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    null
+                }
             }
-        }
+            uri.toString().startsWith("content") -> {
+                val contentResolver: ContentResolver = context.contentResolver
+                val inputStream: InputStream? = contentResolver.openInputStream(uri)
+                val file = File(context.cacheDir, "upload_image_$index.jpg") // 임시 파일 생성
 
-        val requestFile = RequestBody.create("image/*".toMediaType(), file)
-        return MultipartBody.Part.createFormData("file", file.name, requestFile)
+                inputStream?.use { input ->
+                    FileOutputStream(file).use { output ->
+                        input.copyTo(output)
+                    }
+                }
+
+                val requestFile = RequestBody.create("image/*".toMediaType(), file)
+                return MultipartBody.Part.createFormData("file", file.name, requestFile)
+            }
+
+            else -> null
+        }
     }
 
 
