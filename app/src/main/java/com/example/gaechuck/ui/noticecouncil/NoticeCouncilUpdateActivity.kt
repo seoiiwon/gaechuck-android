@@ -168,8 +168,11 @@ class NoticeCouncilUpdateActivity : AppCompatActivity() {
 
                 if (response.isSuccessful) {
                     Toast.makeText(this@NoticeCouncilUpdateActivity, "공지사항이 수정되었습니다.", Toast.LENGTH_SHORT).show()
-                    setResult(Activity.RESULT_OK)
-                    finish()
+                    val intent = Intent(this@NoticeCouncilUpdateActivity, NoticeCouncilActivity::class.java).apply {
+                        // CLEAR_TOP나 NEW_TASK 플래그를 제거하여 백스택을 유지합니다.
+                    }
+                    startActivity(intent)
+                    finish() // 현재 수정 액티비티 종료
                 } else {
                     Log.e("UpdateNotice", "공지사항 수정 실패: ${response.code()} - ${response.message()}")
                     Toast.makeText(this@NoticeCouncilUpdateActivity, "수정 실패: ${response.code()}", Toast.LENGTH_SHORT).show()
