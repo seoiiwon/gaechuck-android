@@ -139,6 +139,11 @@ class NoticeCouncilUpdateActivity : AppCompatActivity() {
             return
         }
 
+        if (selectedImages.isEmpty()) {
+            Toast.makeText(this, "최소 하나 이상의 이미지를 선택하세요.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         lifecycleScope.launch {
             try {
                 val dataMap = mapOf(
