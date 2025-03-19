@@ -158,5 +158,13 @@ class BusinessWriteActivity : AppCompatActivity(R.layout.activity_business_write
             // 컨테이너에 추가
             binding.photoContainer.addView(photoView, 0)
         }
+
+        // 개수 버튼과 추가 버튼 설정
+        binding.photoAddBtn2.root.visibility = if (images.isEmpty()) View.GONE else View.VISIBLE
+        binding.photoAddBtn2.photoCount.text = "${images.size}"
+
+        binding.photoAddBtn2.root.setOnClickListener {
+            getContent.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+        }
     }
 }
