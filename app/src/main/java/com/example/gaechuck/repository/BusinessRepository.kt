@@ -19,6 +19,8 @@ import okhttp3.RequestBody
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
+import java.net.HttpURLConnection
+import java.net.URL
 
 class BusinessRepository {
     private val apiService = ApiConnection.getRetrofitService
@@ -64,14 +66,14 @@ class BusinessRepository {
         ) : Result<BaseResponse<String>> {
         return try {
             val requestBody = createJsonRequestBody(BusinessCreateRequest(coalitionName, benefit, category))
-            val imagePart = createImagePart(file.firstOrNull(), context)
+            val imageParts = file.mapIndexedNotNull { index, uri ->  createImagePart(uri, context, index) } // 모든 이미지 변환
 
             Log.d("BusinessRepository", "데이터 전송 시작: name=$coalitionName, benefit=$benefit, category=$category, data=$requestBody")
 
             val response =  ApiConnection.getRetrofitService.postBusinessCreate(
                 Authorization = token,
                 data = requestBody, // JSON 형식으로 보냄
-                file = imagePart
+                file = imageParts
             )
 
             if (response.isSuccessful && response.body()?.isSuccess == true) {
@@ -93,21 +95,55 @@ class BusinessRepository {
         return RequestBody.create("application/json".toMediaType(), json)
     }
 
-    private fun createImagePart(uri: Uri?, context: Context): MultipartBody.Part? {
+    private fun createImagePart(uri: Uri?, context: Context, index: Int): MultipartBody.Part? {
         uri ?: return null
 
-        val contentResolver: ContentResolver = context.contentResolver
-        val inputStream: InputStream? = contentResolver.openInputStream(uri)
-        val file = File(context.cacheDir, "upload_image.jpg") // 임시 파일 생성
+        return when{
+            uri.toString().startsWith("http") -> {
+                try {
+                    // 1. URL에서 이미지 다운로드
+                    val url = URL(uri.toString())
+                    val connection = url.openConnection() as HttpURLConnection
+                    connection.requestMethod = "GET"
+                    connection.doInput = true
+                    connection.connect()
 
-        inputStream?.use { input ->
-            FileOutputStream(file).use { output ->
-                input.copyTo(output)
+
+                    // 2. 다운로드한 이미지 데이터를 임시 파일에 저장
+                    val file = File(context.cacheDir, "upload_image_$index.jpg")
+                    connection.inputStream.use { input ->
+                        FileOutputStream(file).use { output ->
+                            input.copyTo(output)
+                        }
+                    }
+
+                    // 3. MultiPart 변환
+                    val requestFile = RequestBody.create("image/*".toMediaType(), file)
+                    MultipartBody.Part.createFormData("file", file.name, requestFile)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    null
+                }
             }
+            uri.toString().startsWith("content") -> {
+                val contentResolver: ContentResolver = context.contentResolver
+                val inputStream: InputStream? = contentResolver.openInputStream(uri)
+                val file = File(context.cacheDir, "upload_image_$index.jpg") // 임시 파일 생성
+
+                inputStream?.use { input ->
+                    FileOutputStream(file).use { output ->
+                        input.copyTo(output)
+                    }
+                }
+
+                val requestFile = RequestBody.create("image/*".toMediaType(), file)
+                return MultipartBody.Part.createFormData("file", file.name, requestFile)
+            }
+
+            else -> null
         }
 
-        val requestFile = RequestBody.create("image/*".toMediaType(), file)
-        return MultipartBody.Part.createFormData("file", file.name, requestFile)
+
     }
 
     // 제휴 글 삭제
@@ -145,12 +181,12 @@ class BusinessRepository {
     ) : Result<BaseResponse<PatchBusinessResponse>> {
         return try {
             val requestBody = BusinessPatchRequest(coalitionId, category, coalitionName, benefit)
-            val imagePart = createImagePart(file.firstOrNull(), context)
+            val imageParts = file.mapIndexedNotNull { index, uri ->  createImagePart(uri, context, index) } // 모든 이미지 변환
 
             val response =  ApiConnection.getRetrofitService.patchBusinessData(
                 Authorization = token,
                 data = requestBody, // JSON 형식으로 보냄
-                file = imagePart
+                file = imageParts
             )
 
             if (response.isSuccessful && response.body()?.isSuccess == true) {

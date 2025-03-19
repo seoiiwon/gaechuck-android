@@ -157,8 +157,8 @@ class NoticeCouncilUpdateActivity : AppCompatActivity() {
                 val response = ApiConnection.getRetrofitService.updateNoticeCouncil(
                     noticeId = noticeId,
                     token = "Bearer $token",
-                    data = dataBody,
-                    files = fileParts ?: emptyList()
+                    requestBody = dataBody,
+                    images = fileParts ?: emptyList()
                 )
 
                 if (response.isSuccessful) {

@@ -14,10 +14,12 @@ import com.example.gaechuck.data.response.BusinessList
 import com.example.gaechuck.data.response.GetBusinessDetailResponse
 import com.example.gaechuck.data.response.PatchBusinessResponse
 import com.example.gaechuck.repository.BusinessRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class BusinessViewModel(private val repository: BusinessRepository) : ViewModel(){
 
@@ -177,7 +179,7 @@ class BusinessViewModel(private val repository: BusinessRepository) : ViewModel(
             "patchData 호출됨 - name: $coalitionId, count: $coalitionName, file : $file"
         )
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val result =
                 repository.patchBusinessData(
                     token,
@@ -188,7 +190,10 @@ class BusinessViewModel(private val repository: BusinessRepository) : ViewModel(
                     file,
                     context
                 )
-            _patchResult.value = result
+
+            withContext(Dispatchers.Main) {  // 메인 스레드에서 실행
+                _patchResult.value = result
+            }
 
             result.onSuccess {
                 Log.d("BusinessViewModel", "데이터 전송 성공: ${it}")
