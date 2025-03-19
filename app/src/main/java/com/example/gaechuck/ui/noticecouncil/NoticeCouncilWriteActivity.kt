@@ -84,11 +84,17 @@ class NoticeCouncilWriteActivity : AppCompatActivity() {
             return
         }
 
+        if (imageList.isEmpty()) {
+            Toast.makeText(this, "최소 하나 이상의 이미지를 선택하세요.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         val authToken = AuthManager.getToken()
         if (authToken.isNullOrEmpty()) {
             Toast.makeText(this, "로그인이 필요합니다.", Toast.LENGTH_SHORT).show()
             return
         }
+
 
         lifecycleScope.launch {
             try {

@@ -31,7 +31,12 @@ class ImageAdapter(
             .into(holder.imageView)
 
         holder.deleteButton.setOnClickListener {
-            onDeleteClick(position)
+            val position = holder.adapterPosition
+            if (position != RecyclerView.NO_POSITION && position < imageList.size) {
+                imageList.removeAt(position)
+                notifyItemRemoved(position)
+                // 필요 시, notifyDataSetChanged()로 전체 갱신 (단, 성능에 영향을 줄 수 있음)
+            }
         }
     }
 
