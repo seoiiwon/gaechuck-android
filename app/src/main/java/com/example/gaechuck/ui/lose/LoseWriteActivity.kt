@@ -224,7 +224,7 @@ class LoseWriteActivity : AppCompatActivity() {
         }
 
         // 개수 버튼과 추가 버튼 설정
-        binding.photoAddBtn2.root.visibility = if (images.isEmpty()) View.GONE else View.VISIBLE
+//        binding.photoAddBtn2.root.visibility = if (images.isEmpty() || images.size == 3) View.GONE else View.VISIBLE
         binding.photoAddBtn2.photoCount.text = "${images.size}"
 
         binding.photoAddBtn2.root.setOnClickListener {

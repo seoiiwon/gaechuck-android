@@ -39,7 +39,7 @@ class BusinessWriteActivity : AppCompatActivity(R.layout.activity_business_write
     private val getContent = registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia(2)) { uris ->
         if (uris.isNotEmpty()) {
             Log.d("getContent", "Selected URIs: $uris")
-            viewModel.addImages(uris)  // ViewModel에 직접 이미지 추가
+            viewModel.addImages(uris)
         } else {
             Log.w("getContent", "No URIs selected")
         }
@@ -71,6 +71,7 @@ class BusinessWriteActivity : AppCompatActivity(R.layout.activity_business_write
         }
 
         photoBtn = binding.photoAddBtn.root
+        binding.photoAddBtn2.totalCount.text = "/2"
 
         //photoBtn 클릭 > 포토피커 열기
         photoBtn.setOnClickListener {
@@ -160,7 +161,8 @@ class BusinessWriteActivity : AppCompatActivity(R.layout.activity_business_write
         }
 
         // 개수 버튼과 추가 버튼 설정
-        binding.photoAddBtn2.root.visibility = if (images.isEmpty()) View.GONE else View.VISIBLE
+        binding.photoAddBtn2.root.visibility = if (images.isEmpty() || images.size == 2) View.GONE else View.VISIBLE
+
         binding.photoAddBtn2.photoCount.text = "${images.size}"
 
         binding.photoAddBtn2.root.setOnClickListener {
