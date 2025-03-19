@@ -192,15 +192,24 @@ class CafeteriaMenuActivity : AppCompatActivity() {
 
     private fun updateRestaurantDisplay() {
         restaurantLayout.removeAllViews()
-        val textView = TextView(this)
-        textView.text = campusMap[campusSpinner.selectedItem]?.getOrElse(currentIndex) { "식당 정보 없음" }
-        textView.setPadding(16, 16, 16, 16)
-        textView.textSize = 14f
-        textView.gravity = android.view.Gravity.CENTER
-        textView.setTypeface(null, android.graphics.Typeface.BOLD)
+        val restaurantText = campusMap[campusSpinner.selectedItem]?.getOrElse(currentIndex) { "식당 정보 없음" }
+        val textView = TextView(this).apply {
+            text = restaurantText
+            setPadding(16, 16, 16, 16)
+            textSize = 14f
+            gravity = android.view.Gravity.CENTER
+            setTypeface(null, android.graphics.Typeface.BOLD)
+        }
         restaurantLayout.addView(textView)
-    }
 
+        // 만약 현재 선택된 cafeteriaSeq가 2, 5, 7이면 subTitle (즉, "중식" 텍스트)를 숨깁니다.
+        val subTitle = findViewById<TextView>(R.id.subTitle)
+        if (selectedCafeteriaSeq[currentIndex] in listOf(2, 5, 7)) {
+            subTitle.visibility = View.GONE
+        } else {
+            subTitle.visibility = View.VISIBLE
+        }
+    }
 
     private fun updateMenuUI(menuList: List<FoodMenuItem>) {
         when (selectedCafeteriaSeq[currentIndex]) {
