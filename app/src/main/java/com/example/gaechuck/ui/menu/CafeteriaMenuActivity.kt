@@ -57,6 +57,16 @@ class CafeteriaMenuActivity : AppCompatActivity() {
         // UI 요소 초기화
         setupViews()
 
+        val backBtn: ImageView = findViewById(R.id.backBtn)
+        backBtn.setOnClickListener { finish() }
+
+        val homeBtn: ImageView = findViewById(R.id.homeBtn)
+        homeBtn.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            startActivity(intent)
+        }
+
         // 캠퍼스 선택 UI 초기화
         setupCampusSpinner()
 
