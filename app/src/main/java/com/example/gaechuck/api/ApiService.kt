@@ -27,6 +27,7 @@ import com.example.gaechuck.data.response.PatchBusinessResponse
 import com.example.gaechuck.data.response.PatchLoseResponse
 import com.example.gaechuck.data.response.PatchNoticeResponse
 import com.example.gaechuck.data.response.PostRentCreateResponse
+import com.example.gaechuck.data.response.PostUrlResponse
 //import com.example.gaechuck.data.response.PostUrlResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody

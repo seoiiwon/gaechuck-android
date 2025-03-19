@@ -1,5 +1,6 @@
 package com.example.gaechuck.ui.menu
 
+import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
@@ -19,8 +20,6 @@ import com.example.gaechuck.ui.menu.viewmodel.CafeteriaMenuViewModdel
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.gaechuck.MainActivity
 import java.util.*
 
