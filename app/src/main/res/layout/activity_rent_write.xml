@@ -42,14 +42,14 @@
         android:id="@+id/field_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:fontFamily="@font/noto_sans_kr_semibold"
         android:hint="제목을 입력해주세요."
-        app:layout_constraintBottom_toBottomOf="@id/guideline1"
-        app:layout_constraintStart_toStartOf="parent"
+        android:inputType="text"
         android:paddingLeft="20dp"
         android:textSize="20sp"
-        android:fontFamily="@font/noto_sans_kr_semibold"
-        android:background="@color/transparent"
-        />
+        app:layout_constraintBottom_toBottomOf="@id/guideline1"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
         android:layout_width="match_parent"

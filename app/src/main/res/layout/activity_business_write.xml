@@ -48,6 +48,7 @@
         android:paddingLeft="20dp"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@id/guideline1"
+        android:inputType="text"
         app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
@@ -249,8 +250,6 @@
             android:inputType="textMultiLine"
             android:maxLines="5"
             />
-
-
     </LinearLayout>
 
 
