@@ -73,7 +73,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="horizontal" />
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"/>
 
     <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
         android:id="@+id/dotsIndicator"
@@ -83,6 +84,7 @@
         app:dotsSpacing="6dp"
         app:dotsSize="10dp"
         app:dotsColor="@color/gnu_blue"
-        app:selectedDotColor="@color/black" />
+        app:selectedDotColor="@color/black"
+        android:layout_marginBottom="20dp"/>
 
 </LinearLayout>
