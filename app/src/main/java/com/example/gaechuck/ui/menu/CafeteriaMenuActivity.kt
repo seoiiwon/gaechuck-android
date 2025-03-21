@@ -101,7 +101,9 @@ class CafeteriaMenuActivity : AppCompatActivity() {
 
     private fun setupCampusSpinner() {
         val campusList = campusMap.keys.toList()
-        campusSpinner.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, campusList)
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, campusList)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        campusSpinner.adapter = adapter
 
         campusSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {

@@ -9,6 +9,7 @@ class NoticeUnivRepository {
     private val apiService = ApiConnection.getRetrofitService
 
     // 교내 공지 리스트 가져오기
+    @Throws(Exception::class)
     suspend fun getNoticeUnivList(page: Int, bbsId: String): Pair<List<NoticeUnivModel>, Boolean> {
         return try {
 
@@ -37,14 +38,14 @@ class NoticeUnivRepository {
                 Log.d("API_SUCCESS", "Page: $page → Fetched: ${notices.size} items")
 
                 val totalDataCount = notices.size
-                Log.d("API_SUCCESS", "Total fetched so far: ${totalDataCount} items")
+                Log.d("API_SUCCESS", "Total fetched so far: $totalDataCount items")
 
                 val hasMoreData = notices.isNotEmpty()
                 Pair(notices, hasMoreData)
 
             } else {
                 Log.e("API_ERROR", "Error Message: ${result.message}")
-                throw Exception(result.message ?: "Unknown error")
+                throw Exception(result.message)
             }
         } catch (e: Exception) {
             Log.e("API_EXCEPTION", "Network error: ${e.message}")

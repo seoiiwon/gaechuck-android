@@ -54,7 +54,10 @@
             android:layout_marginRight="10dp"
             android:layout_marginBottom="8dp"
             android:background="@drawable/spinner_background"
-            android:gravity="center" />
+            android:popupBackground="@drawable/custom_popup_background"
+            android:gravity="center"
+            android:popupElevation="1dp"
+            />
 
         <TextView
             android:layout_width="wrap_content"

@@ -1,11 +1,14 @@
 package com.example.gaechuck.ui.rent
 
 import android.content.Intent
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.ContextThemeWrapper
 import android.view.Gravity
+import android.view.MotionEvent
 import android.view.View
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.TextView
@@ -60,14 +63,20 @@ class RentActivity : AppCompatActivity(R.layout.activity_rent) {
 
         // 뒤로가기 버튼 동작 설정
         backButton.setOnClickListener {
-            if (navController.currentDestination?.id == R.id.rentMainFragment) {
-                // MainFragment에서 뒤로가기 버튼을 눌렀을 때는 MainActivity로 이동
-                val intent = Intent(this, MainActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(intent)
-                finish() // LoseActivity 종료
-            } else if (!navController.popBackStack()) {
-                finish() // 다른 경우엔 Activity 종료
+            val currentDestinationId = navController.currentDestination?.id
+
+            when (currentDestinationId) {
+                R.id.rentMainFragment -> {
+                    finish() // LoseActivity 종료
+                }
+                R.id.rentDetailFragment -> {
+                    navController.navigate(R.id.action_rentDetailFragment_to_rentMainFragment)
+                }
+                else -> {
+                    if (!navController.popBackStack()) {
+                        finish()
+                    }
+                }
             }
         }
 
@@ -108,6 +117,20 @@ class RentActivity : AppCompatActivity(R.layout.activity_rent) {
         }
 
 
+    }
+
+    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
+        val view = currentFocus
+        if (view is EditText) {
+            val outRect = Rect()
+            view.getGlobalVisibleRect(outRect)
+            if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
+                // EditText 외부를 클릭하면 키보드 숨기기
+                val imm = getSystemService(INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager
+                imm.hideSoftInputFromWindow(view.windowToken, 0)
+            }
+        }
+        return super.dispatchTouchEvent(event)
     }
 
     private fun showDeleteConfirmationDialog() {

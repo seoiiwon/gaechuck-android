@@ -27,7 +27,9 @@
             app:argType="integer"/>
         <action
             android:id="@+id/action_rentDetailFragment_to_rentMainFragment"
-            app:destination="@id/rentMainFragment" />
+            app:destination="@id/rentMainFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right" />
     </fragment>
 </navigation>
 

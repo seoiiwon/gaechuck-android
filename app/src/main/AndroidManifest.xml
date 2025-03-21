@@ -43,13 +43,20 @@
 
         <activity android:name=".ui.lose.LoseActivity"/>
         <activity android:name=".ui.login.LoginActivity"/>
-        <activity android:name=".ui.business.BusinessWriteActivity"/>
-        <activity android:name=".ui.rent.RentWriteActivity"/>
-        <activity android:name=".ui.lose.LoseWriteActivity"/>
+        <activity
+            android:name=".ui.business.BusinessWriteActivity"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".ui.rent.RentWriteActivity"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".ui.lose.LoseWriteActivity"
+            android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".ui.lose.LoseUrlChangeActivity"/>
-        <activity android:name=".ui.rent.RentEditActivity"/>
-        <activity android:name=".ui.lose.LoseEditActivity"/>
-        <activity android:name=".ui.business.BusinessEditActivity"/>
+        <activity android:name=".ui.rent.RentEditActivity"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".ui.lose.LoseEditActivity"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".ui.business.BusinessEditActivity"
+            android:windowSoftInputMode="adjustPan"/>
     </application>
 
 </manifest>

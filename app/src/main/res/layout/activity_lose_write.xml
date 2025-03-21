@@ -42,6 +42,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="제목을 입력해주세요."
+        android:inputType="text"
         app:layout_constraintBottom_toBottomOf="@id/guideline1"
         app:layout_constraintStart_toStartOf="parent"
         android:paddingLeft="20dp"

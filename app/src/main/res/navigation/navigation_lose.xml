@@ -28,7 +28,11 @@
             app:argType="integer"/>
         <action
             android:id="@+id/action_loseDetailFragment_to_loseMainFragment"
-            app:destination="@id/loseMainFragment" />
+            app:destination="@id/loseMainFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
 
 </navigation>

@@ -1,8 +1,11 @@
 package com.example.gaechuck.ui.login
 
 import android.content.Intent
+import android.graphics.Rect
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.View
+import android.widget.EditText
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
@@ -55,6 +58,20 @@ class LoginActivity : AppCompatActivity(R.layout.activity_login) {
 
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()
+    }
+
+    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
+        val view = currentFocus
+        if (view is EditText) {
+            val outRect = Rect()
+            view.getGlobalVisibleRect(outRect)
+            if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
+                // EditText 외부를 클릭하면 키보드 숨기기
+                val imm = getSystemService(INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager
+                imm.hideSoftInputFromWindow(view.windowToken, 0)
+            }
+        }
+        return super.dispatchTouchEvent(event)
     }
 
     fun updateToolbar(showBackButton: Boolean, showHomeButton: Boolean) {
