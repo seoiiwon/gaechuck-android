@@ -6,5 +6,6 @@
     <style name="Theme.Gaechuck" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:color">@color/gnu_blue</item>
         <item name="colorSurface">@color/white</item>
+        <item name="statusBarBackground">@color/white</item>
     </style>
 </resources>
