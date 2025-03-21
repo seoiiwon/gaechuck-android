@@ -134,8 +134,6 @@ class BusinessActivity : AppCompatActivity(R.layout.activity_business) {
 
     private fun showDeleteConfirmationDialog() {
         val coalitionId = getCoalitionItemId()
-        Log.d("BusinessActivity", "Current coalitionId: $coalitionId")
-
         val dialogView = layoutInflater.inflate(R.layout.alert_detail_popup, null)
 
         // 커스텀 다이얼로그 생성

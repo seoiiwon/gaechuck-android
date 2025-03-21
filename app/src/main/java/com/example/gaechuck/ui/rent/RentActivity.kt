@@ -135,7 +135,7 @@ class RentActivity : AppCompatActivity(R.layout.activity_rent) {
             dialog.dismiss()
         }
 
-
+        dialog.window?.setBackgroundDrawableResource(R.drawable.custom_popup_background)
         dialog.show()
     }
 
