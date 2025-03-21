@@ -67,9 +67,7 @@ class BusinessRepository {
         return try {
             val requestBody = createJsonRequestBody(BusinessCreateRequest(coalitionName, benefit, category))
             val imageParts = file.mapIndexedNotNull { index, uri ->  createImagePart(uri, context, index) } // 모든 이미지 변환
-
-            Log.d("BusinessRepository", "데이터 전송 시작: name=$coalitionName, benefit=$benefit, category=$category, data=$requestBody")
-
+            
             val response =  ApiConnection.getRetrofitService.postBusinessCreate(
                 Authorization = token,
                 data = requestBody, // JSON 형식으로 보냄
