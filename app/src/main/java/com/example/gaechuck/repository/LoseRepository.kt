@@ -8,7 +8,6 @@ import com.example.gaechuck.api.ApiConnection
 import com.example.gaechuck.data.request.LoseCreateRequest
 import com.example.gaechuck.data.request.LoseDeleteRequest
 import com.example.gaechuck.data.request.LosePatchRequest
-import com.example.gaechuck.data.request.RentPatchRequest
 import com.example.gaechuck.data.response.BaseResponse
 import com.example.gaechuck.data.response.GetLoseDataResponse
 import com.example.gaechuck.data.response.GetLoseDetailResponse
@@ -17,6 +16,8 @@ import com.google.gson.Gson
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
@@ -92,7 +93,7 @@ class LoseRepository {
 
     private fun createJsonRequestBody(request: LoseCreateRequest): RequestBody {
         val json = Gson().toJson(request)
-        return RequestBody.create("application/json".toMediaType(), json)
+        return json.toRequestBody("application/json".toMediaType())
     }
 
     private fun createImagePart(uri: Uri?, context: Context, index: Int): MultipartBody.Part? {
@@ -118,7 +119,7 @@ class LoseRepository {
                     }
 
                     // 3. MultiPart 변환
-                    val requestFile = RequestBody.create("image/*".toMediaType(), file)
+                    val requestFile = file.asRequestBody("image/*".toMediaType())
                     MultipartBody.Part.createFormData("file", file.name, requestFile)
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -136,7 +137,7 @@ class LoseRepository {
                     }
                 }
 
-                val requestFile = RequestBody.create("image/*".toMediaType(), file)
+                val requestFile = file.asRequestBody("image/*".toMediaType())
                 return MultipartBody.Part.createFormData("file", file.name, requestFile)
             }
 
@@ -194,7 +195,6 @@ class LoseRepository {
 
             if (response.isSuccessful && response.body()?.isSuccess == true) {
                 Log.d("RentRepository", "서버 응답 성공: ${response.body()}")
-                Log.d("RentRepository","${imageParts}")
                 Result.success(response.body()!!)
             } else {
                 Log.e("LoseRepository", "서버 응답 실패: ${response.errorBody()?.string()}")

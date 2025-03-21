@@ -11,11 +11,12 @@ import com.example.gaechuck.data.request.RentDeleteRequest
 import com.example.gaechuck.data.response.BaseResponse
 import com.example.gaechuck.data.response.GetRentDataResponse
 import com.example.gaechuck.data.response.GetRentDetailResponse
-import com.example.gaechuck.data.response.PostRentCreateResponse
 import com.google.gson.Gson
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
@@ -76,7 +77,6 @@ class RentRepository {
 
             if (response.isSuccessful && response.body()?.isSuccess == true) {
                 Log.d("RentRepository", "서버 응답 성공: ${response.body()}")
-                Log.d("RentRepository","${imageParts}")
                 Result.success(response.body()!!)
             } else {
                 Log.e("RentRepository", "서버 응답 실패: ${response.errorBody()?.string()}")
@@ -91,7 +91,7 @@ class RentRepository {
 
     private fun createJsonRequestBody(request: RentCreateRequest): RequestBody {
         val json = Gson().toJson(request)
-        return RequestBody.create("application/json".toMediaType(), json)
+        return json.toRequestBody("application/json".toMediaType())
     }
 
     private fun createImagePart(uri: Uri?, context: Context, index: Int): MultipartBody.Part? {
@@ -117,7 +117,7 @@ class RentRepository {
                     }
 
                     // 3. MultiPart 변환
-                    val requestFile = RequestBody.create("image/*".toMediaType(), file)
+                    val requestFile = file.asRequestBody("image/*".toMediaType())
                     MultipartBody.Part.createFormData("file", file.name, requestFile)
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -135,7 +135,7 @@ class RentRepository {
                     }
                 }
 
-                val requestFile = RequestBody.create("image/*".toMediaType(), file)
+                val requestFile = file.asRequestBody("image/*".toMediaType())
                 return MultipartBody.Part.createFormData("file", file.name, requestFile)
             }
 
@@ -188,7 +188,6 @@ class RentRepository {
 
             if (response.isSuccessful && response.body()?.isSuccess == true) {
                 Log.d("RentRepository", "서버 응답 성공: ${response.body()}")
-                Log.d("RentRepository","${imageParts}")
                 Result.success(response.body()!!)
             } else {
                 Log.e("RentRepository", "서버 응답 실패: ${response.errorBody()?.string()}")
