@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.gaechuck.R
@@ -26,7 +25,7 @@ class NoticeCouncilAdapter(
 ) : RecyclerView.Adapter<NoticeCouncilAdapter.NoticeCouncilViewHolder>() {
 
     private var listener: OnItemClickListener? = null
-    private var originalList: List<GetCouncilNoticeDataResponse> = noticeList.toList()
+    private var filteredList: MutableList<GetCouncilNoticeDataResponse> = noticeList.toMutableList()
 
     class NoticeCouncilViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val noticeImage: ImageView = view.findViewById(R.id.noticeImage)
@@ -45,7 +44,9 @@ class NoticeCouncilAdapter(
     }
 
     override fun onBindViewHolder(holder: NoticeCouncilViewHolder, position: Int) {
-        val notice = noticeList[position]
+        val notice = filteredList[position]
+        Log.d("Adapter", "Binding notice: ${notice.title} at position: $position")
+
         val token = AuthManager.getToken()
 
         if (!notice.representationImages.isNullOrEmpty()) {
@@ -94,7 +95,7 @@ class NoticeCouncilAdapter(
         }
     }
 
-    override fun getItemCount(): Int = noticeList.size
+    override fun getItemCount(): Int = filteredList.size
 
     fun removeNotice(noticeId: Int) {
         val position = noticeList.indexOfFirst { it.id == noticeId }
@@ -109,11 +110,8 @@ class NoticeCouncilAdapter(
     fun updateData(newList: List<GetCouncilNoticeDataResponse>) {
         noticeList.clear()
         noticeList.addAll(newList)
+        filteredList = noticeList.toMutableList()
         notifyDataSetChanged()
-    }
-
-    interface OnItemClickListener {
-        fun onItemClick(position: Int)
     }
 
     fun setOnItemClickListener(listener: OnItemClickListener) {
@@ -121,17 +119,15 @@ class NoticeCouncilAdapter(
     }
 
     fun filter(query: String) {
-        val filtered = if (query.isEmpty()) {
-            originalList
+        filteredList = if (query.isEmpty()) {
+            noticeList.toMutableList()
         } else {
-            originalList.filter { it.title.contains(query, ignoreCase = true) }
+            noticeList.filter { it.title.contains(query, ignoreCase = true) }.toMutableList()
         }
-        (noticeList as? MutableList<GetCouncilNoticeDataResponse>)?.let {
-            it.clear()
-            it.addAll(filtered)
-        }
+        Log.d("Search", "Filtered items count: ${filteredList.size}")
         notifyDataSetChanged()
     }
+
 
     private fun formatNoticeDate(inputDate: String): String {
         return try {
@@ -142,5 +138,10 @@ class NoticeCouncilAdapter(
         } catch (e: Exception) {
             inputDate
         }
+    }
+
+
+    interface OnItemClickListener {
+        fun onItemClick(position: Int)
     }
 }
