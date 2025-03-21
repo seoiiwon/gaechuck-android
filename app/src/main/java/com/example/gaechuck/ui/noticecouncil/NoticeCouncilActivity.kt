@@ -20,7 +20,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.gaechuck.MainActivity
 import com.example.gaechuck.R
 import com.example.gaechuck.api.AuthManager
-import com.example.gaechuck.data.response.GetCouncilNoticeDataResponse
 import com.example.gaechuck.repository.NoticeCouncilRepository
 import com.example.gaechuck.ui.noticecouncil.adaptor.NoticeCouncilAdapter
 import com.example.gaechuck.ui.noticecouncil.viewmodel.NoticeCouncilViewModel
@@ -31,6 +30,7 @@ import kotlinx.coroutines.launch
 class NoticeCouncilActivity : AppCompatActivity() {
 
     private lateinit var noticeAdapter: NoticeCouncilAdapter
+    private lateinit var searchEditText: EditText
     private val viewModel: NoticeCouncilViewModel by viewModels {
         NoticeCouncilViewModelFactory(NoticeCouncilRepository())
     }
@@ -53,6 +53,7 @@ class NoticeCouncilActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notice_council)
 
+        searchEditText = findViewById(R.id.searchEditText)
         val postNoticeButton = findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.postNoticeButton)
         val searchEditText = findViewById<EditText>(R.id.searchEditText)
         val searchButton = findViewById<ImageView>(R.id.searchButton)
@@ -173,6 +174,12 @@ class NoticeCouncilActivity : AppCompatActivity() {
     }
 
     private fun observeViewModel() {
+        viewModel.noticeList.observe(this) { notices ->
+            if (searchEditText.text.isNullOrEmpty()) {
+                noticeAdapter.updateData(notices)
+            }
+        }
+
         viewModel.deleteStatus.observe(this) { deletedNoticeId ->
             deletedNoticeId?.let {
                 noticeAdapter.removeNotice(it)
@@ -185,7 +192,6 @@ class NoticeCouncilActivity : AppCompatActivity() {
             Toast.makeText(this, "삭제 실패: $errorMsg", Toast.LENGTH_SHORT).show()
         }
     }
-
     override fun onResume() {
         super.onResume()
         viewModel.fetchNotices()
