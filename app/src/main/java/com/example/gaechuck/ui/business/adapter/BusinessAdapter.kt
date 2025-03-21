@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.gaechuck.data.response.BusinessList
 import com.example.gaechuck.databinding.RowBusinessItemBinding
+import okio.utf8Size
 
 class BusinessAdapter(private val data: MutableList<BusinessList>,
                       private val listener: OnBusinessItemClickListener) : RecyclerView.Adapter<BusinessAdapter.ViewHolder>() {
@@ -19,7 +20,13 @@ class BusinessAdapter(private val data: MutableList<BusinessList>,
             Glide.with(binding.businessImage.context)
                 .load(item.image) // image는 URL 문자열
                 .into(binding.businessImage) // 대표 이미지 설정
-            binding.businessInfo.text = item.benefit
+
+            binding.businessInfo.text = if (item.benefit.length > 25) {
+                item.benefit.substring(0, 25) + "..."
+            } else {
+                item.benefit
+            }
+
             binding.businessCategory.text = item.category
             binding.businessName.text = item.coalitionName
 

@@ -62,16 +62,21 @@ class LoseActivity : AppCompatActivity(R.layout.activity_lose) {
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
 
-        // 뒤로가기 버튼 동작 설정
         backButton.setOnClickListener {
-            if (navController.currentDestination?.id == R.id.loseMainFragment) {
-                // MainFragment에서 뒤로가기 버튼을 눌렀을 때는 MainActivity로 이동
-                val intent = Intent(this, MainActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(intent)
-                finish() // LoseActivity 종료
-            } else if (!navController.popBackStack()) {
-                finish() // 다른 경우엔 Activity 종료
+            val currentDestinationId = navController.currentDestination?.id
+
+            when (currentDestinationId) {
+                R.id.loseMainFragment -> {
+                    finish() // LoseActivity 종료
+                }
+                R.id.loseDetailFragment -> {
+                    navController.navigate(R.id.action_loseDetailFragment_to_loseMainFragment)
+                }
+                else -> {
+                    if (!navController.popBackStack()) {
+                        finish()
+                    }
+                }
             }
         }
 
