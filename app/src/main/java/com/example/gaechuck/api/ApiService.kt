@@ -193,9 +193,8 @@ interface ApiService {
     suspend fun updateNoticeCouncil(
         @Path("id") noticeId: Int,
         @Header("Authorization") token: String,
-//        @PartMap requestBody: Map<String, @JvmSuppressWildcards RequestBody>,
-        @Body requestBody : RequestBody,
-        @Part images: List<MultipartBody.Part>
+        @Part("data") data: RequestBody,
+        @Part files: List<MultipartBody.Part>?
     ): Response<PatchNoticeResponse>
 
 
@@ -220,7 +219,6 @@ interface ApiService {
         @Query("cafeteriaSeq") seq : Int,
         @Query("startDate") date : String
     ): Call<BaseListResponse<GetFoodDataResponse>>
-
 
     // Url
     // URL 수정 및 
