@@ -85,6 +85,6 @@
         app:dotsSize="10dp"
         app:dotsColor="@color/gnu_blue"
         app:selectedDotColor="@color/black"
-        android:layout_marginBottom="12dp"/>
+        android:layout_marginBottom="8dp"/>
 
 </LinearLayout>

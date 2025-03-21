@@ -1,11 +1,14 @@
 package com.example.gaechuck.ui.rent
 
 import android.content.Intent
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.ContextThemeWrapper
 import android.view.Gravity
+import android.view.MotionEvent
 import android.view.View
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.TextView
@@ -114,6 +117,20 @@ class RentActivity : AppCompatActivity(R.layout.activity_rent) {
         }
 
 
+    }
+
+    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
+        val view = currentFocus
+        if (view is EditText) {
+            val outRect = Rect()
+            view.getGlobalVisibleRect(outRect)
+            if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
+                // EditText 외부를 클릭하면 키보드 숨기기
+                val imm = getSystemService(INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager
+                imm.hideSoftInputFromWindow(view.windowToken, 0)
+            }
+        }
+        return super.dispatchTouchEvent(event)
     }
 
     private fun showDeleteConfirmationDialog() {

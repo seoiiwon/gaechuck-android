@@ -81,7 +81,7 @@
         android:id="@+id/url_btn"
         android:layout_width="150dp"
         android:layout_height="40dp"
-        android:text="url 수정하기"
+        android:text="url수정"
         app:icon="@drawable/ic_url"
         app:layout_constraintTop_toTopOf="@id/option_btn"
         app:layout_constraintBottom_toBottomOf="@id/option_btn"

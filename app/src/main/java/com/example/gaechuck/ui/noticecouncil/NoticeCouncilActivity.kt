@@ -2,8 +2,10 @@ package com.example.gaechuck.ui.noticecouncil
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.KeyEvent
+import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
@@ -92,6 +94,20 @@ class NoticeCouncilActivity : AppCompatActivity() {
                 false
             }
         }
+    }
+
+    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
+        val view = currentFocus
+        if (view is EditText) {
+            val outRect = Rect()
+            view.getGlobalVisibleRect(outRect)
+            if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
+                // EditText 외부를 클릭하면 키보드 숨기기
+                val imm = getSystemService(INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager
+                imm.hideSoftInputFromWindow(view.windowToken, 0)
+            }
+        }
+        return super.dispatchTouchEvent(event)
     }
 
 
