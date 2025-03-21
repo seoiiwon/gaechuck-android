@@ -105,10 +105,10 @@ class NoticeCouncilAdapter(
         }
     }
 
-    fun addNotices(newNotices: List<GetCouncilNoticeDataResponse>) {
+
+    fun updateData(newList: List<GetCouncilNoticeDataResponse>) {
         noticeList.clear()
-        noticeList.addAll(newNotices)
-        originalList = newNotices.toList()
+        noticeList.addAll(newList)
         notifyDataSetChanged()
     }
 

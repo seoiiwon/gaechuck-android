@@ -43,6 +43,8 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
+import java.net.HttpURLConnection
+import java.net.URL
 
 
 class NoticeCouncilUpdateActivity : AppCompatActivity() {
@@ -114,7 +116,7 @@ class NoticeCouncilUpdateActivity : AppCompatActivity() {
                     titleEditText.setText(noticeDetail.title)
                     bodyEditText.setText(noticeDetail.body)
                     selectedImages.clear()
-//                    selectedImages.addAll(noticeDetail.images?.map { Uri.parse(it) } ?: emptyList())
+                    selectedImages.addAll(noticeDetail.images?.map { Uri.parse(it) } ?: emptyList())
                     imageAdapter.notifyDataSetChanged()
                 }
             } catch (e: Exception) {
@@ -137,6 +139,11 @@ class NoticeCouncilUpdateActivity : AppCompatActivity() {
             return
         }
 
+        if (selectedImages.isEmpty()) {
+            Toast.makeText(this, "최소 하나 이상의 이미지를 선택하세요.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         lifecycleScope.launch {
             try {
                 val dataMap = mapOf(
@@ -146,26 +153,26 @@ class NoticeCouncilUpdateActivity : AppCompatActivity() {
                 val dataJson = Gson().toJson(dataMap)
                 val dataBody = dataJson.toRequestBody("application/json; charset=utf-8".toMediaType())
 
-                val newImageParts = selectedImages.filter { uri ->
-                    uri.scheme.equals("content", ignoreCase = true) || uri.scheme.equals("file", ignoreCase = true)
-                }.mapIndexedNotNull { index, uri ->
+                // 모든 이미지에 MultipartBody.Part 생성 (기존 URL인 경우 다운로드하여 임시 파일로, 그 외는 그대로 변환)
+                val imageParts = selectedImages.mapIndexedNotNull { index, uri ->
                     createImagePart(uri, this@NoticeCouncilUpdateActivity, index)
                 }
 
-                val fileParts = if (newImageParts.isNotEmpty()) newImageParts else null
-
+                // PATCH 요청: data 파트와 files 파트 모두 전송
                 val response = ApiConnection.getRetrofitService.updateNoticeCouncil(
                     noticeId = noticeId,
                     token = "Bearer $token",
-                    requestBody = dataBody,
-                    images = fileParts ?: emptyList()
+                    data = dataBody,
+                    files = imageParts
                 )
 
                 if (response.isSuccessful) {
-                    Toast.makeText(this@NoticeCouncilUpdateActivity, "수정 완료", Toast.LENGTH_SHORT).show()
-                    setResult(Activity.RESULT_OK)
-                    finish()
-
+                    Toast.makeText(this@NoticeCouncilUpdateActivity, "공지사항이 수정되었습니다.", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this@NoticeCouncilUpdateActivity, NoticeCouncilActivity::class.java).apply {
+                        // CLEAR_TOP나 NEW_TASK 플래그를 제거하여 백스택을 유지합니다.
+                    }
+                    startActivity(intent)
+                    finish() // 현재 수정 액티비티 종료
                 } else {
                     Log.e("UpdateNotice", "공지사항 수정 실패: ${response.code()} - ${response.message()}")
                     Toast.makeText(this@NoticeCouncilUpdateActivity, "수정 실패: ${response.code()}", Toast.LENGTH_SHORT).show()
@@ -177,18 +184,53 @@ class NoticeCouncilUpdateActivity : AppCompatActivity() {
         }
     }
 
-    private fun createImagePart(uri: Uri?, context: Context, index: Int): MultipartBody.Part? {
+    private suspend fun createImagePart(uri: Uri?, context: Context, index: Int): MultipartBody.Part? {
         uri ?: return null
-        val contentResolver: ContentResolver = context.contentResolver
-        val inputStream: InputStream? = contentResolver.openInputStream(uri)
-        val file = File(context.cacheDir, "upload_image_$index.jpg")
-        inputStream?.use { input ->
-            FileOutputStream(file).use { output ->
-                input.copyTo(output)
+        return withContext(Dispatchers.IO) {
+            when {
+                uri.toString().startsWith("http", ignoreCase = true) -> {
+                    try {
+                        // URL에서 이미지 다운로드
+                        val url = URL(uri.toString())
+                        val connection = url.openConnection() as HttpURLConnection
+                        connection.requestMethod = "GET"
+                        connection.doInput = true
+                        connection.connect()
+
+                        // 다운로드한 이미지 임시 파일에 저장
+                        val file = File(context.cacheDir, "upload_image_$index.jpg")
+                        connection.inputStream.use { input ->
+                            FileOutputStream(file).use { output ->
+                                input.copyTo(output)
+                            }
+                        }
+                        val requestFile = RequestBody.create("image/*".toMediaType(), file)
+                        MultipartBody.Part.createFormData("file", file.name, requestFile)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        null
+                    }
+                }
+                uri.toString().startsWith("content", ignoreCase = true) || uri.toString().startsWith("file", ignoreCase = true) -> {
+                    try {
+                        val contentResolver = context.contentResolver
+                        val inputStream = contentResolver.openInputStream(uri)
+                        val file = File(context.cacheDir, "upload_image_$index.jpg")
+                        inputStream?.use { input ->
+                            FileOutputStream(file).use { output ->
+                                input.copyTo(output)
+                            }
+                        }
+                        val requestFile = RequestBody.create("image/*".toMediaType(), file)
+                        MultipartBody.Part.createFormData("file", file.name, requestFile)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        null
+                    }
+                }
+                else -> null
             }
         }
-        val requestFile = RequestBody.create("image/*".toMediaType(), file)
-        return MultipartBody.Part.createFormData("file", file.name, requestFile)
     }
 
     override fun onResume() {

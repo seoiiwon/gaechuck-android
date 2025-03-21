@@ -14,6 +14,7 @@ import android.widget.GridLayout
 import android.widget.HorizontalScrollView
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ScrollView
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.activity.viewModels
@@ -77,6 +78,11 @@ class BusRouteActivity : AppCompatActivity() {
                     selectedRoute.serviceTime.forEach { (key, departures) ->
                         addBusRoute(busRouteContainer, key, departures)
                     }
+                }
+
+                val scrollView = findViewById<ScrollView>(R.id.scrollView)
+                scrollView.post {
+                    scrollView.scrollTo(0, 0)
                 }
             }
 
