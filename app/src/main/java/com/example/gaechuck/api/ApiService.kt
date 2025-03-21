@@ -6,6 +6,7 @@ import com.example.gaechuck.data.request.BusinessPatchRequest
 import com.example.gaechuck.data.request.LoginRequest
 import com.example.gaechuck.data.request.LoseDeleteRequest
 import com.example.gaechuck.data.request.LosePatchRequest
+import com.example.gaechuck.data.request.RefreshRequest
 import com.example.gaechuck.data.request.RentDeleteRequest
 import com.example.gaechuck.data.request.RentPatchRequest
 import com.example.gaechuck.data.request.UrlChangeRequest
@@ -30,6 +31,7 @@ import com.example.gaechuck.data.response.PostRentCreateResponse
 import com.example.gaechuck.data.response.PostUrlResponse
 //import com.example.gaechuck.data.response.PostUrlResponse
 import okhttp3.MultipartBody
+import okhttp3.Request
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Response
@@ -147,7 +149,7 @@ interface ApiService {
     suspend fun postBusinessCreate(
         @Header("Authorization") Authorization: String,
         @Part("data") data: RequestBody, // "data" 파트 추가
-        @Part file: MultipartBody.Part? // "file" 파트 추가
+        @Part file: List<MultipartBody.Part> // "file" 파트 추가
     ) : Response<BaseResponse<String>>
 
     // 제휴 글 삭제하기
@@ -163,7 +165,7 @@ interface ApiService {
     suspend fun patchBusinessData(
         @Header("Authorization") Authorization: String,
         @Part("data") data: BusinessPatchRequest,
-        @Part file: MultipartBody.Part?
+        @Part file: List<MultipartBody.Part>
     ) : Response<BaseResponse<PatchBusinessResponse>>
 
     // Notice
@@ -218,7 +220,6 @@ interface ApiService {
         @Query("startDate") date : String
     ): Call<BaseListResponse<GetFoodDataResponse>>
 
-
     // Url
     // URL 수정 및 
     @POST("/api/v1/chaturl/insertUrl")
@@ -237,5 +238,11 @@ interface ApiService {
     @POST("/api/v1/master/sign-in")
     suspend fun login(@Body request: LoginRequest)
             : Response<BaseResponse<LoginResponse>>
+
+    // Refresh
+    @POST("/api/v1/master/token/reissue")
+    suspend fun refresh(
+        @Body request : RefreshRequest
+    ) : Response<BaseResponse<LoginResponse>>
 
 }

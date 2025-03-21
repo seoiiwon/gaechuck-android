@@ -16,10 +16,12 @@ import com.example.gaechuck.data.response.PostRentCreateResponse
 import com.example.gaechuck.data.response.PostUrlResponse
 import com.example.gaechuck.data.response.RentList
 import com.example.gaechuck.repository.RentRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class RentViewModel(private val repository: RentRepository): ViewModel() {
 
@@ -226,7 +228,7 @@ class RentViewModel(private val repository: RentRepository): ViewModel() {
             "patchData 호출됨 - name: $rentItemName, count: $rentItemCount, file : $file"
         )
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val result =
                 repository.patchRentData(
                     token,
@@ -236,8 +238,9 @@ class RentViewModel(private val repository: RentRepository): ViewModel() {
                     file,
                     context
                 )
-            _patchResult.value = result
-
+            withContext(Dispatchers.Main) {  // 메인 스레드에서 실행
+                _patchResult.value = result
+            }
             result.onSuccess {
                 Log.d("BusinessViewModel", "데이터 전송 성공: ${it}")
             }.onFailure { error ->
