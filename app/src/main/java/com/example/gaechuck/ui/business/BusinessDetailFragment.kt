@@ -73,7 +73,7 @@ class BusinessDetailFragment : Fragment(R.layout.fragment_business_detail) {
     // BusinessActivity의 Toolbar 업데이트
     private fun updateToolbar(isLoggedIn: Boolean) {
         (activity as? BusinessActivity)?.updateToolbar(
-            title = getString(R.string.bar_lose),
+            title = getString(R.string.bar_business),
             showBackButton = true,
             showHomeButton = !isLoggedIn,
             showEtcButton = isLoggedIn,
