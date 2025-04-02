@@ -23,6 +23,7 @@ import com.example.gaechuck.databinding.ActivityBusinessWriteBinding
 import com.example.gaechuck.repository.BusinessRepository
 import com.example.gaechuck.ui.business.viewmodel.BusinessViewModel
 import com.example.gaechuck.ui.lose.LoseActivity
+import com.example.gaechuck.ui.util.WriteDialogFragment
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import kotlinx.coroutines.launch
@@ -36,7 +37,7 @@ class BusinessEditActivity : AppCompatActivity(R.layout.activity_business_write)
     private lateinit var photoBtn: View
     private lateinit var viewModel: BusinessViewModel
     private lateinit var chipGroup : ChipGroup
-
+    private val dialogFragment = WriteDialogFragment(this)
 
 
     // 갤러리에서 여러 개의 이미지를 선택하는 ActivityResult
@@ -162,7 +163,7 @@ class BusinessEditActivity : AppCompatActivity(R.layout.activity_business_write)
         val category = selectedCategoryChip?.text.toString()
 
         if (coalitionName.isBlank() || benefit.isBlank() || category.isBlank()) {
-            Toast.makeText(this, "모든 값을 입력하세요.", Toast.LENGTH_SHORT).show()
+            dialogFragment.show()
             return
         }
 
@@ -170,7 +171,7 @@ class BusinessEditActivity : AppCompatActivity(R.layout.activity_business_write)
 
         val imageUris = viewModel.selectedImages.value ?: emptyList()
         if (imageUris.isEmpty()) {
-            Log.e("sendBusinessData", "이미지가 없습니다.")
+            dialogFragment.show()
             return
         }
 

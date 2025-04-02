@@ -34,6 +34,7 @@ import com.example.gaechuck.repository.NoticeCouncilRepository
 import com.example.gaechuck.ui.noticecouncil.adaptor.ImageAdapter
 import com.example.gaechuck.ui.noticecouncil.viewmodel.NoticeCouncilViewModel
 import com.example.gaechuck.ui.noticecouncil.viewmodel.NoticeCouncilViewModelFactory
+import com.example.gaechuck.ui.util.WriteDialogFragment
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -57,6 +58,7 @@ class NoticeCouncilUpdateActivity : AppCompatActivity() {
     private lateinit var addImageButton: ImageView
     private lateinit var updateButton: Button
     private lateinit var imageAdapter: ImageAdapter
+    private val dialogFragment = WriteDialogFragment(this)
 
     private val viewModel: NoticeCouncilViewModel by viewModels {
         NoticeCouncilViewModelFactory(NoticeCouncilRepository())
@@ -147,7 +149,7 @@ class NoticeCouncilUpdateActivity : AppCompatActivity() {
         val token = AuthManager.getToken()
 
         if (title.isEmpty() || body.isEmpty()) {
-            Toast.makeText(this, "제목과 내용을 입력하세요.", Toast.LENGTH_SHORT).show()
+            dialogFragment.show()
             return
         }
         if (token.isNullOrEmpty()) {
@@ -156,7 +158,7 @@ class NoticeCouncilUpdateActivity : AppCompatActivity() {
         }
 
         if (selectedImages.isEmpty()) {
-            Toast.makeText(this, "최소 하나 이상의 이미지를 선택하세요.", Toast.LENGTH_SHORT).show()
+            dialogFragment.show()
             return
         }
 

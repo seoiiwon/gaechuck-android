@@ -23,6 +23,7 @@ import com.example.gaechuck.api.AuthManager
 import com.example.gaechuck.databinding.ActivityRentWriteBinding
 import com.example.gaechuck.repository.RentRepository
 import com.example.gaechuck.ui.rent.viewmodel.RentViewModel
+import com.example.gaechuck.ui.util.WriteDialogFragment
 import kotlinx.coroutines.launch
 
 class RentWriteActivity : AppCompatActivity(R.layout.activity_rent_write) {
@@ -34,6 +35,8 @@ class RentWriteActivity : AppCompatActivity(R.layout.activity_rent_write) {
     private lateinit var binding: ActivityRentWriteBinding
     private lateinit var photoBtn : View
     private lateinit var viewModel: RentViewModel
+    private val dialogFragment = WriteDialogFragment(this)
+
 
 
     // 갤러리에서 여러 개의 이미지를 선택하는 ActivityResult
@@ -129,7 +132,7 @@ class RentWriteActivity : AppCompatActivity(R.layout.activity_rent_write) {
         val rentItemCount = binding.fieldCount.text.toString()
 
         if (rentItemName.isBlank() || rentItemCount.isBlank()) {
-            Log.e("sendBusinessData", "입력값이 부족합니다.")
+            dialogFragment.show()
             return
         }
 
@@ -137,7 +140,7 @@ class RentWriteActivity : AppCompatActivity(R.layout.activity_rent_write) {
 
         val imageUris = viewModel.selectedImages.value
         if (imageUris.isEmpty()) {
-            Log.e("sendRentData", "이미지가 없습니다.")
+            dialogFragment.show()
             return
         }
 

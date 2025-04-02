@@ -25,6 +25,7 @@ import com.example.gaechuck.api.AuthManager
 import com.example.gaechuck.databinding.ActivityLoseWriteBinding
 import com.example.gaechuck.repository.LoseRepository
 import com.example.gaechuck.ui.lose.viewmodel.LoseViewModel
+import com.example.gaechuck.ui.util.WriteDialogFragment
 import kotlinx.coroutines.launch
 
 class LoseWriteActivity : AppCompatActivity() {
@@ -36,6 +37,7 @@ class LoseWriteActivity : AppCompatActivity() {
     private lateinit var photoCountTextView: TextView
     private lateinit var photoBtn : View
     private lateinit var viewModel: LoseViewModel
+    private val dialogFragment = WriteDialogFragment(this)
 
 
     // 갤러리에서 여러 개의 이미지를 선택하는 ActivityResult
@@ -185,8 +187,7 @@ class LoseWriteActivity : AppCompatActivity() {
         val lostLocation = binding.fieldLocation.text.toString()
 
         if (title.isBlank() || lostDate.isBlank() || description.isBlank() || lostLocation.isBlank()) {
-            Log.e("sendBusinessData", "입력값이 부족합니다.")
-            Toast.makeText(this, "모든 값을 입력해주세요.", Toast.LENGTH_SHORT).show()
+            dialogFragment.show()
             return
         }
 
@@ -194,7 +195,7 @@ class LoseWriteActivity : AppCompatActivity() {
 
         val imageUris = viewModel.selectedImages.value
         if (imageUris.isEmpty()) {
-            Log.e("sendLoseData", "이미지가 없습니다.")
+            dialogFragment.show()
             return
         }
 
