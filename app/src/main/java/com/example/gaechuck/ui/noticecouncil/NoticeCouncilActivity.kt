@@ -26,6 +26,7 @@ import com.example.gaechuck.repository.NoticeCouncilRepository
 import com.example.gaechuck.ui.noticecouncil.adaptor.NoticeCouncilAdapter
 import com.example.gaechuck.ui.noticecouncil.viewmodel.NoticeCouncilViewModel
 import com.example.gaechuck.ui.noticecouncil.viewmodel.NoticeCouncilViewModelFactory
+import com.example.gaechuck.ui.util.DeleteDialogFragment
 import kotlinx.coroutines.launch
 
 
@@ -162,31 +163,11 @@ class NoticeCouncilActivity : AppCompatActivity() {
 
     // 공지 삭제
     private fun performDeleteNotice(noticeId: Int) {
-        val dialogView = layoutInflater.inflate(R.layout.alert_detail_popup, null)
-
-        // 커스텀 다이얼로그 생성
-        val dialog = AlertDialog.Builder(this)
-            .setTitle("삭제 확인")
-            .setMessage("정말 삭제하시겠습니까?")
-            .setView(dialogView) // 커스텀 레이아웃 설정
-            .create()
-
-        // 버튼 동작 설정
-        val positiveButton = dialogView.findViewById<Button>(R.id.dialog_yes_btn)
-        val negativeButton = dialogView.findViewById<Button>(R.id.dialog_no_btn)
-
-        positiveButton.setOnClickListener {
-            // 확인 버튼 클릭 시 삭제 처리
-            viewModel.deleteNotice(noticeId)
-            dialog.dismiss()
+        val deleteDialog = DeleteDialogFragment(this) {
+            viewModel.deleteNotice(noticeId) // 삭제 로직 실행
         }
 
-        negativeButton.setOnClickListener {
-            dialog.dismiss()
-        }
-
-        dialog.window?.setBackgroundDrawableResource(R.drawable.custom_popup_background)
-        dialog.show()
+        deleteDialog.show()
     }
 
     private fun observeViewModel() {
