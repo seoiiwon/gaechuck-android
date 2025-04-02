@@ -28,6 +28,7 @@ import com.example.gaechuck.repository.LoseRepository
 import com.example.gaechuck.ui.lose.viewmodel.LoseViewModel
 import com.example.gaechuck.ui.util.ImageDialogFragment
 import com.example.gaechuck.ui.util.WriteDialogFragment
+import com.google.android.material.datepicker.MaterialDatePicker
 import kotlinx.coroutines.launch
 import java.util.Calendar
 
@@ -92,28 +93,28 @@ class LoseWriteActivity : AppCompatActivity() {
         }
 
         binding.fieldDate.setOnClickListener {
+            val builder = MaterialDatePicker.Builder.datePicker()
+                .setTitleText("날짜 선택")
+                .setTheme(R.style.DialogTheme) // ✅ 테마 적용
+                .build()
 
-            val cal = Calendar.getInstance()
+            builder.addOnPositiveButtonClickListener { selection ->
+                val calendar = Calendar.getInstance()
+                calendar.timeInMillis = selection
 
-            val data = DatePickerDialog.OnDateSetListener { view, year, month, day ->
-                var monthText : String = ""
-                var dayText : String = ""
+                val year = calendar.get(Calendar.YEAR)
+                val month = calendar.get(Calendar.MONTH) + 1  // 월은 0부터 시작해서 +1 필요
+                val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-                monthText = if(month < 10) {
-                    "0${month}"
-                } else {
-                    "$month"
-                }
-                dayText = if(day < 10) {
-                    "0${day}"
-                } else {
-                    "$day"
-                }
-                binding.fieldDate.text = "${year}.${monthText}.${dayText}"
+                val monthText = if (month < 10) "0$month" else "$month"
+                val dayText = if (day < 10) "0$day" else "$day"
+
+                binding.fieldDate.text = "$year.$monthText.$dayText"
             }
 
-            DatePickerDialog(this, data, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)).show()
+            builder.show(supportFragmentManager, "datePicker")
         }
+
 
         sendButton.setOnClickListener {
             sendLoseData()
