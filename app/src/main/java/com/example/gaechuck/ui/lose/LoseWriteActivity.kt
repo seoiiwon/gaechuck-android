@@ -26,6 +26,7 @@ import com.example.gaechuck.api.AuthManager
 import com.example.gaechuck.databinding.ActivityLoseWriteBinding
 import com.example.gaechuck.repository.LoseRepository
 import com.example.gaechuck.ui.lose.viewmodel.LoseViewModel
+import com.example.gaechuck.ui.util.ImageDialogFragment
 import com.example.gaechuck.ui.util.WriteDialogFragment
 import kotlinx.coroutines.launch
 import java.util.Calendar
@@ -205,6 +206,11 @@ class LoseWriteActivity : AppCompatActivity() {
 
             // 이미지 설정
             imageView.setImageURI(uri)
+
+            imageView.setOnClickListener {
+                val dialog = ImageDialogFragment.newInstance(uri.toString())
+                dialog.show(supportFragmentManager, "ImageDialog")
+            }
 
             // 삭제 버튼 클릭 시 리스트에서 제거 후 UI 업데이트
             deleteBtn.setOnClickListener {

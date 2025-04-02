@@ -1,5 +1,6 @@
 package com.example.gaechuck.ui.rent
 
+import android.app.ActivityOptions
 import android.content.Intent
 import android.graphics.Rect
 import android.net.Uri
@@ -23,6 +24,7 @@ import com.example.gaechuck.api.AuthManager
 import com.example.gaechuck.databinding.ActivityRentWriteBinding
 import com.example.gaechuck.repository.RentRepository
 import com.example.gaechuck.ui.rent.viewmodel.RentViewModel
+import com.example.gaechuck.ui.util.ImageDialogFragment
 import com.example.gaechuck.ui.util.WriteDialogFragment
 import kotlinx.coroutines.launch
 
@@ -162,6 +164,11 @@ class RentWriteActivity : AppCompatActivity(R.layout.activity_rent_write) {
 
             // 이미지 설정
             imageView.setImageURI(uri)
+
+            imageView.setOnClickListener {
+                val dialog = ImageDialogFragment.newInstance(uri.toString())
+                dialog.show(supportFragmentManager, "ImageDialog")
+            }
 
             // 삭제 버튼 클릭 시 리스트에서 제거 후 UI 업데이트
             deleteBtn.setOnClickListener {
