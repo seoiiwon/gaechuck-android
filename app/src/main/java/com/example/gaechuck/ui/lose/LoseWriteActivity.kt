@@ -1,5 +1,6 @@
 package com.example.gaechuck.ui.lose
 
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.graphics.Rect
 import android.net.Uri
@@ -25,7 +26,11 @@ import com.example.gaechuck.api.AuthManager
 import com.example.gaechuck.databinding.ActivityLoseWriteBinding
 import com.example.gaechuck.repository.LoseRepository
 import com.example.gaechuck.ui.lose.viewmodel.LoseViewModel
+import com.example.gaechuck.ui.util.ImageDialogFragment
+import com.example.gaechuck.ui.util.WriteDialogFragment
+import com.google.android.material.datepicker.MaterialDatePicker
 import kotlinx.coroutines.launch
+import java.util.Calendar
 
 class LoseWriteActivity : AppCompatActivity() {
 
@@ -36,6 +41,7 @@ class LoseWriteActivity : AppCompatActivity() {
     private lateinit var photoCountTextView: TextView
     private lateinit var photoBtn : View
     private lateinit var viewModel: LoseViewModel
+    private val dialogFragment = WriteDialogFragment(this)
 
 
     // 갤러리에서 여러 개의 이미지를 선택하는 ActivityResult
@@ -86,6 +92,30 @@ class LoseWriteActivity : AppCompatActivity() {
             }
         }
 
+        binding.fieldDate.setOnClickListener {
+            val builder = MaterialDatePicker.Builder.datePicker()
+                .setTitleText("날짜 선택")
+                .setTheme(R.style.DialogTheme) // ✅ 테마 적용
+                .build()
+
+            builder.addOnPositiveButtonClickListener { selection ->
+                val calendar = Calendar.getInstance()
+                calendar.timeInMillis = selection
+
+                val year = calendar.get(Calendar.YEAR)
+                val month = calendar.get(Calendar.MONTH) + 1  // 월은 0부터 시작해서 +1 필요
+                val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+                val monthText = if (month < 10) "0$month" else "$month"
+                val dayText = if (day < 10) "0$day" else "$day"
+
+                binding.fieldDate.text = "$year.$monthText.$dayText"
+            }
+
+            builder.show(supportFragmentManager, "datePicker")
+        }
+
+
         sendButton.setOnClickListener {
             sendLoseData()
         }
@@ -101,58 +131,6 @@ class LoseWriteActivity : AppCompatActivity() {
 
             }
         }
-
-        // 날짜 변환
-        val fieldDate = binding.fieldDate
-
-        fieldDate.addTextChangedListener(object : TextWatcher {
-            private var updating = false
-            private var beforeText: String = "" // 이전 텍스트 저장
-            private var cursorPosition: Int = 0
-
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                beforeText = p0.toString()
-                cursorPosition = p1
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-                if (updating) return
-
-                updating = true
-                var input = p0?.toString() ?: ""
-
-                // 점(.) 제거
-                input = input.replace(".", "")
-
-                // 8자리 초과 입력 방지
-                if (input.length > 8) {
-                    input = input.substring(0, 8)
-                }
-
-                // 날짜 형식 변환
-                var formattedDate = formatRawDate(input)
-
-                // 텍스트가 변경되었으면 setText 호출
-                if (formattedDate != beforeText) {
-                    // setText() 호출 전에 커서 위치 계산
-                    fieldDate.setText(formattedDate)
-
-                    // 커서 위치 계산
-                    val newPosition = if (cursorPosition < formattedDate.length) {
-                        formattedDate.length
-                    } else {
-                        cursorPosition
-                    }
-                    fieldDate.setSelection(newPosition)
-                }
-
-                updating = false
-            }
-        })
-
 
     }
 
@@ -185,8 +163,7 @@ class LoseWriteActivity : AppCompatActivity() {
         val lostLocation = binding.fieldLocation.text.toString()
 
         if (title.isBlank() || lostDate.isBlank() || description.isBlank() || lostLocation.isBlank()) {
-            Log.e("sendBusinessData", "입력값이 부족합니다.")
-            Toast.makeText(this, "모든 값을 입력해주세요.", Toast.LENGTH_SHORT).show()
+            dialogFragment.show()
             return
         }
 
@@ -194,7 +171,7 @@ class LoseWriteActivity : AppCompatActivity() {
 
         val imageUris = viewModel.selectedImages.value
         if (imageUris.isEmpty()) {
-            Log.e("sendLoseData", "이미지가 없습니다.")
+            dialogFragment.show()
             return
         }
 
@@ -230,6 +207,11 @@ class LoseWriteActivity : AppCompatActivity() {
 
             // 이미지 설정
             imageView.setImageURI(uri)
+
+            imageView.setOnClickListener {
+                val dialog = ImageDialogFragment.newInstance(uri.toString())
+                dialog.show(supportFragmentManager, "ImageDialog")
+            }
 
             // 삭제 버튼 클릭 시 리스트에서 제거 후 UI 업데이트
             deleteBtn.setOnClickListener {

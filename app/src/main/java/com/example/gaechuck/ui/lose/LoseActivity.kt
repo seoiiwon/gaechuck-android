@@ -21,6 +21,7 @@ import com.example.gaechuck.R
 import com.example.gaechuck.repository.LoseRepository
 import com.example.gaechuck.ui.lose.viewmodel.LoseViewModel
 import com.example.gaechuck.ui.rent.RentEditActivity
+import com.example.gaechuck.ui.util.DeleteDialogFragment
 
 class LoseActivity : AppCompatActivity(R.layout.activity_lose) {
 
@@ -143,34 +144,12 @@ class LoseActivity : AppCompatActivity(R.layout.activity_lose) {
 
     private fun showDeleteConfirmationDialog() {
         val loseItemId = getLostItemId()
-        Log.d("LoseActivity", "Current lostItemId: $loseItemId")
 
-        val dialogView = layoutInflater.inflate(R.layout.alert_detail_popup, null)
-
-        // 커스텀 다이얼로그 생성
-        val dialog = AlertDialog.Builder(this)
-            .setTitle("삭제 확인")
-            .setMessage("정말 삭제하시겠습니까?")
-            .setView(dialogView) // 커스텀 레이아웃 설정
-            .create()
-
-
-        // 버튼 동작 설정
-        val positiveButton = dialogView.findViewById<Button>(R.id.dialog_yes_btn)
-        val negativeButton = dialogView.findViewById<Button>(R.id.dialog_no_btn)
-
-        positiveButton.setOnClickListener {
-            // 확인 버튼 클릭 시 삭제 처리 후 LoseMainFragment로 이동
-            deleteLoseItem(loseItemId)
-            dialog.dismiss()
+        val deleteDialog = DeleteDialogFragment(this) {
+            deleteLoseItem(loseItemId) // 삭제 로직 실행
         }
 
-        negativeButton.setOnClickListener {
-            dialog.dismiss()
-        }
-
-        dialog.window?.setBackgroundDrawableResource(R.drawable.custom_popup_background)
-        dialog.show()
+        deleteDialog.show()
     }
 
     private fun deleteLoseItem(loseItemId: Int) {

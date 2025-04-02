@@ -54,9 +54,11 @@
             android:layout_marginRight="10dp"
             android:layout_marginBottom="8dp"
             android:background="@drawable/spinner_background"
-            android:popupBackground="@drawable/custom_popup_background"
+            android:popupBackground="@drawable/style_popup"
             android:gravity="center"
             android:popupElevation="1dp"
+            android:spinnerMode="dropdown"
+            android:overlapAnchor="false"
             />
 
         <TextView

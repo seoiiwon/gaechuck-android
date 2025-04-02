@@ -1,5 +1,6 @@
 package com.example.gaechuck.ui.business
 
+import android.app.ActivityOptions
 import android.content.Intent
 import android.graphics.Rect
 import android.net.Uri
@@ -23,6 +24,8 @@ import com.example.gaechuck.databinding.ActivityBusinessWriteBinding
 import com.example.gaechuck.repository.BusinessRepository
 import com.example.gaechuck.ui.business.viewmodel.BusinessViewModel
 import com.example.gaechuck.ui.lose.LoseActivity
+import com.example.gaechuck.ui.util.ImageDialogFragment
+import com.example.gaechuck.ui.util.WriteDialogFragment
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import kotlinx.coroutines.launch
@@ -36,7 +39,7 @@ class BusinessEditActivity : AppCompatActivity(R.layout.activity_business_write)
     private lateinit var photoBtn: View
     private lateinit var viewModel: BusinessViewModel
     private lateinit var chipGroup : ChipGroup
-
+    private val dialogFragment = WriteDialogFragment(this)
 
 
     // 갤러리에서 여러 개의 이미지를 선택하는 ActivityResult
@@ -162,7 +165,7 @@ class BusinessEditActivity : AppCompatActivity(R.layout.activity_business_write)
         val category = selectedCategoryChip?.text.toString()
 
         if (coalitionName.isBlank() || benefit.isBlank() || category.isBlank()) {
-            Toast.makeText(this, "모든 값을 입력하세요.", Toast.LENGTH_SHORT).show()
+            dialogFragment.show()
             return
         }
 
@@ -170,7 +173,7 @@ class BusinessEditActivity : AppCompatActivity(R.layout.activity_business_write)
 
         val imageUris = viewModel.selectedImages.value ?: emptyList()
         if (imageUris.isEmpty()) {
-            Log.e("sendBusinessData", "이미지가 없습니다.")
+            dialogFragment.show()
             return
         }
 
@@ -203,6 +206,11 @@ class BusinessEditActivity : AppCompatActivity(R.layout.activity_business_write)
             Glide.with(this)
                 .load(uri.toString())  // 원격 이미지 URL
                 .into(imageView)  // 이미지 뷰에 로드된 이미지 설정
+
+            imageView.setOnClickListener{
+                val dialog = ImageDialogFragment.newInstance(uri.toString())
+                dialog.show(supportFragmentManager, "ImageDialog")
+            }
 
             // 삭제 버튼 클릭 시 리스트에서 제거 후 UI 업데이트
             deleteBtn.setOnClickListener {

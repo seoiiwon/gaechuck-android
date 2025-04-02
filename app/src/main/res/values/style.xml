@@ -40,4 +40,34 @@
         <item name="cornerSize">50%</item>
     </style>
 
+    <style name="CustomDatePickerDialog" parent="Theme.MaterialComponents.Light.Dialog.Alert">
+        <item name="colorPrimary">@color/gnu_blue</item>
+        <item name="colorAccent">@color/gnu_lightBlue</item>
+        <item name="android:datePickerDialogTheme">@style/CustomDatePickerTheme</item>
+    </style>
+
+    <style name="CustomDatePickerTheme" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
+        <item name="colorPrimary">@color/gnu_blue</item>
+        <item name="colorAccent">@color/gnu_lightBlue</item>
+        <item name="android:textColorPrimary">@color/gnu_blue</item>
+        <item name="android:textColorSecondary">@color/gnu_lightBlue</item>
+    </style>
+
+    <style name="DialogTheme" parent="ThemeOverlay.App.Dialog">
+        <item name="colorAccent">@color/gnu_blue</item>
+    </style>
+
+    <style name="ThemeOverlay.App.Dialog" parent="@style/ThemeOverlay.MaterialComponents.Dialog">
+        <item name="colorSecondary">@color/gnu_lightBlue</item>
+        <item name="colorPrimary">@color/gnu_blue</item>
+    </style>
+
+    <style name="ThemeOverlay.AppCompat.Dialog" parent="@style/Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/gnu_blue</item>
+        <item name="android:buttonBarPositiveButtonStyle">@style/DialogButtonStyled</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/DialogButtonStyled</item>
+    </style>
+    <style name="DialogButtonStyled" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:textColor">@color/gnu_blue</item> <!-- button text color -->
+    </style>
 </resources>

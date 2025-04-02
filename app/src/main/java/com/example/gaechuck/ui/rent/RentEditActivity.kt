@@ -22,6 +22,8 @@ import com.example.gaechuck.api.AuthManager
 import com.example.gaechuck.databinding.ActivityRentWriteBinding
 import com.example.gaechuck.repository.RentRepository
 import com.example.gaechuck.ui.rent.viewmodel.RentViewModel
+import com.example.gaechuck.ui.util.ImageDialogFragment
+import com.example.gaechuck.ui.util.WriteDialogFragment
 import kotlinx.coroutines.launch
 
 class RentEditActivity : AppCompatActivity(R.layout.activity_rent_write) {
@@ -33,6 +35,8 @@ class RentEditActivity : AppCompatActivity(R.layout.activity_rent_write) {
     private lateinit var binding: ActivityRentWriteBinding
     private lateinit var photoBtn : View
     private lateinit var viewModel: RentViewModel
+    private val dialogFragment = WriteDialogFragment(this)
+
 
 
     // 갤러리에서 여러 개의 이미지를 선택하는 ActivityResult
@@ -139,16 +143,13 @@ class RentEditActivity : AppCompatActivity(R.layout.activity_rent_write) {
         val rentItemCount = binding.fieldCount.text.toString()
 
         if (rentItemName.isBlank() || rentItemCount.isBlank()) {
-            Log.e("sendBusinessData", "입력값이 부족합니다.")
+            dialogFragment.show()
             return
         }
 
-        Log.d("RentEditActivity", "전송할 데이터: name=$rentItemName, count=$rentItemCount")
-
         val imageUris = viewModel.selectedImages.value
-        Log.d("RentEditActivity", "전송이미지 ${imageUris}")
         if (imageUris.isEmpty()) {
-            Log.e("sendRentData", "이미지가 없습니다.")
+            dialogFragment.show()
             return
         }
 
@@ -172,6 +173,11 @@ class RentEditActivity : AppCompatActivity(R.layout.activity_rent_write) {
             Glide.with(this)
                 .load(uri.toString())  // 원격 이미지 URL
                 .into(imageView)  // 이미지 뷰에 로드된 이미지 설정
+
+            imageView.setOnClickListener {
+                val dialog = ImageDialogFragment.newInstance(uri.toString())
+                dialog.show(supportFragmentManager, "ImageDialog")
+            }
 
             // 삭제 버튼 클릭 시 리스트에서 제거 후 UI 업데이트
             deleteBtn.setOnClickListener {
