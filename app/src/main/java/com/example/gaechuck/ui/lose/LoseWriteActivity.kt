@@ -1,5 +1,6 @@
 package com.example.gaechuck.ui.lose
 
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.graphics.Rect
 import android.net.Uri
@@ -27,6 +28,7 @@ import com.example.gaechuck.repository.LoseRepository
 import com.example.gaechuck.ui.lose.viewmodel.LoseViewModel
 import com.example.gaechuck.ui.util.WriteDialogFragment
 import kotlinx.coroutines.launch
+import java.util.Calendar
 
 class LoseWriteActivity : AppCompatActivity() {
 
@@ -88,6 +90,30 @@ class LoseWriteActivity : AppCompatActivity() {
             }
         }
 
+        binding.fieldDate.setOnClickListener {
+
+            val cal = Calendar.getInstance()
+
+            val data = DatePickerDialog.OnDateSetListener { view, year, month, day ->
+                var monthText : String = ""
+                var dayText : String = ""
+
+                monthText = if(month < 10) {
+                    "0${month}"
+                } else {
+                    "$month"
+                }
+                dayText = if(day < 10) {
+                    "0${day}"
+                } else {
+                    "$day"
+                }
+                binding.fieldDate.text = "${year}.${monthText}.${dayText}"
+            }
+
+            DatePickerDialog(this, data, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)).show()
+        }
+
         sendButton.setOnClickListener {
             sendLoseData()
         }
@@ -103,58 +129,6 @@ class LoseWriteActivity : AppCompatActivity() {
 
             }
         }
-
-        // 날짜 변환
-        val fieldDate = binding.fieldDate
-
-        fieldDate.addTextChangedListener(object : TextWatcher {
-            private var updating = false
-            private var beforeText: String = "" // 이전 텍스트 저장
-            private var cursorPosition: Int = 0
-
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                beforeText = p0.toString()
-                cursorPosition = p1
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-                if (updating) return
-
-                updating = true
-                var input = p0?.toString() ?: ""
-
-                // 점(.) 제거
-                input = input.replace(".", "")
-
-                // 8자리 초과 입력 방지
-                if (input.length > 8) {
-                    input = input.substring(0, 8)
-                }
-
-                // 날짜 형식 변환
-                var formattedDate = formatRawDate(input)
-
-                // 텍스트가 변경되었으면 setText 호출
-                if (formattedDate != beforeText) {
-                    // setText() 호출 전에 커서 위치 계산
-                    fieldDate.setText(formattedDate)
-
-                    // 커서 위치 계산
-                    val newPosition = if (cursorPosition < formattedDate.length) {
-                        formattedDate.length
-                    } else {
-                        cursorPosition
-                    }
-                    fieldDate.setSelection(newPosition)
-                }
-
-                updating = false
-            }
-        })
-
 
     }
 

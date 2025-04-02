@@ -1,5 +1,6 @@
 package com.example.gaechuck.ui.lose
 
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.graphics.Rect
 import android.net.Uri
@@ -24,6 +25,7 @@ import com.example.gaechuck.repository.LoseRepository
 import com.example.gaechuck.ui.lose.viewmodel.LoseViewModel
 import com.example.gaechuck.ui.util.WriteDialogFragment
 import kotlinx.coroutines.launch
+import java.util.Calendar
 
 class LoseEditActivity : AppCompatActivity(R.layout.activity_lose_write) {
 
@@ -102,6 +104,42 @@ class LoseEditActivity : AppCompatActivity(R.layout.activity_lose_write) {
         //photoBtn 클릭 > 포토피커 열기
         photoBtn.setOnClickListener {
             getContent.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+        }
+
+        binding.fieldDate.setOnClickListener {
+
+            val cal = Calendar.getInstance()
+
+            // 기존 lostDate 값이 있을 경우 캘린더에 설정
+            if (lostDate.isNotBlank()) {
+                val parts = lostDate.split(".") // "yyyy.MM.dd" 형식 가정
+                if (parts.size == 3) {
+                    val year = parts[0].toInt()
+                    val month = parts[1].toInt() - 1 // Calendar.MONTH는 0부터 시작
+                    val day = parts[2].toInt()
+                    cal.set(year, month, day)
+                }
+            }
+
+            val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
+                var monthText : String = ""
+                var dayText : String = ""
+
+                monthText = if(month < 10) {
+                    "0${month}"
+                } else {
+                    "$month"
+                }
+                dayText = if(day < 10) {
+                    "0${day}"
+                } else {
+                    "$day"
+                }
+                binding.fieldDate.text = "${year}.${monthText}.${dayText}"
+            }
+
+            DatePickerDialog(this, dateSetListener, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(
+                Calendar.DAY_OF_MONTH)).show()
         }
 
         sendButton.setOnClickListener {

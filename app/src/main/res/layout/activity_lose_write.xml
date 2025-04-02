@@ -148,17 +148,30 @@
             android:fontFamily="@font/noto_sans_kr_bold"
             android:textSize="16sp"
             />
-        <EditText
+<!--        <EditText-->
+<!--            android:id="@+id/field_date"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:hint="날짜를 입력하세요. (ex.20250206)"-->
+<!--            app:layout_constraintBottom_toBottomOf="@id/guideline1"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            android:textSize="14dp"-->
+<!--            android:fontFamily="@font/noto_sans_kr_semibold"-->
+<!--            android:background="@color/transparent"-->
+<!--            android:inputType="number"-->
+<!--            android:textColor="@color/info_grey"-->
+<!--            />-->
+        <TextView
             android:id="@+id/field_date"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="날짜를 입력하세요. (ex.20250206)"
+            android:hint="분실 날짜를 선택하세요."
             app:layout_constraintBottom_toBottomOf="@id/guideline1"
             app:layout_constraintStart_toStartOf="parent"
             android:textSize="14dp"
             android:fontFamily="@font/noto_sans_kr_semibold"
             android:background="@color/transparent"
-            android:inputType="number"
+            android:inputType="date"
             android:textColor="@color/info_grey"
             />
     </LinearLayout>
