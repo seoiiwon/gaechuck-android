@@ -34,9 +34,11 @@
             android:id="@+id/textView_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/noto_sans_kr_bold"
-            android:textSize="20sp"
             android:layout_gravity="center"
+            android:fontFamily="@font/pretendard_bold"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/button_back" />
 
         <ImageView

@@ -23,7 +23,8 @@
             android:layout_height="wrap_content"
             android:text="@string/login_fail_text"
             android:textSize="20sp"
-            android:fontFamily="@font/noto_sans_kr_bold"
+            android:fontFamily="@font/pretendard_bold"
+            android:layout_marginBottom="12dp"
             />
 
         <TextView
@@ -33,6 +34,7 @@
             app:layout_constraintTop_toBottomOf="@id/login_title"
             android:textSize="12sp"
             android:textColor="@color/info_grey"
+            android:fontFamily="@font/pretendard_regular"
             />
     </LinearLayout>
 
@@ -51,6 +53,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/login_label"
         android:layout_marginTop="100dp"
+        android:fontFamily="@font/pretendard_semibold"
         />
 
     <androidx.constraintlayout.widget.Guideline

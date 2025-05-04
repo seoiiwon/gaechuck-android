@@ -10,15 +10,35 @@
     android:gravity="center"
     >
 
-    <TextView
-        android:id="@+id/dialog_title_tv"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textSize="20sp"
-        android:fontFamily="@font/noto_sans_kr_bold"
-        android:textColor="@color/black"
-        tools:text="타이틀"/>
+        android:orientation="vertical"
+        android:layout_marginBottom="28dp"
+
+        >
+        <TextView
+            android:id="@+id/dialog_title_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:fontFamily="@font/pretendard_bold"
+            android:textColor="@color/black"
+            tools:text="타이틀"
+            />
+        <TextView
+            android:id="@+id/dialog_content_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:fontFamily="@font/pretendard_medium"
+            android:textColor="@color/black"
+            tools:text="서브타이틀"
+            android:visibility="gone"
+            />
+    </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/dialog_yes_btn"
@@ -26,12 +46,11 @@
         android:layout_height="40dp"
         android:text="확인버튼"
         android:textSize="12sp"
-        android:fontFamily="@font/noto_sans_kr_semibold"
+        android:fontFamily="@font/pretendard_semibold"
         android:textColor="@color/white"
         android:shadowColor="@color/transparent"
         android:background="@drawable/style_btn"
         android:layout_marginBottom="8dp"
-        android:layout_marginTop="12dp"
         android:outlineAmbientShadowColor="@color/transparent"
         android:outlineSpotShadowColor="@color/transparent"
         />

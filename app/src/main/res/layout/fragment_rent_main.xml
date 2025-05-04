@@ -18,6 +18,7 @@
         android:textSize="12sp"
         android:textColor="@color/info_grey"
         android:paddingTop="16dp"
+        android:fontFamily="@font/pretendard_regular"
         />
 
     <LinearLayout
@@ -42,6 +43,7 @@
             android:textSize="12sp"
             android:padding="8dp"
             android:inputType="text"
+            android:imeOptions="actionSearch"
             />
 
         <ImageView

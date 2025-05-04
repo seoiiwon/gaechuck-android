@@ -43,7 +43,8 @@
             android:layout_marginBottom="4dp"
             android:text="나이키 신발"
             android:textSize="12sp"
-            android:textStyle="bold" />
+            android:fontFamily="@font/pretendard_semibold"
+            />
 
         <TextView
             android:id="@+id/lose_date"
@@ -51,7 +52,8 @@
             android:layout_height="wrap_content"
             android:text="2024.11.11"
             android:textSize="10sp"
-            android:textStyle="bold" />
+            android:fontFamily="@font/pretendard_medium"
+            />
     </LinearLayout>
 
 

@@ -21,9 +21,11 @@
             android:id="@+id/login_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/noto_sans_kr_bold"
+            android:fontFamily="@font/pretendard_bold"
             android:text="@string/login_complete_text"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:layout_marginBottom="12dp"
+            />
 
         <TextView
             android:layout_width="wrap_content"
@@ -31,7 +33,9 @@
             android:text="@string/login_complete_info"
             android:textColor="@color/info_grey"
             android:textSize="12sp"
-            app:layout_constraintTop_toBottomOf="@id/login_title" />
+            app:layout_constraintTop_toBottomOf="@id/login_title"
+            android:fontFamily="@font/pretendard_regular"
+            />
     </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatButton
@@ -48,7 +52,9 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/login_label" />
+        app:layout_constraintTop_toBottomOf="@id/login_label"
+        android:fontFamily="@font/pretendard_semibold"
+        />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
