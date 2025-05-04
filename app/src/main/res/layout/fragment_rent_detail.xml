@@ -132,7 +132,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginBottom="100dp"
-        android:paddingHorizontal="40dp"
+        android:paddingHorizontal="58dp"
         android:text="물품 대여 문의하기"
         android:textColor="@color/white"
         android:textSize="16sp"
