@@ -48,13 +48,9 @@
 
     <style name="CustomDatePickerTheme" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
         <item name="colorPrimary">@color/gnu_blue</item>
-        <item name="colorAccent">@color/gnu_lightBlue</item>
-        <item name="android:textColorPrimary">@color/gnu_blue</item>
-        <item name="android:textColorSecondary">@color/gnu_lightBlue</item>
-    </style>
-
-    <style name="DialogTheme" parent="ThemeOverlay.App.Dialog">
         <item name="colorAccent">@color/gnu_blue</item>
+        <item name="android:textColorPrimary">@color/gnu_blue</item>
+        <item name="android:textColorSecondary">@color/white</item>
     </style>
 
     <style name="ThemeOverlay.App.Dialog" parent="@style/ThemeOverlay.MaterialComponents.Dialog">

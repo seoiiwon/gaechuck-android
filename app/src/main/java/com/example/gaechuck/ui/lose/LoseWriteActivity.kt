@@ -95,7 +95,7 @@ class LoseWriteActivity : AppCompatActivity() {
         binding.fieldDate.setOnClickListener {
             val builder = MaterialDatePicker.Builder.datePicker()
                 .setTitleText("날짜 선택")
-                .setTheme(R.style.DialogTheme) // ✅ 테마 적용
+                .setTheme(R.style.CustomDatePickerTheme) // ✅ 테마 적용
                 .build()
 
             builder.addOnPositiveButtonClickListener { selection ->
