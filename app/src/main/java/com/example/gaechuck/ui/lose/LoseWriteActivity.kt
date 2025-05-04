@@ -14,6 +14,8 @@ import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -25,6 +27,7 @@ import com.example.gaechuck.repository.LoseRepository
 import com.example.gaechuck.ui.lose.viewmodel.LoseViewModel
 import com.example.gaechuck.ui.util.ImageDialogFragment
 import com.example.gaechuck.ui.util.WriteDialogFragment
+import com.google.android.material.chip.Chip
 import com.google.android.material.datepicker.MaterialDatePicker
 import kotlinx.coroutines.launch
 import java.util.Calendar
@@ -39,6 +42,7 @@ class LoseWriteActivity : AppCompatActivity() {
     private lateinit var photoBtn : View
     private lateinit var viewModel: LoseViewModel
     private val dialogFragment = WriteDialogFragment(this)
+    private var isSending = false
 
 
     // 갤러리에서 여러 개의 이미지를 선택하는 ActivityResult
@@ -50,6 +54,16 @@ class LoseWriteActivity : AppCompatActivity() {
         }
     }
 
+    private fun updateSendButtonColor() {
+        val titleFilled = binding.fieldTitle.text.toString().isNotBlank()
+        val infoFilled = binding.fieldInfo.text.toString().isNotBlank()
+        val locationFilled = binding.fieldLocation.text.toString().isNotBlank()
+
+        val isReady = titleFilled && infoFilled && locationFilled
+        val colorRes = if (isReady) R.color.gnu_blue else R.color.gnu_grey
+
+        sendButton.setTextColor(ContextCompat.getColor(this, colorRes))
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -112,12 +126,26 @@ class LoseWriteActivity : AppCompatActivity() {
             builder.show(supportFragmentManager, "datePicker")
         }
 
+        binding.fieldTitle.addTextChangedListener { updateSendButtonColor() }
+        binding.fieldInfo.addTextChangedListener { updateSendButtonColor() }
+        binding.fieldLocation.addTextChangedListener { updateSendButtonColor() }
 
         sendButton.setOnClickListener {
-            sendLoseData()
+            if (isSending) return@setOnClickListener // 중복 방지
+            // 유효성 검사를 통과한 경우에만 전송 시작
+            if (validateForm()) {
+                isSending = true
+                sendButton.isEnabled = false
+                sendButton.setTextColor(ContextCompat.getColor(this, R.color.gnu_grey))
+                sendLoseData()
+            }
         }
 
         viewModel.postResult.observe(this) { result ->
+            isSending = false
+            sendButton.isEnabled = true
+            updateSendButtonColor() // 원래 색상으로 복구
+
             result.onSuccess {
                 Log.d("LoseWriteActivity", "전송 성공: ${it.message}")
                 Toast.makeText(this, "작성 완료", Toast.LENGTH_SHORT).show()
@@ -229,5 +257,19 @@ class LoseWriteActivity : AppCompatActivity() {
 
     }
 
+    private fun validateForm(): Boolean {
+        val title = binding.fieldTitle.text.toString()
+        val location = binding.fieldLocation.text.toString()
+        val lostDate = binding.fieldDate.text.toString()
+        val description = binding.fieldInfo.text.toString()
+        val imageUris = viewModel.selectedImages.value ?: emptyList()
+
+        return if (title.isBlank() || location.isBlank() || lostDate.isBlank() || description.isBlank() || imageUris.isEmpty()) {
+            dialogFragment.show()
+            false
+        } else {
+            true
+        }
+    }
 
 }

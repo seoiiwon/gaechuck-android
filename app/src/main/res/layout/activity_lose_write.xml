@@ -207,21 +207,21 @@
             android:textSize="16sp"
             android:layout_marginVertical="8dp"
             />
+
         <EditText
             android:id="@+id/field_info"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="내용을 입력하세요"
-            app:layout_constraintBottom_toBottomOf="@id/guideline1"
-            app:layout_constraintStart_toStartOf="parent"
-            android:textSize="14dp"
-            android:fontFamily="@font/pretendard_light"
             android:background="@color/transparent"
+            android:fontFamily="@font/pretendard_light"
+            android:hint="내용을 입력하세요"
             android:inputType="textMultiLine"
             android:maxLines="5"
             android:textColor="@color/black"
             android:textColorHint="@color/default_tab_color"
-            />
+            android:textSize="14dp"
+            app:layout_constraintBottom_toBottomOf="@id/guideline1"
+            app:layout_constraintStart_toStartOf="parent" />
     </LinearLayout>
 
     <androidx.constraintlayout.widget.Guideline
