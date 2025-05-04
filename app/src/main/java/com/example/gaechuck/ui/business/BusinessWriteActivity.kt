@@ -9,13 +9,11 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -25,7 +23,6 @@ import com.example.gaechuck.api.AuthManager
 import com.example.gaechuck.databinding.ActivityBusinessWriteBinding
 import com.example.gaechuck.repository.BusinessRepository
 import com.example.gaechuck.ui.business.viewmodel.BusinessViewModel
-import com.example.gaechuck.ui.util.DialogFragment
 import com.example.gaechuck.ui.util.ImageDialogFragment
 import com.example.gaechuck.ui.util.WriteDialogFragment
 import com.google.android.material.chip.Chip

@@ -1,6 +1,5 @@
 package com.example.gaechuck.ui.rent
 
-import android.app.ActivityOptions
 import android.content.Intent
 import android.graphics.Rect
 import android.net.Uri

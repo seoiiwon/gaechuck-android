@@ -1,6 +1,5 @@
 package com.example.gaechuck.ui.business
 
-import android.app.ActivityOptions
 import android.content.Intent
 import android.graphics.Rect
 import android.net.Uri
@@ -23,7 +22,6 @@ import com.example.gaechuck.api.AuthManager
 import com.example.gaechuck.databinding.ActivityBusinessWriteBinding
 import com.example.gaechuck.repository.BusinessRepository
 import com.example.gaechuck.ui.business.viewmodel.BusinessViewModel
-import com.example.gaechuck.ui.lose.LoseActivity
 import com.example.gaechuck.ui.util.ImageDialogFragment
 import com.example.gaechuck.ui.util.WriteDialogFragment
 import com.google.android.material.chip.Chip

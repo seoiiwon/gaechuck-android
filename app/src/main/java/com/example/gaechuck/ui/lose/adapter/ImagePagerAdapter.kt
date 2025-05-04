@@ -3,11 +3,15 @@ package com.example.gaechuck.ui.lose.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.gaechuck.R
+import com.example.gaechuck.ui.util.ZoomImageDialogFragment
 
-class ImagePagerAdapter(private val images: List<String>) : RecyclerView.Adapter<ImagePagerAdapter.ImageViewHolder>() {
+class ImagePagerAdapter(
+    private val fragment: Fragment,
+    private val images: List<String>) : RecyclerView.Adapter<ImagePagerAdapter.ImageViewHolder>() {
 
     inner class ImageViewHolder(private val imageView: ImageView) : RecyclerView.ViewHolder(imageView) {
         fun bind(imageUrl: String) {
@@ -16,6 +20,11 @@ class ImagePagerAdapter(private val images: List<String>) : RecyclerView.Adapter
 //                .placeholder(R.drawable.placeholder)  // 로딩 중일 때 보여줄 기본 이미지
 //                .error(R.drawable.error_image)  // 에러 발생 시 보여줄 이미지
                 .into(imageView)
+
+            imageView.setOnClickListener {
+                val dialog = ZoomImageDialogFragment(imageUrl)
+                dialog.show(fragment.parentFragmentManager, "image_dialog")
+            }
         }
     }
 

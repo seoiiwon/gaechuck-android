@@ -21,6 +21,14 @@ class ImageDialogFragment : DialogFragment() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        dialog?.window?.setLayout(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -33,7 +41,7 @@ class ImageDialogFragment : DialogFragment() {
         if(!imageUri.isNullOrEmpty()){
             if (imageUri.startsWith("http") || imageUri.startsWith("https")) {
                 // 🌐 네트워크 이미지 로드 (Glide 사용)
-                Glide.with(this)
+                Glide.with(requireContext())
                     .load(imageUri)
                     .into(imageView)
             } else {

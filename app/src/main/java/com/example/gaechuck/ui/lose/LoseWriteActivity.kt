@@ -1,12 +1,9 @@
 package com.example.gaechuck.ui.lose
 
-import android.app.DatePickerDialog
 import android.content.Intent
 import android.graphics.Rect
 import android.net.Uri
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
