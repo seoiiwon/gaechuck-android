@@ -80,6 +80,7 @@ class RentWriteActivity : AppCompatActivity(R.layout.activity_rent_write) {
         toolbar = findViewById(R.id.toolbar_main)
         backButton = toolbar.findViewById(R.id.button_back)
         sendButton = toolbar.findViewById(R.id.form_send)
+        binding.textViewTitle.text = "대여 글 작성하기"
 
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)

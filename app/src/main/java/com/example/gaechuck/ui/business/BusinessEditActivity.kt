@@ -62,6 +62,8 @@ class BusinessEditActivity : AppCompatActivity(R.layout.activity_business_write)
         val viewModelFactory = BusinessViewModel.BusinessViewModelFactory(repository)
         viewModel = ViewModelProvider(this, viewModelFactory).get(BusinessViewModel::class.java)
 
+        binding.textViewTitle.text = "제휴 글 수정하기"
+
         // photo_count TextView 찾기
         photoBtn = binding.photoAddBtn.root
 

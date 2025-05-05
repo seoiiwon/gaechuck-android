@@ -69,6 +69,7 @@ class RentEditActivity : AppCompatActivity(R.layout.activity_rent_write) {
         toolbar = findViewById(R.id.toolbar_main)
         backButton = toolbar.findViewById(R.id.button_back)
         sendButton = toolbar.findViewById(R.id.form_send)
+        binding.textViewTitle.text = "대여 글 수정하기"
 
         // RentActivity에서 전달된 데이터 받기
         val rentItemId = intent.getIntExtra("rentItemId", -1)

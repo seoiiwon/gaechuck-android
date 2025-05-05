@@ -71,6 +71,8 @@ class LoseEditActivity : AppCompatActivity(R.layout.activity_lose_write) {
         toolbar = findViewById(R.id.toolbar_main)
         backButton = toolbar.findViewById(R.id.button_back)
         sendButton = toolbar.findViewById(R.id.form_send)
+        binding.textViewTitle.text = "분실물 글 수정하기"
+
 
         // LoseActivity에 전달된 데이터 받기
         val loseItemId = intent.getIntExtra("lostItemId", -1)
