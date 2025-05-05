@@ -15,6 +15,7 @@ import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
@@ -38,6 +39,7 @@ class LoseEditActivity : AppCompatActivity(R.layout.activity_lose_write) {
     private lateinit var photoBtn: View
     private lateinit var viewModel: LoseViewModel
     private val dialogFragment = WriteDialogFragment(this)
+    private var isSending = false
 
 
     // 갤러리에서 여러 개의 이미지를 선택하는 ActivityResult
@@ -143,11 +145,25 @@ class LoseEditActivity : AppCompatActivity(R.layout.activity_lose_write) {
                 Calendar.DAY_OF_MONTH)).show()
         }
 
+        sendButton.setTextColor(ContextCompat.getColor(this, R.color.gnu_blue))
+
         sendButton.setOnClickListener {
-            patchRentData(loseItemId)
+            if (isSending) return@setOnClickListener // 중복 방지
+            // 유효성 검사를 통과한 경우에만 전송 시작
+            if (validateForm()) {
+                isSending = true
+                sendButton.isEnabled = false
+                sendButton.setTextColor(ContextCompat.getColor(this, R.color.gnu_grey))
+                patchRentData(loseItemId)
+            }
+
         }
 
         viewModel.patchResult.observe(this) { result ->
+            isSending = false
+            sendButton.isEnabled = true
+            sendButton.setTextColor(ContextCompat.getColor(this, R.color.gnu_grey))
+
             result.onSuccess {
                 Log.d("LoseEditActivity", "전송 성공: ${it.message}")
                 Toast.makeText(this, "수정 완료", Toast.LENGTH_SHORT).show()
@@ -256,5 +272,20 @@ class LoseEditActivity : AppCompatActivity(R.layout.activity_lose_write) {
             getContent.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }
 
+    }
+
+    private fun validateForm(): Boolean {
+        val title = binding.fieldTitle.text.toString()
+        val location = binding.fieldLocation.text.toString()
+        val lostDate = binding.fieldDate.text.toString()
+        val description = binding.fieldInfo.text.toString()
+        val imageUris = viewModel.selectedImages.value ?: emptyList()
+
+        return if (title.isBlank() || location.isBlank() || lostDate.isBlank() || description.isBlank() || imageUris.isEmpty()) {
+            dialogFragment.show()
+            false
+        } else {
+            true
+        }
     }
 }
