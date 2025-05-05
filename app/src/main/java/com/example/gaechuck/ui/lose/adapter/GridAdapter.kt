@@ -22,7 +22,11 @@ class GridAdapter(
                 .into(binding.loseImage)
 
             // 이름 바인딩
-            binding.loseName.text = item.title
+            binding.loseName.text = if(item.title.length > 10) {
+                item.title.substring(0,10) + "..."
+            } else {
+                item.title
+            }
             // 날짜 바인딩
             val dateOnly = item.lostDate.split(" ")[0]
             binding.loseDate.text = dateOnly // 날짜 바인딩

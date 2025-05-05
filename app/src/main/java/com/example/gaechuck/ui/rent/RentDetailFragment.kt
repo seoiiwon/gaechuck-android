@@ -107,7 +107,7 @@ class RentDetailFragment : Fragment(R.layout.fragment_rent_detail) {
         Log.d("rent", imageList.toString())
 
         // ViewPager2에 이미지 설정 (수정)
-        val adapter = ImagePagerAdapter(imageList)
+        val adapter = ImagePagerAdapter(this, imageList)
         binding.rentImagesViewpager.adapter = adapter
 
         // 페이지 인디케이터 연결

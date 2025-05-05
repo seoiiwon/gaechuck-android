@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
@@ -36,6 +37,7 @@ class RentEditActivity : AppCompatActivity(R.layout.activity_rent_write) {
     private lateinit var photoBtn : View
     private lateinit var viewModel: RentViewModel
     private val dialogFragment = WriteDialogFragment(this)
+    private var isSending = false
 
 
 
@@ -67,6 +69,7 @@ class RentEditActivity : AppCompatActivity(R.layout.activity_rent_write) {
         toolbar = findViewById(R.id.toolbar_main)
         backButton = toolbar.findViewById(R.id.button_back)
         sendButton = toolbar.findViewById(R.id.form_send)
+        binding.textViewTitle.text = "대여 글 수정하기"
 
         // RentActivity에서 전달된 데이터 받기
         val rentItemId = intent.getIntExtra("rentItemId", -1)
@@ -99,12 +102,24 @@ class RentEditActivity : AppCompatActivity(R.layout.activity_rent_write) {
             getContent.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }
 
+        sendButton.setTextColor(ContextCompat.getColor(this, R.color.gnu_blue))
         sendButton.setOnClickListener {
-            patchRentData(rentItemId)
+            if (isSending) return@setOnClickListener // 중복 방지
+            // 유효성 검사를 통과한 경우에만 전송 시작
+            if (validateForm()) {
+                isSending = true
+                sendButton.isEnabled = false
+                sendButton.setTextColor(ContextCompat.getColor(this, R.color.gnu_grey))
+                patchRentData(rentItemId)
+            }
         }
 
         // PatchResult로 바꾸기
         viewModel.patchResult.observe(this) { result ->
+            isSending = false
+            sendButton.isEnabled = true
+            sendButton.setTextColor(ContextCompat.getColor(this, R.color.gnu_grey))
+
             result.onSuccess {
                 Log.d("RentEditActivity", "전송 성공: ${it.message}")
                 Toast.makeText(this, "수정 완료", Toast.LENGTH_SHORT).show()
@@ -196,4 +211,18 @@ class RentEditActivity : AppCompatActivity(R.layout.activity_rent_write) {
         }
 
     }
+
+    private fun validateForm(): Boolean {
+        val title = binding.fieldTitle.text.toString()
+        val count = binding.fieldCount.text.toString()
+        val imageUris = viewModel.selectedImages.value ?: emptyList()
+
+        return if (title.isBlank() || count.isBlank() || imageUris.isEmpty()) {
+            dialogFragment.show()
+            false
+        } else {
+            true
+        }
+    }
+
 }

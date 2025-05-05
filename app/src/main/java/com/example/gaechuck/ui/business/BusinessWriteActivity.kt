@@ -9,13 +9,13 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.NestedScrollView
+import androidx.core.content.ContextCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -25,7 +25,6 @@ import com.example.gaechuck.api.AuthManager
 import com.example.gaechuck.databinding.ActivityBusinessWriteBinding
 import com.example.gaechuck.repository.BusinessRepository
 import com.example.gaechuck.ui.business.viewmodel.BusinessViewModel
-import com.example.gaechuck.ui.util.DialogFragment
 import com.example.gaechuck.ui.util.ImageDialogFragment
 import com.example.gaechuck.ui.util.WriteDialogFragment
 import com.google.android.material.chip.Chip
@@ -42,7 +41,7 @@ class BusinessWriteActivity : AppCompatActivity(R.layout.activity_business_write
     private lateinit var viewModel: BusinessViewModel
     private lateinit var chipGroup : ChipGroup
     private val dialogFragment = WriteDialogFragment(this)
-
+    private var isSending = false
 
 
     // 갤러리에서 여러 개의 이미지를 선택하는 ActivityResult
@@ -54,6 +53,17 @@ class BusinessWriteActivity : AppCompatActivity(R.layout.activity_business_write
             Log.w("getContent", "No URIs selected")
         }
     }
+
+    private fun updateSendButtonColor() {
+        val titleFilled = binding.fieldTitle.text.toString().isNotBlank()
+        val infoFilled = binding.fieldInfo.text.toString().isNotBlank()
+
+        val isReady = titleFilled && infoFilled
+        val colorRes = if (isReady) R.color.gnu_blue else R.color.gnu_grey
+
+        sendButton.setTextColor(ContextCompat.getColor(this, colorRes))
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,6 +79,8 @@ class BusinessWriteActivity : AppCompatActivity(R.layout.activity_business_write
         toolbar = findViewById(R.id.toolbar_main)
         backButton = toolbar.findViewById(R.id.button_back)
         sendButton = toolbar.findViewById(R.id.form_send)
+
+        binding.textViewTitle.text = "제휴 글 작성하기"
 
         chipGroup = findViewById(R.id.group_category)
         chipGroup.isSelectionRequired = true
@@ -97,11 +109,25 @@ class BusinessWriteActivity : AppCompatActivity(R.layout.activity_business_write
             }
         }
 
+        binding.fieldTitle.addTextChangedListener { updateSendButtonColor() }
+        binding.fieldInfo.addTextChangedListener { updateSendButtonColor() }
+
         sendButton.setOnClickListener {
-            sendBusinessData()
+            if (isSending) return@setOnClickListener // 중복 방지
+            // 유효성 검사를 통과한 경우에만 전송 시작
+            if (validateForm()) {
+                isSending = true
+                sendButton.isEnabled = false
+                sendButton.setTextColor(ContextCompat.getColor(this, R.color.gnu_grey))
+                sendBusinessData()
+            }
         }
 
         viewModel.postResult.observe(this) { result ->
+            isSending = false
+            sendButton.isEnabled = true
+            updateSendButtonColor() // 원래 색상으로 복구
+
             result.onSuccess {
                 Log.d("BusinessWriteActivity", "전송 성공: ${it.message}")
                 Toast.makeText(this, "작성 완료", Toast.LENGTH_SHORT).show()
@@ -196,6 +222,21 @@ class BusinessWriteActivity : AppCompatActivity(R.layout.activity_business_write
 
         binding.photoAddBtn2.root.setOnClickListener {
             getContent.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+        }
+    }
+
+    private fun validateForm(): Boolean {
+        val title = binding.fieldTitle.text.toString()
+        val info = binding.fieldInfo.text.toString()
+        val selectedChip = chipGroup.findViewById<View>(chipGroup.checkedChipId) as? Chip
+        val category = selectedChip?.text.toString()
+        val imageUris = viewModel.selectedImages.value ?: emptyList()
+
+        return if (title.isBlank() || info.isBlank() || category.isBlank() || imageUris.isEmpty()) {
+            dialogFragment.show()
+            false
+        } else {
+            true
         }
     }
 }

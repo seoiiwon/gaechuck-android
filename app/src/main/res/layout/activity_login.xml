@@ -32,7 +32,7 @@
             android:id="@+id/textView_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/noto_sans_kr_bold"
+            android:fontFamily="@font/pretendard_bold"
             android:text="Gaechuck"
             android:textSize="24sp"
             android:textColor="@color/gnu_blue"

@@ -111,7 +111,7 @@ class LoseDetailFragment : Fragment(R.layout.fragment_lose_detail) {
         binding.loseGetDate.text = item.lostDate
 
         // ViewPager2에 이미지 설정
-        val adapter = ImagePagerAdapter(item.images)
+        val adapter = ImagePagerAdapter(this, item.images)
         binding.loseImagesViewpager.adapter = adapter
 
         // 페이지 인디케이터 연결

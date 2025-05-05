@@ -103,8 +103,9 @@
     <string name="setting_info_1">총학생회 공지에 대한 알림 설정에 동의합니다.</string>
     <string name="setting_info_2">Gaechuck에 대한 이용약관입니다.</string>
     <string name="setting_terms_title">개척 이용약관</string>
-    <string name="setting_terms_content">개척 이용약관\n최종 개정일: [2024년/12월/25일]
-    \n1. 약관의 목적
+    <string name="setting_terms_content">
+        \n최종 개정일: [2024년/12월/25일]
+    \n\n1. 약관의 목적
     \n본 약관은 개척(이하 "앱" 또는 "서비스")이 제공하는 서비스의 이용과 관련하여 팀과 사용자 간의 권리, 의무 및 책임 사항을 규정하는 것을 목적으로 합니다.
     \n\n2. 용어의 정의
     \n 1. "팀"이란 개척앱을 운영하는 주체를 의미합니다.

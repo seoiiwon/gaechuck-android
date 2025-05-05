@@ -34,7 +34,7 @@
             android:id="@+id/textView_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/noto_sans_kr_bold"
+            android:fontFamily="@font/pretendard_bold"
             android:text="Gaechuck"
             android:textSize="24sp"
             android:textColor="@color/gnu_blue"
@@ -59,7 +59,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
-        android:fontFamily="@font/noto_sans_kr_semibold"
+        android:fontFamily="@font/pretendard_semibold"
         android:text="@string/setting_terms_title"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -87,6 +87,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/setting_terms_content"
                 android:textSize="14sp"
+                android:fontFamily="@font/pretendard_regular"
                 />
 
             <TextView
@@ -97,6 +98,7 @@
                 android:textColor="@color/gnu_blue"
                 android:layout_marginBottom="20dp"
                 android:textSize="14sp"
+                android:fontFamily="@font/pretendard_regular"
                 />
 
         </LinearLayout>

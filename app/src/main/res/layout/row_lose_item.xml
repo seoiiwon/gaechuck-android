@@ -33,17 +33,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:gravity="center"
-        android:paddingVertical="4dp"
+        android:paddingVertical="6dp"
         >
 
         <TextView
             android:id="@+id/lose_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
+            android:layout_marginBottom="2dp"
             android:text="나이키 신발"
             android:textSize="12sp"
-            android:textStyle="bold" />
+            android:fontFamily="@font/pretendard_semibold"
+            />
 
         <TextView
             android:id="@+id/lose_date"
@@ -51,7 +52,8 @@
             android:layout_height="wrap_content"
             android:text="2024.11.11"
             android:textSize="10sp"
-            android:textStyle="bold" />
+            android:fontFamily="@font/pretendard_medium"
+            />
     </LinearLayout>
 
 

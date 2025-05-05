@@ -1,6 +1,5 @@
 package com.example.gaechuck.ui.business
 
-import android.app.ActivityOptions
 import android.content.Intent
 import android.graphics.Rect
 import android.net.Uri
@@ -15,6 +14,7 @@ import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
@@ -23,7 +23,6 @@ import com.example.gaechuck.api.AuthManager
 import com.example.gaechuck.databinding.ActivityBusinessWriteBinding
 import com.example.gaechuck.repository.BusinessRepository
 import com.example.gaechuck.ui.business.viewmodel.BusinessViewModel
-import com.example.gaechuck.ui.lose.LoseActivity
 import com.example.gaechuck.ui.util.ImageDialogFragment
 import com.example.gaechuck.ui.util.WriteDialogFragment
 import com.google.android.material.chip.Chip
@@ -40,6 +39,7 @@ class BusinessEditActivity : AppCompatActivity(R.layout.activity_business_write)
     private lateinit var viewModel: BusinessViewModel
     private lateinit var chipGroup : ChipGroup
     private val dialogFragment = WriteDialogFragment(this)
+    private var isSending = false
 
 
     // 갤러리에서 여러 개의 이미지를 선택하는 ActivityResult
@@ -61,6 +61,8 @@ class BusinessEditActivity : AppCompatActivity(R.layout.activity_business_write)
         val repository = BusinessRepository()
         val viewModelFactory = BusinessViewModel.BusinessViewModelFactory(repository)
         viewModel = ViewModelProvider(this, viewModelFactory).get(BusinessViewModel::class.java)
+
+        binding.textViewTitle.text = "제휴 글 수정하기"
 
         // photo_count TextView 찾기
         photoBtn = binding.photoAddBtn.root
@@ -118,11 +120,22 @@ class BusinessEditActivity : AppCompatActivity(R.layout.activity_business_write)
             getContent.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }
 
+        sendButton.setTextColor(ContextCompat.getColor(this, R.color.gnu_blue))
         sendButton.setOnClickListener {
-            patchRentData(coalitionId)
+            if (isSending) return@setOnClickListener // 중복 방지
+            // 유효성 검사를 통과한 경우에만 전송 시작
+            if (validateForm()) {
+                isSending = true
+                sendButton.isEnabled = false
+                patchRentData(coalitionId)
+            }
         }
 
         viewModel.patchResult.observe(this) { result ->
+            isSending = false
+            sendButton.isEnabled = true
+            sendButton.setTextColor(ContextCompat.getColor(this, R.color.gnu_grey))
+
             result.onSuccess {
                 Log.d("BusinessEditActivity", "전송 성공: ${it.message}")
                 Toast.makeText(this, "수정 완료", Toast.LENGTH_SHORT).show()
@@ -228,5 +241,20 @@ class BusinessEditActivity : AppCompatActivity(R.layout.activity_business_write)
             getContent.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }
 
+    }
+
+    private fun validateForm(): Boolean {
+        val title = binding.fieldTitle.text.toString()
+        val info = binding.fieldInfo.text.toString()
+        val selectedChip = chipGroup.findViewById<View>(chipGroup.checkedChipId) as? Chip
+        val category = selectedChip?.text.toString()
+        val imageUris = viewModel.selectedImages.value ?: emptyList()
+
+        return if (title.isBlank() || info.isBlank() || category.isBlank() || imageUris.isEmpty()) {
+            dialogFragment.show()
+            false
+        } else {
+            true
+        }
     }
 }
