@@ -28,7 +28,8 @@
             android:textSize="20sp"
             android:textStyle="bold"
             android:gravity="center"
-            android:padding="8dp"/>
+            android:padding="8dp"
+            android:fontFamily="@font/pretendard_bold"/>
 
         <ImageView
             android:id="@+id/homeBtn"
@@ -59,7 +60,8 @@
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="@color/black_1"
-                android:layout_marginBottom="16dp"/>
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/pretendard_bold"/>
 
             <TextView
                 android:id="@+id/noticeBody"
@@ -67,7 +69,8 @@
                 android:layout_height="wrap_content"
                 android:text="내용"
                 android:textSize="12sp"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/pretendard_regular"/>
 
             <TextView
                 android:id="@+id/noticeDate"
@@ -76,7 +79,8 @@
                 android:text="날짜"
                 android:textSize="8sp"
                 android:textColor="@color/gnu_grey"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/pretendard_regular"/>
 
             <LinearLayout
                 android:id="@+id/imageContainer"

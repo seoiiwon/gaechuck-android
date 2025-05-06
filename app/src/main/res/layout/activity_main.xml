@@ -18,10 +18,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:fontFamily="@font/noto_sans_kr_bold"
+            android:fontFamily="@font/pretendard_bold"
             android:text="Gaechuck"
             android:textColor="@color/gnu_blue"
-            android:textSize="24sp" />
+            android:textSize="24sp"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -47,6 +47,10 @@
 
     </FrameLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
+
     <!--  메뉴 text  -->
     <LinearLayout
         android:layout_width="match_parent"
@@ -56,14 +60,18 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/noto_sans_kr_semibold"
+            android:fontFamily="@font/pretendard_semibold"
             android:text="@string/menu"
             android:textSize="20sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="12dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/noto_sans_kr_regular"
+            android:fontFamily="@font/pretendard_regular"
             android:text="@string/menu_detail"
             android:textSize="12sp" />
     </LinearLayout>
