@@ -4,4 +4,5 @@
     android:textSize="16sp"
     android:textStyle="bold"
     android:padding="8dp"
-    android:textColor="@color/gnu_blue" />
+    android:textColor="@color/gnu_blue"
+    android:fontFamily="@font/pretendard_bold"/>

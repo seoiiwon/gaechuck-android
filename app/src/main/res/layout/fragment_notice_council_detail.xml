@@ -11,7 +11,8 @@
         android:layout_height="wrap_content"
         android:text="제목"
         android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:fontFamily="@font/pretendard_bold"/>
 
     <TextView
         android:id="@+id/noticeDescription"
@@ -19,7 +20,8 @@
         android:layout_height="wrap_content"
         android:text="내용"
         android:textSize="14sp"
-        android:layout_marginTop="8dp" />
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/pretendard_regular"/>
 
     <TextView
         android:id="@+id/noticeDate"
@@ -27,7 +29,8 @@
         android:layout_height="wrap_content"
         android:text="날짜"
         android:textSize="12sp"
-        android:layout_marginTop="8dp" />
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/pretendard_regular"/>
 
 <!--    <LinearLayout-->
 <!--        android:id="@+id/imageContainer"-->

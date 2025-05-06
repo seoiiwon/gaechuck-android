@@ -36,7 +36,8 @@
                 android:backgroundTint="@color/transparent"
                 android:layout_marginLeft="240dp"
                 android:text="완료"
-                android:textColor="@color/gnu_blue" />
+                android:textColor="@color/gnu_blue"
+                android:fontFamily="@font/pretendard_bold"/>
         </LinearLayout>
 
         <LinearLayout
@@ -52,7 +53,8 @@
                 android:hint="제목을 입력하세요"
                 android:textSize="18sp"
                 android:padding="12dp"
-                android:background="@android:color/white" />
+                android:background="@android:color/white"
+                android:fontFamily="@font/pretendard_bold"/>
 
             <!-- 내용 입력 -->
             <EditText
@@ -65,7 +67,8 @@
                 android:background="@android:color/white"
                 android:minHeight="200dp"
                 android:gravity="top"
-                android:inputType="textMultiLine" />
+                android:inputType="textMultiLine"
+                android:fontFamily="@font/pretendard_regular"/>
 
             <!-- 이미지 목록 표시 RecyclerView -->
             <androidx.recyclerview.widget.RecyclerView
