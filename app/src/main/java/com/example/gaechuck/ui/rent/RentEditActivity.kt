@@ -24,6 +24,7 @@ import com.example.gaechuck.databinding.ActivityRentWriteBinding
 import com.example.gaechuck.repository.RentRepository
 import com.example.gaechuck.ui.rent.viewmodel.RentViewModel
 import com.example.gaechuck.ui.util.ImageDialogFragment
+import com.example.gaechuck.ui.util.ImageFragment
 import com.example.gaechuck.ui.util.WriteDialogFragment
 import kotlinx.coroutines.launch
 
@@ -37,6 +38,7 @@ class RentEditActivity : AppCompatActivity(R.layout.activity_rent_write) {
     private lateinit var photoBtn : View
     private lateinit var viewModel: RentViewModel
     private val dialogFragment = WriteDialogFragment(this)
+    private val imageDialogFragment = ImageFragment(this)
     private var isSending = false
 
 
@@ -164,7 +166,7 @@ class RentEditActivity : AppCompatActivity(R.layout.activity_rent_write) {
 
         val imageUris = viewModel.selectedImages.value
         if (imageUris.isEmpty()) {
-            dialogFragment.show()
+            imageDialogFragment.show()
             return
         }
 
@@ -217,8 +219,12 @@ class RentEditActivity : AppCompatActivity(R.layout.activity_rent_write) {
         val count = binding.fieldCount.text.toString()
         val imageUris = viewModel.selectedImages.value ?: emptyList()
 
-        return if (title.isBlank() || count.isBlank() || imageUris.isEmpty()) {
-            dialogFragment.show()
+        return if (title.isBlank() || count.isBlank()) {
+            if(imageUris.isEmpty()) {
+                imageDialogFragment.show()
+            } else {
+                dialogFragment.show()
+            }
             false
         } else {
             true

@@ -26,6 +26,7 @@ import com.example.gaechuck.databinding.ActivityBusinessWriteBinding
 import com.example.gaechuck.repository.BusinessRepository
 import com.example.gaechuck.ui.business.viewmodel.BusinessViewModel
 import com.example.gaechuck.ui.util.ImageDialogFragment
+import com.example.gaechuck.ui.util.ImageFragment
 import com.example.gaechuck.ui.util.WriteDialogFragment
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -41,6 +42,7 @@ class BusinessWriteActivity : AppCompatActivity(R.layout.activity_business_write
     private lateinit var viewModel: BusinessViewModel
     private lateinit var chipGroup : ChipGroup
     private val dialogFragment = WriteDialogFragment(this)
+    private val imageDialogFragment = ImageFragment(this)
     private var isSending = false
 
 
@@ -232,8 +234,12 @@ class BusinessWriteActivity : AppCompatActivity(R.layout.activity_business_write
         val category = selectedChip?.text.toString()
         val imageUris = viewModel.selectedImages.value ?: emptyList()
 
-        return if (title.isBlank() || info.isBlank() || category.isBlank() || imageUris.isEmpty()) {
-            dialogFragment.show()
+        return if (title.isBlank() || info.isBlank() || category.isBlank()) {
+            if(imageUris.isEmpty()) {
+                imageDialogFragment.show()
+            } else {
+                dialogFragment.show()
+            }
             false
         } else {
             true

@@ -58,10 +58,10 @@
         android:hint="제목을 입력해주세요."
         android:paddingLeft="20dp"
         android:textSize="24sp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_main"
         app:layout_constraintBottom_toBottomOf="@id/guideline1"
         android:inputType="text"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginVertical="20dp"
         android:textColorHint="@color/default_tab_color"
         />
 
@@ -70,11 +70,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/guideline1"
+        app:layout_constraintBottom_toBottomOf="@id/guideline2"
         app:layout_constraintStart_toStartOf="parent"
         android:orientation="horizontal"
         android:layout_marginHorizontal="20dp"
         android:gravity="center_vertical"
-        android:layout_marginTop="28dp"
         >
         <include
             layout="@layout/fragment_photo_add"
