@@ -25,6 +25,7 @@ import com.example.gaechuck.databinding.ActivityLoseWriteBinding
 import com.example.gaechuck.repository.LoseRepository
 import com.example.gaechuck.ui.lose.viewmodel.LoseViewModel
 import com.example.gaechuck.ui.util.ImageDialogFragment
+import com.example.gaechuck.ui.util.ImageFragment
 import com.example.gaechuck.ui.util.WriteDialogFragment
 import kotlinx.coroutines.launch
 import java.util.Calendar
@@ -39,6 +40,7 @@ class LoseEditActivity : AppCompatActivity(R.layout.activity_lose_write) {
     private lateinit var photoBtn: View
     private lateinit var viewModel: LoseViewModel
     private val dialogFragment = WriteDialogFragment(this)
+    private val imageDialogFragment = ImageFragment(this)
     private var isSending = false
 
 
@@ -218,7 +220,7 @@ class LoseEditActivity : AppCompatActivity(R.layout.activity_lose_write) {
         val imageUris = viewModel.selectedImages.value
         Log.d("LoseEditActivity", "전송이미지 ${imageUris}")
         if (imageUris.isEmpty()) {
-            dialogFragment.show()
+            imageDialogFragment.show()
             return
         }
 
@@ -283,8 +285,12 @@ class LoseEditActivity : AppCompatActivity(R.layout.activity_lose_write) {
         val description = binding.fieldInfo.text.toString()
         val imageUris = viewModel.selectedImages.value ?: emptyList()
 
-        return if (title.isBlank() || location.isBlank() || lostDate.isBlank() || description.isBlank() || imageUris.isEmpty()) {
-            dialogFragment.show()
+        return if (title.isBlank() || location.isBlank() || lostDate.isBlank() || description.isBlank()) {
+            if(imageUris.isEmpty()) {
+                imageDialogFragment.show()
+            } else {
+                dialogFragment.show()
+            }
             false
         } else {
             true

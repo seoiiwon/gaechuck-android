@@ -26,6 +26,7 @@ import com.example.gaechuck.databinding.ActivityLoseWriteBinding
 import com.example.gaechuck.repository.LoseRepository
 import com.example.gaechuck.ui.lose.viewmodel.LoseViewModel
 import com.example.gaechuck.ui.util.ImageDialogFragment
+import com.example.gaechuck.ui.util.ImageFragment
 import com.example.gaechuck.ui.util.WriteDialogFragment
 import com.google.android.material.chip.Chip
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -42,6 +43,7 @@ class LoseWriteActivity : AppCompatActivity() {
     private lateinit var photoBtn : View
     private lateinit var viewModel: LoseViewModel
     private val dialogFragment = WriteDialogFragment(this)
+    private val imageDialogFragment = ImageFragment(this)
     private var isSending = false
 
 
@@ -198,7 +200,7 @@ class LoseWriteActivity : AppCompatActivity() {
 
         val imageUris = viewModel.selectedImages.value
         if (imageUris.isEmpty()) {
-            dialogFragment.show()
+            imageDialogFragment.show()
             return
         }
 
@@ -266,8 +268,12 @@ class LoseWriteActivity : AppCompatActivity() {
         val description = binding.fieldInfo.text.toString()
         val imageUris = viewModel.selectedImages.value ?: emptyList()
 
-        return if (title.isBlank() || location.isBlank() || lostDate.isBlank() || description.isBlank() || imageUris.isEmpty()) {
-            dialogFragment.show()
+        return if (title.isBlank() || location.isBlank() || lostDate.isBlank() || description.isBlank()) {
+            if(imageUris.isEmpty()) {
+                imageDialogFragment.show()
+            } else {
+                dialogFragment.show()
+            }
             false
         } else {
             true
