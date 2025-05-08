@@ -28,13 +28,24 @@
             app:tint="@color/gnu_blue" />
 
         <TextView
+            android:id="@+id/textView_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/pretendard_bold"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/button_back" />
+
+        <TextView
             android:id="@+id/form_send"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|center_vertical"
-            android:fontFamily="@font/noto_sans_kr_semibold"
+            android:fontFamily="@font/pretendard_semibold"
             android:paddingHorizontal="16dp"
-            android:textColor="@color/gnu_blue"
+            android:textColor="@color/gnu_grey"
             android:text="완료" />
     </androidx.appcompat.widget.Toolbar>
 
@@ -43,23 +54,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/transparent"
-        android:fontFamily="@font/noto_sans_kr_semibold"
+        android:fontFamily="@font/pretendard_semibold"
         android:hint="제목을 입력해주세요."
-        android:inputType="text"
         android:paddingLeft="20dp"
-        android:textSize="20sp"
+        android:textSize="24sp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_main"
         app:layout_constraintBottom_toBottomOf="@id/guideline1"
-        app:layout_constraintStart_toStartOf="parent" />
-
+        android:inputType="text"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColorHint="@color/default_tab_color"
+        />
     <LinearLayout
+        android:id="@+id/field_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/guideline1"
         app:layout_constraintBottom_toBottomOf="@id/guideline2"
         app:layout_constraintStart_toStartOf="parent"
         android:orientation="horizontal"
         android:layout_marginHorizontal="20dp"
         android:gravity="center_vertical"
-        android:layout_marginBottom="32dp"
         >
         <include
             layout="@layout/fragment_photo_add"
@@ -92,12 +106,27 @@
 
     </LinearLayout>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/image_info"
+        android:text="* 이미지 등록은 필수입니다."
+        android:textSize="12sp"
+        app:layout_constraintTop_toBottomOf="@id/field_image"
+        app:layout_constraintBottom_toBottomOf="@id/guideline2"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="20dp"
+        android:layout_marginHorizontal="20dp"
+        android:fontFamily="@font/pretendard_regular"
+        android:textColor="@color/gnu_blue"
+        />
+
     <com.google.android.material.divider.MaterialDivider
         android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         app:layout_constraintBottom_toBottomOf="@id/guideline2"
-        app:dividerColor="@color/gnu_blue"
+        app:dividerColor="@color/gnu_blue_60"
         android:layout_marginHorizontal="20dp"
         />
 
@@ -107,28 +136,31 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/guideline3"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:layout_marginHorizontal="20dp"
         >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="잔여개수"
-            android:fontFamily="@font/noto_sans_kr_bold"
+            android:text="잔여 개수 | "
+            android:fontFamily="@font/pretendard_medium"
             android:textSize="16sp"
+            android:layout_marginVertical="8dp"
             />
+
         <EditText
             android:id="@+id/field_count"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="개수를 입력해주세요."
+            android:background="@color/transparent"
+            android:fontFamily="@font/pretendard_light"
+            android:hint=" 개수를 입력해주세요."
+            android:textColorHint="@color/default_tab_color"
+            android:inputType="number"
+            android:textColor="@color/black"
+            android:textSize="14dp"
             app:layout_constraintBottom_toBottomOf="@id/guideline1"
             app:layout_constraintStart_toStartOf="parent"
-            android:textSize="14dp"
-            android:fontFamily="@font/noto_sans_kr_semibold"
-            android:background="@color/transparent"
-            android:inputType="number"
-            android:textColor="@color/info_grey"
             />
     </LinearLayout>
 
@@ -145,9 +177,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="제휴정보"
-            android:fontFamily="@font/noto_sans_kr_bold"
+            android:text="상세정보"
+            android:fontFamily="@font/pretendard_medium"
             android:textSize="16sp"
+            android:layout_marginVertical="8dp"
             />
         <TextView
             android:id="@+id/field_info"
@@ -156,9 +189,9 @@
             android:text="사용 후 학생회실로 반납 부탁드립니다."
             app:layout_constraintBottom_toBottomOf="@id/guideline1"
             app:layout_constraintStart_toStartOf="parent"
-            android:textColor="@color/info_grey"
+            android:textColor="@color/black"
             android:textSize="14dp"
-            android:fontFamily="@font/noto_sans_kr_medium"
+            android:fontFamily="@font/pretendard_light"
             android:background="@color/transparent"
             />
     </LinearLayout>
@@ -175,10 +208,11 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.40" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.50" />
+        app:layout_constraintGuide_percent="0.52" />
 </androidx.constraintlayout.widget.ConstraintLayout>

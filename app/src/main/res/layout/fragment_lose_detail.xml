@@ -35,20 +35,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="나이키 신발"
-        android:textSize="12sp"
-        android:fontFamily="@font/noto_sans_kr_bold"
+        android:textSize="14sp"
+        android:fontFamily="@font/pretendard_bold"
         app:layout_constraintTop_toBottomOf="@id/lose_images_card"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="10dp"
+        android:layout_marginVertical="14dp"
         />
     <TextView
         android:id="@+id/lose_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="2024.11.11"
-        android:textSize="10sp"
-        android:fontFamily="@font/noto_sans_kr_semibold"
+        android:textSize="12sp"
+        android:fontFamily="@font/pretendard_semibold"
         app:layout_constraintTop_toBottomOf="@id/lose_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -61,7 +61,7 @@
         app:layout_constraintTop_toBottomOf="@id/lose_date"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="14dp"
         app:dotsColor="@color/gnu_blue"
         app:dotsStrokeColor="@color/gnu_lightBlue"
         app:dotsSize="8dp"
@@ -74,13 +74,15 @@
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/image_indicator"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="24dp"
+        android:gravity="center|left"
+        android:paddingBottom="10dp"
         >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="분실물 습득 위치 | "
-            android:fontFamily="@font/noto_sans_kr_bold"
+            android:fontFamily="@font/pretendard_medium"
             android:textSize="16sp"
             />
         <TextView
@@ -89,9 +91,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:text="경영대학교 201호"
-            android:fontFamily="@font/noto_sans_kr_regular"
+            android:fontFamily="@font/pretendard_light"
             android:textSize="12sp"
-            android:outlineAmbientShadowColor="@color/light_grey"
+            android:textColor="@color/black"
             />
     </LinearLayout>
     <LinearLayout
@@ -101,12 +103,13 @@
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/location"
+        android:gravity="center|left"
         >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="분실물 습득 날짜 | "
-            android:fontFamily="@font/noto_sans_kr_bold"
+            android:fontFamily="@font/pretendard_medium"
             android:textSize="16sp"
             />
         <TextView
@@ -115,9 +118,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:text="2024-11-11"
-            android:fontFamily="@font/noto_sans_kr_regular"
+            android:fontFamily="@font/pretendard_light"
             android:textSize="12sp"
-            android:outlineAmbientShadowColor="@color/light_grey"
+            android:textColor="@color/black"
             />
     </LinearLayout>
 
@@ -128,21 +131,25 @@
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/get_date"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="20dp"
         >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="상세정보"
-            android:fontFamily="@font/noto_sans_kr_bold"
+            android:fontFamily="@font/pretendard_medium"
             android:textSize="16sp"
+            android:layout_marginVertical="8dp"
             />
         <TextView
             android:id="@+id/rent_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="흰색과 검정색이 섞인 나이키 신발. 신발 밑 창에 파란색 얼룩이 있음."
-            android:textSize="10sp" />
+            android:textSize="12sp"
+            android:fontFamily="@font/pretendard_light"
+            android:textColor="@color/black"
+            />
     </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatButton
@@ -150,17 +157,16 @@
         android:layout_width="wrap_content"
         android:layout_height="56dp"
         app:layout_constraintTop_toBottomOf="@id/info"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:paddingHorizontal="40dp"
+        android:paddingHorizontal="58dp"
         android:text="분실물 문의하기"
         android:textColor="@color/white"
         android:textSize="16sp"
         android:textStyle="bold"
         android:background="@drawable/style_btn"
         style="?android:attr/borderlessButtonStyle"
-        android:layout_marginBottom="50dp"
+        android:layout_marginTop="38dp"
         />
 
 

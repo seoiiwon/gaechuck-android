@@ -22,6 +22,7 @@ import com.example.gaechuck.api.ApiConnection
 import com.example.gaechuck.api.AuthManager
 import com.example.gaechuck.data.request.NoticeCouncilRequest
 import com.example.gaechuck.ui.noticecouncil.adaptor.ImageAdapter
+import com.example.gaechuck.ui.util.WriteDialogFragment
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaType
@@ -37,6 +38,7 @@ class NoticeCouncilWriteActivity : AppCompatActivity() {
     private lateinit var addImageButton: ImageView
     private lateinit var imageRecyclerView: RecyclerView
     private lateinit var postButton: Button
+    private val dialogFragment = WriteDialogFragment(this)
 
     private val imageList = mutableListOf<Uri>()
     private lateinit var imageAdapter: ImageAdapter
@@ -96,12 +98,12 @@ class NoticeCouncilWriteActivity : AppCompatActivity() {
         val body = bodyEditText.text.toString().trim()
 
         if (title.isEmpty() || body.isEmpty()) {
-            Toast.makeText(this, "제목과 내용을 입력하세요.", Toast.LENGTH_SHORT).show()
+            dialogFragment.show()
             return
         }
 
         if (imageList.isEmpty()) {
-            Toast.makeText(this, "최소 하나 이상의 이미지를 선택하세요.", Toast.LENGTH_SHORT).show()
+            dialogFragment.show()
             return
         }
 

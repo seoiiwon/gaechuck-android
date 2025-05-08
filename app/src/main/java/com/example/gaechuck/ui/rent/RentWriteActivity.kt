@@ -14,6 +14,8 @@ import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -23,6 +25,9 @@ import com.example.gaechuck.api.AuthManager
 import com.example.gaechuck.databinding.ActivityRentWriteBinding
 import com.example.gaechuck.repository.RentRepository
 import com.example.gaechuck.ui.rent.viewmodel.RentViewModel
+import com.example.gaechuck.ui.util.ImageDialogFragment
+import com.example.gaechuck.ui.util.ImageFragment
+import com.example.gaechuck.ui.util.WriteDialogFragment
 import kotlinx.coroutines.launch
 
 class RentWriteActivity : AppCompatActivity(R.layout.activity_rent_write) {
@@ -34,6 +39,9 @@ class RentWriteActivity : AppCompatActivity(R.layout.activity_rent_write) {
     private lateinit var binding: ActivityRentWriteBinding
     private lateinit var photoBtn : View
     private lateinit var viewModel: RentViewModel
+    private val dialogFragment = WriteDialogFragment(this)
+    private val imageDialogFragment = ImageFragment(this)
+    private var isSending = false
 
 
     // 갤러리에서 여러 개의 이미지를 선택하는 ActivityResult
@@ -43,6 +51,16 @@ class RentWriteActivity : AppCompatActivity(R.layout.activity_rent_write) {
         } else {
             Log.w("getContent", "No URIs selected")
         }
+    }
+
+    private fun updateSendButtonColor() {
+        val titleFilled = binding.fieldTitle.text.toString().isNotBlank()
+        val countFilled = binding.fieldCount.text.toString().isNotBlank()
+
+        val isReady = titleFilled && countFilled
+        val colorRes = if (isReady) R.color.gnu_blue else R.color.gnu_grey
+
+        sendButton.setTextColor(ContextCompat.getColor(this, colorRes))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,6 +82,7 @@ class RentWriteActivity : AppCompatActivity(R.layout.activity_rent_write) {
         toolbar = findViewById(R.id.toolbar_main)
         backButton = toolbar.findViewById(R.id.button_back)
         sendButton = toolbar.findViewById(R.id.form_send)
+        binding.textViewTitle.text = "대여 글 작성하기"
 
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
@@ -86,11 +105,25 @@ class RentWriteActivity : AppCompatActivity(R.layout.activity_rent_write) {
             }
         }
 
+        binding.fieldTitle.addTextChangedListener { updateSendButtonColor() }
+        binding.fieldCount.addTextChangedListener { updateSendButtonColor() }
+
         sendButton.setOnClickListener {
-            sendRentData()
+            if (isSending) return@setOnClickListener // 중복 방지
+            // 유효성 검사를 통과한 경우에만 전송 시작
+            if (validateForm()) {
+                isSending = true
+                sendButton.isEnabled = false
+                sendButton.setTextColor(ContextCompat.getColor(this, R.color.gnu_grey))
+                sendRentData()
+            }
         }
 
         viewModel.postResult.observe(this) { result ->
+            isSending = false
+            sendButton.isEnabled = true
+            updateSendButtonColor() // 원래 색상으로 복구
+
             result.onSuccess {
                 Log.d("RentWriteActivity", "전송 성공: ${it.message}")
                 Toast.makeText(this, "작성 완료", Toast.LENGTH_SHORT).show()
@@ -129,7 +162,7 @@ class RentWriteActivity : AppCompatActivity(R.layout.activity_rent_write) {
         val rentItemCount = binding.fieldCount.text.toString()
 
         if (rentItemName.isBlank() || rentItemCount.isBlank()) {
-            Log.e("sendBusinessData", "입력값이 부족합니다.")
+            dialogFragment.show()
             return
         }
 
@@ -137,7 +170,7 @@ class RentWriteActivity : AppCompatActivity(R.layout.activity_rent_write) {
 
         val imageUris = viewModel.selectedImages.value
         if (imageUris.isEmpty()) {
-            Log.e("sendRentData", "이미지가 없습니다.")
+            imageDialogFragment.show()
             return
         }
 
@@ -160,6 +193,11 @@ class RentWriteActivity : AppCompatActivity(R.layout.activity_rent_write) {
             // 이미지 설정
             imageView.setImageURI(uri)
 
+            imageView.setOnClickListener {
+                val dialog = ImageDialogFragment.newInstance(uri.toString())
+                dialog.show(supportFragmentManager, "ImageDialog")
+            }
+
             // 삭제 버튼 클릭 시 리스트에서 제거 후 UI 업데이트
             deleteBtn.setOnClickListener {
                 viewModel.removeImages(index)  // ViewModel에서 이미지 제거
@@ -176,5 +214,21 @@ class RentWriteActivity : AppCompatActivity(R.layout.activity_rent_write) {
             getContent.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }
 
+    }
+    private fun validateForm(): Boolean {
+        val title = binding.fieldTitle.text.toString()
+        val count = binding.fieldCount.text.toString()
+        val imageUris = viewModel.selectedImages.value ?: emptyList()
+
+        return if (title.isBlank() || count.isBlank()) {
+            if(imageUris.isEmpty()) {
+                imageDialogFragment.show()
+            } else {
+                dialogFragment.show()
+            }
+            false
+        } else {
+            true
+        }
     }
 }

@@ -21,6 +21,8 @@ import com.example.gaechuck.R
 import com.example.gaechuck.repository.BusinessRepository
 import com.example.gaechuck.ui.business.viewmodel.BusinessViewModel
 import com.example.gaechuck.ui.lose.LoseEditActivity
+import com.example.gaechuck.ui.util.DeleteDialogFragment
+import com.example.gaechuck.ui.util.WriteDialogFragment
 
 class BusinessActivity : AppCompatActivity(R.layout.activity_business) {
 
@@ -140,31 +142,12 @@ class BusinessActivity : AppCompatActivity(R.layout.activity_business) {
 
     private fun showDeleteConfirmationDialog() {
         val coalitionId = getCoalitionItemId()
-        val dialogView = layoutInflater.inflate(R.layout.alert_detail_popup, null)
 
-        // 커스텀 다이얼로그 생성
-        val dialog = AlertDialog.Builder(this)
-            .setTitle("삭제 확인")
-            .setMessage("정말 삭제하시겠습니까?")
-            .setView(dialogView) // 커스텀 레이아웃 설정
-            .create()
-
-        // 버튼 동작 설정
-        val positiveButton = dialogView.findViewById<Button>(R.id.dialog_yes_btn)
-        val negativeButton = dialogView.findViewById<Button>(R.id.dialog_no_btn)
-
-        positiveButton.setOnClickListener {
-            // 확인 버튼 클릭 시 삭제 처리
-             deleteBusinessItem(coalitionId)
-            dialog.dismiss()
+        val deleteDialog = DeleteDialogFragment(this) {
+            deleteBusinessItem(coalitionId) // 삭제 로직 실행
         }
 
-        negativeButton.setOnClickListener {
-            dialog.dismiss()
-        }
-
-        dialog.window?.setBackgroundDrawableResource(R.drawable.custom_popup_background)
-        dialog.show()
+        deleteDialog.show()
     }
 
     private fun deleteBusinessItem(coalitionId: Int) {

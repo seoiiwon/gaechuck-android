@@ -29,7 +29,8 @@
             android:textSize="20sp"
             android:textStyle="bold"
             android:gravity="center"
-            android:padding="8dp"/>
+            android:padding="8dp"
+            android:fontFamily="@font/pretendard_bold"/>
 
         <ImageView
             android:id="@+id/homeBtn"
@@ -54,9 +55,11 @@
             android:layout_marginRight="10dp"
             android:layout_marginBottom="8dp"
             android:background="@drawable/spinner_background"
-            android:popupBackground="@drawable/custom_popup_background"
+            android:popupBackground="@drawable/style_popup"
             android:gravity="center"
             android:popupElevation="1dp"
+            android:spinnerMode="dropdown"
+            android:overlapAnchor="false"
             />
 
         <TextView
@@ -65,7 +68,8 @@
             android:text="캠퍼스를 선택하세요"
             android:textSize="10sp"
             android:textColor="@color/tab_colors"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:fontFamily="@font/pretendard_bold"/>
 
     </LinearLayout>
 
@@ -126,7 +130,8 @@
         android:textColor="@color/gnu_grey"
         android:textStyle="normal"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="20dp"/>
+        android:layout_marginBottom="20dp"
+        android:fontFamily="@font/pretendard_regular"/>
 
 
     <LinearLayout
@@ -153,7 +158,8 @@
         android:text="중식"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:textColor="@android:color/black"/>
+        android:textColor="@android:color/black"
+        android:fontFamily="@font/pretendard_bold"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/menuGridRecyclerView"

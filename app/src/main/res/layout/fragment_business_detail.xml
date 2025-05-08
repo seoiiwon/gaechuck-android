@@ -20,12 +20,13 @@
         app:strokeWidth="1dp"
         app:strokeColor="@color/light_grey"
         >
+
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/business_images_viewpager"
             android:layout_width="216dp"
             android:layout_height="216dp"
-            android:clipToPadding="false"
             android:clipChildren="false"
+            android:clipToPadding="false"
             android:scaleType="centerCrop" />
 
     </com.google.android.material.card.MaterialCardView>
@@ -35,12 +36,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="다드림 경상국립대학교점"
-        android:textSize="12sp"
-        android:fontFamily="@font/noto_sans_kr_bold"
+        android:textSize="14sp"
+        android:fontFamily="@font/pretendard_bold"
         app:layout_constraintTop_toBottomOf="@id/business_images_card"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginVertical="10dp"
+        android:layout_marginVertical="14dp"
         />
 
     <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
@@ -50,7 +51,7 @@
         app:layout_constraintTop_toBottomOf="@id/business_name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="10dp"
         app:dotsColor="@color/gnu_blue"
         app:dotsStrokeColor="@color/gnu_lightBlue"
         app:dotsSize="8dp"
@@ -70,20 +71,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="카테고리"
-            android:fontFamily="@font/noto_sans_kr_bold"
+            android:fontFamily="@font/pretendard_medium"
             android:textSize="16sp"
+            android:layout_marginVertical="8dp"
             />
         <TextView
             android:id="@+id/business_category"
-            android:layout_width="60dp"
-            android:layout_height="24dp"
-            android:layout_marginBottom="8sp"
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
             android:background="@drawable/style_category"
-            android:paddingVertical="4dp"
+            android:paddingHorizontal="20dp"
             android:text="음식점"
             android:textAlignment="center"
             android:textColor="@color/gnu_blue"
-            android:textSize="10sp" />
+            android:textSize="12sp"
+            android:fontFamily="@font/pretendard_light"
+            android:gravity="center"
+            />
     </LinearLayout>
 
     <LinearLayout
@@ -99,15 +103,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="제휴정보"
-            android:fontFamily="@font/noto_sans_kr_bold"
+            android:fontFamily="@font/pretendard_medium"
             android:textSize="16sp"
+            android:layout_marginVertical="8dp"
             />
         <TextView
             android:id="@+id/business_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="자전거 가격을 인터넷 최저가로 제공\n자물쇠, 물통케이스 야간 안전등 무료 제공"
-            android:textSize="10sp" />
+            android:textSize="12sp"
+            android:fontFamily="@font/pretendard_light"
+            android:textColor="@color/black"
+            />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

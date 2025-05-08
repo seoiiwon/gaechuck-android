@@ -6,68 +6,66 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.business.BusinessActivity">
 
+    <!-- NavHostFragment로 프래그먼트 전환 관리 -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_main"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:elevation="4dp"
-        app:titleTextColor="@color/transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:title=""
-        >
+        app:titleTextColor="@color/transparent">
 
         <ImageView
             android:id="@+id/button_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
             app:srcCompat="@drawable/ic_back"
-            app:tint="@color/gnu_blue"
-            android:layout_gravity="start|center_vertical"
-            />
+            app:tint="@color/gnu_blue" />
 
         <TextView
             android:id="@+id/textView_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/noto_sans_kr_bold"
-            android:textSize="20sp"
             android:layout_gravity="center"
-            app:layout_constraintTop_toTopOf="@id/button_back"
+            android:fontFamily="@font/pretendard_bold"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toTopOf="@id/button_back" />
 
         <ImageView
             android:id="@+id/button_home"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
             android:paddingHorizontal="16dp"
             app:srcCompat="@drawable/ic_home"
-            app:tint="@color/gnu_blue"
-            android:layout_gravity="end|center_vertical"
-            />
+            app:tint="@color/gnu_blue" />
+
         <ImageView
             android:id="@+id/button_etc"
             android:layout_width="wrap_content"
             android:layout_height="16dp"
+            android:layout_gravity="end|center_vertical"
             android:layout_marginTop="20dp"
+            android:layout_marginRight="4dp"
             android:layout_marginBottom="20dp"
             android:paddingHorizontal="16dp"
-            app:srcCompat="@drawable/ic_etc"
-            app:tint="@color/gnu_blue"
-            android:layout_gravity="end|center_vertical"
-            android:layout_marginRight="4dp"
             android:visibility="gone"
-            />
+            app:srcCompat="@drawable/ic_etc"
+            app:tint="@color/gnu_blue" />
     </androidx.appcompat.widget.Toolbar>
 
-    <!-- NavHostFragment로 프래그먼트 전환 관리 -->
     <androidx.fragment.app.FragmentContainerView
         android:layout_marginTop="40dp"
         android:id="@+id/nav_host_fragment"

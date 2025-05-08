@@ -102,9 +102,9 @@ class CafeteriaMenuActivity : AppCompatActivity() {
     private fun setupCampusSpinner() {
         val campusList = campusMap.keys.toList()
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, campusList)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
         campusSpinner.adapter = adapter
-
+        campusSpinner.dropDownVerticalOffset = 20
         campusSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 selectedCafeteriaSeq = cafeteriaSeqMap[campusList[position]] ?: emptyList()

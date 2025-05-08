@@ -14,12 +14,14 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:layout_marginVertical="4dp"
+        >
         <TextView
             android:id="@+id/photo_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/noto_sans_kr_regular"
+            android:fontFamily="@font/pretendard_regular"
             android:text="0"
             android:textSize="12sp"
             android:textColor="@color/divider_grey2"
@@ -28,7 +30,7 @@
             android:id="@+id/total_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/noto_sans_kr_regular"
+            android:fontFamily="@font/pretendard_regular"
             android:text="/3"
             android:textSize="12sp"
             android:layout_gravity="center"

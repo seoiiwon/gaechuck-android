@@ -21,14 +21,18 @@ class BusinessAdapter(private val data: MutableList<BusinessList>,
                 .load(item.image) // image는 URL 문자열
                 .into(binding.businessImage) // 대표 이미지 설정
 
-            binding.businessInfo.text = if (item.benefit.length > 25) {
-                item.benefit.substring(0, 25) + "..."
+            binding.businessName.text = if(item.coalitionName.length > 12) {
+                item.coalitionName.substring(0,12) + "..."
+            } else {
+                item.coalitionName
+            }
+            binding.businessInfo.text = if (item.benefit.length > 20) {
+                item.benefit.substring(0, 20) + "..."
             } else {
                 item.benefit
             }
 
             binding.businessCategory.text = item.category
-            binding.businessName.text = item.coalitionName
 
             // Item 클릭 이벤트 추가
             binding.root.setOnClickListener {
