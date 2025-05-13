@@ -209,7 +209,8 @@ interface ApiService {
     suspend fun getAllNoticeData(
         @Query("page") page: Int,
         @Query("size") size: Int,
-        @Query("bbsId") bbsId: String? = null
+        @Query("bbsId") bbsId: String?,
+        @Query("title") title: String?
     ): BaseResponse<List<GetAllNoticeDataResponse>>
 
     // Food
