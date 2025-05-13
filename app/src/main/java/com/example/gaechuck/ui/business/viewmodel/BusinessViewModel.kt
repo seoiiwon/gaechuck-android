@@ -13,6 +13,7 @@ import com.example.gaechuck.data.response.BaseResponse
 import com.example.gaechuck.data.response.BusinessList
 import com.example.gaechuck.data.response.GetBusinessDetailResponse
 import com.example.gaechuck.data.response.PatchBusinessResponse
+import com.example.gaechuck.data.response.RentList
 import com.example.gaechuck.repository.BusinessRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -50,6 +51,15 @@ class BusinessViewModel(private val repository: BusinessRepository) : ViewModel(
         _selectedImages.value = images
     }
 
+    // 검색 필터링 변수
+    private val _filterBusinessList = MutableLiveData<List<BusinessList>>()
+    val filterBusinessList: LiveData<List<BusinessList>>
+        get() = _filterBusinessList
+
+    // 검색 상태 관리
+    private val _isSearchResultEmpty = MutableLiveData<Boolean>()
+    val isSearchResultEmpty: LiveData<Boolean> get() = _isSearchResultEmpty
+
     private val _postResult = MutableLiveData<Result<BaseResponse<String>>>()
     val postResult : LiveData<Result<BaseResponse<String>>>
         get() = _postResult
@@ -84,7 +94,7 @@ class BusinessViewModel(private val repository: BusinessRepository) : ViewModel(
 
         viewModelScope.launch {
             try {
-                val response = repository.getBusinessData(page, category ?: "")
+                val response = repository.getBusinessData(page, category ?: "", "")
                 response?.let {
                     val currentList = _businessList.value ?: mutableListOf()
                     if (page == 0) {
@@ -110,6 +120,27 @@ class BusinessViewModel(private val repository: BusinessRepository) : ViewModel(
             }catch (e:Exception) {
                 Log.e("BusinessViewModel", "에러 발생: ${e.message}")
 
+            }
+        }
+    }
+
+    // 검색 (필터링) 기능
+    fun searchBusinessItems(coalitionName: String) {
+        viewModelScope.launch {
+            try {
+                val response = repository.getBusinessData(0, "",coalitionName)
+                response?.let {
+                    if (it.content.isEmpty()) {
+                        _isSearchResultEmpty.postValue(true) // 검색 결과 없음
+
+                    } else {
+                        _filterBusinessList.postValue(it.content) // 검색 결과를 새로운 값으로 설정
+                        _isSearchResultEmpty.postValue(false)
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("BSViewModel", "에러 발생: ${e.message}")
+                _isSearchResultEmpty.postValue(true) // 검색 결과 없음
             }
         }
     }

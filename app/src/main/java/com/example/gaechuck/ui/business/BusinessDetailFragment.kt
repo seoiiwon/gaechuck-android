@@ -77,6 +77,7 @@ class BusinessDetailFragment : Fragment(R.layout.fragment_business_detail) {
             showBackButton = true,
             showHomeButton = !isLoggedIn,
             showEtcButton = isLoggedIn,
+            showSearchButton = false,
         )
     }
 

@@ -29,7 +29,7 @@ class BusinessRepository {
 
 
     // 제휴 리스트 가져오기
-    suspend fun getBusinessData(page: Int, category: String? = null) : GetBusinessDataResponse? {
+    suspend fun getBusinessData(page: Int, category: String? = null, BusinessItemName: String) : GetBusinessDataResponse? {
         return try {
             val categoryToUse = category ?: ""
             val response = apiService.getBusinessData(page, 9, categoryToUse)
