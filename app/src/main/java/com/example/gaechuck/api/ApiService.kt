@@ -24,6 +24,7 @@ import com.example.gaechuck.data.response.GetLoseDetailResponse
 import com.example.gaechuck.data.response.GetRentDataResponse
 import com.example.gaechuck.data.response.GetRentDetailResponse
 import com.example.gaechuck.data.response.LoginResponse
+import com.example.gaechuck.data.response.PagenatedResponse
 import com.example.gaechuck.data.response.PatchBusinessResponse
 import com.example.gaechuck.data.response.PatchLoseResponse
 import com.example.gaechuck.data.response.PatchNoticeResponse
@@ -172,7 +173,7 @@ interface ApiService {
     // 총학생회 공지 리스트
     @GET("/api/v1/council/show")
     suspend fun getNoticeCouncilList()
-            : Response<BaseResponse<List<GetCouncilNoticeDataResponse>>>
+            : Response<BaseResponse<PagenatedResponse<GetCouncilNoticeDataResponse>>>
 
     // 총학생회 공지 상세보기
     @GET("/api/v1/council/show/{id}")
