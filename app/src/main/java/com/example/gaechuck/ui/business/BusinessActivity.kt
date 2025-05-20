@@ -95,6 +95,9 @@ class BusinessActivity : AppCompatActivity(R.layout.activity_business) {
         backButton.setOnClickListener {
             val currentDestinationId = navController.currentDestination?.id
 
+            if (fromSearch) {
+                finish() // BusinessActivity 종료 → SearchActivity로 돌아감
+            }
             when (currentDestinationId) {
                 R.id.businessMainFragment -> {
                     val intent = Intent(this, MainActivity::class.java)

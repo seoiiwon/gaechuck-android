@@ -103,7 +103,7 @@ class BusinessSearchActivity: AppCompatActivity(R.layout.activity_business_searc
         val intent = Intent(this, BusinessActivity::class.java).apply {
             putExtra("coalitionId", item.coalitionId)
             putExtra("startFromSearch", true) // 구분용
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
         startActivity(intent)
     }
