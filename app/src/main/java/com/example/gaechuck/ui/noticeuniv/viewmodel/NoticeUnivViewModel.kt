@@ -18,19 +18,35 @@ class NoticeUnivViewModel(private val repository: NoticeUnivRepository) : ViewMo
     val errorMessage: LiveData<String> get() = _errorMessage
 
     private var currentList: MutableList<NoticeUnivModel> = mutableListOf()
-    var isLoading = false
-    var hasMoreData = true
     var currentPage = 0
+    var hasMoreData = true
+    var isLoading = false
 
-    fun fetchNotices(page: Int = 0, bbsId: String) {
-        if (isLoading || !hasMoreData) return // 불러올 데이터가 없는 경우 중단
+
+    fun fetchNotices(
+        page: Int = 0,
+        bbsId: String?,
+        title: String? = null,
+        size: Int = 20
+    ) {
+        if (page == 0) {
+            currentList.clear()
+            hasMoreData = true
+        }
+
+        if (isLoading || !hasMoreData) return
 
         isLoading = true
         viewModelScope.launch {
             try {
                 Log.d("VIEWMODEL", "Fetching page: $page for bbsId: $bbsId")
 
-                val (newNotices, hasNextPage) = repository.getNoticeUnivList(page, bbsId)
+                val (newNotices, hasNextPage) = repository.getNoticeUnivList(
+                    page = page,
+                    bbsId = bbsId,
+                    title = title,
+                    size = size
+                )
 
                 if (page == 0) { currentList.clear() }
                 currentList.addAll(newNotices)
@@ -49,11 +65,6 @@ class NoticeUnivViewModel(private val repository: NoticeUnivRepository) : ViewMo
         }
     }
 
-    fun loadMoreNotices(bbsId: String) {
-        if (!isLoading && hasMoreData) {
-            fetchNotices(currentPage + 1, bbsId)
-        }
-    }
 
     class Factory(private val repository: NoticeUnivRepository) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {

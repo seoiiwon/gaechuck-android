@@ -20,12 +20,12 @@ class NoticeUnivAdapter(
     class NoticeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title: TextView = view.findViewById(R.id.noticeTitle)
         val body: TextView = view.findViewById(R.id.noticeBody)
-//        val category: TextView = view.findViewById(R.id.noticeCategory)
+        val category: TextView = view.findViewById(R.id.noticeCategory)
 
         fun bind(notice: NoticeUnivModel, onItemClick: (String) -> Unit) {
             title.text = notice.title
             body.text = notice.departmentName ?: "부서 없음"
-//            category.text = notice.bbsId ?: "카테고리 없음"
+            category.text = notice.bbsId ?: "카테고리 없음"
 
             itemView.setOnClickListener {
                 notice.url?.let { url -> onItemClick(url) }

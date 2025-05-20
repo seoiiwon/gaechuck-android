@@ -1,6 +1,7 @@
 package com.example.gaechuck.repository
 
 import android.util.Log
+import android.util.Size
 import com.example.gaechuck.api.ApiConnection
 import com.example.gaechuck.data.model.NoticeUnivModel
 import com.example.gaechuck.data.response.GetAllNoticeDataResponse
@@ -10,15 +11,26 @@ class NoticeUnivRepository {
 
     // 교내 공지 리스트 가져오기
     @Throws(Exception::class)
-    suspend fun getNoticeUnivList(page: Int, bbsId: String): Pair<List<NoticeUnivModel>, Boolean> {
+    suspend fun getNoticeUnivList(
+        page: Int,
+        bbsId: String?,
+        title: String?=null,
+        size: Int = 20
+    ): Pair<List<NoticeUnivModel>, Boolean> {
         return try {
+//            val requestBbsId = if (bbsId.isNullOrEmpty()) "전체" else bbsId
 
-            val requestBbsId = if (bbsId.isNullOrEmpty()) "2" else bbsId
-            val size = 1000
+            Log.d("API_REQUEST", "🔹 Fetching notices → page=$page, size=$size, bbsId=$bbsId, title=$title")
 
-            Log.d("API_REQUEST", "🔹 Fetching notices → page=$page, size=$size, bbsId=$requestBbsId")
+            val paramBbsId = bbsId?.takeIf { it.isNotBlank() }
+            val paramTitle = title?.takeIf { it.isNotBlank() }
 
-            val result = apiService.getAllNoticeData(page, size, requestBbsId)
+            val result = apiService.getAllNoticeData(
+                page = page,
+                size = size,
+                bbsId = paramBbsId,
+                title = paramTitle
+            )
             if (result.isSuccess && result.result != null) {
 
                 val notices = result.result.map {
