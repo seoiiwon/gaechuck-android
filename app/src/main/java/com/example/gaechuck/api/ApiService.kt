@@ -54,6 +54,7 @@ interface ApiService {
     suspend fun getLoseData(
         @Query("page") page : Int,
         @Query("size") size : Int = 9,
+        @Query("title") title : String ?= null
     )
             : Response<BaseResponse<GetLoseDataResponse>>
 

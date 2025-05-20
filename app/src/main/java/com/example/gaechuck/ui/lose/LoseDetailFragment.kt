@@ -100,6 +100,7 @@ class LoseDetailFragment : Fragment(R.layout.fragment_lose_detail) {
             showBackButton = true,
             showHomeButton = !isLoggedIn,
             showEtcButton = isLoggedIn,
+            showSearchButton = false,
         )
     }
 

@@ -58,6 +58,7 @@
         <activity android:name=".ui.business.BusinessEditActivity"
             android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".ui.business.BusinessSearchActivity"/>
+        <activity android:name=".ui.lose.LoseSearchActivity"/>
     </application>
 
 </manifest>
