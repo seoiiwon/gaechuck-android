@@ -79,7 +79,7 @@
         android:fontFamily="@font/pretendard_light"
         android:text="최근 검색이 없습니다."
         android:textColor="@color/divider_grey2"
-        android:textSize="14dp"
+        android:textSize="14sp"
         app:layout_constraintTop_toTopOf="@id/guideline4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
