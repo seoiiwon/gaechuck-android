@@ -4,17 +4,15 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
-import android.view.KeyEvent
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
-import android.view.inputmethod.EditorInfo
-import android.widget.Button
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,17 +24,16 @@ import com.example.gaechuck.repository.NoticeCouncilRepository
 import com.example.gaechuck.ui.noticecouncil.adaptor.NoticeCouncilAdapter
 import com.example.gaechuck.ui.noticecouncil.viewmodel.NoticeCouncilViewModel
 import com.example.gaechuck.ui.noticecouncil.viewmodel.NoticeCouncilViewModelFactory
+import com.example.gaechuck.ui.noticeuniv.NoticeSearchActivity
 import com.example.gaechuck.ui.util.DeleteDialogFragment
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.launch
 
 
 class NoticeCouncilActivity : AppCompatActivity() {
 
     private lateinit var noticeAdapter: NoticeCouncilAdapter
-    private lateinit var searchEditText: EditText
-    private val viewModel: NoticeCouncilViewModel by viewModels {
-        NoticeCouncilViewModelFactory(NoticeCouncilRepository())
-    }
+    private val viewModel: NoticeCouncilViewModel by viewModels { NoticeCouncilViewModelFactory(NoticeCouncilRepository()) }
 
     // NoticeCouncilActivity 내에 추가
     val updateNoticeLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -56,23 +53,26 @@ class NoticeCouncilActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notice_council)
 
-        searchEditText = findViewById(R.id.searchEditText)
         val postNoticeButton = findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.postNoticeButton)
-        val searchEditText = findViewById<EditText>(R.id.searchEditText)
         val searchButton = findViewById<ImageView>(R.id.searchButton)
 
         updateUI()
 
+        // 공지 등록 버튼
         postNoticeButton.setOnClickListener {
             val intent = Intent(this, NoticeCouncilWriteActivity::class.java)
             writeNoticeLauncher.launch(intent)
         }
 
-        val backBtn: ImageView = findViewById(R.id.backBtn)
-        backBtn.setOnClickListener { finish() }
+        // 검색창 띄우기
+        searchButton.setOnClickListener {
+            val intent = Intent(this, NoticeSearchActivity::class.java)
+            startActivity(intent)
+        }
 
-        val homeBtn: ImageView = findViewById(R.id.homeBtn)
-        homeBtn.setOnClickListener {
+        // 뒤로가기 / 홈 버튼
+        findViewById<ImageView>(R.id.backBtn).setOnClickListener { finish() }
+        findViewById<ImageView>(R.id.homeBtn).setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
             startActivity(intent)
@@ -81,41 +81,27 @@ class NoticeCouncilActivity : AppCompatActivity() {
         initRecyclerView()
         observeViewModel()
         viewModel.fetchNotices()
-
-        searchButton.setOnClickListener {
-            performSearch(searchEditText.text.toString())
-        }
-
-        searchEditText.setOnEditorActionListener { _, actionId, event ->
-            if (actionId == EditorInfo.IME_ACTION_SEARCH ||
-                (event != null && event.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN)
-            ) {
-                performSearch(searchEditText.text.toString())
-                true
-            } else {
-                false
-            }
-        }
     }
 
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
         val view = currentFocus
-        if (view is EditText) {
+
+        if (view != null) {
             val outRect = Rect()
             view.getGlobalVisibleRect(outRect)
             if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
-                // EditText 외부를 클릭하면 키보드 숨기기
-                val imm = getSystemService(INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager
+                val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.hideSoftInputFromWindow(view.windowToken, 0)
             }
         }
+
         return super.dispatchTouchEvent(event)
     }
 
 
     private fun updateUI() {
         val token = AuthManager.getToken()
-        val postNoticeButton = findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.postNoticeButton)
+        val postNoticeButton = findViewById<FloatingActionButton>(R.id.postNoticeButton)
 
         // 토큰이 없으면 버튼 숨김
         if (token.isNullOrEmpty()) {
@@ -140,41 +126,13 @@ class NoticeCouncilActivity : AppCompatActivity() {
 
         recyclerView.adapter = noticeAdapter
         recyclerView.layoutManager = LinearLayoutManager(this)
-
-
-        viewModel.noticeList.observe(this) { notices ->
-            noticeAdapter.updateData(notices)
-            updateUI()
-        }
-
-        noticeAdapter.setOnItemClickListener(object : NoticeCouncilAdapter.OnItemClickListener {
-            override fun onItemClick(noticeId: Int) {
-                lifecycleScope.launch {
-                    val detail = viewModel.getNoticeDetail(noticeId)
-                    if (detail != null) {
-                        val intent = Intent(this@NoticeCouncilActivity, NoticeCouncilDetailActivity::class.java)
-                        intent.putExtra("notice_id", noticeId)
-                        startActivity(intent)
-                    }
-                }
-            }
-        })
-    }
-
-    // 공지 삭제
-    private fun performDeleteNotice(noticeId: Int) {
-        val deleteDialog = DeleteDialogFragment(this) {
-            viewModel.deleteNotice(noticeId) // 삭제 로직 실행
-        }
-
-        deleteDialog.show()
     }
 
     private fun observeViewModel() {
         viewModel.noticeList.observe(this) { notices ->
-            if (searchEditText.text.isNullOrEmpty()) {
-                noticeAdapter.updateData(notices)
-            }
+            Log.d("checking", "notice count : ${notices.size}")
+            noticeAdapter.updateData(notices)
+            updateUI()
         }
 
         viewModel.deleteStatus.observe(this) { deletedNoticeId ->
@@ -191,11 +149,13 @@ class NoticeCouncilActivity : AppCompatActivity() {
     }
     override fun onResume() {
         super.onResume()
-        viewModel.fetchNotices()
     }
 
-    private fun performSearch(query: String) {
-        noticeAdapter.filter(query)
+    // 공지 삭제
+    private fun performDeleteNotice(noticeId: Int) {
+        val deleteDialog = DeleteDialogFragment(this) {
+            viewModel.deleteNotice(noticeId) // 삭제 로직 실행
+        }
+        deleteDialog.show()
     }
-
 }

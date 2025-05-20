@@ -1,6 +1,7 @@
 package com.example.gaechuck.repository
 
 import android.util.Log
+import android.util.Log.e
 import com.example.gaechuck.api.ApiConnection
 import com.example.gaechuck.api.AuthManager
 import com.example.gaechuck.data.response.BaseResponse
@@ -10,68 +11,47 @@ import com.example.gaechuck.data.response.GetCouncilNoticeDetailResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.Response
+import kotlin.concurrent.thread
 
+// 총학생회 공지 호출 관련 Repo
 class NoticeCouncilRepository {
     private val apiService = ApiConnection.getRetrofitService
 
     // 총학생회 공지 리스트 가져오기
-    suspend fun getNoticeCouncilList(): List<GetCouncilNoticeDataResponse>? {
-        return try {
-            withContext(Dispatchers.IO) {
-                val response: Response<BaseResponse<List<GetCouncilNoticeDataResponse>>> = apiService.getNoticeCouncilList()
-                val body = response.body()
+    suspend fun getNoticeCouncilList(): List<GetCouncilNoticeDataResponse> = withContext(Dispatchers.IO) {
+        val response = withContext(Dispatchers.IO) { apiService.getNoticeCouncilList() }
 
-                if (response.isSuccessful && body?.isSuccess == true) {
-                    body.result ?: emptyList()
-                } else {
-                    throw Exception(body?.message ?: "Unknown API error")
-                }
+
+        if (response.isSuccessful) {
+            val body = response.body()
+            if (body?.isSuccess == true) {
+                return@withContext body.result?.content.orEmpty()
+            } else {
+                throw Exception("API Error : ${body?.message ?: "Unknown Message"}")
             }
-        } catch (e: Exception) {
-            throw Exception("Network error: ${e.message}")
+        } else {
+            throw Exception("HTTP ${response.code()} ${response.message()}")
         }
     }
 
     // 총학생회 공지 상세 내용 가져오기
-    suspend fun getNoticeDetail(noticeId: Int): GetCouncilNoticeDetailResponse? {
-        return try {
-            withContext(Dispatchers.IO) {
-                Log.d("NoticeDetail", "API 요청 시작: noticeId = $noticeId")
-                val response: Response<BaseResponse<GetCouncilNoticeDetailResponse>> = apiService.getNoticeCouncilDetailData(noticeId)
+    suspend fun getNoticeDetail(noticeId: Int): GetCouncilNoticeDetailResponse? = withContext(
+        Dispatchers.IO) {
+        val response: Response<BaseResponse<GetCouncilNoticeDetailResponse>> = apiService.getNoticeCouncilDetailData(noticeId)
 
-                Log.d("hello", "${response.body()}")
-
-
-                if (!response.isSuccessful) {
-                    Log.e("NoticeDetail", "API 응답 실패: HTTP ${response.code()}")
-                    return@withContext null
-                }
-
-                val body = response.body()
-                Log.d("NoticeDetail", "API 응답 바디: $body")
-
-                if (body?.isSuccess == true) {
-                    val result = body.result
-                    Log.d("NoticeDetail", "Parsed Result: id=${result?.id}, title=${result?.title}, body=${result?.body}, images=${result?.images}, time=${result?.time}")
-
-                    result
-                } else {
-                    Log.e("NoticeDetail", "API 요청 실패: ${body?.message}")
-                    null
-                }
-            }
-        } catch (e: Exception) {
-            Log.e("NoticeDetail", "네트워크 오류: ${e.message}")
-            null
+        if (response.isSuccessful && response.body()?.isSuccess == true) {
+            return@withContext response.body()!!.result
+        } else {
+            return@withContext null
         }
     }
 
-
-    suspend fun deleteNotice(noticeId: Int): Response<DeleteCouncilNoticeResponse> {
-        return withContext(Dispatchers.IO) {
-            val token = AuthManager.getToken() ?: throw IllegalStateException("토큰이 존재하지 않습니다.")
-            ApiConnection.getRetrofitService.deleteNoticeCouncil(noticeId, "Bearer $token")
-        }
+    // 총학생회 공지 삭제
+    suspend fun deleteNotice(noticeId: Int): Response<DeleteCouncilNoticeResponse> = withContext(
+        Dispatchers.IO) {
+        val token = AuthManager.getToken() ?: throw IllegalStateException("토큰이 존재하지 않습니다.")
+//        ApiConnection.getRetrofitService.deleteNoticeCouncil(noticeId, "Bearer $token")
+        apiService.deleteNoticeCouncil(noticeId, "Bearer $token")
     }
 
 }

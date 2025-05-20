@@ -1,5 +1,6 @@
 package com.example.gaechuck.ui.noticecouncil.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -28,7 +29,10 @@ class NoticeCouncilViewModel(private val repository: NoticeCouncilRepository) : 
     fun fetchNotices() {
         viewModelScope.launch {
             try {
+                currentPage = 0
                 allNotices = repository.getNoticeCouncilList() ?: emptyList()
+                Log.d("ViewModel check", "fetch : ${allNotices.size}")
+                _noticeList.value = emptyList()
                 loadMoreNotices()
             } catch (e: Exception) {
                 _noticeList.value = emptyList()
@@ -38,9 +42,12 @@ class NoticeCouncilViewModel(private val repository: NoticeCouncilRepository) : 
 
     fun loadMoreNotices() {
         val nextPageItems = allNotices.drop(currentPage * itemsPerPage).take(itemsPerPage)
+        Log.d("Paging", "currentPage=$currentPage, nextPageItems=${nextPageItems.size}")
         if (nextPageItems.isNotEmpty()) {
             _noticeList.value = _noticeList.value.orEmpty() + nextPageItems
             currentPage++
+        } else {
+            Log.d("Paging", "더 이상 불러올 공지 없음")
         }
     }
 
