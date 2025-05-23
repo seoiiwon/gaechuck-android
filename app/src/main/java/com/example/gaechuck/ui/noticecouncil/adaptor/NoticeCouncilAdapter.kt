@@ -1,6 +1,5 @@
 package com.example.gaechuck.ui.noticecouncil.adaptor
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,10 +19,10 @@ import java.util.Locale
 class NoticeCouncilAdapter(
     private val noticeList: MutableList<GetCouncilNoticeDataResponse>,
     private val onDeleteClick: (Int) -> Unit,
-    private val onUpdateClick: (Int) -> Unit
+    private val onUpdateClick: (Int) -> Unit,
+    private val onItemClick: (GetCouncilNoticeDataResponse) -> Unit
 ) : RecyclerView.Adapter<NoticeCouncilAdapter.NoticeCouncilViewHolder>() {
 
-    private var listener: OnItemClickListener? = null
     private var filteredList: MutableList<GetCouncilNoticeDataResponse> = noticeList.toMutableList()
 
     class NoticeCouncilViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -45,6 +44,10 @@ class NoticeCouncilAdapter(
         val notice = filteredList[position]
         val token = AuthManager.getToken()
 
+        holder.noticeTitle.text = notice.title
+        holder.noticeDescription.text = notice.body
+        holder.noticeDate.text = formatNoticeDate(notice.time)
+
         if (!notice.representationImages.isNullOrEmpty()) {
             holder.noticeImage.visibility = View.VISIBLE
             holder.imagePlaceholder.visibility = View.GONE
@@ -56,12 +59,7 @@ class NoticeCouncilAdapter(
             holder.imagePlaceholder.visibility = View.VISIBLE
         }
 
-        holder.noticeTitle.text = notice.title
-        holder.noticeDescription.text = notice.body
-        holder.noticeDate.text = formatNoticeDate(notice.time)
-
-
-        // 수정하기 / 삭제하기 로직
+        // 수정하기 / 삭제하기
         if (token.isNullOrEmpty()) {
             holder.moreButton.visibility = View.INVISIBLE
         } else {
@@ -85,13 +83,10 @@ class NoticeCouncilAdapter(
                     else -> false
                 }
             }
-
             popup.show()
         }
-
-
         holder.itemView.setOnClickListener {
-            listener?.onItemClick(notice.id)
+            onItemClick(notice)
         }
     }
 
@@ -111,8 +106,6 @@ class NoticeCouncilAdapter(
         }
     }
 
-
-
     override fun getItemCount(): Int = filteredList.size
 
     fun removeNotice(noticeId: Int) {
@@ -124,7 +117,6 @@ class NoticeCouncilAdapter(
         }
     }
 
-
     fun updateData(newList: List<GetCouncilNoticeDataResponse>) {
         val diffCallback = NoticeDiffCallback(filteredList, newList)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
@@ -133,11 +125,6 @@ class NoticeCouncilAdapter(
         filteredList.addAll(newList)
         diffResult.dispatchUpdatesTo(this)
     }
-
-    fun setOnItemClickListener(listener: OnItemClickListener) {
-        this.listener = listener
-    }
-
 
     private fun formatNoticeDate(inputDate: String): String {
         return try {
@@ -148,9 +135,5 @@ class NoticeCouncilAdapter(
         } catch (e: Exception) {
             inputDate
         }
-    }
-
-    interface OnItemClickListener {
-        fun onItemClick(position: Int)
     }
 }
