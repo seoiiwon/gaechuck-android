@@ -13,6 +13,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -32,6 +33,7 @@ class BusinessActivity : AppCompatActivity(R.layout.activity_business) {
     private lateinit var backButton: ImageView
     private lateinit var homeButton: ImageView
     private lateinit var etcButton: ImageView
+    private lateinit var searchButton : ImageView
     private lateinit var businessViewModel : BusinessViewModel
 
     private var coalitionId: Int = -1
@@ -49,9 +51,11 @@ class BusinessActivity : AppCompatActivity(R.layout.activity_business) {
         backButton = toolbar.findViewById(R.id.button_back)
         homeButton = toolbar.findViewById(R.id.button_home)
         etcButton = toolbar.findViewById(R.id.button_etc)
+        searchButton = toolbar.findViewById(R.id.button_search)
 
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
+
 
         // viewmodel 설정
         val repository = BusinessRepository()
@@ -63,13 +67,49 @@ class BusinessActivity : AppCompatActivity(R.layout.activity_business) {
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
 
+        searchButton.setOnClickListener{
+            val intent = Intent(this, BusinessSearchActivity::class.java)
+            startActivity(intent)
+        }
+
+        // 검색에서 디테일로 바로 이동
+        val fromSearch = intent.getBooleanExtra("startFromSearch", false)
+        val coalitionId = intent.getIntExtra("coalitionId", -1)
+
+        Log.e("BusinessActivity", "${fromSearch}, ${coalitionId}")
+
+        // ② 검색에서 왔다면, 바로 DetailFragment로 이동
+        if (fromSearch && coalitionId != -1) {
+            val bundle = Bundle().apply {
+                putInt("coalitionId", coalitionId)
+            }
+            navController.navigate(
+                R.id.businessDetailFragment,
+                bundle,
+                null,
+                null
+            )
+        }
+
         // 뒤로가기 버튼 동작 설정
         backButton.setOnClickListener {
             val currentDestinationId = navController.currentDestination?.id
 
+            if (fromSearch) {
+                finish() // BusinessActivity 종료 → SearchActivity로 돌아감
+            }
             when (currentDestinationId) {
                 R.id.businessMainFragment -> {
-                    finish() // LoseActivity 종료
+                    val intent = Intent(this, MainActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
+                    val options = ActivityOptionsCompat.makeCustomAnimation(
+                        this,
+                        R.anim.slide_in_left,
+                        R.anim.slide_out_right
+                    )
+                    startActivity(intent, options.toBundle())
+                    finish()
                 }
                 R.id.businessDetailFragment -> {
                     navController.navigate(R.id.action_businessDetailFragment_to_businessMainFragment)
@@ -172,11 +212,12 @@ class BusinessActivity : AppCompatActivity(R.layout.activity_business) {
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
-    fun updateToolbar(title: String, showBackButton: Boolean, showHomeButton: Boolean, showEtcButton:Boolean) {
+    fun updateToolbar(title: String, showBackButton: Boolean, showHomeButton: Boolean, showEtcButton:Boolean, showSearchButton:Boolean) {
         titleTextView.text = title
         backButton.visibility = if (showBackButton) View.VISIBLE else View.GONE
         homeButton.visibility = if (showHomeButton) View.VISIBLE else View.GONE
         etcButton.visibility = if (showEtcButton) View.VISIBLE else View.GONE
+        searchButton.visibility = if(showSearchButton) View.VISIBLE else View.GONE
 
     }
 

@@ -30,15 +30,11 @@ class RentMainFragment : Fragment(R.layout.fragment_rent_main),RentAdapter.OnRen
     private lateinit var binding: FragmentRentMainBinding
     private lateinit var rentViewModel: RentViewModel
     private lateinit var rentAdapter: RentAdapter
-    private lateinit var searchButton : ImageView
     private var originalList: List<RentList> = listOf()
     private lateinit var recyclerView: RecyclerView
-    private lateinit var backButton : Button
-    private lateinit var callButoon : Button
     private lateinit var urlButton : Button
 
     private var isSearchMode = false
-    private var searchResults: List<RentList> = listOf()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -64,9 +60,6 @@ class RentMainFragment : Fragment(R.layout.fragment_rent_main),RentAdapter.OnRen
         rentViewModel = ViewModelProvider(this, viewModelFactory).get(RentViewModel::class.java)
 
         // 버튼 설정
-        searchButton = view.findViewById(R.id.searchButton)
-        backButton = view.findViewById(R.id.search_back_btn)
-        callButoon = view.findViewById(R.id.search_call_btn)
         urlButton = view.findViewById(R.id.url_btn)
 
         // 로그인 상태 확인
@@ -82,6 +75,7 @@ class RentMainFragment : Fragment(R.layout.fragment_rent_main),RentAdapter.OnRen
             showBackButton = true, // 뒤로가기 버튼 표시
             showHomeButton = false, // 홈 버튼 표시
             showEtcButton = false,
+            showSearchButton = true,
         )
 
         // RecyclerView 설정 (어댑터 설정 *이전*)
@@ -118,65 +112,10 @@ class RentMainFragment : Fragment(R.layout.fragment_rent_main),RentAdapter.OnRen
         val itemDecoration = VerticalItemDecorate(20)
         binding.rentView.addItemDecoration(itemDecoration)
 
-
-        // search 버튼 찾기
-        searchButton.setOnClickListener {
-            val rentItemName = binding.searchEditText.text.toString().trim()
-            filterList(rentItemName)
-        }
-
         rentViewModel.filterRentList.observe(viewLifecycleOwner, Observer { filteredItems ->
             Log.d("RentMainFragment", "Filtered LiveData observed: ${filteredItems.size} items")
             rentAdapter.submitList(filteredItems.toList())
         })
-
-        // 검색 결과가 없으면 검색 화면 다시 표시
-        rentViewModel.isSearchResultEmpty.observe(viewLifecycleOwner, Observer { isEmpty ->
-            if (isEmpty) {
-                binding.root.findViewById<View>(R.id.search_fragment).apply {
-                    alpha = 0f
-                    visibility = View.VISIBLE
-                    animate().alpha(1f).setDuration(300).start()
-                }
-                binding.rentView.visibility = View.GONE
-            }
-        })
-
-
-        // 버튼 클릭 이벤트
-        backButton.setOnClickListener{
-            val fadeOut = AnimationUtils.loadAnimation(context, R.anim.slide_out_left)
-
-            binding.root.findViewById<View>(R.id.search_fragment).visibility = View.GONE // 완전히 숨기기
-            binding.root.findViewById<View>(R.id.search_fragment).startAnimation(fadeOut)
-            rentViewModel.loadRentData()
-            fadeOut.setAnimationListener(object : Animation.AnimationListener {
-                override fun onAnimationStart(animation: Animation?) {
-                    // 애니메이션 시작 시 처리할 내용
-                }
-
-                override fun onAnimationEnd(animation: Animation?) {
-                    // 애니메이션이 끝난 후 실행할 내용
-                    binding.root.findViewById<View>(R.id.search_fragment).visibility = View.GONE
-
-                    // RecyclerView 서서히 나타나게
-                    val fadeIn = AnimationUtils.loadAnimation(context, R.anim.slide_in_bottom)
-                    binding.rentView.startAnimation(fadeIn)
-                    binding.rentView.visibility = View.VISIBLE
-                }
-
-                override fun onAnimationRepeat(animation: Animation?) {
-                    // 애니메이션 반복 시 처리할 내용
-                }
-            })
-
-            isSearchMode = false
-            rentAdapter.submitList(originalList)
-            rentViewModel.loadRentData()
-            // editText 없어지게 만들기
-            binding.searchEditText.text.clear()
-
-        }
 
         // floatBtn 클릭 리스너
         binding.writeBtn.setOnClickListener{
@@ -194,59 +133,11 @@ class RentMainFragment : Fragment(R.layout.fragment_rent_main),RentAdapter.OnRen
 
         rentViewModel.RentDetailRetrofit("렌트")
 
-        // rentUrl 옵저빙하여 버튼 클릭 시 해당 URL로 이동하도록 설정
-        rentViewModel.rentUrl.observe(viewLifecycleOwner) { url ->
-            callButoon.setOnClickListener {
-                if (!url.isNullOrEmpty()) {
-                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                    startActivity(intent)
-                } else {
-                    Log.e("RentDetailFragment", "URL is empty or null")
-                }
-            }
-        }
-
-
-    }
-
-    // 데이터 가져오는 함수
-    private fun ShowRentItems() {
-        rentViewModel.rentList.observe(viewLifecycleOwner) { rentItems ->
-            originalList = rentItems.toList() // 원본 데이터 저장
-            rentAdapter.submitList(rentItems.toList())  // 새로운 리스트 객체 생성
-        }
     }
 
     // 렌트 아이템 클릭 시 네비게이션 처리
     override fun OnRentItemClick(item: RentList) {
         val action = RentMainFragmentDirections.actionRentMainFragmentToRentDetailFragment(item.rentItemId)
         view?.findNavController()?.navigate(action)
-    }
-
-    // 검색 기능
-    private fun filterList(rentItemName: String) {
-        isSearchMode = rentItemName.isNotEmpty()
-        if (isSearchMode) {
-            rentViewModel.searchRentItems(rentItemName) // API 호출
-            binding.root.findViewById<View>(R.id.search_fragment).animate()
-                .alpha(0f)
-                .setDuration(300)
-                .withEndAction {
-                    binding.root.findViewById<View>(R.id.search_fragment).visibility = View.GONE
-                }
-                .start()
-            binding.rentView.visibility = View.VISIBLE // RecyclerView 보이기
-            rentAdapter.submitList(searchResults) // 검색 결과 표시
-        } else {
-            rentAdapter.submitList(originalList) // 검색어가 없으면 원래 리스트로 복귀
-            binding.root.findViewById<View>(R.id.search_fragment).animate()
-                .alpha(0f)
-                .setDuration(300)
-                .withEndAction {
-                    binding.root.findViewById<View>(R.id.search_fragment).visibility = View.GONE
-                }
-                .start()
-            binding.rentView.visibility = View.VISIBLE // RecyclerView 보이기
-        }
     }
 }

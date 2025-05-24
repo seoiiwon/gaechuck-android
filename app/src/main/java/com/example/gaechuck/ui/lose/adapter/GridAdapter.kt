@@ -1,5 +1,6 @@
 package com.example.gaechuck.ui.lose.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -36,6 +37,7 @@ class GridAdapter(
                 listener.onLoseItemClick(item)
             }
         }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GridViewHolder {
@@ -49,6 +51,9 @@ class GridAdapter(
 
     override fun onBindViewHolder(holder: GridViewHolder, position: Int) {
         holder.bind(items[position])
+        holder.itemView.post {
+            Log.d("ItemViewSize", "width = ${holder.itemView.width}, height = ${holder.itemView.height}")
+        }
     }
 
     override fun getItemCount(): Int = items.size

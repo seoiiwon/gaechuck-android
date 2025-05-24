@@ -13,12 +13,14 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.gaechuck.MainActivity
 import com.example.gaechuck.R
 import com.example.gaechuck.repository.LoseRepository
+import com.example.gaechuck.ui.business.BusinessSearchActivity
 import com.example.gaechuck.ui.lose.viewmodel.LoseViewModel
 import com.example.gaechuck.ui.rent.RentEditActivity
 import com.example.gaechuck.ui.util.DeleteDialogFragment
@@ -31,6 +33,7 @@ class LoseActivity : AppCompatActivity(R.layout.activity_lose) {
     private lateinit var backButton: ImageView
     private lateinit var homeButton: ImageView
     private lateinit var etcButton : ImageView
+    private lateinit var searchButton : ImageView
     private lateinit var loseViewModel : LoseViewModel
 
     private var lostItemId: Int = -1
@@ -49,6 +52,7 @@ class LoseActivity : AppCompatActivity(R.layout.activity_lose) {
         backButton = toolbar.findViewById(R.id.button_back)
         homeButton = toolbar.findViewById(R.id.button_home)
         etcButton = toolbar.findViewById(R.id.button_etc)
+        searchButton = toolbar.findViewById(R.id.button_search)
 
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
@@ -63,12 +67,46 @@ class LoseActivity : AppCompatActivity(R.layout.activity_lose) {
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
 
+        searchButton.setOnClickListener{
+            val intent = Intent(this, LoseSearchActivity::class.java)
+            startActivity(intent)
+        }
+
+        // 검색에서 디테일로 바로 이동
+        val fromSearch = intent.getBooleanExtra("startFromSearch", false)
+        val lostItemId = intent.getIntExtra("lostItemId", -1)
+
+        // ② 검색에서 왔다면, 바로 DetailFragment로 이동
+        if (fromSearch && lostItemId != -1) {
+            val bundle = Bundle().apply {
+                putInt("lostItemId", lostItemId)
+            }
+            navController.navigate(
+                R.id.loseDetailFragment,
+                bundle,
+                null,
+                null
+            )
+        }
+
         backButton.setOnClickListener {
             val currentDestinationId = navController.currentDestination?.id
 
+            if (fromSearch) {
+                finish() // BusinessActivity 종료 → SearchActivity로 돌아감
+            }
             when (currentDestinationId) {
                 R.id.loseMainFragment -> {
-                    finish() // LoseActivity 종료
+                    val intent = Intent(this, MainActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
+                    val options = ActivityOptionsCompat.makeCustomAnimation(
+                        this,
+                        R.anim.slide_in_left,
+                        R.anim.slide_out_right
+                    )
+                    startActivity(intent, options.toBundle())
+                    finish()
                 }
                 R.id.loseDetailFragment -> {
                     navController.navigate(R.id.action_loseDetailFragment_to_loseMainFragment)
@@ -175,11 +213,12 @@ class LoseActivity : AppCompatActivity(R.layout.activity_lose) {
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
-    fun updateToolbar(title: String, showBackButton: Boolean, showHomeButton: Boolean, showEtcButton: Boolean) {
+    fun updateToolbar(title: String, showBackButton: Boolean, showHomeButton: Boolean, showEtcButton: Boolean, showSearchButton:Boolean) {
         titleTextView.text = title
         backButton.visibility = if (showBackButton) View.VISIBLE else View.GONE
         homeButton.visibility = if (showHomeButton) View.VISIBLE else View.GONE
         etcButton.visibility = if (showEtcButton) View.VISIBLE else View.GONE
+        searchButton.visibility = if(showSearchButton) View.VISIBLE else View.GONE
     }
 
     fun setLostItemId(id: Int) {

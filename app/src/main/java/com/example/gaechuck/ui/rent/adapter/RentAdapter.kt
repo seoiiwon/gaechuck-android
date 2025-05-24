@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.gaechuck.data.response.BusinessList
 import com.example.gaechuck.data.response.RentList
 import com.example.gaechuck.databinding.RowRentItemBinding
 
@@ -58,8 +59,7 @@ class RentAdapter(private val listener: OnRentItemClickListener):
         }
     }
 
-    // filtering 함수
-    fun filteredList(newList : List<RentList>) {
+    fun updateItems(newList : List<RentList>) {
         submitList(newList) // 필터링된 리스트를 적용
     }
 
