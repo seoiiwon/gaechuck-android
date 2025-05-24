@@ -23,7 +23,6 @@ import com.example.gaechuck.repository.NoticeCouncilRepository
 import com.example.gaechuck.ui.noticecouncil.adaptor.NoticeCouncilAdapter
 import com.example.gaechuck.ui.noticecouncil.viewmodel.NoticeCouncilViewModel
 import com.example.gaechuck.ui.noticecouncil.viewmodel.NoticeCouncilViewModelFactory
-import com.example.gaechuck.ui.noticeuniv.NoticeSearchActivity
 import com.example.gaechuck.ui.util.DeleteDialogFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
@@ -63,7 +62,7 @@ class NoticeCouncilActivity : AppCompatActivity() {
 
         // 검색창 띄우기
         searchButton.setOnClickListener {
-            val intent = Intent(this, NoticeSearchActivity::class.java)
+            val intent = Intent(this, NoticeCouncilSearchActivity::class.java)
             startActivity(intent)
         }
 

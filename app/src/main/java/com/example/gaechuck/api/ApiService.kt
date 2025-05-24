@@ -172,8 +172,16 @@ interface ApiService {
     // Notice
     // 총학생회 공지 리스트
     @GET("/api/v1/council/show")
-    suspend fun getNoticeCouncilList()
-            : Response<BaseResponse<PagenatedResponse<GetCouncilNoticeDataResponse>>>
+    suspend fun getNoticeCouncilList(
+        @Query("page") page: Int,
+        @Query("size") size: Int
+    ): Response<BaseResponse<PagenatedResponse<GetCouncilNoticeDataResponse>>>
+    @GET("/api/v1/council/show")
+    suspend fun getNoticeCouncilSearchList(
+        @Query("page") page: Int,
+        @Query("size") size: Int,
+        @Query("title") title: String
+    ) : Response<BaseResponse<PagenatedResponse<GetCouncilNoticeDataResponse>>>
 
     // 총학생회 공지 상세보기
     @GET("/api/v1/council/show/{id}")

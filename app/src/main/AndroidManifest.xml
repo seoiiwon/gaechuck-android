@@ -35,6 +35,7 @@
         <activity android:name=".ui.noticeuniv.NoticeUnivActivity"/>
         <activity android:name=".ui.noticeuniv.NoticeSearchActivity"/>
         <activity android:name=".ui.noticecouncil.NoticeCouncilActivity"/>
+        <activity android:name=".ui.noticecouncil.NoticeCouncilSearchActivity"/>
         <activity android:name=".ui.menu.CafeteriaMenuActivity"/>
         <activity android:name=".ui.bus.BusRouteActivity"/>
         <activity android:name=".SubPage2Activity"/>

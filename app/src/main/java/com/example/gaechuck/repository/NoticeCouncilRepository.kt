@@ -1,7 +1,5 @@
 package com.example.gaechuck.repository
 
-import android.util.Log
-import android.util.Log.e
 import com.example.gaechuck.api.ApiConnection
 import com.example.gaechuck.api.AuthManager
 import com.example.gaechuck.data.response.BaseResponse
@@ -11,7 +9,6 @@ import com.example.gaechuck.data.response.GetCouncilNoticeDetailResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.Response
-import kotlin.concurrent.thread
 
 // 총학생회 공지 호출 관련 Repo
 class NoticeCouncilRepository {
@@ -19,8 +16,7 @@ class NoticeCouncilRepository {
 
     // 총학생회 공지 리스트 가져오기
     suspend fun getNoticeCouncilList(): List<GetCouncilNoticeDataResponse> = withContext(Dispatchers.IO) {
-        val response = withContext(Dispatchers.IO) { apiService.getNoticeCouncilList() }
-
+        val response = withContext(Dispatchers.IO) { apiService.getNoticeCouncilList(0, 20) }
 
         if (response.isSuccessful) {
             val body = response.body()
@@ -28,6 +24,20 @@ class NoticeCouncilRepository {
                 return@withContext body.result?.content.orEmpty()
             } else {
                 throw Exception("API Error : ${body?.message ?: "Unknown Message"}")
+            }
+        } else {
+            throw Exception("HTTP ${response.code()} ${response.message()}")
+        }
+    }
+
+    suspend fun searchNotices(title: String): List<GetCouncilNoticeDataResponse> = withContext(Dispatchers.IO) {
+        val response = apiService.getNoticeCouncilSearchList(0, 20, title)
+        if (response.isSuccessful) {
+            val body = response.body()
+            if (body?.isSuccess == true) {
+                return@withContext body.result?.content.orEmpty()
+            } else {
+                throw Exception("API Error: ${body?.message}")
             }
         } else {
             throw Exception("HTTP ${response.code()} ${response.message()}")

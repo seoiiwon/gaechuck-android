@@ -4,13 +4,12 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.gaechuck.data.response.DeleteCouncilNoticeResponse
 import com.example.gaechuck.data.response.GetCouncilNoticeDataResponse
 import com.example.gaechuck.data.response.GetCouncilNoticeDetailResponse
 import com.example.gaechuck.repository.NoticeCouncilRepository
 import kotlinx.coroutines.launch
-import retrofit2.Response
 
 class NoticeCouncilViewModel(private val repository: NoticeCouncilRepository) : ViewModel() {
     private var currentPage = 0
@@ -25,6 +24,9 @@ class NoticeCouncilViewModel(private val repository: NoticeCouncilRepository) : 
 
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> get() = _errorMessage
+
+    private val _searchResults = MutableLiveData<List<GetCouncilNoticeDataResponse>>()
+    val searchResults: LiveData<List<GetCouncilNoticeDataResponse>> = _searchResults
 
     fun fetchNotices() {
         viewModelScope.launch {
@@ -68,6 +70,25 @@ class NoticeCouncilViewModel(private val repository: NoticeCouncilRepository) : 
             } catch (e: Exception) {
                 _errorMessage.postValue(e.message ?: "알 수 없는 오류 발생")
             }
+        }
+    }
+
+    val searchResult = MutableLiveData<List<GetCouncilNoticeDataResponse>>()
+
+    fun search(query: String) {
+        viewModelScope.launch {
+            try {
+                val result = repository.searchNotices(query)
+                searchResult.postValue(result)
+            } catch (e: Exception) {
+                Log.e("Search", "Error: ${e.message}")
+            }
+        }
+    }
+
+    class Factory(private val repo: NoticeCouncilRepository) : ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return NoticeCouncilViewModel(repo) as T
         }
     }
 }
