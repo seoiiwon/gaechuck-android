@@ -22,6 +22,7 @@
     <string name="notice_title">제목</string>
     <string name="notice_posted_at">등록일</string>
     <string name="notice_search">교내 공지를 확인하세요</string>
+    <string name="notice_tab_0">전체</string>
     <string name="notice_tab_1">기관</string>
     <string name="notice_tab_2">학사</string>
     <string name="notice_tab_3">장학</string>

@@ -33,7 +33,7 @@ class NoticeUnivActivity : AppCompatActivity() {
     private lateinit var noticeUnivAdapter: NoticeUnivAdapter
     private lateinit var viewModel: NoticeUnivViewModel
     private lateinit var dateTextView: TextView
-    private var currentBbsId: String = "기관"
+    private var currentBbsId: String = "전체"
     private var currentTitle: String? = null
     private lateinit var searchButton: ImageView
 
@@ -74,7 +74,13 @@ class NoticeUnivActivity : AppCompatActivity() {
 
         // 데이터 로드
         Log.d("Activity", "Fetching notices onCreate")
-        viewModel.fetchNotices(0, currentBbsId)
+        currentBbsId = ""
+        viewModel.fetchNotices(
+            page = 0,
+            bbsId = currentBbsId,
+            title = null,
+            size = 20
+        )
 
         selectTab(
             findViewById(R.id.tabInstitution),
@@ -146,18 +152,18 @@ class NoticeUnivActivity : AppCompatActivity() {
 
     private fun setupTabs() {
         val tabs = listOf(
+            findViewById<TextView>(R.id.tabAll),
             findViewById<TextView>(R.id.tabInstitution),
             findViewById<TextView>(R.id.tabAcademic),
             findViewById<TextView>(R.id.tabScholarship),
-            findViewById<TextView>(R.id.tabRecruitment),
-            findViewById<TextView>(R.id.tabLegislative)
+            findViewById<TextView>(R.id.tabRecruitment)
         )
         val underlines = listOf(
+            findViewById<View>(R.id.tabAllUnderline),
             findViewById<View>(R.id.tabInstitutionUnderline),
             findViewById<View>(R.id.tabAcademicUnderline),
             findViewById<View>(R.id.tabScholarshipUnderline),
-            findViewById<View>(R.id.tabRecruitmentUnderline),
-            findViewById<View>(R.id.tabLegislativeUnderline)
+            findViewById<View>(R.id.tabRecruitmentUnderline)
         )
         val recyclerView = findViewById<RecyclerView>(R.id.noticeRecyclerView)
 
@@ -167,7 +173,7 @@ class NoticeUnivActivity : AppCompatActivity() {
 
                 selectTab(tab, underline)
 
-                currentBbsId = tab.text.toString()
+                currentBbsId = if (tab.id == R.id.tabAll) "" else tab.text.toString()
                 currentTitle = null
                 viewModel.hasMoreData = true
                 viewModel.currentPage  = 0
@@ -188,21 +194,19 @@ class NoticeUnivActivity : AppCompatActivity() {
 
     private fun selectTab(selectedTab: TextView, selectedUnderline: View) {
         val allTabs = listOf(
-//            findViewById<TextView>(R.id.tabAll),
+            findViewById<TextView>(R.id.tabAll),
             findViewById<TextView>(R.id.tabInstitution),
             findViewById<TextView>(R.id.tabAcademic),
             findViewById<TextView>(R.id.tabScholarship),
-            findViewById<TextView>(R.id.tabRecruitment),
-            findViewById<TextView>(R.id.tabLegislative)
+            findViewById<TextView>(R.id.tabRecruitment)
         )
 
         val allUnderlines = listOf(
-//            findViewById<View>(R.id.tabAllUnderline),
+            findViewById<View>(R.id.tabAllUnderline),
             findViewById<View>(R.id.tabInstitutionUnderline),
             findViewById<View>(R.id.tabAcademicUnderline),
             findViewById<View>(R.id.tabScholarshipUnderline),
-            findViewById<View>(R.id.tabRecruitmentUnderline),
-            findViewById<View>(R.id.tabLegislativeUnderline)
+            findViewById<View>(R.id.tabRecruitmentUnderline)
         )
 
         allUnderlines.forEach { it.visibility = View.INVISIBLE }
@@ -211,6 +215,7 @@ class NoticeUnivActivity : AppCompatActivity() {
         allTabs.forEach { it.setTextColor(resources.getColor(R.color.tab_colors)) }
         selectedTab.setTextColor(resources.getColor(R.color.gnu_blue))
     }
+
 
     private fun formatDate(regiDate: String): String {
         return try {
@@ -226,21 +231,5 @@ class NoticeUnivActivity : AppCompatActivity() {
     private fun openUrl(url: String) {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
         startActivity(intent)
-    }
-
-
-    private fun performSearch(query: String) {
-        currentTitle = query
-        currentBbsId = ""
-
-        viewModel.fetchNotices(
-            page  = 0,
-            bbsId = currentBbsId,
-            title = currentTitle,
-            size = 20
-        )
-
-        val recyclerView = findViewById<RecyclerView>(R.id.noticeRecyclerView)
-        recyclerView.scrollToPosition(0)
     }
 }

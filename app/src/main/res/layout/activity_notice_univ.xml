@@ -82,6 +82,34 @@
         android:paddingTop="8dp">
 
         <LinearLayout
+            android:id="@+id/tabAllLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tabAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/notice_tab_0"
+                android:padding="8dp"
+                android:gravity="center"
+                android:textColor="@color/tab_colors"
+                android:fontFamily="@font/pretendard_bold"/>
+
+            <View
+                android:id="@+id/tabAllUnderline"
+                android:layout_width="wrap_content"
+                android:layout_height="4dp"
+                android:visibility="invisible"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@color/gnu_blue" />
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/tabInstitutionLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -193,34 +221,6 @@
                 android:background="@color/gnu_blue" />
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/tabLegislativeLayout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
-
-            <TextView
-                android:id="@+id/tabLegislative"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/notice_tab_5"
-                android:textSize="12sp"
-                android:padding="8dp"
-                android:gravity="center"
-                android:textColor="@color/tab_colors"
-                android:fontFamily="@font/pretendard_bold"/>
-
-            <View
-                android:id="@+id/tabLegislativeUnderline"
-                android:layout_width="wrap_content"
-                android:layout_height="4dp"
-                android:visibility="invisible"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:background="@color/gnu_blue" />
-        </LinearLayout>
 
     </LinearLayout>
 

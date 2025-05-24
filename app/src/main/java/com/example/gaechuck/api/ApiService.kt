@@ -220,7 +220,7 @@ interface ApiService {
         @Query("size") size: Int,
         @Query("bbsId") bbsId: String?,
         @Query("title") title: String?
-    ): BaseResponse<List<GetAllNoticeDataResponse>>
+    ): BaseResponse<PagenatedResponse<GetAllNoticeDataResponse>>
 
     // Food
     // 식당 메뉴 보기

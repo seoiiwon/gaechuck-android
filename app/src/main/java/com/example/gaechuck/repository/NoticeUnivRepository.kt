@@ -32,28 +32,36 @@ class NoticeUnivRepository {
                 title = paramTitle
             )
             if (result.isSuccess && result.result != null) {
+                val contentList = result.result.content
 
-                val notices = result.result.map {
-                    NoticeUnivModel(
-                        notiSeq = it.notiSeq,
-                        notiNum = it.notiNum,
-                        title = it.title,
-                        regiDate = it.regiDate,
-                        categoryName = it.categoryName,
-                        departmentName = it.departmentName,
-                        url = it.url,
-                        bbsId = it.bbsId,
-                        dataId = it.dataId
-                    )
+                val notices = contentList.map {
+                    it.toNoticeUnivModel()
                 }
 
-                Log.d("API_SUCCESS", "Page: $page → Fetched: ${notices.size} items")
-
-                val totalDataCount = notices.size
-                Log.d("API_SUCCESS", "Total fetched so far: $totalDataCount items")
-
-                val hasMoreData = notices.isNotEmpty()
+                val hasMoreData = !result.result.last
                 Pair(notices, hasMoreData)
+
+//                val notices = result.result.map {
+//                    NoticeUnivModel(
+//                        notiSeq = it.notiSeq,
+//                        notiNum = it.notiNum,
+//                        title = it.title,
+//                        regiDate = it.regiDate,
+//                        categoryName = it.categoryName,
+//                        departmentName = it.departmentName,
+//                        url = it.url,
+//                        bbsId = it.bbsId,
+//                        dataId = it.dataId
+//                    )
+//                }
+//
+//                Log.d("API_SUCCESS", "Page: $page → Fetched: ${notices.size} items")
+//
+//                val totalDataCount = notices.size
+//                Log.d("API_SUCCESS", "Total fetched so far: $totalDataCount items")
+//
+//                val hasMoreData = notices.isNotEmpty()
+//                Pair(notices, hasMoreData)
 
             } else {
                 Log.e("API_ERROR", "Error Message: ${result.message}")
