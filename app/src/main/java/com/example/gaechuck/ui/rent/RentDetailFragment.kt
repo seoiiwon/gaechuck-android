@@ -95,6 +95,7 @@ class RentDetailFragment : Fragment(R.layout.fragment_rent_detail) {
             showBackButton = true,
             showHomeButton = !isLoggedIn,
             showEtcButton = isLoggedIn,
+            showSearchButton = false
         )
     }
 
