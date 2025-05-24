@@ -123,7 +123,7 @@ class LoseMainFragment : Fragment(R.layout.fragment_lose_main), LoseAdapter.OnLo
             startActivity(intent)
         }
 
-        viewModel.LoseDetailRetrofit("렌트")
+        viewModel.LoseDetailRetrofit("분실물")
 
     }
 

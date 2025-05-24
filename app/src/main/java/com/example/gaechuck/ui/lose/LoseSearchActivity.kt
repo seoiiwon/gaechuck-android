@@ -2,6 +2,7 @@ package com.example.gaechuck.ui.lose
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.ImageView
@@ -70,22 +71,25 @@ class LoseSearchActivity : AppCompatActivity(R.layout.activity_lose_search), Los
 
     private fun observeViewModel() {
         loseViewModel.filterLoseList.observe(this) { list ->
-            if (list.isNotEmpty()) {
-                recyclerView.visibility = RecyclerView.VISIBLE
-                noSearch.visibility = TextView.GONE
-                adapter.updateData(list)
-                removeSearchFailFragment()
-            } else {
+            recyclerView.visibility = RecyclerView.VISIBLE
+            noSearch.visibility = TextView.GONE
+            adapter.updateData(list)
+            removeSearchFailFragment()
+        }
+
+        loseViewModel.isSearchResultEmpty.observe(this) { isEmpty ->
+            if (isEmpty) {
                 recyclerView.visibility = RecyclerView.GONE
-                noSearch.visibility = TextView.VISIBLE
                 showSearchFailFragment()
             }
         }
     }
 
     private fun showSearchFailFragment() {
+        val fragment = SearchFailFragment()
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, SearchFailFragment(), "search_fail")
+            .replace(R.id.fragment_container, fragment, "search_fail")
+            .addToBackStack(null)
             .commit()
     }
 
