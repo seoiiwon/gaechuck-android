@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -17,6 +18,7 @@ import com.example.gaechuck.ui.lose.adapter.LoseAdapter
 import com.example.gaechuck.ui.lose.viewmodel.LoseViewModel
 import com.example.gaechuck.ui.util.GridSpacingItemDecoration
 import com.example.gaechuck.ui.util.SearchFailFragment
+import org.w3c.dom.Text
 
 class LoseSearchActivity : AppCompatActivity(R.layout.activity_lose_search), LoseAdapter.OnLoseItemClickListener {
     private lateinit var loseViewModel: LoseViewModel
@@ -24,6 +26,7 @@ class LoseSearchActivity : AppCompatActivity(R.layout.activity_lose_search), Los
     private lateinit var adapter: LoseAdapter
     private lateinit var searchEditText: EditText
     private lateinit var backButton : ImageView
+    private lateinit var noSearch : TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,10 +40,10 @@ class LoseSearchActivity : AppCompatActivity(R.layout.activity_lose_search), Los
         recyclerView = findViewById(R.id.search_result)
         adapter = LoseAdapter(emptyList(), 9,this)
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = GridLayoutManager(this, 3)
-        recyclerView.setHasFixedSize(true)
-        recyclerView.addItemDecoration(GridSpacingItemDecoration(3, 24, true))
+        recyclerView.layoutManager = GridLayoutManager(this, 1)
+
         backButton = findViewById(R.id.button_back)
+        noSearch = findViewById(R.id.no_search)
 
         searchEditText = findViewById(R.id.search_text)
         searchEditText.hint = "분실물을 확인하세요."
@@ -69,10 +72,12 @@ class LoseSearchActivity : AppCompatActivity(R.layout.activity_lose_search), Los
         loseViewModel.filterLoseList.observe(this) { list ->
             if (list.isNotEmpty()) {
                 recyclerView.visibility = RecyclerView.VISIBLE
+                noSearch.visibility = TextView.GONE
                 adapter.updateData(list)
                 removeSearchFailFragment()
             } else {
                 recyclerView.visibility = RecyclerView.GONE
+                noSearch.visibility = TextView.VISIBLE
                 showSearchFailFragment()
             }
         }

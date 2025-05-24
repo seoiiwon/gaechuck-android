@@ -92,6 +92,9 @@ class LoseActivity : AppCompatActivity(R.layout.activity_lose) {
         backButton.setOnClickListener {
             val currentDestinationId = navController.currentDestination?.id
 
+            if (fromSearch) {
+                finish() // BusinessActivity 종료 → SearchActivity로 돌아감
+            }
             when (currentDestinationId) {
                 R.id.loseMainFragment -> {
                     val intent = Intent(this, MainActivity::class.java)
