@@ -54,7 +54,11 @@
                 android:textSize="18sp"
                 android:padding="12dp"
                 android:background="@android:color/white"
-                android:fontFamily="@font/pretendard_bold"/>
+                android:fontFamily="@font/pretendard_bold"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:scrollHorizontally="true"
+                android:inputType="text" />
 
             <!-- 내용 입력 -->
             <EditText

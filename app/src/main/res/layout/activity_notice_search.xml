@@ -21,19 +21,38 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-        <EditText
-            android:id="@+id/editSearch"
+
+
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="교내공지를 확인하세요"
-            android:paddingBottom="8dp"
-            android:paddingTop="16dp"
-            android:paddingLeft="4dp"
-            android:textSize="12dp"
-            android:imeOptions="actionSearch"
-            android:inputType="text"
-            android:background="@color/transparent"/>
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/editSearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint=""
+                android:paddingBottom="4dp"
+                android:paddingTop="16dp"
+                android:paddingLeft="4dp"
+                android:textSize="12dp"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:background="@color/transparent"/>
+
+            <ImageView
+                android:id="@+id/clearSearch"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="-8dp"
+                android:src="@drawable/clear_button"
+                android:visibility="gone"
+                android:contentDescription="검색어 지우기" />
+
+        </FrameLayout>
 
     </LinearLayout>
 
@@ -50,4 +69,16 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"/>
+
+<!--    <TextView-->
+<!--        android:id="@+id/emptyMessage"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="검색하신 내용이 없습니다"-->
+<!--        android:textAlignment="center"-->
+<!--        android:visibility="gone"-->
+<!--        android:textColor="@color/gnu_grey"-->
+<!--        android:textSize="14sp"-->
+<!--        android:paddingTop="32dp"/>-->
+
 </LinearLayout>

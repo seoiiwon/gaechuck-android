@@ -82,13 +82,24 @@
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/pretendard_regular"/>
 
+
+
             <LinearLayout
                 android:id="@+id/imageContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:gravity="center"
+                android:gravity="center_horizontal"
                 android:layout_marginTop="16dp"/>
+
+                <ImageView
+                    android:id="@+id/noticeImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+                    android:layout_marginTop="16dp"
+                    android:visibility="gone"/>
 
         </LinearLayout>
 
