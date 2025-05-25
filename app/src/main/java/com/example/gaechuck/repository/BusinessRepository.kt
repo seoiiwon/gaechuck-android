@@ -29,10 +29,10 @@ class BusinessRepository {
 
 
     // 제휴 리스트 가져오기
-    suspend fun getBusinessData(page: Int, category: String? = null) : GetBusinessDataResponse? {
+    suspend fun getBusinessData(page: Int, category: String? = null, coalitionName: String) : GetBusinessDataResponse? {
         return try {
             val categoryToUse = category ?: ""
-            val response = apiService.getBusinessData(page, 9, categoryToUse)
+            val response = apiService.getBusinessData(page, 9, categoryToUse,coalitionName)
             if(response.isSuccessful && response.body()?.isSuccess == true) {
                 response.body()?.result
             } else {
@@ -69,9 +69,7 @@ class BusinessRepository {
         return try {
             val requestBody = createJsonRequestBody(BusinessCreateRequest(coalitionName, benefit, category))
             val imageParts = file.mapIndexedNotNull { index, uri ->  createImagePart(uri, context, index) } // 모든 이미지 변환
-
-            Log.d("BusinessRepository", "데이터 전송 시작: name=$coalitionName, benefit=$benefit, category=$category, data=$requestBody")
-
+            
             val response =  ApiConnection.getRetrofitService.postBusinessCreate(
                 Authorization = token,
                 data = requestBody, // JSON 형식으로 보냄

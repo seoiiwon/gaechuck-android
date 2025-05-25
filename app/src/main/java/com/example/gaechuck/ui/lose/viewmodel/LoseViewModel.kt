@@ -11,6 +11,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.gaechuck.api.ApiConnection
 import com.example.gaechuck.api.AuthManager
 import com.example.gaechuck.data.response.BaseResponse
+import com.example.gaechuck.data.response.BusinessList
 import com.example.gaechuck.data.response.GetLoseDetailResponse
 import com.example.gaechuck.data.response.LoseList
 import com.example.gaechuck.data.response.PatchLoseResponse
@@ -41,6 +42,15 @@ class LoseViewModel(private val repository: LoseRepository):ViewModel() {
         value = !AuthManager.getToken().isNullOrEmpty()
     }
     val isLoggedIn: LiveData<Boolean> get() = _isLoggedIn
+
+    // 검색 필터링 변수
+    private val _filterLoseList = MutableLiveData<List<LoseList>>()
+    val filterLoseList: LiveData<List<LoseList>>
+        get() = _filterLoseList
+
+    // 검색 상태 관리
+    private val _isSearchResultEmpty = MutableLiveData<Boolean>()
+    val isSearchResultEmpty: LiveData<Boolean> get() = _isSearchResultEmpty
 
     // 작성 이미지 상태관리
     private val _selectedImages = MutableStateFlow<List<Uri>>(emptyList())
@@ -79,7 +89,7 @@ class LoseViewModel(private val repository: LoseRepository):ViewModel() {
         if (isLastPage) return
         viewModelScope.launch {
             try {
-                val response = repository.getLoseData(page)
+                val response = repository.getLoseData(page,9,"")
                 response?.let {
                     val currentList = _loseList.value.orEmpty()
                     val newList = if (page == 0) it.content else currentList + it.content
@@ -189,6 +199,27 @@ class LoseViewModel(private val repository: LoseRepository):ViewModel() {
                 Log.d("LoseViewModel", "데이터 전송 성공: ${it}")
             }.onFailure { error ->
                 Log.e("LoseViewModel", "데이터 전송 실패: ${error.message}")
+            }
+        }
+    }
+
+    // 검색 필터링 기능
+    fun searchLoseItems(title: String) {
+        viewModelScope.launch {
+            try {
+                val response = repository.getLoseData(0, 9, title)
+                response?.let {
+                    if (it.content.isEmpty()) {
+                        _isSearchResultEmpty.postValue(true) // 검색 결과 없음
+
+                    } else {
+                        _filterLoseList.postValue(it.content) // 검색 결과를 새로운 값으로 설정
+                        _isSearchResultEmpty.postValue(false)
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("LSViewModel", "에러 발생: ${e.message}")
+                _isSearchResultEmpty.postValue(true) // 검색 결과 없음
             }
         }
     }
