@@ -1,7 +1,6 @@
 package com.example.gaechuck.repository
 
 import android.util.Log
-import android.util.Size
 import com.example.gaechuck.api.ApiConnection
 import com.example.gaechuck.data.model.NoticeUnivModel
 import com.example.gaechuck.data.response.GetAllNoticeDataResponse
@@ -18,18 +17,15 @@ class NoticeUnivRepository {
         size: Int = 20
     ): Pair<List<NoticeUnivModel>, Boolean> {
         return try {
-//            val requestBbsId = if (bbsId.isNullOrEmpty()) "전체" else bbsId
-
-            Log.d("API_REQUEST", "🔹 Fetching notices → page=$page, size=$size, bbsId=$bbsId, title=$title")
+            Log.d("API_REQUEST", "Fetching notices → page=$page, size=$size, bbsId=$bbsId, title=$title")
 
             val paramBbsId = bbsId?.takeIf { it.isNotBlank() }
-            val paramTitle = title?.takeIf { it.isNotBlank() }
 
             val result = apiService.getAllNoticeData(
                 page = page,
                 size = size,
                 bbsId = paramBbsId,
-                title = paramTitle
+                title = title
             )
             if (result.isSuccess && result.result != null) {
                 val contentList = result.result.content
@@ -40,29 +36,6 @@ class NoticeUnivRepository {
 
                 val hasMoreData = !result.result.last
                 Pair(notices, hasMoreData)
-
-//                val notices = result.result.map {
-//                    NoticeUnivModel(
-//                        notiSeq = it.notiSeq,
-//                        notiNum = it.notiNum,
-//                        title = it.title,
-//                        regiDate = it.regiDate,
-//                        categoryName = it.categoryName,
-//                        departmentName = it.departmentName,
-//                        url = it.url,
-//                        bbsId = it.bbsId,
-//                        dataId = it.dataId
-//                    )
-//                }
-//
-//                Log.d("API_SUCCESS", "Page: $page → Fetched: ${notices.size} items")
-//
-//                val totalDataCount = notices.size
-//                Log.d("API_SUCCESS", "Total fetched so far: $totalDataCount items")
-//
-//                val hasMoreData = notices.isNotEmpty()
-//                Pair(notices, hasMoreData)
-
             } else {
                 Log.e("API_ERROR", "Error Message: ${result.message}")
                 throw Exception(result.message)
@@ -86,18 +59,4 @@ class NoticeUnivRepository {
             dataId = this.dataId
         )
     }
-
-    // bbsId에 따라 카테고리 이름 변환
-    private fun getCategoryByBbsId(bbsId: String): String {
-        return when (bbsId) {
-            "1" -> "학사"
-            "2" -> "기관"
-            "3" -> "채용"
-            "4" -> "장학"
-            "5" -> "입법예고"
-            else -> "기타"
-        }
-    }
-
-
 }

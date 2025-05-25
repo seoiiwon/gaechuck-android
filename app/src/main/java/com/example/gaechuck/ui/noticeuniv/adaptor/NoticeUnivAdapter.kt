@@ -1,6 +1,5 @@
 package com.example.gaechuck.ui.noticeuniv.adaptor
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,7 +7,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gaechuck.R
 import com.example.gaechuck.data.model.NoticeUnivModel
-import retrofit2.http.Query
 
 class NoticeUnivAdapter(
     private val notices: MutableList<NoticeUnivModel>,
@@ -30,7 +28,6 @@ class NoticeUnivAdapter(
             }
         }
     }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoticeViewHolder {
         val view = LayoutInflater.from(parent.context)

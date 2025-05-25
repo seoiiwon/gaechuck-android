@@ -1,7 +1,6 @@
 package com.example.gaechuck.ui.noticeuniv
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
@@ -13,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.gaechuck.R
 import com.example.gaechuck.ui.noticeuniv.adaptor.NoticeUnivAdapter
 import com.example.gaechuck.ui.noticeuniv.viewmodel.NoticeUnivViewModel
+import androidx.core.net.toUri
+import com.example.gaechuck.repository.NoticeUnivRepository
 
 class NoticeSearchActivity : AppCompatActivity(){
     private lateinit var backBtn: ImageView
@@ -26,6 +27,8 @@ class NoticeSearchActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notice_search)
 
+        val repo = NoticeUnivRepository()
+
         backBtn        = findViewById(R.id.backBtn)
         editSearch     = findViewById(R.id.editSearch)
         resultRecycler = findViewById(R.id.resultRecycler)
@@ -34,17 +37,14 @@ class NoticeSearchActivity : AppCompatActivity(){
 
         adapter = NoticeUnivAdapter(mutableListOf()) { url ->
             startActivity(
-                Intent(
-                Intent.ACTION_VIEW,
-                Uri.parse(url)
-            )
+                Intent(Intent.ACTION_VIEW, url.toUri())
             )
         }
         resultRecycler.layoutManager = LinearLayoutManager(this)
         resultRecycler.adapter = adapter
 
 
-        val repo = com.example.gaechuck.repository.NoticeUnivRepository()
+
         viewModel = ViewModelProvider(this,
             NoticeUnivViewModel.Factory(repo))
             .get(NoticeUnivViewModel::class.java)
@@ -61,7 +61,7 @@ class NoticeSearchActivity : AppCompatActivity(){
 
                 viewModel.fetchNotices(
                     page  = 0,
-                    bbsId = "전체",
+                    bbsId = null,
                     title = query,
                     size  = 20
                 )
