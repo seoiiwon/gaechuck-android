@@ -236,7 +236,7 @@ interface ApiService {
     // URL 수정 및 
     @POST("/api/v1/chaturl/insertUrl")
     suspend fun postUrl(
-        @Header("Authorization") authToken: String,
+//        @Header("Authorization") authToken: String,
         @Body request: UrlChangeRequest
         ) : Response<BaseResponse<PostUrlResponse>>
 
