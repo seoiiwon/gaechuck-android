@@ -164,12 +164,12 @@ class BusinessViewModel(private val repository: BusinessRepository) : ViewModel(
     }
 
     // data 보내기
-    fun sendData(token: String, coalitionName: String, benefit: String, category: String, file : List<Uri>,context: Context) {
+    fun sendData(coalitionName: String, benefit: String, category: String, file : List<Uri>,context: Context) {
         Log.d("BusinessViewModel", "sendData 호출됨 - name: $coalitionName, benefit: $benefit, category: $category, file : $file")
 
         viewModelScope.launch {
             val result =
-                repository.postBusinessCreate(token, coalitionName, benefit, category, file, context )
+                repository.postBusinessCreate(coalitionName, benefit, category, file, context )
             _postResult.value = result
 
             result.onSuccess {
@@ -181,10 +181,10 @@ class BusinessViewModel(private val repository: BusinessRepository) : ViewModel(
     }
 
     // 아이템 삭제하기
-    fun deleteData (token : String, coalitionId: Int) {
+    fun deleteData (coalitionId: Int) {
         viewModelScope.launch {
             val result =
-                repository.postBusinessDelete(token, coalitionId)
+                repository.postBusinessDelete(coalitionId)
             _deleteResult.value = result
 
             result.onSuccess {
@@ -197,7 +197,7 @@ class BusinessViewModel(private val repository: BusinessRepository) : ViewModel(
 
     // 아이템 수정하기
     fun patchData(
-        token: String,
+//        token: String,
         coalitionId: Int,
         coalitionName : String,
         benefit : String,
@@ -213,7 +213,7 @@ class BusinessViewModel(private val repository: BusinessRepository) : ViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             val result =
                 repository.patchBusinessData(
-                    token,
+//                    token,
                     coalitionId,
                     coalitionName,
                     benefit,

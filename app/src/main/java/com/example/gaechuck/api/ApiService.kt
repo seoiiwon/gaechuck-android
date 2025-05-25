@@ -68,7 +68,7 @@ interface ApiService {
     @Multipart
     @POST("/api/v1/lostitems/write")
     suspend fun postLoseCreate(
-        @Header("Authorization") Authorization: String,
+//        @Header("Authorization") Authorization: String,
         @Part("data") data: RequestBody, // "data" 파트 추가
         @Part file: List<MultipartBody.Part> // "file" 파트 추가
     ) : Response<BaseResponse<String>>
@@ -76,7 +76,7 @@ interface ApiService {
     // 분실물 글 삭제하기
     @POST("/api/v1/lostitems/delete")
     suspend fun postLoseDelete(
-        @Header("Authorization") Authorization: String,
+//        @Header("Authorization") Authorization: String,
         @Body request : LoseDeleteRequest
     ) : Response<BaseResponse<String>>
 
@@ -84,7 +84,7 @@ interface ApiService {
     @Multipart
     @PATCH("/api/v1/lostitems/update")
     suspend fun patchLoseData(
-        @Header("Authorization") Authorization: String,
+//        @Header("Authorization") Authorization: String,
         @Part("data") data: LosePatchRequest,
         @Part file: List<MultipartBody.Part>
     ) : Response<BaseResponse<PatchLoseResponse>>
@@ -109,7 +109,7 @@ interface ApiService {
     @Multipart
     @POST("/api/v1/rent/createItem")
     suspend fun postRentCreate(
-        @Header("Authorization") Authorization: String,
+//        @Header("Authorization") Authorization: String,
         @Part("data") data: RequestBody, // "data" 파트 추가
         @Part file: List<MultipartBody.Part> // "file" 파트 추가
     ) : Response<BaseResponse<String>>
@@ -117,7 +117,7 @@ interface ApiService {
     // 대여 글 삭제하기
     @POST("/api/v1/rent/deleteItem")
     suspend fun postRentDelete(
-        @Header("Authorization") Authorization: String,
+//        @Header("Authorization") Authorization: String,
         @Body request : RentDeleteRequest
     ) : Response<BaseResponse<String>>
 
@@ -125,7 +125,7 @@ interface ApiService {
     @Multipart
     @PATCH("/api/v1/rent/updateItem")
     suspend fun patchRentData(
-        @Header("Authorization") Authorization: String,
+//        @Header("Authorization") Authorization: String,
         @Part("data") data: RentPatchRequest,
         @Part file: List<MultipartBody.Part>
     ) : Response<BaseResponse<String>>
@@ -150,7 +150,7 @@ interface ApiService {
     @Multipart
     @POST("/api/v1/coalition/write")
     suspend fun postBusinessCreate(
-        @Header("Authorization") Authorization: String,
+//        @Header("Authorization") Authorization: String,
         @Part("data") data: RequestBody, // "data" 파트 추가
         @Part file: List<MultipartBody.Part> // "file" 파트 추가
     ) : Response<BaseResponse<String>>
@@ -158,7 +158,7 @@ interface ApiService {
     // 제휴 글 삭제하기
     @POST("/api/v1/coalition/delete")
     suspend fun postBusinessDelete(
-        @Header("Authorization") Authorization: String,
+//        @Header("Authorization") Authorization: String,
         @Body request : BusinessDeleteRequest
     ) : Response<BaseResponse<String>>
 
@@ -166,7 +166,7 @@ interface ApiService {
     @Multipart
     @PATCH("/api/v1/coalition/update")
     suspend fun patchBusinessData(
-        @Header("Authorization") Authorization: String,
+//        @Header("Authorization") Authorization: String,
         @Part("data") data: BusinessPatchRequest,
         @Part file: List<MultipartBody.Part>
     ) : Response<BaseResponse<PatchBusinessResponse>>

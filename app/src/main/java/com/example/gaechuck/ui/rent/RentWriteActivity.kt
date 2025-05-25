@@ -157,7 +157,7 @@ class RentWriteActivity : AppCompatActivity(R.layout.activity_rent_write) {
     }
 
     private fun sendRentData() {
-        val token = "Bearer ${AuthManager.getToken()}" // 🔥 토큰 가져오기
+//        val token = "Bearer ${AuthManager.getToken()}" // 🔥 토큰 가져오기
         val rentItemName = binding.fieldTitle.text.toString()
         val rentItemCount = binding.fieldCount.text.toString()
 
@@ -175,7 +175,7 @@ class RentWriteActivity : AppCompatActivity(R.layout.activity_rent_write) {
         }
 
         sendButton.isEnabled = false // 로딩 중 비활성화
-        viewModel.sendData(token, rentItemName, rentItemCount.toInt(), imageUris, applicationContext)
+        viewModel.sendData(rentItemName, rentItemCount.toInt(), imageUris, applicationContext)
     }
 
 
