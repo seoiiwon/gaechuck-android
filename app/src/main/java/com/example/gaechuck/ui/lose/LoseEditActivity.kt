@@ -201,7 +201,7 @@ class LoseEditActivity : AppCompatActivity(R.layout.activity_lose_write) {
     }
 
     private fun patchRentData(loseItemId: Int) {
-        val token = "Bearer ${AuthManager.getToken()}" // 🔥 토큰 가져오기
+//        val token = "Bearer ${AuthManager.getToken()}" // 🔥 토큰 가져오기
         val title = binding.fieldTitle.text.toString()
         val lostDate = binding.fieldDate.text.toString()
         val description = binding.fieldInfo.text.toString()
@@ -226,7 +226,7 @@ class LoseEditActivity : AppCompatActivity(R.layout.activity_lose_write) {
 
         sendButton.isEnabled = false // 로딩 중 비활성화
         viewModel.patchData(
-            token,
+//            token,
             loseItemId,
             title,
             lostDate,

@@ -57,7 +57,7 @@ class LoseRepository {
 
     // 분실물 글쓰기
     suspend fun postLoseCreate(
-        token: String,
+//        token: String,
         title : String,
         lostDate : String,
         description : String,
@@ -72,7 +72,7 @@ class LoseRepository {
             Log.d("LoseRepository", "데이터 전송 시작: name: $title, lostDate: $lostDate, description: $description, lostLocation:$lostLocation, data=$requestBody")
 
             val response =  ApiConnection.getRetrofitService.postLoseCreate(
-                Authorization = token,
+//                Authorization = token,
                 data = requestBody, // JSON 형식으로 보냄
                 file = imageParts
             )
@@ -148,17 +148,16 @@ class LoseRepository {
 
     // 분실물 글 삭제
     suspend fun postLoseDelete (
-        token: String,
+//        token: String,
         lostItemId : Int,
     ) : Result<BaseResponse<String>>{
-        Log.d("LoseRepository", token)
         Log.d("LoseRepository", lostItemId.toString())
         return try {
 
             val request = LoseDeleteRequest(lostItemId)
 
             val response = ApiConnection.getRetrofitService.postLoseDelete(
-                Authorization = token,  // Authorization 헤더에 token 추가
+//                Authorization = token,  // Authorization 헤더에 token 추가
                 request = request
             )
 
@@ -174,7 +173,7 @@ class LoseRepository {
 
     // 분실물 글 수정하기
     suspend fun patchLoseData(
-        token: String,
+//        token: String,
         lostItemId : Int,
         title : String,
         lostDate: String,
@@ -188,7 +187,7 @@ class LoseRepository {
             val imageParts = file.mapIndexedNotNull { index, uri ->  createImagePart(uri, context, index) } // 모든 이미지 변환
 
             val response =  ApiConnection.getRetrofitService.patchLoseData(
-                Authorization = token,
+//                Authorization = token,
                 data = requestBody, // JSON 형식으로 보냄
                 file = imageParts
             )

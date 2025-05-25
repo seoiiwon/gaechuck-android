@@ -191,8 +191,8 @@ class BusinessActivity : AppCompatActivity(R.layout.activity_business) {
     }
 
     private fun deleteBusinessItem(coalitionId: Int) {
-        val token = "Bearer ${com.example.gaechuck.api.AuthManager.getToken()}"
-        businessViewModel.deleteData(token, coalitionId)
+//        val token = "Bearer ${com.example.gaechuck.api.AuthManager.getToken()}"
+        businessViewModel.deleteData(coalitionId)
         // 삭제 작업의 결과를 관찰
         businessViewModel.deleteResult.observe(this) { result ->
             result.onSuccess { response ->

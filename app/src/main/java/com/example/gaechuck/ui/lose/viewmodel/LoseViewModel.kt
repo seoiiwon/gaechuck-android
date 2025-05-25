@@ -132,12 +132,12 @@ class LoseViewModel(private val repository: LoseRepository):ViewModel() {
     }
 
     // data 보내기
-    fun sendData(token: String, title: String, lostDate: String, description: String, lostLocation: String, file : List<Uri>,context: Context) {
+    fun sendData(title: String, lostDate: String, description: String, lostLocation: String, file : List<Uri>,context: Context) {
         Log.d("LoseViewModel", "sendData 호출됨 - name: $title, lostDate: $lostDate, description: $description, lostLocation:$lostLocation, file : $file")
 
         viewModelScope.launch {
             val result =
-                repository.postLoseCreate(token, title, lostDate, description, lostLocation, file, context)
+                repository.postLoseCreate(title, lostDate, description, lostLocation, file, context)
             _postResult.value = result
 
             result.onSuccess {
@@ -149,10 +149,10 @@ class LoseViewModel(private val repository: LoseRepository):ViewModel() {
     }
 
     // 삭제하기
-    fun deleteData (token : String, lostItemId: Int) {
+    fun deleteData (lostItemId: Int) {
         viewModelScope.launch {
             val result =
-                repository.postLoseDelete(token, lostItemId)
+                repository.postLoseDelete(lostItemId)
             _deleteResult.value = result
 
             result.onSuccess {
@@ -165,7 +165,7 @@ class LoseViewModel(private val repository: LoseRepository):ViewModel() {
 
     // 아이템 수정하기
     fun patchData(
-        token: String,
+//        token: String,
         lostItemId: Int,
         title : String,
         lostDate: String,
@@ -182,7 +182,7 @@ class LoseViewModel(private val repository: LoseRepository):ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             val result =
                 repository.patchLoseData(
-                    token,
+//                    token,
                     lostItemId,
                     title,
                     lostDate,

@@ -185,7 +185,7 @@ class LoseWriteActivity : AppCompatActivity() {
     }
 
     private fun sendLoseData() {
-        val token = "Bearer ${AuthManager.getToken()}" // 토큰 가져오기
+//        val token = "Bearer ${AuthManager.getToken()}" // 토큰 가져오기
         val title = binding.fieldTitle.text.toString()
         val lostDate = binding.fieldDate.text.toString()
         val description = binding.fieldInfo.text.toString()
@@ -205,7 +205,7 @@ class LoseWriteActivity : AppCompatActivity() {
         }
 
         sendButton.isEnabled = false // 로딩 중 비활성화
-        viewModel.sendData(token, title, lostDate, description, lostLocation,imageUris, applicationContext)
+        viewModel.sendData(title, lostDate, description, lostLocation,imageUris, applicationContext)
     }
 
     // 날짜 형식 변환 함수

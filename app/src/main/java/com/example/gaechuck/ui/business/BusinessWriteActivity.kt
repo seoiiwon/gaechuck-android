@@ -157,7 +157,7 @@ class BusinessWriteActivity : AppCompatActivity(R.layout.activity_business_write
     }
 
     private fun sendBusinessData() {
-        val token = "Bearer ${AuthManager.getToken()}" // 🔥 토큰 가져오기
+//        val token = "Bearer ${AuthManager.getToken()}" // 🔥 토큰 가져오기
         val coalitionName = binding.fieldTitle.text.toString()
         val benefit = binding.fieldInfo.text.toString()
 
@@ -179,7 +179,7 @@ class BusinessWriteActivity : AppCompatActivity(R.layout.activity_business_write
         }
 
         sendButton.isEnabled = false // 로딩 중 비활성화
-        viewModel.sendData(token, coalitionName, benefit, category, imageUris, applicationContext)
+        viewModel.sendData(coalitionName, benefit, category, imageUris, applicationContext)
     }
 
     private fun finishAndGoToBusinessActivity() {

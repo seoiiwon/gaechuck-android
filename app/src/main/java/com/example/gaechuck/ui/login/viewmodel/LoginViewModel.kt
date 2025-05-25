@@ -37,9 +37,18 @@ class LoginViewModel : ViewModel() {
 
                 if(response.isSuccessful) {
                     val loginResponse = response.body()?.result
-                    AuthManager.saveToken(loginResponse?.accessToken ?: "") // 토큰 저장
-                    _loginResult.value = true
-                    onResult(true)
+                    val accessToken = loginResponse?.accessToken
+                    val refreshToken = loginResponse?.refreshToken
+
+                    if (!accessToken.isNullOrEmpty() && !refreshToken.isNullOrEmpty()) {
+                        AuthManager.saveTokens(accessToken, refreshToken)  // ✅ 둘 다 저장
+                        _loginResult.value = true
+                        onResult(true)
+                    } else {
+                        Log.e("Login", "AccessToken or RefreshToken is null or empty")
+                        _loginResult.value = false
+                        onResult(false)
+                    }
                 } else {
                     // 실패했을 때 response.errorBody() 출력
                     Log.d("Login", "Login failed: ${response.errorBody()?.string()}")

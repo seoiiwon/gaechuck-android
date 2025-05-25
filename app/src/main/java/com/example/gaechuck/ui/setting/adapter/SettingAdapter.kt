@@ -36,7 +36,7 @@ class SettingAdapter(private val items: List<SettingItem>) :
                 holder.itemView.context.startActivity(intent)
             }
             if(position == 2) {
-                AuthManager.clearToken()
+                AuthManager.clearTokens()
                 Toast.makeText(holder.itemView.context, "로그아웃 성공!", Toast.LENGTH_SHORT).show()
 
                 // MainActivity로 이동

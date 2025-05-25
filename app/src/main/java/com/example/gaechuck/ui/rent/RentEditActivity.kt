@@ -155,7 +155,7 @@ class RentEditActivity : AppCompatActivity(R.layout.activity_rent_write) {
     }
 
     private fun patchRentData(rentItemId:Int) {
-        val token = "Bearer ${AuthManager.getToken()}" // 🔥 토큰 가져오기
+//        val token = "Bearer ${AuthManager.getToken()}" // 🔥 토큰 가져오기
         val rentItemName = binding.fieldTitle.text.toString()
         val rentItemCount = binding.fieldCount.text.toString()
 
@@ -171,7 +171,7 @@ class RentEditActivity : AppCompatActivity(R.layout.activity_rent_write) {
         }
 
         sendButton.isEnabled = false // 로딩 중 비활성화
-        viewModel.patchData(token, rentItemId, rentItemName, rentItemCount.toInt(), imageUris, applicationContext)
+        viewModel.patchData(rentItemId, rentItemName, rentItemCount.toInt(), imageUris, applicationContext)
     }
 
 

@@ -124,9 +124,9 @@ class LoseUrlChangeActivity : AppCompatActivity(R.layout.activity_lose_url) {
     private fun updateUrl(newUrl: String) {
         lifecycleScope.launch {
             try {
-                val token = "Bearer ${AuthManager.getToken()}"
+//                val token = "Bearer ${AuthManager.getToken()}"
                 val request = UrlChangeRequest(chatName, newUrl)
-                val response = ApiConnection.getRetrofitService.postUrl(token, request)
+                val response = ApiConnection.getRetrofitService.postUrl(request)
                 if (response.isSuccessful) {
                     Toast.makeText(this@LoseUrlChangeActivity, "URL이 변경되었습니다.", Toast.LENGTH_SHORT).show()
                     // chatName 값에 따라 이동할 Activity 결정
