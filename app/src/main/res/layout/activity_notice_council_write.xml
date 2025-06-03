@@ -27,6 +27,11 @@
                 android:src="@drawable/back_btn"
                 android:layout_gravity="start"/>
 
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
             <!-- 우측 정렬된 버튼 -->
             <Button
                 android:id="@+id/postButton"
@@ -34,7 +39,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:backgroundTint="@color/transparent"
-                android:layout_marginLeft="240dp"
                 android:text="완료"
                 android:textColor="@color/gnu_blue"
                 android:fontFamily="@font/pretendard_bold"/>

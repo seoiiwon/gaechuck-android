@@ -3,6 +3,7 @@ package com.example.gaechuck.ui.noticecouncil.adaptor
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.PopupMenu
@@ -26,8 +27,9 @@ class NoticeCouncilAdapter(
     private var filteredList: MutableList<GetCouncilNoticeDataResponse> = noticeList.toMutableList()
 
     class NoticeCouncilViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val imageContainer: FrameLayout = view.findViewById(R.id.imageContainer)
         val noticeImage: ImageView = view.findViewById(R.id.noticeImage)
-        val imagePlaceholder: TextView = view.findViewById(R.id.imagePlaceholder)
+
         val noticeTitle: TextView = view.findViewById(R.id.noticeTitle)
         val noticeDescription: TextView = view.findViewById(R.id.noticeDescription)
         val noticeDate: TextView = view.findViewById(R.id.noticeDate)
@@ -49,14 +51,16 @@ class NoticeCouncilAdapter(
         holder.noticeDate.text = formatNoticeDate(notice.time)
 
         if (!notice.representationImages.isNullOrEmpty()) {
+
+            holder.imageContainer.visibility = View.VISIBLE
             holder.noticeImage.visibility = View.VISIBLE
-            holder.imagePlaceholder.visibility = View.GONE
+
             Glide.with(holder.itemView.context)
                 .load(notice.representationImages)
                 .into(holder.noticeImage)
         } else {
-            holder.noticeImage.visibility = View.GONE
-            holder.imagePlaceholder.visibility = View.VISIBLE
+            holder.imageContainer.visibility = View.GONE
+//            holder.imagePlaceholder.visibility = View.VISIBLE
         }
 
         // 수정하기 / 삭제하기
