@@ -16,11 +16,16 @@ class NoticeUnivAdapter(
     inner class NoticeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val title: TextView = view.findViewById(R.id.noticeTitle)
         private val body: TextView = view.findViewById(R.id.noticeBody)
+        private val date: TextView = view.findViewById(R.id.noticeDate)
         private val category: TextView = view.findViewById(R.id.noticeCategory)
 
         fun bind(notice: NoticeUnivModel) {
-            title.text = notice.title
+            val noticeDept = notice.departmentName ?: ""
+            val noticeTitle = notice.title
+
+            title.text = "[$noticeDept] $noticeTitle"
             body.text = notice.departmentName ?: "부서 없음"
+            date.text = notice.regiDate.replace("-", ".")
             category.text = notice.bbsId ?: "카테고리 없음"
 
             itemView.setOnClickListener {
@@ -45,6 +50,13 @@ class NoticeUnivAdapter(
         notices.clear()
         notices.addAll(newNotices)
         notifyDataSetChanged()
+    }
+
+    fun appendNotices(nextPageNotices: List<NoticeUnivModel>) {
+        if (nextPageNotices.isEmpty()) return
+        val oldSize = notices.size
+        notices.addAll(nextPageNotices)
+        notifyItemRangeInserted(oldSize, nextPageNotices.size)
     }
 
     fun getItem(position: Int): NoticeUnivModel? {
