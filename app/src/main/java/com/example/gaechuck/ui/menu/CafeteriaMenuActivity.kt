@@ -1,15 +1,18 @@
 package com.example.gaechuck.ui.menu
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Paint
 import android.graphics.Typeface
 import android.os.Bundle
 import android.view.Gravity
+import android.view.MotionEvent
 import android.view.View
 import android.widget.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -107,21 +110,48 @@ class CafeteriaMenuActivity : AppCompatActivity() {
 
     private var spinnerInitialized = false
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun setupCampusSpinner() {
         val campuses = campusMap.keys.toList()
-        campusSpinner.adapter = ArrayAdapter(
-            this, android.R.layout.simple_spinner_item, campuses
+
+        val spinnerAdaptor = ArrayAdapter(
+            this,
+            R.layout.spinner_selected_item,
+            campuses
         ).apply {
             setDropDownViewResource(R.layout.spinner_dropdown_item)
         }
 
-        // 초기 상태 (첫번째 캠퍼스, 첫번째 식당)
+        campusSpinner.adapter = spinnerAdaptor
+
+        val popupWindow: ListPopupWindow? = try {
+            val mPopupField = Spinner::class.java.getDeclaredField("mPopup")
+            mPopupField.isAccessible = true
+            mPopupField.get(campusSpinner) as? ListPopupWindow
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+
+        popupWindow?.setOnDismissListener {
+            campusSpinner.post {
+                campusSpinner.background = ContextCompat.getDrawable(
+                    this@CafeteriaMenuActivity,
+                    R.drawable.spinner_bg_arrow_down
+                )
+            }
+        }
+
+        spinnerInitialized = false
+        campusSpinner.setSelection(0, false)
         spinnerInitialized = true
+
         val firstCampus = campuses[0]
         selectedSeqList = seqMap[firstCampus] ?: emptyList()
         currentIndex = 0
         updateRestaurantTitle()
         loadMenuForCurrent()
+        updateArrowVisibility()
 
         // 리스너 등록
         campusSpinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
@@ -133,12 +163,24 @@ class CafeteriaMenuActivity : AppCompatActivity() {
                 val campusName = campuses[pos]
                 selectedSeqList = seqMap[campusName] ?: emptyList()
                 currentIndex = 0
+
                 updateRestaurantTitle()
                 loadMenuForCurrent()
                 updateArrowVisibility()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+        campusSpinner.setOnTouchListener { v, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                if (popupWindow?.isShowing != true) {
+                    campusSpinner.background = ContextCompat.getDrawable(
+                        this@CafeteriaMenuActivity,
+                        R.drawable.spinner_bg_arrow_up
+                    )
+                }
+            }
+            false
         }
     }
 
@@ -243,13 +285,14 @@ class CafeteriaMenuActivity : AppCompatActivity() {
 
     private fun updateRestaurantTitle() {
         restaurantLayout.removeAllViews()
-        val campusName = campusSpinner.selectedItem as String
+        val campusName = (campusSpinner.selectedItem as? String) ?: campusMap.keys.firstOrNull() ?: "캠퍼스 정보 없음"
         val name = campusMap[campusName]?.getOrNull(currentIndex) ?: "식당 정보 없음"
 
         val tv = TextView(this).apply {
             text = name
             textSize = 16f
-            typeface = Typeface.DEFAULT_BOLD
+//            typeface = Typeface.DEFAULT_BOLD
+            typeface = ResourcesCompat.getFont(context, R.font.pretendard_bold)
             setPadding(16, 16, 16, 16)
             gravity = Gravity.CENTER
             layoutParams = LinearLayout.LayoutParams(

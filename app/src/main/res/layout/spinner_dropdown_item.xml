@@ -8,6 +8,6 @@
     android:singleLine="true"
     android:ellipsize="marquee"
     android:textSize="14sp"
-    android:fontFamily="@font/noto_sans_kr_semibold"
-    android:textAlignment="center"
-    />
+    android:fontFamily="@font/pretendard_bold"
+    android:paddingVertical="8dp"
+    android:textAlignment="center" />

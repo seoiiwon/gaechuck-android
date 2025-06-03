@@ -46,21 +46,21 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <Spinner
+        <com.example.gaechuck.ui.menu.ArrowToggleSpinner
             android:id="@+id/campusSpinner"
             android:layout_width="110dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="12dp"
-            android:layout_marginRight="10dp"
             android:layout_marginBottom="8dp"
-            android:background="@drawable/spinner_background"
+            android:background="@drawable/spinner_background_selector"
             android:popupBackground="@drawable/style_popup"
             android:gravity="center"
             android:popupElevation="1dp"
             android:spinnerMode="dropdown"
             android:overlapAnchor="false"
-            />
+            android:focusable="false"
+            android:focusableInTouchMode="false"/>
 
         <TextView
             android:layout_width="wrap_content"
