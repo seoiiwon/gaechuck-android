@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <size
+        android:width="30dp"
+        android:height="16dp"/>
     <solid android:color="@color/gnu_blue" />
-    <corners android:radius="8dp" /> <!-- 모서리를 8dp로 둥글게 -->
+    <corners android:radius="32dp" /> <!-- 모서리를 8dp로 둥글게 -->
 </shape>
