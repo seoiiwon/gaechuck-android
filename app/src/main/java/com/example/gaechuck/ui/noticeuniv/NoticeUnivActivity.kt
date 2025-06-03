@@ -51,15 +51,8 @@ class NoticeUnivActivity : AppCompatActivity() {
 
         // back, home 버튼 초기화
         val backBtn: ImageView = findViewById(R.id.backBtn)
-        val homeBtn: ImageView = findViewById(R.id.homeBtn)
 
         backBtn.setOnClickListener { finish() }
-
-        homeBtn.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-            startActivity(intent)
-        }
 
         // 검색창 UI 설정
         searchButton.setOnClickListener {
