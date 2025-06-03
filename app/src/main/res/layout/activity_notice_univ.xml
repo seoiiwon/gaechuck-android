@@ -44,13 +44,6 @@
             android:src="@drawable/search_button"
             android:clickable="true"/>
 
-<!--        <ImageView-->
-<!--            android:id="@+id/homeBtn"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:src="@drawable/home_btn"-->
-<!--            android:padding="8dp" />-->
-
     </LinearLayout>
 
     <!-- 설명 텍스트 -->
