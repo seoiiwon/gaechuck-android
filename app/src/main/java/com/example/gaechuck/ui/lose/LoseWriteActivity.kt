@@ -86,7 +86,6 @@ class LoseWriteActivity : AppCompatActivity() {
         toolbar = binding.toolbarMain
         backButton = binding.buttonBack
         sendButton = binding.formSend
-        binding.textViewTitle.text = "분실물 글 작성하기"
 
 
         backButton.setOnClickListener {

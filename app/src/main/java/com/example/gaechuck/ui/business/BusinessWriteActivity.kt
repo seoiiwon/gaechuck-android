@@ -81,9 +81,7 @@ class BusinessWriteActivity : AppCompatActivity(R.layout.activity_business_write
         toolbar = findViewById(R.id.toolbar_main)
         backButton = toolbar.findViewById(R.id.button_back)
         sendButton = toolbar.findViewById(R.id.form_send)
-
-        binding.textViewTitle.text = "제휴 글 작성하기"
-
+        
         chipGroup = findViewById(R.id.group_category)
         chipGroup.isSelectionRequired = true
 
