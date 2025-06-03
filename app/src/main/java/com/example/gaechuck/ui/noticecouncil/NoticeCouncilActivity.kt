@@ -32,7 +32,6 @@ class NoticeCouncilActivity : AppCompatActivity() {
     private lateinit var noticeAdapter: NoticeCouncilAdapter
     private val viewModel: NoticeCouncilViewModel by viewModels { NoticeCouncilViewModelFactory(NoticeCouncilRepository()) }
 
-    // NoticeCouncilActivity 내에 추가
     val updateNoticeLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == RESULT_OK) {
             viewModel.fetchNotices()
@@ -48,6 +47,19 @@ class NoticeCouncilActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notice_council)
+
+        noticeAdapter = NoticeCouncilAdapter(
+            mutableListOf(),
+            onDeleteClick = { noticeId -> performDeleteNotice(noticeId) },
+            onUpdateClick = { noticeId ->
+                val intent = Intent(this, NoticeCouncilUpdateActivity::class.java)
+                intent.putExtra("notice_id", noticeId)
+                updateNoticeLauncher.launch(intent)
+            },
+            onItemClick = { notice ->
+                showNoticeDetailActivity(notice)
+            }
+        )
 
         val postNoticeButton = findViewById<FloatingActionButton>(R.id.postNoticeButton)
         val searchButton = findViewById<ImageView>(R.id.searchButton)
@@ -109,22 +121,19 @@ class NoticeCouncilActivity : AppCompatActivity() {
 
     private fun initRecyclerView() {
         val recyclerView = findViewById<RecyclerView>(R.id.noticeRecyclerView)
+        val layoutManager = LinearLayoutManager(this)
 
-        noticeAdapter = NoticeCouncilAdapter(
-            mutableListOf(),
-            onDeleteClick = { noticeId -> performDeleteNotice(noticeId) },
-            onUpdateClick = { noticeId ->
-                val intent = Intent(this, NoticeCouncilUpdateActivity::class.java)
-                intent.putExtra("notice_id", noticeId)
-                updateNoticeLauncher.launch(intent)
-            },
-            onItemClick = { notice ->
-                showNoticeDetailActivity(notice)
-            }
-        )
-
+        recyclerView.layoutManager = layoutManager
         recyclerView.adapter = noticeAdapter
-        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(rv: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(rv, dx, dy)
+                if (dy > 0 && !rv.canScrollVertically(1)) {
+                    viewModel.loadMoreNotices()
+                }
+            }
+        })
     }
 
     private fun observeViewModel() {
@@ -133,17 +142,15 @@ class NoticeCouncilActivity : AppCompatActivity() {
             noticeAdapter.updateData(notices)
             updateUI()
         }
-
-        viewModel.deleteStatus.observe(this) { deletedNoticeId ->
-            deletedNoticeId?.let {
+        viewModel.deleteStatus.observe(this) { deletedId ->
+            deletedId?.let {
                 noticeAdapter.removeNotice(it)
                 Toast.makeText(this, "게시글이 삭제되었습니다.", Toast.LENGTH_SHORT).show()
                 updateUI()
             }
         }
-
         viewModel.errorMessage.observe(this) { errorMsg ->
-            Toast.makeText(this, "삭제 실패: $errorMsg", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "오류: $errorMsg", Toast.LENGTH_SHORT).show()
         }
     }
 

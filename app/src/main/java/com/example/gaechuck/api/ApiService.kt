@@ -177,13 +177,13 @@ interface ApiService {
     suspend fun getNoticeCouncilList(
         @Query("page") page: Int,
         @Query("size") size: Int
-    ): Response<BaseResponse<PagenatedResponse<GetCouncilNoticeDataResponse>>>
+    ): BaseResponse<PagenatedResponse<GetCouncilNoticeDataResponse>>
     @GET("/api/v1/council/show")
     suspend fun getNoticeCouncilSearchList(
         @Query("page") page: Int,
         @Query("size") size: Int,
         @Query("title") title: String
-    ) : Response<BaseResponse<PagenatedResponse<GetCouncilNoticeDataResponse>>>
+    ) : BaseResponse<PagenatedResponse<GetCouncilNoticeDataResponse>>
 
     // 총학생회 공지 상세보기
     @GET("/api/v1/council/show/{id}")
@@ -227,10 +227,10 @@ interface ApiService {
     // Food
     // 식당 메뉴 보기
     @GET("/api/v1/menus/weeklyMenu")
-    fun getFoodData(
+    suspend fun getFoodData(
         @Query("cafeteriaSeq") seq : Int,
         @Query("startDate") date : String
-    ): Call<BaseListResponse<GetFoodDataResponse>>
+    ): BaseListResponse<GetFoodDataResponse>
 
     // Url
     // URL 수정 및 
