@@ -33,6 +33,7 @@
             android:layout_gravity="center"
             android:fontFamily="@font/pretendard_bold"
             android:textSize="20sp"
+            android:text="작성하기"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/button_back" />
