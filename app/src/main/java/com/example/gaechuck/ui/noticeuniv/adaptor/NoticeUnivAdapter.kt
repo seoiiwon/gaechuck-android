@@ -52,6 +52,13 @@ class NoticeUnivAdapter(
         notifyDataSetChanged()
     }
 
+    fun appendNotices(nextPageNotices: List<NoticeUnivModel>) {
+        if (nextPageNotices.isEmpty()) return
+        val oldSize = notices.size
+        notices.addAll(nextPageNotices)
+        notifyItemRangeInserted(oldSize, nextPageNotices.size)
+    }
+
     fun getItem(position: Int): NoticeUnivModel? {
         return if (position in notices.indices) notices[position] else null
     }

@@ -16,6 +16,7 @@ import com.example.gaechuck.R
 import com.example.gaechuck.ui.noticeuniv.adaptor.NoticeUnivAdapter
 import com.example.gaechuck.ui.noticeuniv.viewmodel.NoticeUnivViewModel
 import androidx.core.net.toUri
+import androidx.lifecycle.Observer
 import com.example.gaechuck.repository.NoticeUnivRepository
 
 class NoticeSearchActivity : AppCompatActivity(){
@@ -24,6 +25,9 @@ class NoticeSearchActivity : AppCompatActivity(){
     private lateinit var resultRecycler: RecyclerView
     private lateinit var emptyMessage: TextView
 
+    private var isLoading = false
+    private var hasMoreData = true
+    private var currentPage = 0
 
     private lateinit var adapter: NoticeUnivAdapter
     private lateinit var viewModel: NoticeUnivViewModel
@@ -47,38 +51,82 @@ class NoticeSearchActivity : AppCompatActivity(){
         resultRecycler.layoutManager = LinearLayoutManager(this)
         resultRecycler.adapter = adapter
 
+        resultRecycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(rv: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(rv, dx, dy)
+                if (dy <= 0) return
+
+                val lm = rv.layoutManager as LinearLayoutManager
+                val totalItemCount   = lm.itemCount
+                val lastVisibleIndex = lm.findLastVisibleItemPosition()
+
+                // 마지막 아이템 근처에 도달했고, 아직 로딩 중이 아니며, 다음 페이지가 있으면
+                if (!isLoading && hasMoreData && lastVisibleIndex + 1 >= totalItemCount) {
+                    isLoading = true
+                    currentPage += 1
+                    triggerFetch(page = currentPage)
+                }
+            }
+        })
+
         val repo = NoticeUnivRepository()
         viewModel = ViewModelProvider(this,
             NoticeUnivViewModel.Factory(repo))
             .get(NoticeUnivViewModel::class.java)
 
-        viewModel.notices.observe(this) { list ->
-            adapter.setNotices(list)
-            if (list.isEmpty()) {
-                emptyMessage.visibility = View.VISIBLE
-                resultRecycler.visibility = View.GONE
+        viewModel.notices.observe(this, Observer { list ->
+            isLoading = false
+
+            if (currentPage == 0) {
+                if (list.isEmpty()) {
+                    emptyMessage.visibility = View.VISIBLE
+                    resultRecycler.visibility = View.GONE
+                } else {
+                    emptyMessage.visibility = View.GONE
+                    resultRecycler.visibility = View.VISIBLE
+
+                    adapter.setNotices(list)
+                }
             } else {
-                emptyMessage.visibility = View.GONE
-                resultRecycler.visibility = View.VISIBLE
+                if (list.isEmpty()) {
+                    hasMoreData = false
+                } else {
+                    adapter.appendNotices(list)
+                }
             }
-        }
+        })
 
         editSearch.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 val query = editSearch.text.toString().trim()
 
+                if (query.isEmpty()) {
+                    return@setOnEditorActionListener false
+                }
+
+                currentPage = 0
+                hasMoreData = true
+
                 adapter.setNotices(emptyList())
+                emptyMessage.visibility = View.GONE
+                resultRecycler.visibility = View.GONE
 
-                viewModel.fetchNotices(
-                    page  = 0,
-                    bbsId = null,
-                    title = query,
-                    size  = 20
-                )
+                isLoading = true
+                triggerFetch(page = 0, title = query)
 
-                resultRecycler.scrollToPosition(0)
                 true
-            } else false
+            } else {
+                false
+            }
         }
+    }
+
+    private fun triggerFetch(page: Int, title: String? = editSearch.text.toString().trim()) {
+        viewModel.fetchNotices(
+            page  = page,
+            bbsId = null,
+            title = title,
+            size  = 20
+        )
     }
 }
