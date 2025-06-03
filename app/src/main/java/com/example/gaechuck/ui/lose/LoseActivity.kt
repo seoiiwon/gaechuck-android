@@ -2,16 +2,14 @@ package com.example.gaechuck.ui.lose
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.ContextThemeWrapper
 import android.view.Gravity
 import android.view.View
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import androidx.lifecycle.ViewModelProvider
@@ -20,9 +18,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.example.gaechuck.MainActivity
 import com.example.gaechuck.R
 import com.example.gaechuck.repository.LoseRepository
-import com.example.gaechuck.ui.business.BusinessSearchActivity
 import com.example.gaechuck.ui.lose.viewmodel.LoseViewModel
-import com.example.gaechuck.ui.rent.RentEditActivity
 import com.example.gaechuck.ui.util.DeleteDialogFragment
 
 class LoseActivity : AppCompatActivity(R.layout.activity_lose) {
@@ -89,7 +85,42 @@ class LoseActivity : AppCompatActivity(R.layout.activity_lose) {
             )
         }
 
-        backButton.setOnClickListener {
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed(){
+                val currentDestinationId = navController.currentDestination?.id
+
+                if (fromSearch) {
+                    finish()
+                    return
+                }
+                when (currentDestinationId) {
+                    R.id.loseMainFragment -> {
+                        val intent = Intent(this@LoseActivity, MainActivity::class.java)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                        startActivity(intent)
+                        val options = ActivityOptionsCompat.makeCustomAnimation(
+                            this@LoseActivity,
+                            R.anim.slide_in_left,
+                            R.anim.slide_out_right
+                        )
+                        startActivity(intent, options.toBundle())
+                        finish()
+                    }
+
+                    R.id.loseDetailFragment -> {
+                        navController.navigate(R.id.action_loseDetailFragment_to_loseMainFragment)
+                    }
+
+                    else -> {
+                        if (!navController.popBackStack()) {
+                            finish()
+                        }
+                    }
+                }
+            }
+        })
+
+            backButton.setOnClickListener {
             val currentDestinationId = navController.currentDestination?.id
 
             if (fromSearch) {

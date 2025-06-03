@@ -7,13 +7,12 @@ import android.view.ContextThemeWrapper
 import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
-import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import androidx.lifecycle.ViewModelProvider
@@ -22,7 +21,6 @@ import androidx.navigation.fragment.NavHostFragment
 import com.example.gaechuck.MainActivity
 import com.example.gaechuck.R
 import com.example.gaechuck.repository.RentRepository
-import com.example.gaechuck.ui.business.BusinessSearchActivity
 import com.example.gaechuck.ui.rent.viewmodel.RentViewModel
 import com.example.gaechuck.ui.util.DeleteDialogFragment
 
@@ -86,6 +84,41 @@ class RentActivity : AppCompatActivity(R.layout.activity_rent) {
                 null
             )
         }
+
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed(){
+                val currentDestinationId = navController.currentDestination?.id
+
+                if (fromSearch) {
+                    finish()
+                    return
+                }
+
+                when (currentDestinationId) {
+                    R.id.rentMainFragment -> {
+                        val intent = Intent(this@RentActivity, MainActivity::class.java)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                        startActivity(intent)
+                        val options = ActivityOptionsCompat.makeCustomAnimation(
+                            this@RentActivity,
+                            R.anim.slide_in_left,
+                            R.anim.slide_out_right
+                        )
+                        startActivity(intent, options.toBundle())
+                        finish()
+                    }
+
+                    R.id.rentDetailFragment -> {
+                        navController.navigate(R.id.action_rentDetailFragment_to_rentMainFragment)
+                    }
+                    else -> {
+                        if (!navController.popBackStack()) {
+                            finish()
+                        }
+                    }
+                }
+            }
+        })
 
         // 뒤로가기 버튼 동작 설정
         backButton.setOnClickListener {

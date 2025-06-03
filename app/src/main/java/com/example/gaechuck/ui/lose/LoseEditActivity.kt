@@ -27,6 +27,7 @@ import com.example.gaechuck.ui.lose.viewmodel.LoseViewModel
 import com.example.gaechuck.ui.util.ImageDialogFragment
 import com.example.gaechuck.ui.util.ImageFragment
 import com.example.gaechuck.ui.util.WriteDialogFragment
+import com.example.gaechuck.ui.util.ZoomImageDialogFragment
 import kotlinx.coroutines.launch
 import java.util.Calendar
 
@@ -73,7 +74,7 @@ class LoseEditActivity : AppCompatActivity(R.layout.activity_lose_write) {
         toolbar = findViewById(R.id.toolbar_main)
         backButton = toolbar.findViewById(R.id.button_back)
         sendButton = toolbar.findViewById(R.id.form_send)
-        binding.textViewTitle.text = "분실물 글 수정하기"
+        binding.textViewTitle.text = "수정하기"
 
 
         // LoseActivity에 전달된 데이터 받기
@@ -255,8 +256,8 @@ class LoseEditActivity : AppCompatActivity(R.layout.activity_lose_write) {
                 .load(uri.toString())  // 원격 이미지 URL
                 .into(imageView)  // 이미지 뷰에 로드된 이미지 설정
 
-            imageView.setOnClickListener {
-                val dialog = ImageDialogFragment.newInstance(uri.toString())
+            imageView.setOnClickListener{
+                val dialog = ZoomImageDialogFragment(uri.toString())
                 dialog.show(supportFragmentManager, "ImageDialog")
             }
 

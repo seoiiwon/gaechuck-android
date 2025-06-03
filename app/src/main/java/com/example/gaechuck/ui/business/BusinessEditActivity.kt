@@ -26,6 +26,7 @@ import com.example.gaechuck.ui.business.viewmodel.BusinessViewModel
 import com.example.gaechuck.ui.util.ImageDialogFragment
 import com.example.gaechuck.ui.util.ImageFragment
 import com.example.gaechuck.ui.util.WriteDialogFragment
+import com.example.gaechuck.ui.util.ZoomImageDialogFragment
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import kotlinx.coroutines.launch
@@ -64,7 +65,7 @@ class BusinessEditActivity : AppCompatActivity(R.layout.activity_business_write)
         val viewModelFactory = BusinessViewModel.BusinessViewModelFactory(repository)
         viewModel = ViewModelProvider(this, viewModelFactory).get(BusinessViewModel::class.java)
 
-        binding.textViewTitle.text = "제휴 글 수정하기"
+        binding.textViewTitle.text = "수정하기"
 
         // photo_count TextView 찾기
         photoBtn = binding.photoAddBtn.root
@@ -223,7 +224,7 @@ class BusinessEditActivity : AppCompatActivity(R.layout.activity_business_write)
                 .into(imageView)  // 이미지 뷰에 로드된 이미지 설정
 
             imageView.setOnClickListener{
-                val dialog = ImageDialogFragment.newInstance(uri.toString())
+                val dialog = ZoomImageDialogFragment(uri.toString())
                 dialog.show(supportFragmentManager, "ImageDialog")
             }
 

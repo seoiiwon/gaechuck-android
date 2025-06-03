@@ -6,12 +6,11 @@ import android.util.Log
 import android.view.ContextThemeWrapper
 import android.view.Gravity
 import android.view.View
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import androidx.lifecycle.ViewModelProvider
@@ -21,9 +20,7 @@ import com.example.gaechuck.MainActivity
 import com.example.gaechuck.R
 import com.example.gaechuck.repository.BusinessRepository
 import com.example.gaechuck.ui.business.viewmodel.BusinessViewModel
-import com.example.gaechuck.ui.lose.LoseEditActivity
 import com.example.gaechuck.ui.util.DeleteDialogFragment
-import com.example.gaechuck.ui.util.WriteDialogFragment
 
 class BusinessActivity : AppCompatActivity(R.layout.activity_business) {
 
@@ -90,6 +87,41 @@ class BusinessActivity : AppCompatActivity(R.layout.activity_business) {
                 null
             )
         }
+
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val currentDestinationId = navController.currentDestination?.id
+
+                if (fromSearch) {
+                    finish()
+                    return
+                }
+
+                when (currentDestinationId) {
+                    R.id.businessMainFragment -> {
+                        val intent = Intent(this@BusinessActivity, MainActivity::class.java)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                        val options = ActivityOptionsCompat.makeCustomAnimation(
+                            this@BusinessActivity,
+                            R.anim.slide_in_left,
+                            R.anim.slide_out_right
+                        )
+                        startActivity(intent, options.toBundle())
+                        finish()
+                    }
+
+                    R.id.businessDetailFragment -> {
+                        navController.navigate(R.id.action_businessDetailFragment_to_businessMainFragment)
+                    }
+
+                    else -> {
+                        if (!navController.popBackStack()) {
+                            finish()
+                        }
+                    }
+                }
+            }
+        })
 
         // 뒤로가기 버튼 동작 설정
         backButton.setOnClickListener {
