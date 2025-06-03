@@ -26,6 +26,7 @@ import com.example.gaechuck.ui.rent.viewmodel.RentViewModel
 import com.example.gaechuck.ui.util.ImageDialogFragment
 import com.example.gaechuck.ui.util.ImageFragment
 import com.example.gaechuck.ui.util.WriteDialogFragment
+import com.example.gaechuck.ui.util.ZoomImageDialogFragment
 import kotlinx.coroutines.launch
 
 class RentEditActivity : AppCompatActivity(R.layout.activity_rent_write) {
@@ -191,8 +192,8 @@ class RentEditActivity : AppCompatActivity(R.layout.activity_rent_write) {
                 .load(uri.toString())  // 원격 이미지 URL
                 .into(imageView)  // 이미지 뷰에 로드된 이미지 설정
 
-            imageView.setOnClickListener {
-                val dialog = ImageDialogFragment.newInstance(uri.toString())
+            imageView.setOnClickListener{
+                val dialog = ZoomImageDialogFragment(uri.toString())
                 dialog.show(supportFragmentManager, "ImageDialog")
             }
 
