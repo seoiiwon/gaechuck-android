@@ -79,13 +79,6 @@
                 android:fontFamily="@font/pretendard_regular"/>
 
         </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1.5dp"
-            android:background="@color/divider_grey2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginBottom="12dp"/>
 
 <!--        공지 리스트 리싸이클러-->
         <androidx.recyclerview.widget.RecyclerView
