@@ -182,8 +182,8 @@ class RentActivity : AppCompatActivity(R.layout.activity_rent) {
     }
 
     private fun deleteRentItem(rentItemId: Int) {
-        val token = "Bearer ${com.example.gaechuck.api.AuthManager.getToken()}"
-        rentViewModel.deleteData(token, rentItemId)
+//        val token = "Bearer ${com.example.gaechuck.api.AuthManager.getToken()}"
+        rentViewModel.deleteData(rentItemId)
         // 삭제 작업의 결과를 관찰
         rentViewModel.deleteResult.observe(this) { result ->
             result.onSuccess { response ->

@@ -191,8 +191,7 @@ class LoseActivity : AppCompatActivity(R.layout.activity_lose) {
     }
 
     private fun deleteLoseItem(loseItemId: Int) {
-        val token = "Bearer ${com.example.gaechuck.api.AuthManager.getToken()}"
-        loseViewModel.deleteData(token, loseItemId)
+        loseViewModel.deleteData(loseItemId)
 
         // 삭제 작업의 결과를 관찰
         loseViewModel.deleteData.observe(this) { result ->

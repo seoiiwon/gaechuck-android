@@ -175,7 +175,7 @@ class RentViewModel(private val repository: RentRepository): ViewModel() {
 
     // data 보내기
     fun sendData(
-        token: String,
+//        token: String,
         rentItemName: String,
         rentItemCount: Int,
         file: List<Uri>,
@@ -188,7 +188,7 @@ class RentViewModel(private val repository: RentRepository): ViewModel() {
 
         viewModelScope.launch {
             val result =
-                repository.postRentCreate(token, rentItemName, rentItemCount, file, context)
+                repository.postRentCreate(rentItemName, rentItemCount, file, context)
             _postResult.value = result
 
             result.onSuccess {
@@ -200,10 +200,10 @@ class RentViewModel(private val repository: RentRepository): ViewModel() {
     }
 
     // 아이템 삭제하기
-    fun deleteData(token: String, rentItemId: Int) {
+    fun deleteData( rentItemId: Int) {
         viewModelScope.launch {
             val result =
-                repository.postRentDelete(token, rentItemId)
+                repository.postRentDelete(rentItemId)
             _deleteResult.value = result
 
             result.onSuccess {
@@ -216,7 +216,7 @@ class RentViewModel(private val repository: RentRepository): ViewModel() {
 
     // 아이템 수정하기
     fun patchData(
-        token: String,
+//        token: String,
         rentItemId: Int,
         rentItemName: String,
         rentItemCount: Int,
@@ -231,7 +231,7 @@ class RentViewModel(private val repository: RentRepository): ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             val result =
                 repository.patchRentData(
-                    token,
+//                    token,
                     rentItemId,
                     rentItemName,
                     rentItemCount,

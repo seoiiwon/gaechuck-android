@@ -59,7 +59,7 @@ class BusinessRepository {
 
     // 제휴 글쓰기
     suspend fun postBusinessCreate(
-        token: String,
+//        token: String,
         coalitionName : String,
         benefit : String,
         category : String,
@@ -71,7 +71,7 @@ class BusinessRepository {
             val imageParts = file.mapIndexedNotNull { index, uri ->  createImagePart(uri, context, index) } // 모든 이미지 변환
             
             val response =  ApiConnection.getRetrofitService.postBusinessCreate(
-                Authorization = token,
+//                Authorization = token,
                 data = requestBody, // JSON 형식으로 보냄
                 file = imageParts
             )
@@ -148,14 +148,14 @@ class BusinessRepository {
 
     // 제휴 글 삭제
     suspend fun postBusinessDelete (
-        token: String,
+//        token: String,
         coalitionId : Int,
     ) : Result<BaseResponse<String>>{
         return try {
             val request = BusinessDeleteRequest(coalitionId)
 
             val response = ApiConnection.getRetrofitService.postBusinessDelete(
-                Authorization = token,  // Authorization 헤더에 token 추가
+//                Authorization = token,  // Authorization 헤더에 token 추가
                 request = request
             )
 
@@ -171,7 +171,7 @@ class BusinessRepository {
 
     // 제휴 수정하기
     suspend fun patchBusinessData(
-        token: String,
+//        token: String,
         coalitionId: Int,
         coalitionName : String,
         benefit : String,
@@ -184,7 +184,7 @@ class BusinessRepository {
             val imageParts = file.mapIndexedNotNull { index, uri ->  createImagePart(uri, context, index) } // 모든 이미지 변환
 
             val response =  ApiConnection.getRetrofitService.patchBusinessData(
-                Authorization = token,
+//                Authorization = token,
                 data = requestBody, // JSON 형식으로 보냄
                 file = imageParts
             )

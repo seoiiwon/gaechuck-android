@@ -57,7 +57,7 @@ class RentRepository {
 
     // 대여 글쓰기
     suspend fun postRentCreate(
-        token: String,
+//        token: String,
         rentItemName : String,
         rentItemCount : Int,
         file : List<Uri>,
@@ -70,7 +70,7 @@ class RentRepository {
             Log.d("RentRepository", "데이터 전송 시작: name=$rentItemName, rentItemCount=$rentItemCount, data=$requestBody")
 
             val response =  ApiConnection.getRetrofitService.postRentCreate(
-                Authorization = token,
+//                Authorization = token,
                 data = requestBody, // JSON 형식으로 보냄
                 file = imageParts
             )
@@ -146,14 +146,14 @@ class RentRepository {
 
     // 대여 글 삭제하기
     suspend fun postRentDelete (
-        token: String,
+//        token: String,
         rentItemId : Int,
     ) : Result<BaseResponse<String>>{
         return try {
             val request = RentDeleteRequest(rentItemId)
 
             val response = ApiConnection.getRetrofitService.postRentDelete(
-                Authorization = token,  // Authorization 헤더에 token 추가
+//                Authorization = token,  // Authorization 헤더에 token 추가
                 request = request
             )
 
@@ -169,7 +169,7 @@ class RentRepository {
 
     // 대여 글 수정하기
     suspend fun patchRentData(
-        token: String,
+//        token: String,
         rentItemId : Int,
         rentItemName : String,
         rentItemCount : Int,
@@ -181,7 +181,7 @@ class RentRepository {
             val imageParts = file.mapIndexedNotNull { index, uri ->  createImagePart(uri, context, index) } // 모든 이미지 변환
 
             val response =  ApiConnection.getRetrofitService.patchRentData(
-                Authorization = token,
+//                Authorization = token,
                 data = requestBody, // JSON 형식으로 보냄
                 file = imageParts
             )
