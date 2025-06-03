@@ -1,9 +1,10 @@
 package com.example.gaechuck.ui.menu
 
 import android.content.Intent
+import android.graphics.Paint
 import android.graphics.Typeface
 import android.os.Bundle
-import android.util.Log
+import android.view.Gravity
 import android.view.View
 import android.widget.*
 import androidx.activity.viewModels
@@ -15,12 +16,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gaechuck.R
 import com.example.gaechuck.data.response.FoodMenuItem
 import com.example.gaechuck.ui.menu.adaptor.GridCafeteriaAdapter
-import com.example.gaechuck.ui.menu.viewmodel.CafeteriaMenuViewModdel
+import com.example.gaechuck.ui.menu.viewmodel.CafeteriaMenuViewModel
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gaechuck.MainActivity
+import com.example.gaechuck.repository.CafeteriaMenuRepository
+import com.example.gaechuck.ui.menu.viewmodel.CafeteriaMenuViewModelFactory
+import org.w3c.dom.Text
 import java.util.*
 
 class CafeteriaMenuActivity : AppCompatActivity() {
@@ -29,384 +33,325 @@ class CafeteriaMenuActivity : AppCompatActivity() {
     private lateinit var restaurantLayout: LinearLayout
     private lateinit var leftArrow: ImageView
     private lateinit var rightArrow: ImageView
-    private lateinit var buttonContainer: LinearLayout
+    private lateinit var dayButtonContainer: LinearLayout
     private lateinit var menuGridRecyclerView: RecyclerView
-    private lateinit var gridAdapter: GridCafeteriaAdapter
+    private lateinit var adapter: GridCafeteriaAdapter
 
-    private var selectedCafeteriaSeq: List<Int> = listOf(1)
+    // 선택된 캠퍼스 식당 seq 관리, 인덱스 관리
+    private var selectedSeqList: List<Int> = listOf(1)
     private var currentIndex = 0
+
+    // 일주일 식단 데이터
     private var weekMenuData: List<FoodMenuItem> = emptyList()
-    private val viewModel: CafeteriaMenuViewModdel by viewModels()
+
+    private var selectedDayIndex: Int = -1
+
+
+    private val viewModel: CafeteriaMenuViewModel by viewModels {
+        CafeteriaMenuViewModelFactory(CafeteriaMenuRepository())
+    }
 
     private val campusMap = mapOf(
         "가좌캠퍼스" to listOf("가좌 교직원식당", "가좌 중앙1식당", "가좌 교육문화1층식당"),
-        "칠암캠퍼스" to listOf("칠암 교직원식당", "칠암 학생식당"),
-        "통영캠퍼스" to listOf("통영 교직원식당", "통영 학생식당")
+        "칠암캠퍼스" to listOf("칠암 교직원식당", "칠암 학생식당", "칠암기숙사1", "칠암기숙사2"),
+        "통영캠퍼스" to listOf("통영 교직원식당", "통영 학생식당", "통영기숙사")
     )
 
-    private val cafeteriaSeqMap = mapOf(
+    private val seqMap = mapOf(
         "가좌캠퍼스" to listOf(1, 2, 3),
-        "칠암캠퍼스" to listOf(4, 5),
-        "통영캠퍼스" to listOf(6, 7)
+        "칠암캠퍼스" to listOf(4, 5, 9, 10),
+        "통영캠퍼스" to listOf(6, 7, 11)
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cafeteria_menu)
 
+
         // UI 요소 초기화
         setupViews()
-
-        val backBtn: ImageView = findViewById(R.id.backBtn)
-        backBtn.setOnClickListener { finish() }
-
-        val homeBtn: ImageView = findViewById(R.id.homeBtn)
-        homeBtn.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-            startActivity(intent)
-        }
-
-        // 캠퍼스 선택 UI 초기화
         setupCampusSpinner()
-
-        // 초기 데이터 요청
-        fetchInitialData()
+        setupDayButtons()
+        observeViewModel()
     }
 
     private fun setupViews() {
-        findViewById<TextView>(R.id.oneWeekPeriod).text = getCurrentWeekRange()
-
-        val homeBtn: ImageView = findViewById(R.id.homeBtn)
-        homeBtn.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-            startActivity(intent)
-        }
-        menuGridRecyclerView = findViewById(R.id.menuGridRecyclerView)
-        menuGridRecyclerView.layoutManager = LinearLayoutManager(this)
-        gridAdapter = GridCafeteriaAdapter(emptyList())
-        menuGridRecyclerView.adapter = gridAdapter
-
         campusSpinner = findViewById(R.id.campusSpinner)
         restaurantLayout = findViewById(R.id.restaurantLayout)
         leftArrow = findViewById(R.id.leftArrow)
         rightArrow = findViewById(R.id.rightArrow)
+        dayButtonContainer = findViewById(R.id.dayButtonContainer)
+        menuGridRecyclerView = findViewById(R.id.menuGridRecyclerView)
 
-        buttonContainer = findViewById(R.id.dayButtonContainer)
-        buttonContainer.orientation = LinearLayout.HORIZONTAL
+        // TextView에 월요일 ~ 일요일 날짜 출력
+        findViewById<TextView>(R.id.oneWeekPeriod).text = getCurrentWeekRange()
+
+        // RecyclerView 그리드 설정 (디자인 수정되면 수정필요)
+        adapter = GridCafeteriaAdapter()
+        menuGridRecyclerView.layoutManager = GridLayoutManager(this, 2)
+        menuGridRecyclerView.adapter = adapter
+
+        // 뒤로 / 홈 버튼
+        findViewById<ImageView>(R.id.backBtn).setOnClickListener { finish() }
+        findViewById<ImageView>(R.id.homeBtn).setOnClickListener {
+            startActivity(Intent(this, MainActivity::class.java)
+                .apply { flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP })
+        }
+
         leftArrow.setOnClickListener { navigateCafeteria(-1) }
-        rightArrow.setOnClickListener { navigateCafeteria(1) }
+        rightArrow.setOnClickListener { navigateCafeteria(+1) }
+
+        updateArrowVisibility()
+
     }
 
+    private var spinnerInitialized = false
+
     private fun setupCampusSpinner() {
-        val campusList = campusMap.keys.toList()
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, campusList)
-        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
-        campusSpinner.adapter = adapter
-        campusSpinner.dropDownVerticalOffset = 20
-        campusSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                selectedCafeteriaSeq = cafeteriaSeqMap[campusList[position]] ?: emptyList()
+        val campuses = campusMap.keys.toList()
+        campusSpinner.adapter = ArrayAdapter(
+            this, android.R.layout.simple_spinner_item, campuses
+        ).apply {
+            setDropDownViewResource(R.layout.spinner_dropdown_item)
+        }
+
+        // 초기 상태 (첫번째 캠퍼스, 첫번째 식당)
+        spinnerInitialized = true
+        val firstCampus = campuses[0]
+        selectedSeqList = seqMap[firstCampus] ?: emptyList()
+        currentIndex = 0
+        updateRestaurantTitle()
+        loadMenuForCurrent()
+
+        // 리스너 등록
+        campusSpinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?, view: View?, pos: Int, id: Long
+            ) {
+                if (!spinnerInitialized) return
+
+                val campusName = campuses[pos]
+                selectedSeqList = seqMap[campusName] ?: emptyList()
                 currentIndex = 0
-                updateRestaurantDisplay()
-                fetchInitialData()
+                updateRestaurantTitle()
+                loadMenuForCurrent()
+                updateArrowVisibility()
             }
+
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
     }
 
-    private fun fetchInitialData() {
-        val startDate = getWeekDates().first()
-        viewModel.fetchFoodMenuByDate(selectedCafeteriaSeq[currentIndex], startDate)
+    // 요일버튼
+    private fun setupDayButtons() {
+        val days     = listOf("월","화","수","목","금","토","일")
+        val dates    = getWeekDates()
+        dayButtonContainer.removeAllViews()
+        dayButtonContainer.weightSum = days.size.toFloat()
 
-        viewModel.menuList.removeObservers(this)
-        viewModel.menuList.observe(this, Observer { menuList ->
-            weekMenuData = menuList
-            updateMenuForSelectedDay(getTodayDate())
+        // 오늘 인덱스
+        val todayIdx = getDayOfWeekIndex(getTodayDate())
+        selectedDayIndex = todayIdx
+        val heightPx = (20 * resources.displayMetrics.density).toInt()
+
+        days.forEachIndexed { idx, day ->
+            val btn = Button(this).apply {
+                text = day
+                textSize = 10f
+                typeface = Typeface.DEFAULT_BOLD
+                background = ContextCompat.getDrawable(context, R.drawable.week_button)
+
+                isSelected = (idx == todayIdx)
+
+                layoutParams = LinearLayout.LayoutParams(0, heightPx, 1f)
+                    .apply {
+                        val margin = (4 * resources.displayMetrics.density).toInt()
+                        setMargins(margin, 0 , margin, 0)
+                        setPadding(0, 0, 0, 0)
+                }
+
+                setOnClickListener {
+                    for(i in 0 until dayButtonContainer.childCount)
+                        dayButtonContainer.getChildAt(i).isSelected = false
+
+                    isSelected = true
+
+                    selectedDayIndex = idx
+//                    updateMenuForSelectedDay(dates[idx])
+
+                    // “dates[idx]”는 List(“yyyy-MM-dd” 형태의 월요일~일요일) 중 한 날짜
+                    val targetDate = dates[idx]
+                    val filtered = viewModel.getMenuForDate(targetDate)
+                    val toShow = if (filtered.isEmpty()) {
+                        listOf(
+                            FoodMenuItem(
+                                menu="식단 정보가 없습니다.",
+                                menuDivision="",
+                                date=targetDate,
+                                menuSeq=-1
+                            )
+                        )
+                    } else {
+                        filtered
+                    }
+                    adapter.submitList(toShow)
+                }
+            }
+            dayButtonContainer.addView(btn)
+        }
+    }
+
+
+    private fun observeViewModel() {
+        // 일주일 데이터에서 자동으로 오늘 날짜 필터링
+        viewModel.menuList.observe(this, Observer { list ->
+            weekMenuData = list
+
+            val dates = getWeekDates()
+
+            val index = selectedDayIndex.takeIf { it in 0..6 } ?: getDayOfWeekIndex(getTodayDate())
+
+            val targetDate = dates[index]
+
+            // 기본 오늘 날짜 메뉴 표시
+            updateMenuForSelectedDay(targetDate)
         })
 
-        setupDayButtons()
+        viewModel.errorMessage.observe(this, Observer { msg ->
+            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+        })
+    }
+
+    // 현재 캠퍼스 + 날짜 데이터 불러오기
+    private fun loadMenuForCurrent() {
+        adapter.submitList(emptyList())
+        updateRestaurantTitle()
+        if (selectedSeqList.isNotEmpty())
+            viewModel.loadMenu(selectedSeqList[currentIndex])
     }
 
 
-    private fun setupDayButtons() {
-        val days = listOf("월", "화", "수", "목", "금", "토", "일")
-        val weekDates = getWeekDates()
-        val container = findViewById<LinearLayout>(R.id.dayButtonContainer)
-        container.removeAllViews()
-        container.orientation = LinearLayout.HORIZONTAL
-        container.weightSum = days.size.toFloat()
-
-        fun dpToPx(dp: Int): Int {
-            return (dp * resources.displayMetrics.density).toInt()
-        }
-
-        val todayIndex = getDayOfWeekIndex(getTodayDate())
-
-        days.forEachIndexed { index, day ->
-            val button = Button(this)
-            val params = LinearLayout.LayoutParams(0, dpToPx(20), 1f)
-            params.setMargins(dpToPx(4), dpToPx(4), dpToPx(4), dpToPx(4))
-            button.layoutParams = params
-
-            button.text = day
-            button.textSize = 8f
-            button.setTypeface(null, Typeface.BOLD)
-            button.background = ContextCompat.getDrawable(this, R.drawable.week_button)
-            button.setTextColor(ContextCompat.getColor(this, R.color.black))
-            button.setPadding(0, 0, 0, 0)
-
-            button.isSelected = index == todayIndex
-            button.setOnClickListener {
-                for (i in 0 until container.childCount) {
-                    container.getChildAt(i).isSelected = false
-                }
-                button.isSelected = true
-                val selectedDate = weekDates[index]
-                updateMenuForSelectedDay(selectedDate)
-            }
-            container.addView(button)
+    private fun navigateCafeteria(dir: Int) {
+        val newIdx = currentIndex + dir
+        if (newIdx in selectedSeqList.indices) {
+            currentIndex = newIdx
+            loadMenuForCurrent()
+            updateArrowVisibility()
         }
     }
 
-    private fun navigateCafeteria(direction: Int) {
-        val newIndex = currentIndex + direction
-        if (newIndex in selectedCafeteriaSeq.indices) {
-            currentIndex = newIndex
-            updateRestaurantDisplay()
 
-            fetchInitialData()
-
-            menuGridRecyclerView.adapter = null
-            menuGridRecyclerView.layoutManager = null
-            menuGridRecyclerView.layoutManager = GridLayoutManager(this, 2)
-            menuGridRecyclerView.adapter = gridAdapter
-        }
-    }
-
-    private fun updateMenuForSelectedDay(selectedDate: String) {
-        val filteredMenu = weekMenuData.filter { it.date == selectedDate }
-        Log.d("FilterData", "선택한 날짜: $selectedDate, 필터링된 데이터: $filteredMenu")
-
-        if (filteredMenu.isEmpty()) {
-            val noDataMessage = FoodMenuItem(
-                menuDivision = "",
-                menu = "식단 정보가 없습니다.",
-                date = selectedDate,
-                menuSeq = -1
-            )
-            updateMenuUI(listOf(noDataMessage))
-        } else {
-            updateMenuUI(filteredMenu)
-        }
-    }
-
-    private fun updateRestaurantDisplay() {
+    private fun updateRestaurantTitle() {
         restaurantLayout.removeAllViews()
-        val restaurantText = campusMap[campusSpinner.selectedItem]?.getOrElse(currentIndex) { "식당 정보 없음" }
-        val textView = TextView(this).apply {
-            text = restaurantText
+        val campusName = campusSpinner.selectedItem as String
+        val name = campusMap[campusName]?.getOrNull(currentIndex) ?: "식당 정보 없음"
+
+        val tv = TextView(this).apply {
+            text = name
+            textSize = 16f
+            typeface = Typeface.DEFAULT_BOLD
             setPadding(16, 16, 16, 16)
-            textSize = 14f
-            gravity = android.view.Gravity.CENTER
-            setTypeface(null, android.graphics.Typeface.BOLD)
+            gravity = Gravity.CENTER
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
         }
-        restaurantLayout.addView(textView)
+        restaurantLayout.addView(tv)
 
-        // 만약 현재 선택된 cafeteriaSeq가 2, 5, 7이면 subTitle (즉, "중식" 텍스트)를 숨깁니다.
         val subTitle = findViewById<TextView>(R.id.subTitle)
-        if (selectedCafeteriaSeq[currentIndex] in listOf(2, 5, 7)) {
-            subTitle.visibility = View.GONE
-        } else {
-            subTitle.visibility = View.VISIBLE
-        }
+        subTitle.visibility =
+            if (selectedSeqList[currentIndex] in listOf(2, 5, 7)) View.GONE else View.VISIBLE
     }
 
-    private fun updateMenuUI(menuList: List<FoodMenuItem>) {
-        when (selectedCafeteriaSeq[currentIndex]) {
-            1 -> gridLayoutCafeteriaSeq1(menuList, 1)
-            2 -> gridLayoutCafeteriaSeq2(menuList)
-            3 -> gridLayoutCafeteriaSeq3(menuList)
-            4 -> gridLayoutCafeteriaSeq1(menuList, 4)
-            5 -> gridLayoutCafeteriaSeq1(menuList, 5)
-            6 -> gridLayoutCafeteriaSeq1(menuList, 6)
-            7 -> gridLayoutCafeteriaSeq1(menuList, 7)
-            else -> {
-                gridAdapter.updateMenuList(emptyList()) // 기본 UI 처리
-            }
-        }
+    // 날짜 받아서 필터링 + RecyclerView 갱신
+    private fun updateMenuForSelectedDay(date: String) {
+        val filtered = viewModel.getMenuForDate(date)
+        val toShow = if (filtered.isEmpty()) {
+            listOf(
+                FoodMenuItem(
+                    menu = "식단 정보가 없습니다.",
+                    menuDivision = "",
+                    date = date,
+                    menuSeq = -1
+                )
+            )
+        } else filtered
+
+        adapter.submitList(toShow)
     }
 
-
-    private fun getCurrentWeekRange(): String {
-        val sdf = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
-        val calendar = Calendar.getInstance()
-        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
-        val monday = sdf.format(calendar.time)
-        calendar.add(Calendar.DAY_OF_WEEK, 6)
-        val sunday = sdf.format(calendar.time)
-        return "$monday ~ $sunday"
-    }
-
+    // 날짜 계산 유틸
     private fun getWeekDates(): List<String> {
-        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        val calendar = Calendar.getInstance()
-        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+        val fmt = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val cal = Calendar.getInstance().apply {
+            set(Calendar.DAY_OF_WEEK,
+                Calendar.MONDAY)
+        }
+
         return List(7) {
-            val date = sdf.format(calendar.time)
-            calendar.add(Calendar.DAY_OF_MONTH, 1)
-            date
+            fmt.format(cal.time).also{ cal.add(Calendar.DAY_OF_MONTH,1) }
         }
     }
 
-    private fun getTodayDate(): String {
-        return SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+    // 오늘 날짜
+    private fun getTodayDate(): String =
+        SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+
+    // 일주일 날짜 텍스트
+    private fun getCurrentWeekRange(): String {
+        val fmt = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
+        val cal = Calendar.getInstance().apply {
+            set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+        }
+        val mon = fmt.format(cal.time)
+        cal.add(Calendar.DAY_OF_MONTH, 6)
+        val sun = fmt.format(cal.time)
+        return "$mon ~ $sun"
     }
 
-    private fun getDayOfWeekIndex(dateString: String): Int {
-        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        val calendar = Calendar.getInstance().apply {
-            time = sdf.parse(dateString)!!
+
+    // 날짜 요일 매칭
+    private fun getDayOfWeekIndex(isoDate: String): Int {
+        val cal = Calendar.getInstance().apply {
+            time = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(isoDate)!!
         }
-        return when (calendar.get(Calendar.DAY_OF_WEEK)) {
-            Calendar.SUNDAY -> 6
+        return when(cal.get(Calendar.DAY_OF_WEEK)) {
             Calendar.MONDAY -> 0
             Calendar.TUESDAY -> 1
             Calendar.WEDNESDAY -> 2
             Calendar.THURSDAY -> 3
             Calendar.FRIDAY -> 4
             Calendar.SATURDAY -> 5
+            Calendar.SUNDAY -> 6
             else -> 0
         }
     }
 
-    private fun gridLayoutCafeteriaSeq1(menuList: List<FoodMenuItem>, cafeteriaSeq: Int) {
-        val categorizedMenu = mutableListOf<FoodMenuItem>()
+    private fun updateArrowVisibility() {
+        val lastIdx = selectedSeqList.lastIndex
 
-        val sortedMenuList = if (cafeteriaSeq == 5 || cafeteriaSeq == 7) {
-            val order = listOf("아침", "점심", "저녁")
-            menuList.sortedBy { item ->
-                order.indexOfFirst { item.menuDivision.contains(it) }.let { if (it == -1) Int.MAX_VALUE else it }
+        when {
+            // 식당이 0개 혹은 1개밖에 없으면: 양쪽 모두 숨김
+            selectedSeqList.size <= 1 -> {
+                leftArrow.visibility = View.INVISIBLE
+                rightArrow.visibility = View.INVISIBLE
             }
-        } else {
-            menuList
-        }
-
-        val groupedMenu = sortedMenuList.filter { it.menu.isNotBlank() }
-            .groupBy { it.menuDivision }
-
-        if (groupedMenu.isEmpty()) {
-            categorizedMenu.add(FoodMenuItem(menuDivision = "식단 정보가 없습니다.", menu = "", date = "", menuSeq = -2))
-        } else {
-            groupedMenu.forEach { (division, items) ->
-                if (items.isNotEmpty()) {
-                    categorizedMenu.add(FoodMenuItem(menuDivision = division, menu = "", date = "", menuSeq = -2))
-                    categorizedMenu.addAll(items)
-                }
+            // 첫 번째 식당일 때: 왼쪽 숨기고, 오른쪽 보임
+            currentIndex == 0 -> {
+                leftArrow.visibility = View.INVISIBLE
+                rightArrow.visibility = View.VISIBLE
             }
-        }
-
-        val layoutManager = GridLayoutManager(this, 3)
-        layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int {
-                return if (categorizedMenu[position].menuSeq == -2) 1 else 2
+            // 마지막 식당일 때: 왼쪽 보이고, 오른쪽 숨김
+            currentIndex == lastIdx -> {
+                leftArrow.visibility = View.VISIBLE
+                rightArrow.visibility = View.INVISIBLE
+            }
+            // 그 외(중간 인덱스)일 때: 양쪽 보임
+            else -> {
+                leftArrow.visibility = View.VISIBLE
+                rightArrow.visibility = View.VISIBLE
             }
         }
-
-        menuGridRecyclerView.layoutManager = layoutManager
-        menuGridRecyclerView.adapter = GridCafeteriaAdapter(categorizedMenu)
-    }
-
-    private fun gridLayoutCafeteriaSeq2(menuList: List<FoodMenuItem>) {
-        val categoryOrder = listOf(
-            "천원의아침밥",
-            "중식",
-            "석식",
-            "고정메뉴",
-            "더진국"
-        )
-
-        val categorizedMenu = mutableListOf<FoodMenuItem>()
-
-        categoryOrder.forEach { category ->
-            val filteredItems = menuList.filter { it.menuDivision.contains(category) }
-
-            if (filteredItems.isNotEmpty()) {
-                categorizedMenu.add(
-                    FoodMenuItem(menuDivision = category, menu = "", date = "", menuSeq = -2)
-                )
-
-                filteredItems.forEach { item ->
-                    categorizedMenu.add(
-                        FoodMenuItem(menuDivision = "", menu = item.menu, date = item.date, menuSeq = item.menuSeq)
-                    )
-                }
-            }
-        }
-
-        val layoutManager = GridLayoutManager(this, 3)
-        layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int {
-                return if (categorizedMenu[position].menuSeq == -2) 1 else 2
-            }
-        }
-
-        menuGridRecyclerView.layoutManager = layoutManager
-        menuGridRecyclerView.adapter = GridCafeteriaAdapter(categorizedMenu)
-    }
-
-    private fun gridLayoutCafeteriaSeq3(menuList: List<FoodMenuItem>) {
-        val categorizedMenu = mutableListOf<FoodMenuItem>()
-
-        menuList.filter { it.menu.isNotBlank() }.forEach { item ->
-            val pattern = Regex("(\\S+)\\s*\\(\\d{1,3},?\\d{3}원\\)")
-            val matches = pattern.findAll(item.menu).map { it.value }.toList()
-
-            Log.d("MenuParsing", "원본 메뉴 데이터: ${item.menu}")
-
-            if (matches.size < 2) {
-                Log.w("MenuParsing", "카테고리(양식, 교육세트) 부족으로 스킵됨")
-                return@forEach
-            }
-
-            val categories = matches.map { it.replace(Regex("\\(\\d{1,3},?\\d{3}원\\)"), "").trim() }
-            val menuText = item.menu.replace(Regex("\\(\\d{1,3},?\\d{3}원\\)"), "").trim()
-            Log.d("MenuParsing", "정제된 메뉴 텍스트: $menuText")
-
-            val firstCategoryMenu = menuText
-                .substringAfter(categories[0])
-                .substringBefore(categories[1])
-                .trim()
-
-            val secondCategoryMenu = menuText
-                .substringAfter(categories[1])
-                .trim()
-
-            Log.d("MenuParsing", "양식 메뉴 (한 단어): $firstCategoryMenu")
-            Log.d("MenuParsing", "교육세트 메뉴 (전체): $secondCategoryMenu")
-
-            categorizedMenu.add(FoodMenuItem(menuDivision = categories[0], menu = "", date = item.date, menuSeq = -2))
-            if (firstCategoryMenu.isNotBlank())
-                categorizedMenu.add(FoodMenuItem(menuDivision = "", menu = firstCategoryMenu, date = item.date, menuSeq = item.menuSeq))
-
-            categorizedMenu.add(FoodMenuItem(menuDivision = categories[1], menu = "", date = item.date, menuSeq = -2))
-            if (secondCategoryMenu.isNotBlank())
-                categorizedMenu.add(FoodMenuItem(menuDivision = "", menu = secondCategoryMenu, date = item.date, menuSeq = item.menuSeq))
-        }
-
-        if (categorizedMenu.isEmpty()) {
-            categorizedMenu.add(FoodMenuItem(menuDivision = "", menu = "식단 정보가 없습니다.", date = "", menuSeq = -1))
-        }
-
-        val layoutManager = GridLayoutManager(this, 3)
-        layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int {
-                return if (categorizedMenu[position].menuSeq == -2) 1 else 2
-            }
-        }
-
-        menuGridRecyclerView.layoutManager = layoutManager
-        menuGridRecyclerView.adapter = GridCafeteriaAdapter(categorizedMenu)
     }
 }

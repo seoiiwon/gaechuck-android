@@ -45,7 +45,7 @@ class NoticeCouncilSearchActivity : AppCompatActivity() {
         // X 버튼 누르면 텍스트 삭제
         clearSearch.setOnClickListener {
             editSearch.text.clear()
-            viewModel.search("")  // 또는 전체 검색 재호출
+            viewModel.search("")
         }
 
         resultRecycler = findViewById(R.id.resultRecycler)
@@ -67,7 +67,7 @@ class NoticeCouncilSearchActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this, NoticeCouncilViewModel.Factory(NoticeCouncilRepository()))
             .get(NoticeCouncilViewModel::class.java)
 
-        viewModel.searchResult.observe(this) {
+        viewModel.searchResults.observe(this) {
             adapter.updateData(it)
         }
 //        viewModel.searchResult.observe(this) {

@@ -8,13 +8,24 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.gaechuck.data.response.GetCouncilNoticeDataResponse
 import com.example.gaechuck.data.response.GetCouncilNoticeDetailResponse
+import com.example.gaechuck.data.response.PagenatedResponse
 import com.example.gaechuck.repository.NoticeCouncilRepository
 import kotlinx.coroutines.launch
+import okio.IOException
 
-class NoticeCouncilViewModel(private val repository: NoticeCouncilRepository) : ViewModel() {
+class NoticeCouncilViewModel(
+    private val repository: NoticeCouncilRepository
+) : ViewModel() {
     private var currentPage = 0
-    private val itemsPerPage = 10
-    private var allNotices: List<GetCouncilNoticeDataResponse> = emptyList()
+    private val pageSize = 10
+    private var isLastPage = false
+    private var isLoading = false
+
+    private var searchPage = 0
+    private val searchSize = 20
+    private val _searchResults = MutableLiveData<List<GetCouncilNoticeDataResponse>>(emptyList())
+    val searchResults: LiveData<List<GetCouncilNoticeDataResponse>> = _searchResults
+
 
     private val _noticeList = MutableLiveData<List<GetCouncilNoticeDataResponse>>()
     val noticeList: LiveData<List<GetCouncilNoticeDataResponse>> get() = _noticeList
@@ -25,70 +36,90 @@ class NoticeCouncilViewModel(private val repository: NoticeCouncilRepository) : 
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> get() = _errorMessage
 
-    private val _searchResults = MutableLiveData<List<GetCouncilNoticeDataResponse>>()
-    val searchResults: LiveData<List<GetCouncilNoticeDataResponse>> = _searchResults
-
     fun fetchNotices() {
+        currentPage = 0
+        isLastPage = false
+        _noticeList.value = emptyList()
+        loadMoreNotices()
+    }
+
+
+    fun loadMoreNotices() {
+        if (isLastPage || isLoading) return
+
+        isLoading = true
         viewModelScope.launch {
             try {
-                currentPage = 0
-                allNotices = repository.getNoticeCouncilList() ?: emptyList()
-                Log.d("ViewModel check", "fetch : ${allNotices.size}")
-                _noticeList.value = emptyList()
-                loadMoreNotices()
+                val resp = repository.getNoticeCouncilList(currentPage, pageSize)
+                    ?: throw IOException("Empty response")
+
+                val items = resp.content
+                isLastPage = resp.last
+
+                if (items.isNotEmpty()) {
+                    _noticeList.value = _noticeList.value.orEmpty() + items
+                    currentPage++
+                }
             } catch (e: Exception) {
-                _noticeList.value = emptyList()
+                _errorMessage.value = e.message ?: "공지 불러오기 오류"
+            } finally {
+                isLoading = false
             }
         }
     }
 
-    fun loadMoreNotices() {
-        val nextPageItems = allNotices.drop(currentPage * itemsPerPage).take(itemsPerPage)
-        Log.d("Paging", "currentPage=$currentPage, nextPageItems=${nextPageItems.size}")
-        if (nextPageItems.isNotEmpty()) {
-            _noticeList.value = _noticeList.value.orEmpty() + nextPageItems
-            currentPage++
-        } else {
-            Log.d("Paging", "더 이상 불러올 공지 없음")
+    suspend fun getNoticeDetail(noticeId: Int): GetCouncilNoticeDetailResponse? =
+        try {
+            repository.getNoticeDetail(noticeId)
+        } catch (e: Exception) {
+            _errorMessage.postValue("상세 불러오기 실패: ${e.message}")
+            null
         }
-    }
-
-    suspend fun getNoticeDetail(noticeId: Int): GetCouncilNoticeDetailResponse? {
-        return repository.getNoticeDetail(noticeId)
-    }
 
     fun deleteNotice(noticeId: Int) {
         viewModelScope.launch {
             try {
                 val response = repository.deleteNotice(noticeId)
-
                 if (response.isSuccessful && response.body()?.isSuccess == true) {
-                    _deleteStatus.postValue(noticeId)
+                    fetchNotices()
                 } else {
-                    _errorMessage.postValue(response.body()?.message ?: "삭제 실패")
+                    _errorMessage.value = response.body()?.message ?: "삭제 실패"
                 }
             } catch (e: Exception) {
-                _errorMessage.postValue(e.message ?: "알 수 없는 오류 발생")
+                _errorMessage.value = e.message ?: "알 수 없는 오류"
             }
         }
     }
 
-    val searchResult = MutableLiveData<List<GetCouncilNoticeDataResponse>>()
-
     fun search(query: String) {
+        searchPage = 0
+        _searchResults.value = emptyList()
+        loadMoreSearch(query)
+    }
+
+    fun loadMoreSearch(query: String) {
         viewModelScope.launch {
             try {
-                val result = repository.searchNotices(query)
-                searchResult.postValue(result)
+                val pageItems = repository.searchNotices(query, searchPage, searchSize)
+                if (pageItems.isNotEmpty()) {
+                    _searchResults.value = _searchResults.value.orEmpty() + pageItems
+                    searchPage++
+                }
+            } catch (e: IOException) {
+                _errorMessage.value = "검색 실패: ${e.message}"
             } catch (e: Exception) {
-                Log.e("Search", "Error: ${e.message}")
+                _errorMessage.value = e.message ?: "알 수 없는 오류"
             }
         }
     }
 
     class Factory(private val repo: NoticeCouncilRepository) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return NoticeCouncilViewModel(repo) as T
+            if (modelClass.isAssignableFrom(NoticeCouncilViewModel::class.java)) {
+                @Suppress("UNCHECKED_CAST")
+                return NoticeCouncilViewModel(repo) as T
+            }
+            throw IllegalArgumentException("Unknown ViewModel class")
         }
     }
 }

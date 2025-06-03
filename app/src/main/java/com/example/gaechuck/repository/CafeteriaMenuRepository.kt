@@ -1,122 +1,53 @@
 package com.example.gaechuck.repository
 
-import android.util.Log
 import com.example.gaechuck.api.ApiConnection
-import com.example.gaechuck.data.response.BaseListResponse
+import com.example.gaechuck.api.ApiService
 import com.example.gaechuck.data.response.FoodMenuItem
 import com.example.gaechuck.data.response.GetFoodDataResponse
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import okio.IOException
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
-class CafeteriaMenuRepository {
-    private val apiService = ApiConnection.getRetrofitService
 
-    fun getFoodMenu(
-        cafeteriaSeq: Int,
-        onSuccess: (List<FoodMenuItem>) -> Unit,
-        onError: (String) -> Unit
-    ) {
-        val startDateList = getWeekDates()
-        val allMenus = mutableListOf<FoodMenuItem>()
+class CafeteriaMenuRepository(
+    private val apiService: ApiService = ApiConnection.getRetrofitService
+) {
+    private val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 
-        startDateList.forEach { startDate ->
-            apiService.getFoodData(cafeteriaSeq, startDate)
-                .enqueue(object : Callback<BaseListResponse<GetFoodDataResponse>> {
-                    override fun onResponse(
-                        call: Call<BaseListResponse<GetFoodDataResponse>>,
-                        response: Response<BaseListResponse<GetFoodDataResponse>>
-                    ) {
-                        if (response.isSuccessful && response.body() != null) {
-                            val baseResponse = response.body()!!
-                            if (baseResponse.isSuccess) {
-                                val menuList = baseResponse.result.flatMap { responseItem ->
-                                    responseItem.menu.split(", ").map { menuItem ->
-                                        FoodMenuItem(
-                                            menu = menuItem,
-                                            menuDivision = responseItem.menuDivision,
-                                            date = responseItem.date,
-                                            menuSeq = responseItem.menuSeq
-                                        )
-                                    }
-                                }
-                                allMenus.addAll(menuList)
-
-                                Log.d("API_SUCCESS", "날짜: $startDate, 데이터: $menuList")
-
-                                if (allMenus.size >= startDateList.size) {
-                                    onSuccess(allMenus)
-                                }
-                            } else {
-                                onError("API 응답 실패: ${baseResponse.message}")
-                            }
-                        } else {
-                            onError("서버 응답 오류: ${response.errorBody()?.string()}")
-                        }
-                    }
-
-                    override fun onFailure(call: Call<BaseListResponse<GetFoodDataResponse>>, t: Throwable) {
-                        onError("네트워크 오류: ${t.message}")
-                    }
-                })
-        }
+//    매주 월요일 기준 일주일 데이터 가져오기
+    suspend fun fetchWeeklyMenu(seq: Int): List<FoodMenuItem> = withContext(Dispatchers.IO) {
+    val cal = Calendar.getInstance()
+    val dayOfWeek = cal.get(Calendar.DAY_OF_WEEK)
+    val offsetToMonday = if (dayOfWeek == Calendar.SUNDAY) {
+        -6
+    } else {
+        Calendar.MONDAY - dayOfWeek
     }
+    cal.add(Calendar.DAY_OF_MONTH, offsetToMonday)
+    val mondayDate = dateFormat.format(cal.time)
 
-    fun getFoodMenuByDate(
-        cafeteriaSeq: Int,
-        selectedDate: String,
-        onSuccess: (List<FoodMenuItem>) -> Unit,
-        onError: (String) -> Unit
-    ) {
-        apiService.getFoodData(cafeteriaSeq, selectedDate)
-            .enqueue(object : Callback<BaseListResponse<GetFoodDataResponse>> {
-                override fun onResponse(
-                    call: Call<BaseListResponse<GetFoodDataResponse>>,
-                    response: Response<BaseListResponse<GetFoodDataResponse>>
-                ) {
-                    if (response.isSuccessful && response.body() != null) {
-                        val baseResponse = response.body()!!
-                        if (baseResponse.isSuccess) {
-                            val menuList = baseResponse.result.flatMap { responseItem ->
-                                responseItem.menu.split(", ").map { menuItem ->
-                                    FoodMenuItem(
-                                        menu = menuItem,
-                                        menuDivision = responseItem.menuDivision,
-                                        date = responseItem.date,
-                                        menuSeq = responseItem.menuSeq
-                                    )
-                                }
-                            }
+    // 2) API를 한 번만 호출 (startDate = mondayDate)
+    val resp = apiService.getFoodData(seq, mondayDate)
+    if (!resp.isSuccess) throw IOException("API error: ${resp.message}")
 
-                            Log.d("API_SUCCESS", "날짜: $selectedDate, 데이터: $menuList")
-                            onSuccess(menuList)
-                        } else {
-                            onError("API 응답 실패: ${baseResponse.message}")
-                        }
-                    } else {
-                        onError("서버 응답 오류: ${response.errorBody()?.string()}")
-                    }
+    // 3) 돌려받은 result 리스트 안에서, date별로 분리된 항목들을 모두 FoodMenuItem으로 변환
+    resp.result
+        .flatMap { dto ->
+            // dto.menu에 여러 개 식단이 공백 단위로 붙어 있다면 split("\\s+") 사용
+            // (필요에 따라 split(", ") 등으로 조정)
+            dto.menu
+                .split("\\s+".toRegex())
+                .map { dish ->
+                    FoodMenuItem(
+                        menu = dish,
+                        menuDivision = dto.menuDivision,
+                        date = dto.date,
+                        menuSeq = dto.menuSeq
+                    )
                 }
-
-                override fun onFailure(call: Call<BaseListResponse<GetFoodDataResponse>>, t: Throwable) {
-                    onError("네트워크 오류: ${t.message}")
-                }
-            })
-    }
-
-    private fun getWeekDates(): List<String> {
-        val calendar = Calendar.getInstance(Locale.getDefault())
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-
-        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
-
-        return (0..6).map {
-            val date = dateFormat.format(calendar.time)
-            calendar.add(Calendar.DAY_OF_WEEK, 1)
-            date
         }
     }
 }

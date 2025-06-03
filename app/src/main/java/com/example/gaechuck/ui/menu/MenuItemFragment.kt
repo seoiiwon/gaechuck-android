@@ -7,33 +7,47 @@ import android.view.ViewGroup
 import android.widget.GridLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.gaechuck.R
 import com.example.gaechuck.data.response.FoodMenuItem // ✅ 올바른 데이터 모델 import
+import com.example.gaechuck.ui.menu.adaptor.GridCafeteriaAdapter
 
 class MenuItemFragment : Fragment() {
+
+    private lateinit var recycler: RecyclerView
+    private val adapter = GridCafeteriaAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_cafeteria_menu_item, container, false)
-        val gridLayout = view.findViewById<GridLayout>(R.id.menuGridLayout)
+    ): View {
+        return inflater.inflate(R.layout.fragment_cafeteria_menu_item, container, false)
+    }
 
-        val menuList = arguments?.getParcelableArrayList<FoodMenuItem>("menuList")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        recycler = view.findViewById(R.id.menuGridRecyclerView)
+        recycler.layoutManager = GridLayoutManager(requireContext(), 2)
+        recycler.adapter = adapter
 
-        menuList?.forEach { item ->
-            val labelTextView = TextView(context)
-            labelTextView.text = item.menuDivision
-            labelTextView.setPadding(16, 8, 16, 8)
+        // arguments 에서 리스트 꺼내서 어댑터에 넘기기
+        @Suppress("UNCHECKED_CAST")
+        val list = arguments
+            ?.getParcelableArrayList<FoodMenuItem>("menuList")
+            ?.toList()
+            ?: emptyList()
 
-            val valueTextView = TextView(context)
-            valueTextView.text = item.menu
-            valueTextView.setPadding(16, 8, 16, 8)
+        adapter.submitList(list)
+    }
 
-            gridLayout.addView(labelTextView)
-            gridLayout.addView(valueTextView)
+    companion object {
+        fun newInstance(menuList: List<FoodMenuItem>): MenuItemFragment {
+            val frag = MenuItemFragment()
+            val args = Bundle().apply {
+                putParcelableArrayList("menuList", ArrayList(menuList))
+            }
+            frag.arguments = args
+            return frag
         }
-
-        return view
     }
 }

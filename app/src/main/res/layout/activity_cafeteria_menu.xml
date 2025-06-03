@@ -86,7 +86,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:paddingHorizontal="70dp">
+        android:paddingHorizontal="50dp">
 
         <ImageView
             android:id="@+id/leftArrow"
@@ -94,21 +94,26 @@
             android:layout_height="wrap_content"
             android:src="@drawable/left_btn"
             android:padding="12dp"
-            android:layout_marginEnd="8dp"/>
+            android:layout_marginEnd="8dp"
+            android:clickable="true"
+            android:focusable="true"/>
 
         <HorizontalScrollView
             android:id="@+id/restaurantScrollView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:clipToPadding="false"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp">
 
             <LinearLayout
                 android:id="@+id/restaurantLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:gravity="center"
                 android:layout_gravity="center"
-                android:gravity="center" />
+                android:orientation="horizontal" />
 
         </HorizontalScrollView>
 
@@ -118,7 +123,10 @@
             android:layout_height="wrap_content"
             android:src="@drawable/right_btn"
             android:padding="12dp"
-            android:layout_marginStart="8dp"/>
+            android:layout_marginStart="8dp"
+            android:clickable="true"
+            android:focusable="true"/>
+
     </LinearLayout>
 
 
