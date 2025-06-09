@@ -8,7 +8,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gaechuck.R
@@ -16,6 +18,7 @@ import com.example.gaechuck.data.response.RentList
 import com.example.gaechuck.repository.RentRepository
 import com.example.gaechuck.ui.rent.adapter.RentAdapter
 import com.example.gaechuck.ui.rent.viewmodel.RentViewModel
+import com.example.gaechuck.ui.util.DeleteDialogFragment
 import com.example.gaechuck.ui.util.SearchFailFragment
 
 class RentSearchActivity: AppCompatActivity(R.layout.activity_business_search),
@@ -101,5 +104,15 @@ class RentSearchActivity: AppCompatActivity(R.layout.activity_business_search),
         }
         startActivity(intent)
 
+    }
+
+    override fun onEditClicked(item: RentList) {
+        // 검색 화면에서는 수정 기능을 사용하지 않으므로 비워둠 또는 로그만
+        Toast.makeText(this, "수정 기능은 지원하지 않습니다.", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onDeleteClicked(item: RentList) {
+        // 검색 화면에서는 삭제 기능도 제한
+        Toast.makeText(this, "삭제 기능은 지원하지 않습니다.", Toast.LENGTH_SHORT).show()
     }
 }

@@ -25,6 +25,7 @@ import com.example.gaechuck.repository.RentRepository
 import com.example.gaechuck.ui.lose.LoseUrlChangeActivity
 import com.example.gaechuck.ui.rent.adapter.RentAdapter
 import com.example.gaechuck.ui.rent.viewmodel.RentViewModel
+import com.example.gaechuck.ui.util.DeleteDialogFragment
 
 class RentMainFragment : Fragment(R.layout.fragment_rent_main),RentAdapter.OnRentItemClickListener {
     private lateinit var binding: FragmentRentMainBinding
@@ -62,12 +63,40 @@ class RentMainFragment : Fragment(R.layout.fragment_rent_main),RentAdapter.OnRen
         // 버튼 설정
         urlButton = view.findViewById(R.id.url_btn)
 
+        // RecyclerView 설정 (어댑터 설정 *이전*)
+        recyclerView = view.findViewById(R.id.rent_view)
+        binding.rentView.layoutManager = LinearLayoutManager(context)
+        rentAdapter = RentAdapter(object : RentAdapter.OnRentItemClickListener {
+            override fun OnRentItemClick(item: RentList) {
+                val action = RentMainFragmentDirections.actionRentMainFragmentToRentDetailFragment(item.rentItemId)
+                view?.findNavController()?.navigate(action)
+            }
+
+            override fun onEditClicked(item: RentList) {
+                val intent = Intent(requireContext(), RentEditActivity::class.java).apply {
+                    putExtra("rentItemId", item.rentItemId)
+                    putExtra("rentItemName", item.rentItemName)
+                    putExtra("rentItemCount", item.rentItemCount)
+                    putStringArrayListExtra("rentItemImage", arrayListOf(item.image))
+                }
+                startActivity(intent)
+            }
+
+            override fun onDeleteClicked(item: RentList) {
+                val dialog = DeleteDialogFragment(requireContext()) {
+                    rentViewModel.deleteData(item.rentItemId)
+                }
+                dialog.show()
+            }
+        })
+        binding.rentView.adapter = rentAdapter
+
         // 로그인 상태 확인
         rentViewModel.checkLoginStatus()
         rentViewModel.isLoggedIn.observe(viewLifecycleOwner, Observer { isLoggedIn ->
             binding.writeBtn.visibility = if (isLoggedIn) View.VISIBLE else View.GONE
+            rentAdapter.updateLoginState(isLoggedIn) // 이 줄 추가
         })
-
 
         // RentActivity의 Toolbar 업데이트
         (activity as? RentActivity)?.updateToolbar(
@@ -78,11 +107,7 @@ class RentMainFragment : Fragment(R.layout.fragment_rent_main),RentAdapter.OnRen
             showSearchButton = true,
         )
 
-        // RecyclerView 설정 (어댑터 설정 *이전*)
-        recyclerView = view.findViewById(R.id.rent_view)
-        binding.rentView.layoutManager = LinearLayoutManager(context)
-        rentAdapter = RentAdapter(this)
-        binding.rentView.adapter = rentAdapter
+
 
         // LiveData 관찰 설정 (데이터 로딩 *이전*)
         rentViewModel.rentList.observe(viewLifecycleOwner, Observer { rentItems ->
@@ -140,4 +165,22 @@ class RentMainFragment : Fragment(R.layout.fragment_rent_main),RentAdapter.OnRen
         val action = RentMainFragmentDirections.actionRentMainFragmentToRentDetailFragment(item.rentItemId)
         view?.findNavController()?.navigate(action)
     }
+
+    override fun onEditClicked(item: RentList) {
+        val intent = Intent(requireContext(), RentEditActivity::class.java).apply {
+            putExtra("rentItemId", item.rentItemId)
+            putExtra("rentItemName", item.rentItemName)
+            putExtra("rentItemCount", item.rentItemCount)
+            putStringArrayListExtra("rentItemImage", arrayListOf(item.image)) // List<String>이라면
+        }
+        startActivity(intent)
+    }
+
+    override fun onDeleteClicked(item: RentList) {
+        val dialog = DeleteDialogFragment(requireContext()) {
+            rentViewModel.deleteData(item.rentItemId)
+        }
+        dialog.show()
+    }
+
 }

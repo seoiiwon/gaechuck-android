@@ -1,8 +1,11 @@
 package com.example.gaechuck.ui.rent
 
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.Rect
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.view.ContextThemeWrapper
 import android.view.Gravity
 import android.view.MotionEvent
@@ -165,6 +168,12 @@ class RentActivity : AppCompatActivity(R.layout.activity_rent) {
             val popupMenu = PopupMenu(themeWrapper , etcButton, Gravity.END , 0 , R.style.PopupMenuStyle)
             val menuInflater = popupMenu.menuInflater
             menuInflater.inflate(R.menu.etc_menu, popupMenu.menu)
+
+            // 삭제하기 항목만 색상 변경
+            val deleteMenuItem = popupMenu.menu.findItem(R.id.menu_delete)
+            val redTitle = SpannableString(deleteMenuItem.title)
+            redTitle.setSpan(ForegroundColorSpan(Color.RED), 0, redTitle.length, 0)
+            deleteMenuItem.title = redTitle
 
             // 메뉴 항목 클릭 리스너
             popupMenu.setOnMenuItemClickListener { menuItem ->

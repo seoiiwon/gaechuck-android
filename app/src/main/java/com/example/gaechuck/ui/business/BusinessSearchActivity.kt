@@ -102,5 +102,13 @@ class BusinessSearchActivity: AppCompatActivity(R.layout.activity_business_searc
         }
         startActivity(intent)
     }
+
+    override fun onEditClicked(item: BusinessList) {
+        Toast.makeText(this, "검색 화면에서는 수정 기능을 제공하지 않습니다.", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onDeleteClicked(item: BusinessList) {
+        Toast.makeText(this, "검색 화면에서는 삭제 기능을 제공하지 않습니다.", Toast.LENGTH_SHORT).show()
+    }
 }
 

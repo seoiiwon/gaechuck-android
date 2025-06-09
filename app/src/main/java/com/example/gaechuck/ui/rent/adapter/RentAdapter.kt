@@ -1,22 +1,33 @@
 package com.example.gaechuck.ui.rent.adapter
 
+import android.graphics.Color
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
+import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.gaechuck.R
 import com.example.gaechuck.data.response.BusinessList
 import com.example.gaechuck.data.response.RentList
 import com.example.gaechuck.databinding.RowRentItemBinding
 
-class RentAdapter(private val listener: OnRentItemClickListener):
+class RentAdapter(private val listener: OnRentItemClickListener, private var isLoggedIn: Boolean = false):
     ListAdapter<RentList, RentAdapter.ViewHolder>(RentItemDiffCallback()) {
 
+
     interface OnRentItemClickListener{
-            fun OnRentItemClick(item:RentList)
-        }
+        fun OnRentItemClick(item:RentList)
+        fun onEditClicked(item: RentList)
+        fun onDeleteClicked(item: RentList)
+    }
+
     inner class ViewHolder(private val binding: RowRentItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: RentList) {
             Glide.with(binding.rentImage.context)
@@ -29,6 +40,35 @@ class RentAdapter(private val listener: OnRentItemClickListener):
                 item.rentItemName
             }
             binding.rentCount.text = item.rentItemCount.toString() // count 바인딩
+
+            binding.buttonEtc.visibility = if (isLoggedIn) View.VISIBLE else View.GONE
+
+            binding.buttonEtc.setOnClickListener {
+                val popupMenu = PopupMenu(binding.buttonEtc.context ,  binding.buttonEtc, Gravity.END , 0 , R.style.PopupMenuStyle)
+                popupMenu.menuInflater.inflate(R.menu.etc_menu, popupMenu.menu)
+
+                // 삭제하기 항목만 색상 변경
+                val deleteMenuItem = popupMenu.menu.findItem(R.id.menu_delete)
+                val redTitle = SpannableString(deleteMenuItem.title)
+                redTitle.setSpan(ForegroundColorSpan(Color.RED), 0, redTitle.length, 0)
+                deleteMenuItem.title = redTitle
+
+                popupMenu.setOnMenuItemClickListener { menuItem ->
+                    when (menuItem.itemId) {
+                        R.id.menu_edit -> {
+                            listener.onEditClicked(item)
+                            true
+                        }
+                        R.id.menu_delete -> {
+                            listener.onDeleteClicked(item)
+                            true
+                        }
+                        else -> false
+                    }
+                }
+
+                popupMenu.show()
+            }
 
             // Item 클릭 이벤트
             binding.root.setOnClickListener {
@@ -78,5 +118,10 @@ class RentAdapter(private val listener: OnRentItemClickListener):
                 }
             }
         })
+    }
+
+    fun updateLoginState(loggedIn: Boolean) {
+        this.isLoggedIn = loggedIn
+        notifyDataSetChanged()
     }
 }
