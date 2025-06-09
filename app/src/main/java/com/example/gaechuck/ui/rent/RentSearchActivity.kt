@@ -1,5 +1,6 @@
 package com.example.gaechuck.ui.rent
 
+import VerticalItemDecorate
 import android.content.Intent
 import android.os.Bundle
 import android.view.inputmethod.EditorInfo
@@ -9,8 +10,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gaechuck.R
@@ -43,6 +46,9 @@ class RentSearchActivity: AppCompatActivity(R.layout.activity_business_search),
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
+        val itemDecoration = VerticalItemDecorate(20)
+        recyclerView.addItemDecoration(itemDecoration)
+
         backButton = findViewById(R.id.button_back)
         searchEditText = findViewById(R.id.search_text)
         searchEditText.hint = "물품을 입력하세요."
@@ -61,6 +67,8 @@ class RentSearchActivity: AppCompatActivity(R.layout.activity_business_search),
         }
 
         observeViewModel()
+
+
 
         backButton.setOnClickListener{
             val intent = Intent(this, RentActivity::class.java)
