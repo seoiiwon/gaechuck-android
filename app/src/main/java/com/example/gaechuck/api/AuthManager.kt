@@ -2,6 +2,7 @@ package com.example.gaechuck.api
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 
 object AuthManager {
     private const val PREFS_NAME = "auth_prefs"
@@ -15,6 +16,7 @@ object AuthManager {
     }
 
     fun saveTokens(accessToken: String, refreshToken: String) {
+        Log.d("AuthManager", "새 토큰 저장 시작: AccessToken = ${accessToken.take(10)}..., RefreshToken = ${refreshToken.take(10)}...")
         prefs.edit()
             .putString(KEY_ACCESS_TOKEN, accessToken)
             .putString(KEY_REFRESH_TOKEN, refreshToken)
@@ -26,7 +28,9 @@ object AuthManager {
     }
 
     fun getRefreshToken(): String? {
-        return prefs.getString(KEY_REFRESH_TOKEN, null)
+        val token = prefs.getString(KEY_REFRESH_TOKEN, null)
+        Log.d("AuthManager", "RefreshToken 조회: ${if (token.isNullOrEmpty()) "없음" else "있음"}")
+        return token
     }
 
     fun clearTokens() {

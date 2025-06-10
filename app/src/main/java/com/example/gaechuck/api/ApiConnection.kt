@@ -1,6 +1,7 @@
 package com.example.gaechuck.api
 
 import android.content.Context
+import android.util.Log
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -39,10 +40,19 @@ object ApiConnection {
         val authInterceptor = Interceptor { chain ->
             val originalRequest = chain.request()
             val token = AuthManager.getToken()
+            val path = originalRequest.url.encodedPath
+            val needsAuth = requiresAuth(path)
+
+            // 디버깅 로그 추가
+            Log.d("AuthInterceptor", "API Path: $path")
+            Log.d("AuthInterceptor", "Needs Auth: $needsAuth")
+            Log.d("AuthInterceptor", "Token exists: ${!token.isNullOrEmpty()}")
+
             val requestBuilder = originalRequest.newBuilder()
 
             // 토큰이 있고, 로그인 필요 API라면 Authorization 추가
             if (!token.isNullOrEmpty() && requiresAuth(originalRequest.url.encodedPath)) {
+                Log.d("AuthInterceptor", "Adding Authorization header")
                 requestBuilder.addHeader("Authorization", "Bearer $token")
             }
 
@@ -85,6 +95,6 @@ object ApiConnection {
         )
 
         // startsWith 로 처리
-        return publicPaths.none { path.startsWith(it) }
+        return !publicPaths.any { path.startsWith(it) }
     }
 }
