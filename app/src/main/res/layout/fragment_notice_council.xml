@@ -13,6 +13,7 @@
         android:orientation="horizontal">
         <!-- 이미지 영역 -->
         <FrameLayout
+            android:id="@+id/imageContainer"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginEnd="24dp"
@@ -26,21 +27,12 @@
                 android:scaleType="centerCrop"
                 android:visibility="gone" />
 
-            <TextView
-                android:id="@+id/imagePlaceholder"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="image"
-                android:textSize="12sp"
-                android:textColor="@color/white"
-                android:visibility="visible" />
         </FrameLayout>
 
         <!-- 텍스트 영역 -->
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="100dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical">
 

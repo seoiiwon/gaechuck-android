@@ -1,16 +1,29 @@
 package com.example.gaechuck.repository
 
+import android.content.Context
+import android.net.Uri
+import android.util.Log
 import com.example.gaechuck.api.ApiConnection
 import com.example.gaechuck.api.AuthManager
+import com.example.gaechuck.data.request.NoticeCouncilRequest
 import com.example.gaechuck.data.response.BaseResponse
 import com.example.gaechuck.data.response.DeleteCouncilNoticeResponse
 import com.example.gaechuck.data.response.GetCouncilNoticeDataResponse
 import com.example.gaechuck.data.response.GetCouncilNoticeDetailResponse
 import com.example.gaechuck.data.response.PagenatedResponse
+import com.example.gaechuck.data.response.PatchNoticeResponse
+import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import okio.IOException
 import retrofit2.Response
+import retrofit2.http.Body
+import java.io.File
+import java.io.FileOutputStream
 
 // 총학생회 공지 호출 관련 Repo
 class NoticeCouncilRepository {
@@ -25,22 +38,19 @@ class NoticeCouncilRepository {
         if (!resp.isSuccess) {
             throw IOException("API error: ${resp.message}")
         }
-        // resp.result 가 List<T> 라면 바로 리턴
         resp.result
     }
 
+    // 공지 검색
     suspend fun searchNotices(
         title: String,
         page: Int = 0,
         size: Int = 20
     ): List<GetCouncilNoticeDataResponse> = withContext(Dispatchers.IO) {
-        // 이미 suspend로 선언된 Retrofit 호출
         val resp = apiService.getNoticeCouncilSearchList(page, size, title)
-        // BaseListResponse<T> 형식이라 .isSuccess/.message/.result 접근 가능
         if (!resp.isSuccess) {
             throw IOException("API Error: ${resp.message}")
         }
-        // resp.result 안에 페이징된 content 필드가 있다고 가정
         return@withContext resp.result?.content.orEmpty()
     }
 
@@ -56,12 +66,85 @@ class NoticeCouncilRepository {
         }
     }
 
-    // 총학생회 공지 삭제
-    suspend fun deleteNotice(noticeId: Int): Response<DeleteCouncilNoticeResponse> = withContext(
-        Dispatchers.IO) {
-        val token = AuthManager.getToken() ?: throw IllegalStateException("토큰이 존재하지 않습니다.")
-//        ApiConnection.getRetrofitService.deleteNoticeCouncil(noticeId, "Bearer $token")
-        apiService.deleteNoticeCouncil(noticeId, "Bearer $token")
+    // 공지 작성
+    suspend fun postNotice(
+        title: String,
+        body: String,
+        images: List<MultipartBody.Part>
+    ): Result<BaseResponse<String>> = withContext(Dispatchers.IO) {
+        try {
+            val request = NoticeCouncilRequest(title, body)
+            val json = Gson().toJson(request)
+            val dataBody = json.toRequestBody("application/json; charset=utf-8".toMediaType())
+            val response = apiService.postNoticeCouncil( dataBody, images)
+            if (response.isSuccessful && response.body() != null) {
+                Result.success(response.body()!!)
+            } else {
+                Result.failure(Exception("공지 작성 실패: ${response.message()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
     }
 
+
+    // 공지 수정
+    suspend fun patchNotice(
+        noticeId: Int,
+        title: String,
+        body: String,
+        images: List<MultipartBody.Part>
+    ): Result<PatchNoticeResponse> = withContext(Dispatchers.IO) {
+        try {
+            val request = NoticeCouncilRequest(title, body)
+            val json = Gson().toJson(request)
+            val dataBody = json.toRequestBody("application/json; charset=utf-8".toMediaType())
+            val response = apiService.updateNoticeCouncil(noticeId, dataBody, images)
+            if (response.isSuccessful && response.body() != null) {
+                Result.success(response.body()!!)
+            } else {
+                Result.failure(Exception("공지 수정 실패: ${response.message()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+
+
+    suspend fun deleteNotice(noticeId: Int): Result<BaseResponse<String>> {
+        return try {
+            val token = AuthManager.getToken()
+            if (token.isNullOrEmpty()) {
+                return Result.failure(Exception("사용자 토큰이 존재하지 않습니다."))
+            }
+
+            val response = ApiConnection.getRetrofitService.deleteNoticeCouncil(noticeId)
+
+            if (response.isSuccessful && response.body()?.isSuccess == true) {
+                Result.success(response.body()!!)
+            } else {
+                val errorMessage = response.body()?.message ?: "알 수 없는 서버 오류"
+                Result.failure(Exception(errorMessage))
+            }
+        } catch (e: Exception) {
+            Result.failure(Exception("삭제 실패: ${e.message}"))
+        }
+    }
+
+
+    //
+    suspend fun createImageParts(uris: List<Uri>, context: Context): List<MultipartBody.Part> = withContext(Dispatchers.IO) {
+        uris.mapIndexedNotNull { index, uri ->
+            try {
+                val inputStream = context.contentResolver.openInputStream(uri) ?: return@mapIndexedNotNull null
+                val file = File(context.cacheDir, "notice_image_$index.jpg")
+                FileOutputStream(file).use { inputStream.copyTo(it) }
+                val requestFile = RequestBody.create("image/*".toMediaType(), file)
+                MultipartBody.Part.createFormData("file", file.name, requestFile)
+            } catch (e: Exception) {
+                null
+            }
+        }
+    }
 }

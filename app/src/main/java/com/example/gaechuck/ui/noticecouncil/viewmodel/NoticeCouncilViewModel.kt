@@ -1,14 +1,16 @@
 package com.example.gaechuck.ui.noticecouncil.viewmodel
 
+import android.content.Context
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.gaechuck.data.response.BaseResponse
 import com.example.gaechuck.data.response.GetCouncilNoticeDataResponse
 import com.example.gaechuck.data.response.GetCouncilNoticeDetailResponse
-import com.example.gaechuck.data.response.PagenatedResponse
 import com.example.gaechuck.repository.NoticeCouncilRepository
 import kotlinx.coroutines.launch
 import okio.IOException
@@ -26,12 +28,17 @@ class NoticeCouncilViewModel(
     private val _searchResults = MutableLiveData<List<GetCouncilNoticeDataResponse>>(emptyList())
     val searchResults: LiveData<List<GetCouncilNoticeDataResponse>> = _searchResults
 
-
     private val _noticeList = MutableLiveData<List<GetCouncilNoticeDataResponse>>()
     val noticeList: LiveData<List<GetCouncilNoticeDataResponse>> get() = _noticeList
 
-    private val _deleteStatus = MutableLiveData<Int?>()
-    val deleteStatus: LiveData<Int?> get() = _deleteStatus
+    private val _deleteResult = MutableLiveData<Result<BaseResponse<String>>>()
+    val deleteResult: LiveData<Result<BaseResponse<String>>> get() = _deleteResult
+
+    private val _postResult = MutableLiveData<Result<BaseResponse<String>>>()
+    val postResult: LiveData<Result<BaseResponse<String>>> get() = _postResult
+
+//    private val _patchResult = MutableLiveData<Result<PatchNoticeResponse>>()
+//    val patchResult: LiveData<Result<PatchNoticeResponse>> get() = _patchResult
 
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> get() = _errorMessage
@@ -76,26 +83,13 @@ class NoticeCouncilViewModel(
             null
         }
 
-    fun deleteNotice(noticeId: Int) {
-        viewModelScope.launch {
-            try {
-                val response = repository.deleteNotice(noticeId)
-                if (response.isSuccessful && response.body()?.isSuccess == true) {
-                    fetchNotices()
-                } else {
-                    _errorMessage.value = response.body()?.message ?: "삭제 실패"
-                }
-            } catch (e: Exception) {
-                _errorMessage.value = e.message ?: "알 수 없는 오류"
-            }
-        }
-    }
 
     fun search(query: String) {
         searchPage = 0
         _searchResults.value = emptyList()
         loadMoreSearch(query)
     }
+
 
     fun loadMoreSearch(query: String) {
         viewModelScope.launch {
@@ -111,6 +105,50 @@ class NoticeCouncilViewModel(
                 _errorMessage.value = e.message ?: "알 수 없는 오류"
             }
         }
+    }
+
+    fun postNotice(title: String, body: String, imageUris: List<Uri>, context: Context) {
+        viewModelScope.launch {
+            try {
+                val imageParts = repository.createImageParts(imageUris, context)
+                val result = repository.postNotice(title, body, imageParts)
+                _postResult.value = result
+            } catch (e: Exception) {
+                _errorMessage.value = e.message ?: "작성 중 오류 발생"
+            }
+        }
+    }
+
+    fun deleteNotice(noticeId: Int) {
+        viewModelScope.launch {
+            val result = repository.deleteNotice(noticeId)
+            _deleteResult.value = result
+
+            result.onSuccess {
+                Log.d("NoticeCouncilViewModel", "삭제 성공")
+            }.onFailure {
+                Log.e("NoticeCouncilViewModel", "삭제 실패: ${it.message}")
+            }
+        }
+    }
+
+
+//    fun patchNotice(noticeId: Int, title: String, body: String, imageUris: List<Uri>, context: Context) {
+//        viewModelScope.launch {
+//            try {
+//                val imageParts = repository.createImageParts(imageUris, context)
+//                val result = repository.patchNotice(noticeId, title, body, imageParts)
+//                _patchResult.value = result
+//            } catch (e: Exception) {
+//                _errorMessage.value = e.message ?: "수정 중 오류 발생"
+//            }
+//        }
+//    }
+
+
+    fun removeNoticeFromList(noticeId: Int) {
+        val currentList = _noticeList.value ?: return
+        _noticeList.value = currentList.filterNot { it.id == noticeId }
     }
 
     class Factory(private val repo: NoticeCouncilRepository) : ViewModelProvider.Factory {

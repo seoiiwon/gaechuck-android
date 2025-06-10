@@ -1,12 +1,8 @@
 package com.example.gaechuck.ui.noticecouncil
 
-import android.app.Activity
-import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.Rect
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -20,13 +16,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.ItemTouchHelper.Callback.makeMovementFlags
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.transition.Transition
-import com.example.gaechuck.MainActivity
 import com.example.gaechuck.R
 import com.example.gaechuck.api.ApiConnection
 import com.example.gaechuck.api.AuthManager
@@ -45,7 +36,6 @@ import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import java.io.FileOutputStream
-import java.io.InputStream
 import java.net.HttpURLConnection
 import java.net.URL
 
@@ -179,7 +169,7 @@ class NoticeCouncilUpdateActivity : AppCompatActivity() {
                 // PATCH 요청: data 파트와 files 파트 모두 전송
                 val response = ApiConnection.getRetrofitService.updateNoticeCouncil(
                     noticeId = noticeId,
-                    token = "Bearer $token",
+//                    token = "Bearer $token",
                     data = dataBody,
                     files = imageParts
                 )
@@ -187,7 +177,6 @@ class NoticeCouncilUpdateActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     Toast.makeText(this@NoticeCouncilUpdateActivity, "공지사항이 수정되었습니다.", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this@NoticeCouncilUpdateActivity, NoticeCouncilActivity::class.java).apply {
-                        // CLEAR_TOP나 NEW_TASK 플래그를 제거하여 백스택을 유지합니다.
                     }
                     startActivity(intent)
                     finish() // 현재 수정 액티비티 종료
@@ -278,7 +267,6 @@ class NoticeCouncilUpdateActivity : AppCompatActivity() {
             // 스와이프 시 삭제
         }
 
-        // 드래그 시작, 종료 시 효과를 위해 (선택 사항)
         override fun isLongPressDragEnabled(): Boolean = true
         override fun isItemViewSwipeEnabled(): Boolean = false
     }
