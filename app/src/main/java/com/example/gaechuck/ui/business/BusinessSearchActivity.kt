@@ -25,6 +25,11 @@ class BusinessSearchActivity: AppCompatActivity(R.layout.activity_business_searc
     private lateinit var backButton : ImageView
 
 
+    private var currentPage = 0
+    private var isLoading = false
+    private var isLastPage = false
+    private var currentQuery: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_business_search)
@@ -47,7 +52,13 @@ class BusinessSearchActivity: AppCompatActivity(R.layout.activity_business_searc
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 val query = searchEditText.text.toString().trim()
                 if (query.isNotEmpty()) {
-                    businessViewModel.searchBusinessItems(query)
+                    currentQuery = query
+                    currentPage = 0
+                    isLastPage = false
+                    isLoading = false
+                    adapter.updateItems(emptyList()) // 기존 결과 초기화
+                    businessViewModel.searchBusinessItemsPaged(query, currentPage)
+                    currentPage++
                 } else {
                     Toast.makeText(this, "검색어를 입력해주세요.", Toast.LENGTH_SHORT).show()
                 }
@@ -56,6 +67,19 @@ class BusinessSearchActivity: AppCompatActivity(R.layout.activity_business_searc
                 false
             }
         }
+
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                if (!recyclerView.canScrollVertically(1) && !isLoading && !isLastPage) {
+                    currentQuery?.let {
+                        isLoading = true
+                        businessViewModel.searchBusinessItemsPaged(it, currentPage)
+                        currentPage++
+                    }
+                }
+            }
+        })
+
 
         observeViewModel()
 
@@ -69,7 +93,12 @@ class BusinessSearchActivity: AppCompatActivity(R.layout.activity_business_searc
         businessViewModel.filterBusinessList.observe(this) { list ->
             recyclerView.visibility = RecyclerView.VISIBLE
             adapter.updateItems(list)
+            isLoading = false
             removeSearchFailFragment()
+
+            if (list.size < (currentPage * 9)) { // 9개씩 불러온다고 가정
+                isLastPage = true
+            }
         }
 
         businessViewModel.isSearchResultEmpty.observe(this) { isEmpty ->

@@ -11,7 +11,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.gaechuck.api.ApiConnection
 import com.example.gaechuck.api.AuthManager
 import com.example.gaechuck.data.response.BaseResponse
-import com.example.gaechuck.data.response.BusinessList
 import com.example.gaechuck.data.response.GetLoseDetailResponse
 import com.example.gaechuck.data.response.LoseList
 import com.example.gaechuck.data.response.PatchLoseResponse
@@ -228,6 +227,33 @@ class LoseViewModel(private val repository: LoseRepository):ViewModel() {
             }
         }
     }
+
+    fun searchLoseItemsPaged(title: String, page: Int) {
+        viewModelScope.launch {
+            try {
+                val response = repository.getLoseData(page, 9, title)
+                response?.let {
+                    if (page == 0 && it.content.isEmpty()) {
+                        _isSearchResultEmpty.postValue(true)
+                    } else {
+                        _isSearchResultEmpty.postValue(false)
+
+                        val currentList = _filterLoseList.value?.toMutableList() ?: mutableListOf()
+                        if (page == 0) currentList.clear()
+                        currentList.addAll(it.content)
+                        _filterLoseList.postValue(currentList)
+
+                        if (it.content.isEmpty() || it.last) {
+                            isLastPage = true
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("LoseViewModel", "검색 에러: ${e.message}")
+            }
+        }
+    }
+
 
     // url 변경
     fun LoseDetailRetrofit(chatName: String) {

@@ -32,6 +32,11 @@ class RentSearchActivity: AppCompatActivity(R.layout.activity_business_search),
     private lateinit var searchEditText: EditText
     private lateinit var backButton : ImageView
 
+    private var currentPage = 0
+    private var isLoading = false
+    private var isLastPage = false
+    private var currentQuery: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_business_search)
@@ -52,11 +57,17 @@ class RentSearchActivity: AppCompatActivity(R.layout.activity_business_search),
         backButton = findViewById(R.id.button_back)
         searchEditText = findViewById(R.id.search_text)
         searchEditText.hint = "물품을 입력하세요."
+
         searchEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 val query = searchEditText.text.toString().trim()
                 if (query.isNotEmpty()) {
-                    rentViewModel.searchRentItems(query)
+                    currentQuery = query
+                    currentPage = 0
+                    isLastPage = false
+                    isLoading = false
+                    adapter.updateItems(emptyList()) // UI 초기화
+                    rentViewModel.searchRentItemsPaged(query, currentPage++)
                 } else {
                     Toast.makeText(this, "검색어를 입력해주세요.", Toast.LENGTH_SHORT).show()
                 }
@@ -65,6 +76,17 @@ class RentSearchActivity: AppCompatActivity(R.layout.activity_business_search),
                 false
             }
         }
+
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(rv: RecyclerView, dx: Int, dy: Int) {
+                if (!rv.canScrollVertically(1) && !isLoading && !isLastPage) {
+                    currentQuery?.let {
+                        isLoading = true
+                        rentViewModel.searchRentItemsPaged(it, currentPage++)
+                    }
+                }
+            }
+        })
 
         observeViewModel()
 
@@ -77,10 +99,22 @@ class RentSearchActivity: AppCompatActivity(R.layout.activity_business_search),
     }
 
     private fun observeViewModel() {
+//        rentViewModel.filterRentList.observe(this) { list ->
+//            recyclerView.visibility = RecyclerView.VISIBLE
+//            adapter.updateItems(list)
+//            removeSearchFailFragment()
+//        }
+
         rentViewModel.filterRentList.observe(this) { list ->
             recyclerView.visibility = RecyclerView.VISIBLE
             adapter.updateItems(list)
+            isLoading = false
             removeSearchFailFragment()
+
+            // 만약 한 페이지 9개라면
+            if (list.size < currentPage * 9) {
+                isLastPage = true
+            }
         }
 
         rentViewModel.isSearchResultEmpty.observe(this) { isEmpty ->

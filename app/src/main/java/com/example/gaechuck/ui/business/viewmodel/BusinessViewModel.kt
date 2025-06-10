@@ -124,30 +124,32 @@ class BusinessViewModel(private val repository: BusinessRepository) : ViewModel(
         }
     }
 
+    fun clearBusinessList() {
+        _businessList.value = mutableListOf()
+        _businessList.postValue(mutableListOf()) // Clear the list
+    }
+
     // 검색 (필터링) 기능
-    fun searchBusinessItems(coalitionName: String) {
+    fun searchBusinessItemsPaged(query: String, page: Int) {
         viewModelScope.launch {
             try {
-                val response = repository.getBusinessData(0, "",coalitionName)
+                val response = repository.getBusinessData(page, "", query)
                 response?.let {
-                    if (it.content.isEmpty()) {
-                        _isSearchResultEmpty.postValue(true) // 검색 결과 없음
-
+                    if (page == 0 && it.content.isEmpty()) {
+                        _isSearchResultEmpty.postValue(true)
                     } else {
-                        _filterBusinessList.postValue(it.content) // 검색 결과를 새로운 값으로 설정
                         _isSearchResultEmpty.postValue(false)
+                        val currentList = _filterBusinessList.value?.toMutableList() ?: mutableListOf()
+                        if (page == 0) currentList.clear()
+                        currentList.addAll(it.content)
+                        _filterBusinessList.postValue(currentList)
                     }
                 }
             } catch (e: Exception) {
                 Log.e("BSViewModel", "에러 발생: ${e.message}")
-                _isSearchResultEmpty.postValue(true) // 검색 결과 없음
+                _isSearchResultEmpty.postValue(true)
             }
         }
-    }
-
-    fun clearBusinessList() {
-        _businessList.value = mutableListOf()
-        _businessList.postValue(mutableListOf()) // Clear the list
     }
 
     // 이미지 상태관리하기
