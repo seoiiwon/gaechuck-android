@@ -32,6 +32,10 @@ class LoseViewModel(private val repository: LoseRepository):ViewModel() {
     private val _loseList = MutableLiveData<List<LoseList>>()
     val loseList : LiveData<List<LoseList>>
         get() = _loseList
+
+    private val _totalPages = MutableLiveData<Int>()
+    val totalPages: LiveData<Int> get() = _totalPages
+
     // 분실물 개별 정보
     private val _loseDetailData = MutableLiveData<GetLoseDetailResponse>()
     val loseDetailData : MutableLiveData<GetLoseDetailResponse>
@@ -94,6 +98,7 @@ class LoseViewModel(private val repository: LoseRepository):ViewModel() {
                     val currentList = _loseList.value.orEmpty()
                     val newList = if (page == 0) it.content else currentList + it.content
                     _loseList.value = newList
+                    _totalPages.value = it.totalPages
                     isLastPage = it.last // API 응답에 마지막 페이지 여부가 포함되어 있다고 가정
                 }
             } catch (e: Exception) {

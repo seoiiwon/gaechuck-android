@@ -39,7 +39,7 @@ class LoseSearchActivity : AppCompatActivity(R.layout.activity_lose_search), Los
         loseViewModel = ViewModelProvider(this, viewModelFactory).get(LoseViewModel::class.java)
 
         recyclerView = findViewById(R.id.search_result)
-        adapter = LoseAdapter(emptyList(), 9,this)
+        adapter = LoseAdapter(emptyList(), 9,0, this)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = GridLayoutManager(this, 1)
 
@@ -73,7 +73,7 @@ class LoseSearchActivity : AppCompatActivity(R.layout.activity_lose_search), Los
         loseViewModel.filterLoseList.observe(this) { list ->
             recyclerView.visibility = RecyclerView.VISIBLE
             noSearch.visibility = TextView.GONE
-            adapter.updateData(list)
+            adapter.updateData(list, 1) // totalPages는 1로 고정
             removeSearchFailFragment()
         }
 

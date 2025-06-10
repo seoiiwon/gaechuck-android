@@ -81,15 +81,25 @@ class LoseMainFragment : Fragment(R.layout.fragment_lose_main), LoseAdapter.OnLo
         viewPager = view.findViewById(R.id.view_pager)
         indicator = view.findViewById(R.id.image_indicator)
 
-        loseAdapter = LoseAdapter(mutableListOf(), 9, this)
+        loseAdapter = LoseAdapter(mutableListOf(), 9, 0,this)
         viewPager.adapter = loseAdapter
 
         // ViewModel 데이터 관찰
+//        viewModel.loseList.observe(viewLifecycleOwner) { loseList ->
+//            if (loseList.isNotEmpty()) {
+//                totalItems = loseList.size
+//                loseAdapter.updateData(loseList)
+//                updateIndicator()
+//            } else {
+//                Log.d("LoseMainFragment", "loseList is empty.")
+//            }
+//            isLoading = false
+//        }
         viewModel.loseList.observe(viewLifecycleOwner) { loseList ->
             if (loseList.isNotEmpty()) {
-                totalItems = loseList.size
-                loseAdapter.updateData(loseList)
-                updateIndicator()
+                val totalPages = viewModel.totalPages.value ?: 1
+                loseAdapter.updateData(loseList, totalPages)
+                indicator.attachTo(viewPager)
             } else {
                 Log.d("LoseMainFragment", "loseList is empty.")
             }
@@ -110,6 +120,11 @@ class LoseMainFragment : Fragment(R.layout.fragment_lose_main), LoseAdapter.OnLo
         // 초기 데이터 로드
         viewModel.loadLoseData(currentPage)
 
+        viewModel.totalPages.observe(viewLifecycleOwner) { totalPages ->
+            loseAdapter.updateData(viewModel.loseList.value.orEmpty(), totalPages)
+            indicator.attachTo(viewPager)
+        }
+
         // 작성하기, url 수정하기 버튼
         binding.writeBtn.setOnClickListener {
             val intent = Intent(activity, LoseWriteActivity::class.java)
@@ -127,9 +142,9 @@ class LoseMainFragment : Fragment(R.layout.fragment_lose_main), LoseAdapter.OnLo
 
     }
 
-    private fun updateIndicator() {
-        val totalPages = (totalItems + 8) / 9 // 9개씩 나누어 올림
+    private fun updateIndicator(totalPages: Int) {
         indicator.attachTo(viewPager)
+
     }
 
     // 네비게이션 처리
