@@ -19,7 +19,9 @@ import com.example.gaechuck.R
 import com.example.gaechuck.api.AuthManager
 import com.example.gaechuck.data.model.NoticeCouncilModel
 import com.example.gaechuck.data.response.GetCouncilNoticeDataResponse
+import com.example.gaechuck.repository.BusinessRepository
 import com.example.gaechuck.repository.NoticeCouncilRepository
+import com.example.gaechuck.ui.business.viewmodel.BusinessViewModel
 import com.example.gaechuck.ui.noticecouncil.adaptor.NoticeCouncilAdapter
 import com.example.gaechuck.ui.noticecouncil.viewmodel.NoticeCouncilViewModel
 import com.example.gaechuck.ui.noticecouncil.viewmodel.NoticeCouncilViewModelFactory
@@ -30,6 +32,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 class NoticeCouncilActivity : AppCompatActivity() {
 
     private lateinit var noticeAdapter: NoticeCouncilAdapter
+
+    val repository = NoticeCouncilRepository()
+    val viewModelFactory = NoticeCouncilViewModel.Factory(repository)
+
     private val viewModel: NoticeCouncilViewModel by viewModels { NoticeCouncilViewModelFactory(NoticeCouncilRepository()) }
 
     val updateNoticeLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -137,13 +143,7 @@ class NoticeCouncilActivity : AppCompatActivity() {
             noticeAdapter.updateData(notices)
             updateUI()
         }
-        viewModel.deleteStatus.observe(this) { deletedId ->
-            deletedId?.let {
-                noticeAdapter.removeNotice(it)
-                Toast.makeText(this, "게시글이 삭제되었습니다.", Toast.LENGTH_SHORT).show()
-                updateUI()
-            }
-        }
+
         viewModel.errorMessage.observe(this) { errorMsg ->
             Toast.makeText(this, "오류: $errorMsg", Toast.LENGTH_SHORT).show()
         }
@@ -152,7 +152,20 @@ class NoticeCouncilActivity : AppCompatActivity() {
     // 공지 삭제
     private fun performDeleteNotice(noticeId: Int) {
         val deleteDialog = DeleteDialogFragment(this) {
-            viewModel.deleteNotice(noticeId) // 삭제 로직 실행
+            viewModel.deleteNotice(noticeId)
+
+            viewModel.deleteResult.observe(this) { result ->
+                result.onSuccess { response ->
+                    if (response.isSuccess) {
+                        Toast.makeText(this, "삭제 성공", Toast.LENGTH_SHORT).show()
+                        viewModel.removeNoticeFromList(noticeId)
+                    } else {
+                        Toast.makeText(this, response.message ?: "삭제 실패", Toast.LENGTH_SHORT).show()
+                    }
+                }.onFailure { error ->
+                    Toast.makeText(this, error.message ?: "삭제 중 오류 발생", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
         deleteDialog.show()
     }

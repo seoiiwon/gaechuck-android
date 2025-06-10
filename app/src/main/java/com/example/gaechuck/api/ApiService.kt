@@ -194,7 +194,7 @@ interface ApiService {
     @Multipart
     @POST("api/v1/council/post")
     suspend fun postNoticeCouncil(
-        @Header("Authorization") authToken: String,
+//        @Header("Authorization") authToken: String,
         @Part("data") data: RequestBody,
         @Part file: List<MultipartBody.Part>
     ): Response<BaseResponse<String>>
@@ -202,8 +202,8 @@ interface ApiService {
     @Multipart
     @PATCH("api/v1/council/{id}")
     suspend fun updateNoticeCouncil(
+//        @Header("Authorization") token: String,
         @Path("id") noticeId: Int,
-        @Header("Authorization") token: String,
         @Part("data") data: RequestBody,
         @Part files: List<MultipartBody.Part>?
     ): Response<PatchNoticeResponse>
@@ -211,9 +211,9 @@ interface ApiService {
 
     @DELETE("api/v1/council/{id}")
     suspend fun deleteNoticeCouncil(
+//        @Header("Authorization") token: String,
         @Path("id") noticeId: Int,
-        @Header("Authorization") token: String
-    ): Response<DeleteCouncilNoticeResponse>
+    ): Response<BaseResponse<String>>
 
     // 학교 공지 리스트
     @GET("/api/v1/notifications/allNotification")
