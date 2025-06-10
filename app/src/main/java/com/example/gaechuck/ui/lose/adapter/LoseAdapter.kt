@@ -30,7 +30,11 @@ class LoseAdapter(private var data: List<LoseList>, // LoseItem 전체 데이터
 
     // Adapter에 필요한 페이지 수 반환
     override fun getItemCount(): Int {
-        return if (usePaging) totalPages else 1
+        return if (usePaging) {
+            totalPages // API에서 받은 전체 페이지 수
+        } else {
+            1
+        }
     }
 
     // ViewHolder 생성
@@ -44,20 +48,37 @@ class LoseAdapter(private var data: List<LoseList>, // LoseItem 전체 데이터
         return PageViewHolder(recyclerView)
     }
     // 페이지 데이터 바인딩
+//    override fun onBindViewHolder(holder: PageViewHolder, position: Int) {
+//        val pageItems = if (usePaging) {
+//            val start = position * itemsPerPage
+//            val end = minOf(start + itemsPerPage, data.size)
+//            if (start < data.size) data.subList(start, end) else emptyList()
+//        } else {
+//            data
+//        }
+//        holder.bind(pageItems)
+//    }
     override fun onBindViewHolder(holder: PageViewHolder, position: Int) {
         val pageItems = if (usePaging) {
             val start = position * itemsPerPage
             val end = minOf(start + itemsPerPage, data.size)
-            if (start < data.size) data.subList(start, end) else emptyList()
+            if (start < data.size) {
+                data.subList(start, end)
+            } else {
+                emptyList() // 아직 로드되지 않은 페이지의 경우 빈 리스트
+            }
         } else {
             data
         }
+
+        Log.d("LoseAdapter", "Binding page $position with ${pageItems.size} items")
         holder.bind(pageItems)
     }
 
     fun updateData(newData: List<LoseList>, newTotalPages: Int) {
         data = newData
         totalPages = newTotalPages
+        Log.d("LoseAdapter", "Data updated - Items: ${newData.size}, Pages: $newTotalPages")
         notifyDataSetChanged()
     }
 
