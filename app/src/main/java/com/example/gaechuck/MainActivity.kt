@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         val viewPager = findViewById<ViewPager2>(R.id.viewPager)
+        viewPager.isNestedScrollingEnabled = true
         val layouts = listOf(R.layout.fragment_main1, R.layout.fragment_main2)
         val adapter = ViewPagerAdapter(layouts) { gridLayout, position ->
             val isFirstPage = position == 0
