@@ -10,7 +10,7 @@ import com.example.gaechuck.databinding.RowLoseItemBinding
 import com.example.gaechuck.ui.lose.adapter.LoseAdapter.OnLoseItemClickListener
 
 class GridAdapter(
-    private val items: List<LoseList>,
+    private var items: List<LoseList>,
     private val listener: OnLoseItemClickListener
 ) : RecyclerView.Adapter<GridAdapter.GridViewHolder>() {
 
@@ -57,4 +57,9 @@ class GridAdapter(
     }
 
     override fun getItemCount(): Int = items.size
+
+    fun updateItems(newItems: List<LoseList>) {
+        items = newItems
+        notifyDataSetChanged()
+    }
 }

@@ -3,7 +3,8 @@ package com.example.gaechuck.data.response
 data class GetLoseDataResponse(
         val content: List<LoseList>,
         val first: Boolean,
-        val last: Boolean
+        val last: Boolean,
+        val totalPages: Int
     )
 
 data class LoseList(

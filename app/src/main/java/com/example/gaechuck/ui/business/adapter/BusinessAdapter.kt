@@ -1,18 +1,28 @@
 package com.example.gaechuck.ui.business.adapter
 
+import android.graphics.Color
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
+import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.gaechuck.R
 import com.example.gaechuck.data.response.BusinessList
 import com.example.gaechuck.databinding.RowBusinessItemBinding
 import okio.utf8Size
 
 class BusinessAdapter(private val data: MutableList<BusinessList>,
-                      private val listener: OnBusinessItemClickListener) : RecyclerView.Adapter<BusinessAdapter.ViewHolder>() {
+                      private val listener: OnBusinessItemClickListener,
+                      private var isLoggedIn: Boolean = false) : RecyclerView.Adapter<BusinessAdapter.ViewHolder>() {
 
     interface OnBusinessItemClickListener {
         fun onBusinessItemClick(item: BusinessList)
+        fun onEditClicked(item: BusinessList)
+        fun onDeleteClicked(item: BusinessList)
     }
 
     inner class ViewHolder(private val binding: RowBusinessItemBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -33,6 +43,35 @@ class BusinessAdapter(private val data: MutableList<BusinessList>,
             }
 
             binding.businessCategory.text = item.category
+            binding.buttonEtc.visibility = if (isLoggedIn) View.VISIBLE else View.GONE
+
+
+            binding.buttonEtc.setOnClickListener {
+                val popupMenu = PopupMenu(binding.buttonEtc.context ,  binding.buttonEtc, Gravity.END , 0 , R.style.PopupMenuStyle)
+                popupMenu.menuInflater.inflate(R.menu.etc_menu, popupMenu.menu)
+
+                // 삭제하기 항목만 색상 변경
+                val deleteMenuItem = popupMenu.menu.findItem(R.id.menu_delete)
+                val redTitle = SpannableString(deleteMenuItem.title)
+                redTitle.setSpan(ForegroundColorSpan(Color.RED), 0, redTitle.length, 0)
+                deleteMenuItem.title = redTitle
+
+                popupMenu.setOnMenuItemClickListener { menuItem ->
+                    when (menuItem.itemId) {
+                        com.example.gaechuck.R.id.menu_edit -> {
+                            listener.onEditClicked(item)
+                            true
+                        }
+                        com.example.gaechuck.R.id.menu_delete -> {
+                            listener.onDeleteClicked(item)
+                            true
+                        }
+                        else -> false
+                    }
+                }
+
+                popupMenu.show()
+            }
 
             // Item 클릭 이벤트 추가
             binding.root.setOnClickListener {
@@ -58,5 +97,10 @@ class BusinessAdapter(private val data: MutableList<BusinessList>,
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(data[position])
+    }
+
+    fun updateLoginState(loggedIn: Boolean) {
+        this.isLoggedIn = loggedIn
+        notifyDataSetChanged()
     }
 }

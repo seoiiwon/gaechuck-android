@@ -28,10 +28,10 @@ class LoseMainFragment : Fragment(R.layout.fragment_lose_main), LoseAdapter.OnLo
     private lateinit var indicator: WormDotsIndicator
 
     private var isFabOpen = false
-
-    private var totalItems = 0
-    private var currentPage = 0
     private var isLoading = false
+    private var loadedPages = mutableSetOf<Int>() // 로드된 페이지 추적
+
+    private var currentPage = 0
 
 
     override fun onCreateView(
@@ -47,11 +47,6 @@ class LoseMainFragment : Fragment(R.layout.fragment_lose_main), LoseAdapter.OnLo
     override fun onResume() {
         super.onResume()
         viewModel.checkLoginStatus()
-
-        // 플로팅 버튼 상태 초기화
-//        if (isFabOpen) {
-//            closeFab()
-//        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -65,7 +60,6 @@ class LoseMainFragment : Fragment(R.layout.fragment_lose_main), LoseAdapter.OnLo
         // 로그인 상태 확인
         viewModel.checkLoginStatus()
         viewModel.isLoggedIn.observe(viewLifecycleOwner, Observer { isLoggedIn ->
-//            binding.optionBtn.visibility = if (isLoggedIn) View.VISIBLE else View.GONE
             binding.writeBtn.visibility = if (isLoggedIn) View.VISIBLE else View.GONE
         })
 
@@ -80,56 +74,147 @@ class LoseMainFragment : Fragment(R.layout.fragment_lose_main), LoseAdapter.OnLo
 
         viewPager = view.findViewById(R.id.view_pager)
         indicator = view.findViewById(R.id.image_indicator)
+//
+//        loseAdapter = LoseAdapter(mutableListOf(), 9, 0,this)
+//        viewPager.adapter = loseAdapter
+//
+//        // ViewModel 데이터 관찰
+//
+//        viewModel.loseList.observe(viewLifecycleOwner) { loseList ->
+//            if (loseList.isNotEmpty()) {
+//                val totalPages = viewModel.totalPages.value ?: 1
+//                loseAdapter.updateData(loseList, totalPages)
+//                indicator.attachTo(viewPager)
+//            } else {
+//                Log.d("LoseMainFragment", "loseList is empty.")
+//            }
+//            isLoading = false
+//        }
+//
+//        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+//            override fun onPageSelected(position: Int) {
+//                super.onPageSelected(position)
+//                if (position == loseAdapter.itemCount - 1 && !isLoading) {
+//                    isLoading = true
+//                    currentPage++
+//                    viewModel.loadLoseData(currentPage)
+//                }
+//            }
+//        })
 
-        loseAdapter = LoseAdapter(mutableListOf(), 9, this)
+
+
+//        viewModel.totalPages.observe(viewLifecycleOwner) { totalPages ->
+//            loseAdapter.updateData(viewModel.loseList.value.orEmpty(), totalPages)
+//            indicator.attachTo(viewPager)
+//        }
+//
+//        // 작성하기, url 수정하기 버튼
+//        binding.writeBtn.setOnClickListener {
+//            val intent = Intent(activity, LoseWriteActivity::class.java)
+//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+//            startActivity(intent)
+//        }
+//        binding.urlBtn.setOnClickListener {
+//            val intent = Intent(activity, LoseUrlChangeActivity::class.java)
+//            intent.putExtra("chatName", "분실물")
+//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+//            startActivity(intent)
+//        }
+
+        setupViewPager()
+        setupObservers()
+        setupClickListeners()
+
+        // 초기 데이터 로드
+        loadedPages.add(0)
+        viewModel.loadLoseData(0)
+
+        viewModel.LoseDetailRetrofit("분실물")
+
+    }
+
+    private fun setupViewPager() {
+        loseAdapter = LoseAdapter(mutableListOf(), 9, 1, this) // 초기 totalPages를 1로 설정
         viewPager.adapter = loseAdapter
 
-        // ViewModel 데이터 관찰
+        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                Log.d("LoseMainFragment", "ViewPager position selected: $position")
+
+                val totalPages = viewModel.totalPages.value ?: 1
+                Log.d("LoseMainFragment", "Current adapter pages: ${loseAdapter.itemCount}, Total API pages: $totalPages")
+
+                // 현재 position에 해당하는 API 페이지가 아직 로드되지 않았다면 로드
+                if (!loadedPages.contains(position) && position < totalPages && !isLoading) {
+                    isLoading = true
+                    loadedPages.add(position)
+                    Log.d("LoseMainFragment", "Loading API page: $position")
+                    viewModel.loadLoseData(position)
+                }
+
+                // 다음 페이지 미리 로드 (옵션)
+                val nextPage = position + 1
+                if (!loadedPages.contains(nextPage) && nextPage < totalPages && !isLoading) {
+                    loadedPages.add(nextPage)
+                    Log.d("LoseMainFragment", "Pre-loading next API page: $nextPage")
+                    viewModel.loadLoseData(nextPage)
+                }
+            }
+        })
+    }
+
+    private fun setupObservers() {
+        // 전체 페이지 수가 업데이트될 때
+        viewModel.totalPages.observe(viewLifecycleOwner) { totalPages ->
+            Log.d("LoseMainFragment", "Total pages updated: $totalPages")
+            val currentData = viewModel.loseList.value.orEmpty()
+            loseAdapter.updateData(currentData, totalPages)
+            indicator.attachTo(viewPager)
+        }
+
+        // 데이터가 업데이트될 때
         viewModel.loseList.observe(viewLifecycleOwner) { loseList ->
+            Log.d("LoseMainFragment", "Data updated - Total items: ${loseList.size}")
+
             if (loseList.isNotEmpty()) {
-                totalItems = loseList.size
-                loseAdapter.updateData(loseList)
-                updateIndicator()
+                val totalPages = viewModel.totalPages.value ?: 1
+                loseAdapter.updateData(loseList, totalPages)
+                indicator.attachTo(viewPager)
+
+                // 각 페이지별 아이템 수 로그
+                for (page in 0 until totalPages) {
+                    val start = page * 9
+                    val end = minOf(start + 9, loseList.size)
+                    val pageItems = if (start < loseList.size) loseList.subList(start, end) else emptyList()
+                    Log.d("LoseMainFragment", "Page $page has ${pageItems.size} items")
+                }
             } else {
                 Log.d("LoseMainFragment", "loseList is empty.")
             }
             isLoading = false
         }
+    }
 
-        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-                if (position == loseAdapter.itemCount - 1 && !isLoading) {
-                    isLoading = true
-                    currentPage++
-                    viewModel.loadLoseData(currentPage)
-                }
-            }
-        })
-
-        // 초기 데이터 로드
-        viewModel.loadLoseData(currentPage)
-
-        // 작성하기, url 수정하기 버튼
+    private fun setupClickListeners() {
         binding.writeBtn.setOnClickListener {
             val intent = Intent(activity, LoseWriteActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
         }
+
         binding.urlBtn.setOnClickListener {
             val intent = Intent(activity, LoseUrlChangeActivity::class.java)
             intent.putExtra("chatName", "분실물")
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
         }
-
-        viewModel.LoseDetailRetrofit("분실물")
-
     }
 
-    private fun updateIndicator() {
-        val totalPages = (totalItems + 8) / 9 // 9개씩 나누어 올림
+    private fun updateIndicator(totalPages: Int) {
         indicator.attachTo(viewPager)
+
     }
 
     // 네비게이션 처리

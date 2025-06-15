@@ -1,6 +1,7 @@
 package com.example.gaechuck.api
 
 import android.content.Context
+import android.util.Log
 import com.example.gaechuck.data.request.RefreshRequest
 import com.example.gaechuck.data.response.LoginResponse
 import okhttp3.Authenticator
@@ -11,25 +12,48 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class TokenAuthenticator(private val context: Context) : Authenticator {
-    override fun authenticate(route: Route?, response: Response): Request? {
-        // 이미 시도했는데도 401이면 null 리턴
-        if (responseCount(response) >= 2) return null
 
+    override fun authenticate(route: Route?, response: Response): Request? {
+        Log.d("TokenAuthenticator", "=== 401 에러 발생, 토큰 재발급 시도 ===")
+
+        // 이미 시도했는데도 401이면 null 리턴
+        val retryCount = responseCount(response)
+        Log.d("TokenAuthenticator", "재시도 횟수: $retryCount")
+        if (retryCount >= 2) {
+            Log.d("TokenAuthenticator", "재시도 횟수 초과, 포기")
+            return null
+        }
         val accessToken = AuthManager.getToken()
         val refreshToken = AuthManager.getRefreshToken()
 
-        // refreshToken이 없으면 재로그인 유도
-        if (refreshToken.isNullOrEmpty()) return null
+        Log.d("TokenAuthenticator", "AccessToken 존재: ${!accessToken.isNullOrEmpty()}")
+        Log.d("TokenAuthenticator", "RefreshToken 존재: ${!refreshToken.isNullOrEmpty()}")
+        Log.d("TokenAuthenticator", "AccessToken 존재: ${accessToken}")
+        Log.d("TokenAuthenticator", "RefreshToken 존재: ${refreshToken}")
 
+
+        // refreshToken이 없으면 재로그인 유도
+        if (refreshToken.isNullOrEmpty()) {
+            Log.d("TokenAuthenticator", "RefreshToken 없음, 재로그인 필요")
+            return null
+        }
+
+        Log.d("TokenAuthenticator", "토큰 재발급 API 호출 시작")
         val newAccessToken = refreshAccessToken(accessToken, refreshToken) ?: return null
 
-        // 새 토큰 저장
-        AuthManager.saveTokens(newAccessToken, refreshToken)
+        if (newAccessToken != null) {
+            Log.d("TokenAuthenticator", "토큰 재발급 성공")
+            // 새 토큰 저장
+            AuthManager.saveTokens(newAccessToken, refreshToken)
 
-        // 요청 재시도
-        return response.request.newBuilder()
-            .header("Authorization", "Bearer $newAccessToken")
-            .build()
+            // 요청 재시도
+            return response.request.newBuilder()
+                .header("Authorization", "Bearer $newAccessToken")
+                .build()
+        } else {
+            Log.d("TokenAuthenticator", "토큰 재발급 실패")
+            return null
+        }
     }
 
     private fun responseCount(response: Response): Int {
@@ -55,8 +79,10 @@ class TokenAuthenticator(private val context: Context) : Authenticator {
 
             if (response.isSuccessful) {
                 val body = response.body()
+                Log.d("TokenAuthenticator", "재발급 응답 body: $body")
                 body?.result?.accessToken
             } else {
+                Log.d("TokenAuthenticator", "재발급 실패 - code: ${response.code()}, msg: ${response.errorBody()?.string()}")
                 null
             }
         } catch (e: Exception) {

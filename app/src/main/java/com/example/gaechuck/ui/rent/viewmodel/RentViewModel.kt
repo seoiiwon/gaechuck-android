@@ -140,22 +140,28 @@ class RentViewModel(private val repository: RentRepository): ViewModel() {
     }
 
     // 검색 (필터링) 기능
-    fun searchRentItems(rentItemName: String) {
+    fun searchRentItemsPaged(query: String, page: Int) {
         viewModelScope.launch {
             try {
-                val response = repository.getRentList(0, rentItemName)
+                val response = repository.getRentList(page, query)
                 response?.let {
-                    if (it.content.isEmpty()) {
-                        _isSearchResultEmpty.postValue(true) // 검색 결과 없음
-
+                    if (page == 0 && it.content.isEmpty()) {
+                        _isSearchResultEmpty.postValue(true)
                     } else {
-                        _filterRentList.postValue(it.content) // 검색 결과를 새로운 값으로 설정
                         _isSearchResultEmpty.postValue(false)
+                        val currentList = _filterRentList.value?.toMutableList() ?: mutableListOf()
+                        if (page == 0) currentList.clear()
+                        currentList.addAll(it.content)
+                        _filterRentList.postValue(currentList)
+
+                        // 마지막 페이지 판단
+                        if (it.content.isEmpty()) {
+                            isLastPage = true
+                        }
                     }
                 }
             } catch (e: Exception) {
-                Log.e("RentViewModel", "에러 발생: ${e.message}")
-                _isSearchResultEmpty.postValue(true) // 검색 결과 없음
+                Log.e("RentViewModel", "검색 에러: ${e.message}")
             }
         }
     }

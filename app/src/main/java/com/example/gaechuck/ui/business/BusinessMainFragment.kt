@@ -20,6 +20,7 @@ import com.example.gaechuck.repository.BusinessRepository
 import com.example.gaechuck.ui.business.adapter.BusinessAdapter
 import com.example.gaechuck.ui.business.viewmodel.BusinessViewModel
 import com.example.gaechuck.ui.lose.LoseUrlChangeActivity
+import com.example.gaechuck.ui.util.DeleteDialogFragment
 import com.google.android.material.tabs.TabLayout
 
 class BusinessMainFragment : Fragment(R.layout.fragment_business_main), BusinessAdapter.OnBusinessItemClickListener {
@@ -57,10 +58,43 @@ class BusinessMainFragment : Fragment(R.layout.fragment_business_main), Business
             showSearchButton = true,
         )
 
+        // RecyclerView 설정
+        linearLayoutManager = LinearLayoutManager(context)
+        binding.businessView.layoutManager = linearLayoutManager
+
+        // Adapter 설정
+        businessAdapter = BusinessAdapter(mutableListOf(), object : BusinessAdapter.OnBusinessItemClickListener {
+            override fun onBusinessItemClick(item: BusinessList) {
+                val action = BusinessMainFragmentDirections
+                    .actionBusinessMainFragmentToBusinessDetailFragment(item.coalitionId)
+                view?.findNavController()?.navigate(action)
+            }
+
+            override fun onEditClicked(item: BusinessList) {
+                val intent = Intent(requireContext(), BusinessEditActivity::class.java).apply {
+                    putExtra("coalitionId", item.coalitionId)
+                    putExtra("coalitionName", item.coalitionName)
+                    putExtra("benefit", item.benefit)
+                    putExtra("images", arrayListOf(item.image))
+                    // 필요 시 추가 데이터 포함
+                }
+                startActivity(intent)
+            }
+
+            override fun onDeleteClicked(item: BusinessList) {
+                val dialog = DeleteDialogFragment(requireContext()) {
+                    businessViewModel.deleteData(item.coalitionId)
+                }
+                dialog.show()
+            }
+        })
+        binding.businessView.adapter = businessAdapter
+
         // 로그인 상태 확인
         businessViewModel.checkLoginStatus()
         businessViewModel.isLoggedIn.observe(viewLifecycleOwner, Observer { isLoggedIn ->
             binding.writeBtn.visibility = if (isLoggedIn) View.VISIBLE else View.GONE
+            businessAdapter.updateLoginState(isLoggedIn)
         })
 
         val category: Array<String> = resources.getStringArray(R.array.CATEGORY)
@@ -70,13 +104,6 @@ class BusinessMainFragment : Fragment(R.layout.fragment_business_main), Business
         divider.setDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.divider)!!)
         binding.businessView.addItemDecoration(divider)
 
-        // RecyclerView 설정
-        linearLayoutManager = LinearLayoutManager(context)
-        binding.businessView.layoutManager = linearLayoutManager
-
-        // Adapter 설정
-        businessAdapter = BusinessAdapter(mutableListOf(), this)
-        binding.businessView.adapter = businessAdapter
 
         // 스크롤 리스너 추가
         binding.businessView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -133,7 +160,6 @@ class BusinessMainFragment : Fragment(R.layout.fragment_business_main), Business
 
         // floatBtn 클릭 리스너
         binding.writeBtn.setOnClickListener{
-            // TODO : 클릭했을 때 다시 토큰 검사
             val intent = Intent(activity, BusinessWriteActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
@@ -142,6 +168,18 @@ class BusinessMainFragment : Fragment(R.layout.fragment_business_main), Business
         // Observe businessList LiveData
         businessViewModel.businessList.observe(viewLifecycleOwner) { list ->
             updateRecyclerView(list)
+        }
+
+        businessViewModel.deleteResult.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                // 삭제 성공 시 Toast + 리스트 재로딩
+                android.widget.Toast.makeText(requireContext(), "삭제 완료", android.widget.Toast.LENGTH_SHORT).show()
+                currentPage = 0
+                businessViewModel.clearBusinessList()
+                loadData(currentCategory ?: "")
+            }.onFailure { error ->
+                android.widget.Toast.makeText(requireContext(), "삭제 실패: ${error.message}", android.widget.Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -186,5 +224,22 @@ class BusinessMainFragment : Fragment(R.layout.fragment_business_main), Business
         return (dp * resources.displayMetrics.density).toInt()
     }
 
+    override fun onEditClicked(item: BusinessList) {
+        val intent = Intent(requireContext(), BusinessEditActivity::class.java).apply {
+            putExtra("coalitionId", item.coalitionId)
+            putExtra("coalitionName", item.coalitionName)
+            putExtra("benefit", item.benefit)
+            putExtra("images", arrayListOf(item.image))
+            // 필요 시 추가 데이터 포함
+        }
+        startActivity(intent)
+    }
+
+    override fun onDeleteClicked(item: BusinessList) {
+        val dialog = DeleteDialogFragment(requireContext()) {
+            businessViewModel.deleteData(item.coalitionId)
+        }
+        dialog.show()
+    }
 
 }
