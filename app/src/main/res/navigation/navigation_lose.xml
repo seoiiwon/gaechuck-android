@@ -6,7 +6,7 @@
     app:startDestination="@id/loseMainFragment">
     <fragment
         android:id="@+id/loseMainFragment"
-        android:name="com.example.gaechuck.ui.lose.LoseMainFragment"
+        android:name="com.gaechuck_package.gaechuck.ui.lose.LoseMainFragment"
         android:label="Lose Main"
         tools:layout="@layout/fragment_lose_main"
         >
@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/loseDetailFragment"
-        android:name="com.example.gaechuck.ui.lose.LoseDetailFragment"
+        android:name="com.gaechuck_package.gaechuck.ui.lose.LoseDetailFragment"
         android:label="Lose Detail"
         tools:layout="@layout/fragment_lose_detail"
         >

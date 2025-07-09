@@ -6,7 +6,7 @@
     app:startDestination="@id/businessMainFragment">
     <fragment
         android:id="@+id/businessMainFragment"
-        android:name="com.example.gaechuck.ui.business.BusinessMainFragment"
+        android:name="com.gaechuck_package.gaechuck.ui.business.BusinessMainFragment"
         android:label="Business Main"
         tools:layout="@layout/fragment_business_main" >
         <action
@@ -19,7 +19,7 @@
     <!-- BusinessDetailFragment -->
     <fragment
         android:id="@+id/businessDetailFragment"
-        android:name="com.example.gaechuck.ui.business.BusinessDetailFragment"
+        android:name="com.gaechuck_package.gaechuck.ui.business.BusinessDetailFragment"
         android:label="Business Detail"
         tools:layout="@layout/fragment_business_detail">
         <argument

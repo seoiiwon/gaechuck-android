@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.gaechuck"
+    namespace = "com.gaechuck_package.gaechuck"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.gaechuck"
+        applicationId = "com.gaechuck_package.gaechuck"
         minSdk = 24
         targetSdk = 35
         versionCode = 1

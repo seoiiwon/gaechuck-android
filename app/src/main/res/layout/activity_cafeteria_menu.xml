@@ -46,7 +46,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <com.example.gaechuck.ui.menu.ArrowToggleSpinner
+        <com.gaechuck_package.gaechuck.ui.menu.ArrowToggleSpinner
             android:id="@+id/campusSpinner"
             android:layout_width="110dp"
             android:layout_height="wrap_content"
