@@ -26,7 +26,7 @@ import java.util.Locale
 class NoticeUnivActivity : AppCompatActivity() {
     private lateinit var noticeUnivAdapter: NoticeUnivAdapter
     private lateinit var viewModel: NoticeUnivViewModel
-    private lateinit var dateTextView: TextView
+//    private lateinit var dateTextView: TextView
     private var currentBbsId: String = "전체"
     private var currentTitle: String? = null
     private lateinit var searchButton: ImageView
@@ -41,7 +41,7 @@ class NoticeUnivActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this, NoticeUnivViewModel.Factory(repository)).get(NoticeUnivViewModel::class.java)
 
         // UI 요소 초기화
-        dateTextView = findViewById(R.id.noticeDateTextView)
+//        dateTextView = findViewById(R.id.noticeDateTextView)
 
         // back, home 버튼 초기화
         val backBtn: ImageView = findViewById(R.id.backBtn)
@@ -114,13 +114,13 @@ class NoticeUnivActivity : AppCompatActivity() {
                     )
                 }
 
-                val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
-                if (firstVisibleItemPosition != RecyclerView.NO_POSITION) {
-                    val firstVisibleItem = noticeUnivAdapter.getItem(firstVisibleItemPosition)
-                    firstVisibleItem?.let {
-                        dateTextView.text = formatDate(it.regiDate)
-                    }
-                }
+//                val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+//                if (firstVisibleItemPosition != RecyclerView.NO_POSITION) {
+//                    val firstVisibleItem = noticeUnivAdapter.getItem(firstVisibleItemPosition)
+//                    firstVisibleItem?.let {
+//                        dateTextView.text = formatDate(it.regiDate)
+//                    }
+//                }
 
             }
         })
