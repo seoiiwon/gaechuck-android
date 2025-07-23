@@ -33,20 +33,30 @@ class CafeteriaMenuRepository(
     if (!resp.isSuccess) throw IOException("API error: ${resp.message}")
 
     // 3) 돌려받은 result 리스트 안에서, date별로 분리된 항목들을 모두 FoodMenuItem으로 변환
-    resp.result
-        .flatMap { dto ->
-            // dto.menu에 여러 개 식단이 공백 단위로 붙어 있다면 split("\\s+") 사용
-            // (필요에 따라 split(", ") 등으로 조정)
-            dto.menu
-                .split("\\s+".toRegex())
-                .map { dish ->
-                    FoodMenuItem(
-                        menu = dish,
-                        menuDivision = dto.menuDivision,
-                        date = dto.date,
-                        menuSeq = dto.menuSeq
-                    )
-                }
-        }
+    resp.result.map { dto ->
+        FoodMenuItem(
+            menu = dto.menu,
+            menuDivision = dto.menuDivision,
+            date = dto.date,
+            menuSeq = dto.menuSeq
+        )
     }
+    }
+
+//    resp.result
+//        .flatMap { dto ->
+//            // dto.menu에 여러 개 식단이 공백 단위로 붙어 있다면 split("\\s+") 사용
+//            // (필요에 따라 split(", ") 등으로 조정)
+//            dto.menu
+//                .split("\\s+".toRegex())
+//                .map { dish ->
+//                    FoodMenuItem(
+//                        menu = dish,
+//                        menuDivision = dto.menuDivision,
+//                        date = dto.date,
+//                        menuSeq = dto.menuSeq
+//                    )
+//                }
+//        }
+//    }
 }
