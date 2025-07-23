@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.gaechuck_package.gaechuck.R
 import com.gaechuck_package.gaechuck.data.response.FoodMenuItem
 import com.gaechuck_package.gaechuck.ui.menu.adaptor.GridCafeteriaAdapter
@@ -52,13 +53,13 @@ class CafeteriaMenuActivity : AppCompatActivity() {
     }
 
     private val campusMap = mapOf(
-        "가좌캠퍼스" to listOf("가좌 교직원식당", "가좌 중앙1식당", "가좌 교육문화1층식당"),
+        "가좌캠퍼스" to listOf("교직원식당", "중앙식당 (1, 2식당)", "교육 문화 1층 식당", "아람관"),
         "칠암캠퍼스" to listOf("칠암 교직원식당", "칠암 학생식당", "칠암기숙사1", "칠암기숙사2"),
         "통영캠퍼스" to listOf("통영 교직원식당", "통영 학생식당", "통영기숙사")
     )
 
     private val seqMap = mapOf(
-        "가좌캠퍼스" to listOf(1, 2, 3),
+        "가좌캠퍼스" to listOf(1, 2, 3, 8),
         "칠암캠퍼스" to listOf(4, 5, 9, 10),
         "통영캠퍼스" to listOf(6, 7, 11)
     )
@@ -88,7 +89,7 @@ class CafeteriaMenuActivity : AppCompatActivity() {
 
         // RecyclerView 그리드 설정 (디자인 수정되면 수정필요)
         adapter = GridCafeteriaAdapter()
-        menuGridRecyclerView.layoutManager = GridLayoutManager(this, 2)
+        menuGridRecyclerView.layoutManager = LinearLayoutManager(this)
         menuGridRecyclerView.adapter = adapter
 
         // 뒤로 / 홈 버튼
@@ -299,6 +300,7 @@ class CafeteriaMenuActivity : AppCompatActivity() {
         }
         restaurantLayout.addView(tv)
 
+        // 중식 표시 부분
         val subTitle = findViewById<TextView>(R.id.subTitle)
         subTitle.visibility =
             if (selectedSeqList[currentIndex] in listOf(2, 5, 7)) View.GONE else View.VISIBLE

@@ -75,38 +75,82 @@ import com.gaechuck_package.gaechuck.data.response.FoodMenuItem
 //
 //}
 
-class GridCafeteriaAdapter : ListAdapter<FoodMenuItem, GridCafeteriaAdapter.MenuViewHolder>(DiffCallback()) {
+//class GridCafeteriaAdapter : ListAdapter<FoodMenuItem, GridCafeteriaAdapter.MenuViewHolder>(DiffCallback()) {
+//
+//    class MenuViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+//        private val division = view.findViewById<TextView>(R.id.menuDivisionTextView)
+//        private val menuText = view.findViewById<TextView>(R.id.menuTextView)
+//
+//        fun bind(item: FoodMenuItem) {
+//            when (item.menuSeq) {
+//                -2 -> {
+//                    division.apply {
+//                        text = item.menuDivision
+//                        typeface = Typeface.DEFAULT_BOLD
+//                        textSize = 16f
+//                        visibility = View.VISIBLE
+//                    }
+//                    menuText.visibility = View.GONE
+//                }
+//                -1 -> {
+//                    division.apply {
+//                        text = item.menu
+//                        gravity = Gravity.CENTER
+//                        textSize = 14f
+//                        visibility = View.VISIBLE
+//                    }
+//                    menuText.visibility = View.GONE
+//                }
+//                else -> {
+//                    division.visibility = View.GONE
+//                    menuText.apply {
+//                        text = item.menu.replace(" ", "\n")
+//                        visibility = View.VISIBLE
+//                    }
+//                }
+//            }
+//        }
+//    }
+//
+//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MenuViewHolder {
+//        val view = LayoutInflater.from(parent.context)
+//            .inflate(R.layout.item_menu_grid, parent, false)
+//        return MenuViewHolder(view)
+//    }
+//
+//    override fun onBindViewHolder(holder: MenuViewHolder, position: Int) {
+//        holder.bind(getItem(position))
+//    }
+//
+//    class DiffCallback : DiffUtil.ItemCallback<FoodMenuItem>() {
+//        override fun areItemsTheSame(old: FoodMenuItem, new: FoodMenuItem) =
+//            old.menuSeq == new.menuSeq && old.date == new.date
+//
+//        override fun areContentsTheSame(old: FoodMenuItem, new: FoodMenuItem) = old == new
+//    }
+//}
 
-    class MenuViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val division = view.findViewById<TextView>(R.id.menuDivisionTextView)
-        private val menuText = view.findViewById<TextView>(R.id.menuTextView)
+
+class GridCafeteriaAdapter :
+    ListAdapter<FoodMenuItem, GridCafeteriaAdapter.MenuViewHolder>(DiffCallback()) {
+
+    inner class MenuViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        private val divisionTv = view.findViewById<TextView>(R.id.divisionTextView)
+        private val menuTv     = view.findViewById<TextView>(R.id.menuTextView)
 
         fun bind(item: FoodMenuItem) {
-            when (item.menuSeq) {
-                -2 -> {
-                    division.apply {
-                        text = item.menuDivision
-                        typeface = Typeface.DEFAULT_BOLD
-                        textSize = 16f
-                        visibility = View.VISIBLE
-                    }
-                    menuText.visibility = View.GONE
+            if (item.menuSeq < 0) {
+                // 헤더 / “식단 정보가 없습니다” 같은 row
+                divisionTv.apply {
+                    text = if (item.menuSeq == -2) item.menuDivision else item.menu
+                    setTypeface(null, Typeface.BOLD)
                 }
-                -1 -> {
-                    division.apply {
-                        text = item.menu
-                        gravity = Gravity.CENTER
-                        textSize = 14f
-                        visibility = View.VISIBLE
-                    }
-                    menuText.visibility = View.GONE
-                }
-                else -> {
-                    division.visibility = View.GONE
-                    menuText.apply {
-                        text = item.menu.replace(" ", "\n")
-                        visibility = View.VISIBLE
-                    }
+                menuTv.visibility = View.GONE
+            } else {
+                divisionTv.text = item.menuDivision
+                menuTv.apply {
+                    text = item.menu.replace(" ", "\n")
+                    visibility = View.VISIBLE
                 }
             }
         }
@@ -114,7 +158,7 @@ class GridCafeteriaAdapter : ListAdapter<FoodMenuItem, GridCafeteriaAdapter.Menu
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MenuViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_menu_grid, parent, false)
+            .inflate(R.layout.item_menu_row, parent, false)
         return MenuViewHolder(view)
     }
 
@@ -123,9 +167,8 @@ class GridCafeteriaAdapter : ListAdapter<FoodMenuItem, GridCafeteriaAdapter.Menu
     }
 
     class DiffCallback : DiffUtil.ItemCallback<FoodMenuItem>() {
-        override fun areItemsTheSame(old: FoodMenuItem, new: FoodMenuItem) =
-            old.menuSeq == new.menuSeq && old.date == new.date
-
-        override fun areContentsTheSame(old: FoodMenuItem, new: FoodMenuItem) = old == new
+        override fun areItemsTheSame(a: FoodMenuItem, b: FoodMenuItem) =
+            a.menuSeq == b.menuSeq && a.date == b.date
+        override fun areContentsTheSame(a: FoodMenuItem, b: FoodMenuItem) = a == b
     }
 }
