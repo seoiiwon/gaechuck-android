@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView android:id="@+id/tv_r1c1" style="@style/Seq8Cell"/>
+        <TextView android:id="@+id/tv_r1c2" style="@style/Seq8Cell"/>
+        <TextView android:id="@+id/tv_r1c3" style="@style/Seq8Cell"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="4dp">
+        <TextView android:id="@+id/tv_r2c1" style="@style/Seq8Cell"/>
+        <TextView android:id="@+id/tv_r2c2" style="@style/Seq8Cell"/>
+        <TextView android:id="@+id/tv_r2c3" style="@style/Seq8Cell"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="4dp">
+        <TextView android:id="@+id/tv_r3c1" style="@style/Seq8Cell"/>
+        <TextView android:id="@+id/tv_r3c2" style="@style/Seq8Cell"/>
+        <TextView android:id="@+id/tv_r3c3" style="@style/Seq8Cell"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="4dp">
+        <TextView android:id="@+id/tv_r4c1" style="@style/Seq8Cell"/>
+        <TextView android:id="@+id/tv_r4c2" style="@style/Seq8Cell"/>
+        <TextView android:id="@+id/tv_r4c3" style="@style/Seq8Cell"/>
+    </LinearLayout>
+</LinearLayout>
+

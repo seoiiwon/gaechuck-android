@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.gaechuck_package.gaechuck.R
 import com.gaechuck_package.gaechuck.data.response.FoodMenuItem
 import com.gaechuck_package.gaechuck.ui.menu.adaptor.GridCafeteriaAdapter
@@ -52,13 +52,13 @@ class CafeteriaMenuActivity : AppCompatActivity() {
     }
 
     private val campusMap = mapOf(
-        "가좌캠퍼스" to listOf("가좌 교직원식당", "가좌 중앙1식당", "가좌 교육문화1층식당"),
-        "칠암캠퍼스" to listOf("칠암 교직원식당", "칠암 학생식당", "칠암기숙사1", "칠암기숙사2"),
-        "통영캠퍼스" to listOf("통영 교직원식당", "통영 학생식당", "통영기숙사")
+        "가좌캠퍼스" to listOf("교직원식당", "중앙식당 (1, 2식당)", "교육 문화 1층 식당", "가좌 학생생활관"),
+        "칠암캠퍼스" to listOf("칠암 교직원식당", "칠암 학생식당", "칠암 학생생활관1", "칠암 학생생활관2"),
+        "통영캠퍼스" to listOf("통영 교직원식당", "통영 학생식당", "통영 학생생활관")
     )
 
     private val seqMap = mapOf(
-        "가좌캠퍼스" to listOf(1, 2, 3),
+        "가좌캠퍼스" to listOf(1, 2, 3, 8),
         "칠암캠퍼스" to listOf(4, 5, 9, 10),
         "통영캠퍼스" to listOf(6, 7, 11)
     )
@@ -88,7 +88,7 @@ class CafeteriaMenuActivity : AppCompatActivity() {
 
         // RecyclerView 그리드 설정 (디자인 수정되면 수정필요)
         adapter = GridCafeteriaAdapter()
-        menuGridRecyclerView.layoutManager = GridLayoutManager(this, 2)
+        menuGridRecyclerView.layoutManager = LinearLayoutManager(this)
         menuGridRecyclerView.adapter = adapter
 
         // 뒤로 / 홈 버튼
@@ -216,7 +216,6 @@ class CafeteriaMenuActivity : AppCompatActivity() {
                     isSelected = true
 
                     selectedDayIndex = idx
-//                    updateMenuForSelectedDay(dates[idx])
 
                     // “dates[idx]”는 List(“yyyy-MM-dd” 형태의 월요일~일요일) 중 한 날짜
                     val targetDate = dates[idx]
@@ -263,8 +262,7 @@ class CafeteriaMenuActivity : AppCompatActivity() {
 
     // 현재 캠퍼스 + 날짜 데이터 불러오기
     private fun loadMenuForCurrent() {
-        adapter.submitList(emptyList())
-        updateRestaurantTitle()
+        adapter.updateCafeteriaSeq(selectedSeqList[currentIndex])
         if (selectedSeqList.isNotEmpty())
             viewModel.loadMenu(selectedSeqList[currentIndex])
     }
@@ -274,6 +272,7 @@ class CafeteriaMenuActivity : AppCompatActivity() {
         val newIdx = currentIndex + dir
         if (newIdx in selectedSeqList.indices) {
             currentIndex = newIdx
+            updateRestaurantTitle()
             loadMenuForCurrent()
             updateArrowVisibility()
         }
@@ -288,7 +287,6 @@ class CafeteriaMenuActivity : AppCompatActivity() {
         val tv = TextView(this).apply {
             text = name
             textSize = 16f
-//            typeface = Typeface.DEFAULT_BOLD
             typeface = ResourcesCompat.getFont(context, R.font.pretendard_bold)
             setPadding(16, 16, 16, 16)
             gravity = Gravity.CENTER
@@ -299,24 +297,26 @@ class CafeteriaMenuActivity : AppCompatActivity() {
         }
         restaurantLayout.addView(tv)
 
-        val subTitle = findViewById<TextView>(R.id.subTitle)
+        // 아람관 subTitle
+        val subTitle = findViewById<LinearLayout>(R.id.subTitle)
         subTitle.visibility =
-            if (selectedSeqList[currentIndex] in listOf(2, 5, 7)) View.GONE else View.VISIBLE
+            if (selectedSeqList[currentIndex] in listOf(8)) View.VISIBLE else View.GONE
     }
 
     // 날짜 받아서 필터링 + RecyclerView 갱신
     private fun updateMenuForSelectedDay(date: String) {
-        val filtered = viewModel.getMenuForDate(date)
-        val toShow = if (filtered.isEmpty()) {
-            listOf(
-                FoodMenuItem(
-                    menu = "식단 정보가 없습니다.",
-                    menuDivision = "",
-                    date = date,
-                    menuSeq = -1
-                )
+        adapter.updateCafeteriaSeq(selectedSeqList[currentIndex])
+        val raw = viewModel.getMenuForDate(date)
+        val toShow = when {
+            // 데이터 자체가 없으면 NoData
+            raw.isEmpty() -> listOf(
+                FoodMenuItem("식단 정보가 없습니다.", "", date, -1)
             )
-        } else filtered
+            // cafSeq==8 이면 합치지 않고 원본 그대로
+            selectedSeqList[currentIndex] == 8 -> raw
+            // 그 외에는 division 기준으로 합치기
+            else -> mergeSameDivision(raw.filter { it.menu.isNotBlank() })
+        }
 
         adapter.submitList(toShow)
     }
@@ -393,5 +393,17 @@ class CafeteriaMenuActivity : AppCompatActivity() {
                 rightArrow.visibility = View.VISIBLE
             }
         }
+    }
+
+    private fun mergeSameDivision(raw: List<FoodMenuItem>): List<FoodMenuItem> {
+        return raw
+            .groupBy { it.menuDivision }
+            .map { (division, group) ->
+                // group: 같은 division 을 가진 FoodMenuItem 리스트
+                val combinedMenu = group
+                    .map { it.menu.trim() }
+                    .joinToString("\n")
+                group.first().copy(menu = combinedMenu)
+            }
     }
 }

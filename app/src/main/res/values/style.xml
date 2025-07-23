@@ -66,4 +66,15 @@
     <style name="DialogButtonStyled" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:textColor">@color/gnu_blue</item> <!-- button text color -->
     </style>
+
+    <style name="Seq8Cell">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/pretendard_bold</item>
+        <item name="android:textColor">@color/gnu_blue</item>
+        <item name="android:padding">8dp</item>
+    </style>
 </resources>

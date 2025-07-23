@@ -216,32 +216,31 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="vertical"
-        android:padding="8dp"
-        android:layout_marginTop="8dp">
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:gravity="center_vertical"-->
+<!--        android:orientation="vertical"-->
+<!--        android:padding="8dp"-->
+<!--        android:layout_marginTop="8dp">-->
 
-        <TextView
-            android:id="@+id/noticeDateTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="left"
-            android:text="00월 00일"
-            android:textSize="12sp"
-            android:textColor="#FF8A8D8F"
-            android:fontFamily="@font/pretendard_regular"/>
+<!--        <TextView-->
+<!--            android:id="@+id/noticeDateTextView"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:gravity="left"-->
+<!--            android:text="00월 00일"-->
+<!--            android:textSize="12sp"-->
+<!--            android:textColor="#FF8A8D8F"-->
+<!--            android:fontFamily="@font/pretendard_regular"/>-->
 
-    </LinearLayout>
+<!--    </LinearLayout>-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/noticeRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:overScrollMode="never"
         tools:listitem="@layout/fragment_notice_univ" />
 
