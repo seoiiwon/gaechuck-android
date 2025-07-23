@@ -3,15 +3,18 @@ package com.gaechuck_package.gaechuck.ui.menu.adaptor
 import android.graphics.Typeface
 import android.text.SpannableStringBuilder
 import android.text.Spanned
+import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
-import android.util.Log
+import android.util.TypedValue
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -28,6 +31,12 @@ class GridCafeteriaAdapter :
         cafeteriaSeq = seq
     }
 
+    override fun getItemCount(): Int {
+        return if (cafeteriaSeq == 8) 1
+        else super.getItemCount()
+    }
+
+
     companion object {
         private const val VIEW_TYPE_STANDARD = 0
         private const val VIEW_TYPE_SEQ8 = 1
@@ -37,9 +46,9 @@ class GridCafeteriaAdapter :
 
     override fun getItemViewType(position: Int): Int {
         return when {
-            // cafeteriaSeq 가 8이면 Seq8 전용 뷰
+            // CafeteriaSeq가 8인 경우
             cafeteriaSeq == 8 -> VIEW_TYPE_SEQ8
-            // 데이터 없으면 NoData 뷰
+            // 데이터 없으면 NoData
             getItem(position).menuSeq < 0 || getItem(position).menu.isBlank() -> VIEW_TYPE_NO_DATA
             else -> VIEW_TYPE_STANDARD
         }
@@ -67,12 +76,13 @@ class GridCafeteriaAdapter :
         val item = getItem(position)
         when (holder) {
             is MenuViewHolder -> holder.bind(item)
-            is Seq8MenuViewHolder -> holder.bind(item)
+            is Seq8MenuViewHolder -> holder.bind(currentList)
             is NoDataViewHolder -> holder.bind()
         }
     }
 
 
+    // 기본 Grid 뷰
     inner class MenuViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val divisionTv = view.findViewById<TextView>(R.id.divisionTextView)
         private val menuTv     = view.findViewById<TextView>(R.id.menuTextView)
@@ -131,12 +141,70 @@ class GridCafeteriaAdapter :
     }
 
 
+    // CafeteriaSeq가 8일 때의 뷰
     inner class Seq8MenuViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val menuTv = view.findViewById<TextView>(R.id.seq8TextView)
-        fun bind(item: FoodMenuItem) {
-            menuTv.text = item.menu
+        private val cells = arrayOf(
+            arrayOf(view.findViewById<TextView>(R.id.tv_r1c1), view.findViewById<TextView>(R.id.tv_r1c2), view.findViewById<TextView>(R.id.tv_r1c3)),
+            arrayOf(view.findViewById<TextView>(R.id.tv_r2c1), view.findViewById<TextView>(R.id.tv_r2c2), view.findViewById<TextView>(R.id.tv_r2c3)),
+            arrayOf(view.findViewById<TextView>(R.id.tv_r3c1), view.findViewById<TextView>(R.id.tv_r3c2), view.findViewById<TextView>(R.id.tv_r3c3)),
+            arrayOf(view.findViewById<TextView>(R.id.tv_r4c1), view.findViewById<TextView>(R.id.tv_r4c2), view.findViewById<TextView>(R.id.tv_r4c3))
+        )
+
+        fun bind(items: List<FoodMenuItem>) {
+            // 1) 모든 칸 초기화
+            cells.flatten().forEach { it.text = "" }
+
+            // 2) 열 분류 순서: 아침(0), 점심(1), 저녁(2)
+            val divisionOrder = listOf("아침", "점심", "저녁")
+
+            divisionOrder.forEachIndexed { col, division ->
+                val divisionItems = items.filter { it.menuDivision == division }
+
+                val aList = divisionItems.filter {
+                    it.menu.substringBefore(" ") == "A코스/한식" || it.menu.substringBefore(" ") == "A코스/일품"
+                }
+                val bList = divisionItems.filter { it.menu.substringBefore(" ") == "B코스/베이커리" }
+                val others = divisionItems.filter {
+                    val course = it.menu.substringBefore(" ")
+                    course != "A코스/한식" && course != "A코스/일품" && course != "B코스/베이커리"
+                }
+
+                val colItems = aList + bList + others
+
+
+                colItems.take(4).forEachIndexed { row, item ->
+                    val cell = cells[row][col]
+                    cell.text = ""
+
+                    val full   = item.menu.trim()
+                    val title  = full.substringBefore(" ")
+                    val rest   = full.substringAfter(" ").trim()
+                        .split("\\s+".toRegex())
+                        .filter { it.isNotBlank() }
+
+                    val ssb = SpannableStringBuilder().apply {
+                        append(title)
+                        append("\n\n")
+                        rest.forEach { append(it).append("\n") }
+                        if (endsWith("\n")) delete(length - 1, length)
+                    }
+
+                    val colorBlue = ContextCompat.getColor(itemView.context, R.color.gnu_blue)
+                    ssb.setSpan(StyleSpan(Typeface.BOLD), 0, title.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    ssb.setSpan(ForegroundColorSpan(colorBlue), 0, title.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    ssb.setSpan(AbsoluteSizeSpan(12, true), 0, title.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+                    cell.text = ssb
+                    cell.gravity = Gravity.CENTER
+                    cell.setLineSpacing(4f, 1f)
+                    cell.setTextColor(ContextCompat.getColor(itemView.context, R.color.black_1))
+                    cell.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10f)
+                    cell.typeface = ResourcesCompat.getFont(itemView.context, R.font.pretendard_regular)
+                }
+            }
         }
     }
+
 
 
     inner class NoDataViewHolder(view: View) : RecyclerView.ViewHolder(view) {
