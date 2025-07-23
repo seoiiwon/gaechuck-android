@@ -155,7 +155,9 @@ class GridCafeteriaAdapter :
             } else {
                 divisionTv.text = styleDivisionText(item.menuDivision)
                 menuTv.apply {
-                    text = item.menu.replace(" ", "\n")
+                    text = item.menu.split("/", " ")
+                        .filter { it.isNotBlank() }
+                        .joinToString("\n") { it.trim() }
                     visibility = View.VISIBLE
                 }
             }

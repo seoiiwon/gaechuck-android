@@ -308,8 +308,9 @@ class CafeteriaMenuActivity : AppCompatActivity() {
 
     // 날짜 받아서 필터링 + RecyclerView 갱신
     private fun updateMenuForSelectedDay(date: String) {
-        val filtered = viewModel.getMenuForDate(date)
-        val toShow = if (filtered.isEmpty()) {
+        val raw = viewModel.getMenuForDate(date)
+        val nonEmpty = raw.filter { it.menu.isNotBlank() }
+        val toShow = if (raw.isEmpty()) {
             listOf(
                 FoodMenuItem(
                     menu = "식단 정보가 없습니다.",
@@ -318,7 +319,9 @@ class CafeteriaMenuActivity : AppCompatActivity() {
                     menuSeq = -1
                 )
             )
-        } else filtered
+        } else {
+            mergeSameDivision(nonEmpty)
+        }
 
         adapter.submitList(toShow)
     }
@@ -395,5 +398,18 @@ class CafeteriaMenuActivity : AppCompatActivity() {
                 rightArrow.visibility = View.VISIBLE
             }
         }
+    }
+
+    private fun mergeSameDivision(raw: List<FoodMenuItem>): List<FoodMenuItem> {
+        return raw
+            .groupBy { it.menuDivision }
+            .map { (division, group) ->
+                // group: 같은 division 을 가진 FoodMenuItem 리스트
+                val combinedMenu = group
+                    .map { it.menu.trim() }
+                    .joinToString("\n")
+                // 날짜, seq 등 기타 필드는 첫 번째 아이템 기준으로 복사
+                group.first().copy(menu = combinedMenu)
+            }
     }
 }

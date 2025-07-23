@@ -40,7 +40,7 @@
             android:id="@+id/menuTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:textColor="@android:color/black"
             android:lineSpacingExtra="4dp"
             app:layout_constraintStart_toStartOf="@id/guideline_1_3"
