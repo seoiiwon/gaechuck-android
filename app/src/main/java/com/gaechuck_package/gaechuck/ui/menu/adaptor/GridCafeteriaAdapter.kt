@@ -1,11 +1,17 @@
 package com.gaechuck_package.gaechuck.ui.menu.adaptor
 
 import android.graphics.Typeface
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.style.ForegroundColorSpan
+import android.text.style.RelativeSizeSpan
+import android.text.style.StyleSpan
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -147,13 +153,81 @@ class GridCafeteriaAdapter :
                 }
                 menuTv.visibility = View.GONE
             } else {
-                divisionTv.text = item.menuDivision
+                divisionTv.text = styleDivisionText(item.menuDivision)
                 menuTv.apply {
                     text = item.menu.replace(" ", "\n")
                     visibility = View.VISIBLE
                 }
             }
         }
+
+        private fun styleDivisionText(raw: String): CharSequence {
+            val ctx = divisionTv.context
+
+            // “HH:mm ~” 이 나오는 첫 위치를 찾는다
+            val startRegex = "\\d{2}:\\d{2} ~".toRegex()
+            val match = startRegex.find(raw)
+
+            return if (match != null) {
+                // 1) 제목부 = 매칭 전까지
+                val titlePart = raw.substring(0, match.range.first).trim()
+                // 2) 시간부 = 매칭된 위치부터 끝까지
+                val timePart  = raw.substring(match.range.first).trim()
+
+                // Spannable 으로 조합
+                val ssb = SpannableStringBuilder()
+                    .append(titlePart)
+                    .append("\n")                     // 여기가 줄바꿈 지점
+                val offset = ssb.length
+                ssb.append(timePart)
+
+                val titleColor = ContextCompat.getColor(ctx, R.color.gnu_blue)
+                ssb.setSpan(
+                    StyleSpan(Typeface.BOLD),
+                    0,
+                    titlePart.length,
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+                ssb.setSpan(
+                    ForegroundColorSpan(titleColor),
+                    0,
+                    titlePart.length,
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+
+                // 2) 시간부 전체에 Normal (명시적으로)
+                ssb.setSpan(
+                    StyleSpan(Typeface.NORMAL),
+                    offset,
+                    offset + timePart.length,
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+
+                // 숫자와 ~ 만 80% 축소
+                "[\\d~]".toRegex().findAll(timePart).forEach { m ->
+                    val span = RelativeSizeSpan(0.8f)
+                    val s = offset + m.range.first
+                    val e = offset + m.range.last + 1
+                    ssb.setSpan(span, s, e, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                }
+                ssb
+            } else {
+                SpannableStringBuilder(raw).apply {
+                    val titleColor = ContextCompat.getColor(ctx, R.color.gnu_blue)
+                    setSpan(
+                        StyleSpan(Typeface.BOLD),
+                        0, raw.length,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                    setSpan(
+                        ForegroundColorSpan(titleColor),
+                        0, raw.length,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                }
+            }
+        }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MenuViewHolder {
