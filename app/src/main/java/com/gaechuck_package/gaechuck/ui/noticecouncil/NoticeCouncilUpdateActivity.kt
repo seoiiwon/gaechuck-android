@@ -33,6 +33,7 @@ import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import java.io.FileOutputStream
@@ -56,8 +57,8 @@ class NoticeCouncilUpdateActivity : AppCompatActivity() {
     private var noticeId: Int = -1
     private val selectedImages = mutableListOf<Uri>()
     private val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.GetMultipleContents()) { uris ->
-        uris?.let {
-            selectedImages.addAll(it)
+        uris.let {
+            selectedImages.addAll(uris)
             imageAdapter.notifyDataSetChanged()
         }
     }
@@ -211,7 +212,7 @@ class NoticeCouncilUpdateActivity : AppCompatActivity() {
                                 input.copyTo(output)
                             }
                         }
-                        val requestFile = RequestBody.create("image/*".toMediaType(), file)
+                        val requestFile = file.asRequestBody("image/*".toMediaType())
                         MultipartBody.Part.createFormData("file", file.name, requestFile)
                     } catch (e: Exception) {
                         e.printStackTrace()
@@ -228,7 +229,7 @@ class NoticeCouncilUpdateActivity : AppCompatActivity() {
                                 input.copyTo(output)
                             }
                         }
-                        val requestFile = RequestBody.create("image/*".toMediaType(), file)
+                        val requestFile = file.asRequestBody("image/*".toMediaType())
                         MultipartBody.Part.createFormData("file", file.name, requestFile)
                     } catch (e: Exception) {
                         e.printStackTrace()
@@ -257,8 +258,8 @@ class NoticeCouncilUpdateActivity : AppCompatActivity() {
             recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
             target: RecyclerView.ViewHolder
         ): Boolean {
-            val fromPos = viewHolder.adapterPosition
-            val toPos = target.adapterPosition
+            val fromPos = viewHolder.bindingAdapterPosition
+            val toPos = target.bindingAdapterPosition
             adapter.onItemMove(fromPos, toPos)
             return true
         }

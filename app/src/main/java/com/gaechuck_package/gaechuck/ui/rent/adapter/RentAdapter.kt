@@ -107,10 +107,6 @@ class RentAdapter(private val listener: OnRentItemClickListener, private var isL
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                val layoutManager = recyclerView.layoutManager as LinearLayoutManager
-                val visibleItemCount = layoutManager.childCount
-                val totalItemCount = layoutManager.itemCount
-                val pastVisibleItems = layoutManager.findFirstVisibleItemPosition()
 
                 if (!recyclerView.canScrollVertically(1)) { // 리스트의 끝에 도달하면
                     onScrolledToEnd()

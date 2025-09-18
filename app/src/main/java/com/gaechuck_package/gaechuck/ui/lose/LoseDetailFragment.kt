@@ -115,7 +115,7 @@ class LoseDetailFragment : Fragment(R.layout.fragment_lose_detail) {
 
         // 페이지 인디케이터 연결
         val wormDotsIndicator: WormDotsIndicator = binding.imageIndicator
-        wormDotsIndicator.setViewPager2(binding.loseImagesViewpager)
+        wormDotsIndicator.attachTo(binding.loseImagesViewpager)
 
     }
 }

@@ -28,10 +28,20 @@ class CafeteriaMenuRepository(
     cal.add(Calendar.DAY_OF_MONTH, offsetToMonday)
     val mondayDate = dateFormat.format(cal.time)
 
-    // 2) API를 한 번만 호출 (startDate = mondayDate)
-    val resp = apiService.getFoodData(seq, mondayDate)
-    if (!resp.isSuccess) throw IOException("API error: ${resp.message}")
+    val response = apiService.getFoodData(seq, mondayDate)
 
+    if (!response.isSuccessful) {
+        val errorBody = response.errorBody()?.string()
+        throw IOException("API error: ${response.code()} - $errorBody")
+    }
+
+    val resp = response.body()
+        ?: throw IOException("Response body is null")
+
+
+    if (!resp.isSuccess) {
+        throw IOException("API error: ${resp.message}")
+    }
     // 3) 돌려받은 result 리스트 안에서, date별로 분리된 항목들을 모두 FoodMenuItem으로 변환
     resp.result.map { dto ->
         FoodMenuItem(

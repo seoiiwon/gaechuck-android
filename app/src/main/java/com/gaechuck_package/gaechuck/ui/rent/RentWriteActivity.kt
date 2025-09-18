@@ -216,7 +216,7 @@ class RentWriteActivity : AppCompatActivity(R.layout.activity_rent_write) {
     private fun validateForm(): Boolean {
         val title = binding.fieldTitle.text.toString()
         val count = binding.fieldCount.text.toString()
-        val imageUris = viewModel.selectedImages.value ?: emptyList()
+        val imageUris = viewModel.selectedImages.value
 
         return if (title.isBlank() || count.isBlank()) {
             if(imageUris.isEmpty()) {

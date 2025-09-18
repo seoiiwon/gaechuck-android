@@ -185,7 +185,7 @@ class BusinessEditActivity : AppCompatActivity(R.layout.activity_business_write)
 
         Log.d("BusinessEditActivity", "전송할 데이터: name=$coalitionName, benefit=$benefit, category=$category")
 
-        val imageUris = viewModel.selectedImages.value ?: emptyList()
+        val imageUris = viewModel.selectedImages.value
         if (imageUris.isEmpty()) {
             dialogFragment.show()
             return
@@ -249,7 +249,7 @@ class BusinessEditActivity : AppCompatActivity(R.layout.activity_business_write)
         val info = binding.fieldInfo.text.toString()
         val selectedChip = chipGroup.findViewById<View>(chipGroup.checkedChipId) as? Chip
         val category = selectedChip?.text.toString()
-        val imageUris = viewModel.selectedImages.value ?: emptyList()
+        val imageUris = viewModel.selectedImages.value
 
         return if (title.isBlank() || info.isBlank() || category.isBlank()) {
             if(imageUris.isEmpty()) {

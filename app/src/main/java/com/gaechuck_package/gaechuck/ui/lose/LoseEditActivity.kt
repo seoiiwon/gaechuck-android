@@ -128,19 +128,8 @@ class LoseEditActivity : AppCompatActivity(R.layout.activity_lose_write) {
             }
 
             val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
-                var monthText : String = ""
-                var dayText : String = ""
-
-                monthText = if(month < 10) {
-                    "0${month}"
-                } else {
-                    "$month"
-                }
-                dayText = if(day < 10) {
-                    "0${day}"
-                } else {
-                    "$day"
-                }
+                val monthText = if (month < 10) "0$month" else "$month"
+                val dayText = if (day < 10) "0$day" else "$day"
                 binding.fieldDate.text = "${year}.${monthText}.${dayText}"
             }
 
@@ -282,7 +271,7 @@ class LoseEditActivity : AppCompatActivity(R.layout.activity_lose_write) {
         val location = binding.fieldLocation.text.toString()
         val lostDate = binding.fieldDate.text.toString()
         val description = binding.fieldInfo.text.toString()
-        val imageUris = viewModel.selectedImages.value ?: emptyList()
+        val imageUris = viewModel.selectedImages.value
 
         return if (title.isBlank() || location.isBlank() || lostDate.isBlank() || description.isBlank()) {
             if(imageUris.isEmpty()) {

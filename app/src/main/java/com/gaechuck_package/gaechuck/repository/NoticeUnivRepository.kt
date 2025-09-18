@@ -21,12 +21,35 @@ class NoticeUnivRepository {
 
             val paramBbsId = bbsId?.takeIf { it.isNotBlank() }
 
-            val result = apiService.getAllNoticeData(
+            val response = apiService.getAllNoticeData(
                 page = page,
                 size = size,
                 bbsId = paramBbsId,
                 title = title
             )
+//            if (result.isSuccess && result.result != null) {
+//                val contentList = result.result.content
+//
+//                val notices = contentList.map {
+//                    it.toNoticeUnivModel()
+//                }
+//
+//                val hasMoreData = !result.result.last
+//                Pair(notices, hasMoreData)
+//            } else {
+//                Log.e("API_ERROR", "Error Message: ${result.message}")
+//                throw Exception(result.message)
+//            }
+            if (!response.isSuccessful) {
+                val errorBody = response.errorBody()?.string()
+                Log.e("API_ERROR", "HTTP error: ${response.code()} - $errorBody")
+                throw Exception("API error: ${response.code()}")
+            }
+
+            // ✅ response.body()로 실제 데이터 접근
+            val result = response.body()
+                ?: throw Exception("Response body is null")
+
             if (result.isSuccess && result.result != null) {
                 val contentList = result.result.content
 

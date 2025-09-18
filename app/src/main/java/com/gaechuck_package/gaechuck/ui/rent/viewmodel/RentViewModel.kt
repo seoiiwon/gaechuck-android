@@ -274,10 +274,13 @@ class RentViewModel(private val repository: RentRepository): ViewModel() {
     }
 
 
-    class RentViewModelFactory(private val repository: RentRepository) :
-        ViewModelProvider.Factory {
+    class RentViewModelFactory(
+        private val repository: RentRepository
+    ) : ViewModelProvider.NewInstanceFactory() {
+
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(RentViewModel::class.java)) {
+                @Suppress("UNCHECKED_CAST")
                 return RentViewModel(repository) as T
             }
             throw IllegalArgumentException("Unknown ViewModel class")

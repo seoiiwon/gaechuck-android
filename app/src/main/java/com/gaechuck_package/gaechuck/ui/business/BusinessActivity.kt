@@ -227,7 +227,7 @@ class BusinessActivity : AppCompatActivity(R.layout.activity_business) {
         businessViewModel.deleteData(coalitionId)
         // 삭제 작업의 결과를 관찰
         businessViewModel.deleteResult.observe(this) { result ->
-            result.onSuccess { response ->
+            result.onSuccess {
                 // 삭제 성공 시 LoseMainFragment로 이동
                 Toast.makeText(this, "삭제 완료.", Toast.LENGTH_SHORT).show()
                 navController.navigate(R.id.action_businessDetailFragment_to_businessMainFragment)

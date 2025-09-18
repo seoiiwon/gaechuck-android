@@ -113,7 +113,7 @@ class RentDetailFragment : Fragment(R.layout.fragment_rent_detail) {
 
         // 페이지 인디케이터 연결
         val wormDotsIndicator: WormDotsIndicator = binding.imageIndicator
-        wormDotsIndicator.setViewPager2(binding.rentImagesViewpager)
+        wormDotsIndicator.attachTo(binding.rentImagesViewpager)
 
     }
 

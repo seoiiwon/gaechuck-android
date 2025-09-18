@@ -1,6 +1,7 @@
 package com.gaechuck_package.gaechuck.ui.noticecouncil
 
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Rect
 import android.net.Uri
@@ -38,9 +39,10 @@ class NoticeCouncilWriteActivity : AppCompatActivity() {
         NoticeCouncilViewModelFactory(NoticeCouncilRepository())
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.GetMultipleContents()) { uris ->
-        uris?.let {
-            imageList.addAll(it)
+        uris.let {
+            imageList.addAll(uris)
             imageAdapter.notifyDataSetChanged()
         }
     }

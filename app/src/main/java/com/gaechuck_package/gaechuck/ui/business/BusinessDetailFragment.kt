@@ -92,7 +92,7 @@ class BusinessDetailFragment : Fragment(R.layout.fragment_business_detail) {
 
         // 페이지 인디케이터 연결
         val wormDotsIndicator: WormDotsIndicator = binding.imageIndicator
-        wormDotsIndicator.setViewPager2(binding.businessImagesViewpager)
+        wormDotsIndicator.attachTo(binding.businessImagesViewpager)
 
     }
 

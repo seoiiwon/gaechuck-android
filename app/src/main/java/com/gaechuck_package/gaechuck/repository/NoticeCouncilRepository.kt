@@ -16,6 +16,7 @@ import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import okio.IOException
 import retrofit2.Response
@@ -31,10 +32,26 @@ class NoticeCouncilRepository {
         page: Int,
         size: Int
     ): PagenatedResponse<GetCouncilNoticeDataResponse>? = withContext(Dispatchers.IO) {
-        val resp = apiService.getNoticeCouncilList(page, size)
+//        val resp = apiService.getNoticeCouncilList(page, size)
+//        if (!resp.isSuccess) {
+//            throw IOException("API error: ${resp.message}")
+//        }
+//        resp.result
+
+        val response = apiService.getNoticeCouncilList(page, size)
+
+        if (!response.isSuccessful) {
+            val errorBody = response.errorBody()?.string()
+            throw IOException("API error: ${response.code()} - $errorBody")
+        }
+
+        val resp = response.body()
+            ?: throw IOException("Response body is null")
+
         if (!resp.isSuccess) {
             throw IOException("API error: ${resp.message}")
         }
+
         resp.result
     }
 
@@ -44,10 +61,25 @@ class NoticeCouncilRepository {
         page: Int = 0,
         size: Int = 20
     ): List<GetCouncilNoticeDataResponse> = withContext(Dispatchers.IO) {
-        val resp = apiService.getNoticeCouncilSearchList(page, size, title)
+//        val resp = apiService.getNoticeCouncilSearchList(page, size, title)
+//        if (!resp.isSuccess) {
+//            throw IOException("API Error: ${resp.message}")
+//        }
+//        return@withContext resp.result?.content.orEmpty()
+        val response = apiService.getNoticeCouncilSearchList(page, size, title)
+
+        if (!response.isSuccessful) {
+            val errorBody = response.errorBody()?.string()
+            throw IOException("API error: ${response.code()} - $errorBody")
+        }
+
+        val resp = response.body()
+            ?: throw IOException("Response body is null")
+
         if (!resp.isSuccess) {
             throw IOException("API Error: ${resp.message}")
         }
+
         return@withContext resp.result?.content.orEmpty()
     }
 
@@ -137,7 +169,7 @@ class NoticeCouncilRepository {
                 val inputStream = context.contentResolver.openInputStream(uri) ?: return@mapIndexedNotNull null
                 val file = File(context.cacheDir, "notice_image_$index.jpg")
                 FileOutputStream(file).use { inputStream.copyTo(it) }
-                val requestFile = RequestBody.create("image/*".toMediaType(), file)
+                val requestFile = file.asRequestBody("image/*".toMediaType())
                 MultipartBody.Part.createFormData("file", file.name, requestFile)
             } catch (e: Exception) {
                 null

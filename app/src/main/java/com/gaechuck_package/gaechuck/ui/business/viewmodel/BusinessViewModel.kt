@@ -235,9 +235,10 @@ class BusinessViewModel(private val repository: BusinessRepository) : ViewModel(
         }
     }
 
-    class BusinessViewModelFactory(private val repository: BusinessRepository) : ViewModelProvider.Factory {
+    class BusinessViewModelFactory(private val repository: BusinessRepository) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(BusinessViewModel::class.java)) {
+                @Suppress("UNCHECKED_CAST")
                 return BusinessViewModel(repository) as T
             }
             throw IllegalArgumentException("Unknown ViewModel class")

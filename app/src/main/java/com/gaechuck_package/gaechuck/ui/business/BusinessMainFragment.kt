@@ -66,7 +66,7 @@ class BusinessMainFragment : Fragment(R.layout.fragment_business_main), Business
             override fun onBusinessItemClick(item: BusinessList) {
                 val action = BusinessMainFragmentDirections
                     .actionBusinessMainFragmentToBusinessDetailFragment(item.coalitionId)
-                view?.findNavController()?.navigate(action)
+                view.findNavController().navigate(action)
             }
 
             override fun onEditClicked(item: BusinessList) {
@@ -95,8 +95,6 @@ class BusinessMainFragment : Fragment(R.layout.fragment_business_main), Business
             binding.writeBtn.visibility = if (isLoggedIn) View.VISIBLE else View.GONE
             businessAdapter.updateLoginState(isLoggedIn)
         })
-
-        val category: Array<String> = resources.getStringArray(R.array.CATEGORY)
 
         // DividerItemDecoration을 RecyclerView에 추가
         val divider = DividerItemDecoration(context, LinearLayoutManager.VERTICAL)

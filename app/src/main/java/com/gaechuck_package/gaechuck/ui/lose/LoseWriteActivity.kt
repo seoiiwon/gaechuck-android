@@ -263,7 +263,7 @@ class LoseWriteActivity : AppCompatActivity() {
         val location = binding.fieldLocation.text.toString()
         val lostDate = binding.fieldDate.text.toString()
         val description = binding.fieldInfo.text.toString()
-        val imageUris = viewModel.selectedImages.value ?: emptyList()
+        val imageUris = viewModel.selectedImages.value
 
         return if (title.isBlank() || location.isBlank() || lostDate.isBlank() || description.isBlank()) {
             if(imageUris.isEmpty()) {

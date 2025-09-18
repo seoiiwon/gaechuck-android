@@ -212,11 +212,6 @@ class LoseMainFragment : Fragment(R.layout.fragment_lose_main), LoseAdapter.OnLo
         }
     }
 
-    private fun updateIndicator(totalPages: Int) {
-        indicator.attachTo(viewPager)
-
-    }
-
     // 네비게이션 처리
     override fun onLoseItemClick(item: LoseList) {
         val action = LoseMainFragmentDirections.actionLoseMainFragmentRoLoseDetailFragment(item.lostItemId)

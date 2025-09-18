@@ -1,5 +1,7 @@
 package com.gaechuck_package.gaechuck.data.response
+import androidx.annotation.Keep
 
+@Keep
 data class GetLoseDetailResponse(
         val description: String,
         val images: List<String>,

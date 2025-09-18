@@ -2,7 +2,9 @@ package com.gaechuck_package.gaechuck.data.response
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
+import androidx.annotation.Keep
 
+@Keep
 @Parcelize
 data class GetCouncilNoticeDetailResponse(
     val id: Int = -1,

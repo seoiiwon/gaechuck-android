@@ -275,9 +275,10 @@ class LoseViewModel(private val repository: LoseRepository):ViewModel() {
     }
 
 
-    class LoseViewModelFactory(private val repository: LoseRepository) : ViewModelProvider.Factory {
+    class LoseViewModelFactory(private val repository: LoseRepository) : ViewModelProvider.NewInstanceFactory()  {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(LoseViewModel::class.java)) {
+                @Suppress("UNCHECKED_CAST")
                 return LoseViewModel(repository) as T
             }
             throw IllegalArgumentException("Unknown ViewModel class")

@@ -65,7 +65,7 @@ class RentMainFragment : Fragment(R.layout.fragment_rent_main),RentAdapter.OnRen
         rentAdapter = RentAdapter(object : RentAdapter.OnRentItemClickListener {
             override fun OnRentItemClick(item: RentList) {
                 val action = RentMainFragmentDirections.actionRentMainFragmentToRentDetailFragment(item.rentItemId)
-                view?.findNavController()?.navigate(action)
+                view.findNavController().navigate(action)
             }
 
             override fun onEditClicked(item: RentList) {
