@@ -10,6 +10,7 @@ import android.view.MotionEvent
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -47,7 +48,7 @@ class NoticeCouncilUpdateActivity : AppCompatActivity() {
     private lateinit var bodyEditText: EditText
     private lateinit var imageRecyclerView: RecyclerView
     private lateinit var addImageButton: ImageView
-    private lateinit var updateButton: Button
+    private lateinit var updateButton: TextView
     private lateinit var imageAdapter: ImageAdapter
     private val dialogFragment = WriteDialogFragment(this)
 

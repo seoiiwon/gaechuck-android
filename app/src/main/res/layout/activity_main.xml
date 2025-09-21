@@ -40,14 +40,19 @@
                 android:id="@+id/alarm_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:src="@drawable/ix_alarm_bell" />
+                android:layout_gravity="start|center_vertical"
+                app:srcCompat="@drawable/ix_alarm_bell"
+                app:tint="@color/gnu_blue"
+                android:layout_marginHorizontal="4dp"
+                />
 
             <ImageView
                 android:id="@+id/setting_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/uil_setting" />
+                android:layout_gravity="start|center_vertical"
+                app:srcCompat="@drawable/uil_setting"
+                app:tint="@color/gnu_blue" />
 
         </LinearLayout>
 
