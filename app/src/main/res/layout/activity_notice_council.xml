@@ -12,22 +12,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="16dp"
+        android:paddingHorizontal="16dp"
+        android:paddingBottom="16dp"
         android:background="@color/white">
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="8dp">
+            android:layout_height="64dp">
 
             <!-- 뒤로가기 버튼 (왼쪽 정렬) -->
             <ImageView
                 android:id="@+id/backBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/back_btn"
-                android:padding="8dp"
-                android:layout_gravity="start|center_vertical" />
+                android:layout_gravity="start|center_vertical"
+                app:srcCompat="@drawable/ic_back"
+                app:tint="@color/gnu_blue" />
 
             <!-- 가운데 제목 텍스트 -->
             <TextView
@@ -44,12 +44,12 @@
 
             <ImageView
                 android:id="@+id/searchButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:src="@drawable/search_button"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:layout_gravity="end|center_vertical"
-                android:clickable="true" />
+                app:srcCompat="@drawable/searchicon"
+                app:tint="@color/gnu_blue"
+                />
 
         </FrameLayout>
 

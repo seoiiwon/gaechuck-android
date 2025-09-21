@@ -39,14 +39,6 @@ class BusRouteActivity : AppCompatActivity() {
             finish()
         }
 
-        // 홈으로 이동하기
-        val homeBtn: ImageView = findViewById(R.id.homeBtn)
-        homeBtn.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-            startActivity(intent)
-        }
-
         // Spinner 초기화
         val spinner = findViewById<Spinner>(R.id.categorySpinner)
         val categories = listOf("캠퍼스(오전)", "캠퍼스(오후)", "진주역", "시외")

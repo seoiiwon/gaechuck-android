@@ -93,10 +93,6 @@ class CafeteriaMenuActivity : AppCompatActivity() {
 
         // 뒤로 / 홈 버튼
         findViewById<ImageView>(R.id.backBtn).setOnClickListener { finish() }
-        findViewById<ImageView>(R.id.homeBtn).setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java)
-                .apply { flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP })
-        }
 
         leftArrow.setOnClickListener { navigateCafeteria(-1) }
         rightArrow.setOnClickListener { navigateCafeteria(+1) }
