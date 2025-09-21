@@ -5,8 +5,10 @@ import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.gaechuck_package.gaechuck.MainActivity
 import com.gaechuck_package.gaechuck.R
+import com.gaechuck_package.gaechuck.api.AuthManager
 import com.gaechuck_package.gaechuck.ui.login.LoginActivity
 
 class TermsOfUseActivity : AppCompatActivity() {
@@ -26,12 +28,28 @@ class TermsOfUseActivity : AppCompatActivity() {
         backButton = toolbar.findViewById(R.id.button_back)
         homeButton = toolbar.findViewById(R.id.button_home)
 
+
         // findViewById는 setContentView 이후에 호출해야 합니다
         val termOfUseLink = findViewById<TextView>(R.id.terms_bottom)
 
-        termOfUseLink.setOnClickListener {
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
+        val token = AuthManager.getToken()
+        val isLoggedIn = !token.isNullOrEmpty()
+
+        if (isLoggedIn) {
+            // 로그인 상태일 때: 링크 비활성화 및 색상 변경
+            termOfUseLink.isEnabled = false
+            termOfUseLink.setTextColor(ContextCompat.getColor(this, R.color.gnu_grey)) // 회색으로 변경 (colors.xml에 정의된 색상 사용)
+            // 또는 직접 색상 지정: termOfUseLink.setTextColor(Color.GRAY)
+        } else {
+            // 로그아웃 상태일 때: 링크 활성화 및 클릭 리스너 설정
+            termOfUseLink.isEnabled = true
+            termOfUseLink.setTextColor(ContextCompat.getColor(this, R.color.gnu_blue)) // 원래 색상 (또는 적절한 링크 색상)
+
+            termOfUseLink.setOnClickListener {
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+            }
+
         }
 
         // 뒤로가기 버튼 동작 설정
