@@ -84,17 +84,43 @@ object ApiConnection {
             "/api/v1/lostitems/all",
             "/api/v1/lostitems/detail",
             "/api/v1/rent/list",
-            "/api/v1/rent/detailItem",
+            "/api/v1/rent/detailItem", // 상세 조회는 public
             "/api/v1/coalition/all",
             "/api/v1/coalition/detail",
             "/api/v1/master/sign-in",
             "/api/v1/master/token/reissue",
             "/api/v1/menus/weeklyMenu",
             "/api/v1/notifications/allNotification",
-            "/api/v1/council/show"  // <- 이걸 포함하면 show/106도 걸러짐
+            "/api/v1/council/show"
         )
 
-        // startsWith 로 처리
-        return !publicPaths.any { path.startsWith(it) }
+        // 인증이 필요한 API들을 명시적으로 정의 (더 안전함)
+        val authRequiredPaths = listOf(
+            "/api/v1/rent/createItem",    // POST
+            "/api/v1/rent/updateItem",     // PATCH
+            "/api/v1/rent/deleteItem",    // DELETE
+            "/api/v1/lostitems/create",
+            "/api/v1/lostitems/patch",
+            "/api/v1/lostitems/delete",
+            "/api/v1/coalition/write",
+            "/api/v1/coalition/delete",
+            "/api/v1/coalition/update",
+            "api/v1/council/post",
+            "/api/v1/chaturl/insertUrl",
+            // 다른 인증 필요 API들 추가
+        )
+
+        // 명시적으로 인증이 필요한 경우
+        if (authRequiredPaths.any { path.startsWith(it) }) {
+            return true
+        }
+
+        // public API인 경우
+        if (publicPaths.any { path.startsWith(it) }) {
+            return false
+        }
+
+        // 기본적으로 인증 필요로 처리
+        return true
     }
 }
