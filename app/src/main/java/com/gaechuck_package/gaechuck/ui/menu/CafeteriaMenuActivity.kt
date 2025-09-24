@@ -52,13 +52,13 @@ class CafeteriaMenuActivity : AppCompatActivity() {
     }
 
     private val campusMap = mapOf(
-        "가좌캠퍼스" to listOf("교직원식당", "중앙식당 (1, 2식당)", "교육 문화 1층 식당", "가좌 학생생활관"),
+        "가좌캠퍼스" to listOf("중앙식당 (1, 2식당)", "교직원식당", "교육 문화 1층 식당", "가좌 학생생활관"),
         "칠암캠퍼스" to listOf("칠암 교직원식당", "칠암 학생식당", "칠암 학생생활관1", "칠암 학생생활관2"),
         "통영캠퍼스" to listOf("통영 교직원식당", "통영 학생식당", "통영 학생생활관")
     )
 
     private val seqMap = mapOf(
-        "가좌캠퍼스" to listOf(1, 2, 3, 8),
+        "가좌캠퍼스" to listOf(2, 1, 3, 8),
         "칠암캠퍼스" to listOf(4, 5, 9, 10),
         "통영캠퍼스" to listOf(6, 7, 11)
     )
@@ -210,25 +210,11 @@ class CafeteriaMenuActivity : AppCompatActivity() {
                         dayButtonContainer.getChildAt(i).isSelected = false
 
                     isSelected = true
-
                     selectedDayIndex = idx
 
                     // “dates[idx]”는 List(“yyyy-MM-dd” 형태의 월요일~일요일) 중 한 날짜
                     val targetDate = dates[idx]
-                    val filtered = viewModel.getMenuForDate(targetDate)
-                    val toShow = if (filtered.isEmpty()) {
-                        listOf(
-                            FoodMenuItem(
-                                menu="식단 정보가 없습니다.",
-                                menuDivision="",
-                                date=targetDate,
-                                menuSeq=-1
-                            )
-                        )
-                    } else {
-                        filtered
-                    }
-                    adapter.submitList(toShow)
+                    updateMenuForSelectedDay(targetDate)
                 }
             }
             dayButtonContainer.addView(btn)
