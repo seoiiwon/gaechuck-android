@@ -21,19 +21,60 @@ import androidx.recyclerview.widget.RecyclerView
 import com.gaechuck_package.gaechuck.R
 import com.gaechuck_package.gaechuck.data.response.FoodMenuItem
 
-class GridCafeteriaAdapter :
-    ListAdapter<FoodMenuItem, RecyclerView.ViewHolder>(DiffCallback()) {
-
+class GridCafeteriaAdapter(
+    private var spanCount: Int = 3
+) : ListAdapter<FoodMenuItem, RecyclerView.ViewHolder>(DiffCallback()) {
 
     private var cafeteriaSeq: Int = -1
-
-    fun updateCafeteriaSeq(seq: Int) {
-        cafeteriaSeq = seq
-    }
+    fun updateCafeteriaSeq(seq: Int) { cafeteriaSeq = seq }
+    fun updateSpanCount(span: Int) { spanCount = span }
 
     override fun getItemCount(): Int {
-        return if (cafeteriaSeq == 8) 1
-        else super.getItemCount()
+        return if (cafeteriaSeq == 8) 1 else super.getItemCount()
+    }
+
+    private val divisionOrderSeqs = setOf(5, 9, 7, 11)
+    private val divisionOrder = listOf("아침", "점심", "저녁")
+
+    private val rowPriorityOrder = listOf("천원의아침밥", "중식", "석식", "고정메뉴", "더진국")
+
+    override fun submitList(list: List<FoodMenuItem>?) {
+        if (list == null) {
+            super.submitList(null)
+            return
+        }
+
+        val finalList = when {
+            cafeteriaSeq == 2 -> list.sortedWith(
+                compareBy(
+                    { priorityIndexByKeyword("${it.menuDivision} ${it.menu}") },
+                    { it.menuSeq }
+                )
+            )
+            cafeteriaSeq in divisionOrderSeqs -> list.sortedWith(
+                compareBy(
+                    { priorityIndexByDivision(it) },
+                    { it.menuSeq }
+                )
+            )
+            else -> list
+        }
+
+        super.submitList(finalList)
+    }
+
+
+    private fun priorityIndexByKeyword(textRaw: String): Int {
+        val rowPriorityOrder = listOf("천원의아침밥", "중식", "석식", "고정메뉴", "더진국")
+        val text = textRaw.replace(" ", "")
+        val idx = rowPriorityOrder.indexOfFirst { text.contains(it) }
+        return if (idx >= 0) idx else rowPriorityOrder.size
+    }
+
+    private fun priorityIndexByDivision(item: FoodMenuItem): Int {
+        val text = "${item.menuDivision} ${item.menu}".replace(" ", "")
+        val idx = divisionOrder.indexOfFirst { key -> text.contains(key) }
+        return if (idx >= 0) idx else divisionOrder.size
     }
 
 
@@ -43,32 +84,18 @@ class GridCafeteriaAdapter :
         private const val VIEW_TYPE_NO_DATA = 2
     }
 
-
-    override fun getItemViewType(position: Int): Int {
-        return when {
-            // CafeteriaSeq가 8인 경우
-            cafeteriaSeq == 8 -> VIEW_TYPE_SEQ8
-            // 데이터 없으면 NoData
-            getItem(position).menuSeq < 0 || getItem(position).menu.isBlank() -> VIEW_TYPE_NO_DATA
-            else -> VIEW_TYPE_STANDARD
-        }
+    override fun getItemViewType(position: Int): Int = when {
+        cafeteriaSeq == 8 -> VIEW_TYPE_SEQ8
+        getItem(position).menuSeq < 0 || getItem(position).menu.isBlank() -> VIEW_TYPE_NO_DATA
+        else -> VIEW_TYPE_STANDARD
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return when (viewType) {
-            VIEW_TYPE_STANDARD -> {
-                val view = inflater.inflate(R.layout.item_menu_row, parent, false)
-                MenuViewHolder(view)
-            }
-            VIEW_TYPE_SEQ8 -> {
-                val view = inflater.inflate(R.layout.item_menu_seq8, parent, false)
-                Seq8MenuViewHolder(view)
-            }
-            else -> {
-                val view = inflater.inflate(R.layout.item_menu_no_data, parent, false)
-                NoDataViewHolder(view)
-            }
+            VIEW_TYPE_STANDARD -> MenuViewHolder(inflater.inflate(R.layout.item_menu_row, parent, false))
+            VIEW_TYPE_SEQ8 -> Seq8MenuViewHolder(inflater.inflate(R.layout.item_menu_seq8, parent, false))
+            else -> NoDataViewHolder(inflater.inflate(R.layout.item_menu_no_data, parent, false))
         }
     }
 
@@ -107,39 +134,39 @@ class GridCafeteriaAdapter :
 
         private fun styleDivisionText(raw: String): CharSequence {
             val ctx = divisionTv.context
-            val startRegex = "\\d{2}:\\d{2} ~".toRegex()
+            val startRegex = "\\d{1,2}:\\d{2}".toRegex()
             val match = startRegex.find(raw)
+
             return if (match != null) {
                 val titlePart = raw.substring(0, match.range.first).trim()
                 val timePart  = raw.substring(match.range.first).trim()
 
                 val ssb = SpannableStringBuilder()
-                    .append(titlePart)
-                    .append("\n")
+                ssb.append(titlePart)
+                ssb.append("\n")
                 val offset = ssb.length
                 ssb.append(timePart)
 
-                val titleColor = ContextCompat.getColor(ctx, R.color.gnu_blue)
+                val blue = ContextCompat.getColor(ctx, R.color.gnu_blue)
+                val gray = ContextCompat.getColor(ctx, android.R.color.darker_gray)
+
                 ssb.setSpan(StyleSpan(Typeface.BOLD), 0, titlePart.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                ssb.setSpan(ForegroundColorSpan(titleColor), 0, titlePart.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                ssb.setSpan(ForegroundColorSpan(blue), 0, titlePart.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
                 ssb.setSpan(StyleSpan(Typeface.NORMAL), offset, offset + timePart.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                "[\\d~]".toRegex().findAll(timePart).forEach { m ->
-                    val span = RelativeSizeSpan(0.8f)
-                    val s = offset + m.range.first
-                    val e = offset + m.range.last + 1
-                    ssb.setSpan(span, s, e, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                }
+                ssb.setSpan(ForegroundColorSpan(gray), offset, offset + timePart.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                ssb.setSpan(RelativeSizeSpan(0.8f), offset, offset + timePart.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
                 ssb
             } else {
                 SpannableStringBuilder(raw).apply {
-                    val titleColor = ContextCompat.getColor(ctx, R.color.gnu_blue)
+                    val blue = ContextCompat.getColor(ctx, R.color.gnu_blue)
                     setSpan(StyleSpan(Typeface.BOLD), 0, raw.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                    setSpan(ForegroundColorSpan(titleColor), 0, raw.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    setSpan(ForegroundColorSpan(blue), 0, raw.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
                 }
             }
         }
     }
-
 
     // CafeteriaSeq가 8일 때의 뷰
     inner class Seq8MenuViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -204,7 +231,6 @@ class GridCafeteriaAdapter :
             }
         }
     }
-
 
 
     inner class NoDataViewHolder(view: View) : RecyclerView.ViewHolder(view) {
