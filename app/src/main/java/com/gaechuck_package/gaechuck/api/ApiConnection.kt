@@ -7,28 +7,11 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import com.gaechuck_package.gaechuck.BuildConfig
 
 object ApiConnection {
     // 서버 주소
-    private val BASE_URL = "http://117.16.152.191:30001"
-
-//    private val okHttpClient = OkHttpClient.Builder()
-//        .addInterceptor(HttpLoggingInterceptor().apply {
-//            level = HttpLoggingInterceptor.Level.BODY
-//        })
-//        .build()
-//
-//    private val getRetrofit by lazy {
-//        Retrofit.Builder()
-//            .baseUrl(BASE_URL)
-//            .addConverterFactory(GsonConverterFactory.create())
-//            .client(okHttpClient)
-//            .build()
-//    }
-//
-//    val getRetrofitService: ApiService by lazy {
-//        getRetrofit.create(ApiService::class.java)
-//    }
+    private val BASE_URL = BuildConfig.BASE_URL
 
     fun create(context: Context) {
         AuthManager.init(context)
