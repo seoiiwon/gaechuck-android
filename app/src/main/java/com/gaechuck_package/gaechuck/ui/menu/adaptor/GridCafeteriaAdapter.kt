@@ -109,62 +109,44 @@ class GridCafeteriaAdapter(
     }
 
 
-    // 기본 Grid 뷰
+    // 기본 카드 뷰 (아침/점심/저녁)
     inner class MenuViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val divisionTv = view.findViewById<TextView>(R.id.divisionTextView)
-        private val menuTv     = view.findViewById<TextView>(R.id.menuTextView)
+        private val mealBadge   = view.findViewById<TextView>(R.id.mealBadge)
+        private val mealTime    = view.findViewById<TextView>(R.id.mealTime)
+        private val menuContent = view.findViewById<TextView>(R.id.menuContent)
 
         fun bind(item: FoodMenuItem) {
-            if (item.menuSeq < 0) {
-                divisionTv.apply {
-                    text = if (item.menuSeq == -2) item.menuDivision else item.menu
-                    setTypeface(null, Typeface.BOLD)
-                }
-                menuTv.visibility = View.GONE
+            val division = item.menuDivision.trim()
+
+            // 시간 정보 추출 (division에 "HH:mm" 형식 포함 여부 확인)
+            val timeRegex = "\\d{1,2}:\\d{2}".toRegex()
+            val timeMatch = timeRegex.find(division)
+
+            val badgeText: String
+            val timeText: String
+
+            if (timeMatch != null) {
+                badgeText = division.substring(0, timeMatch.range.first).trim()
+                timeText  = division.substring(timeMatch.range.first).trim()
             } else {
-                divisionTv.text = styleDivisionText(item.menuDivision)
-                menuTv.apply {
-                    text = item.menu.split("/", " ")
-                        .filter { it.isNotBlank() }
-                        .joinToString("\n") { it.trim() }
-                    visibility = View.VISIBLE
-                }
+                badgeText = division
+                timeText  = mealTimeFor(division)
             }
+
+            mealBadge.text = badgeText.ifBlank { "식사" }
+            mealTime.text  = timeText
+
+            menuContent.text = item.menu
+                .split("/", "\n")
+                .filter { it.isNotBlank() }
+                .joinToString("\n") { it.trim() }
         }
 
-        private fun styleDivisionText(raw: String): CharSequence {
-            val ctx = divisionTv.context
-            val startRegex = "\\d{1,2}:\\d{2}".toRegex()
-            val match = startRegex.find(raw)
-
-            return if (match != null) {
-                val titlePart = raw.substring(0, match.range.first).trim()
-                val timePart  = raw.substring(match.range.first).trim()
-
-                val ssb = SpannableStringBuilder()
-                ssb.append(titlePart)
-                ssb.append("\n")
-                val offset = ssb.length
-                ssb.append(timePart)
-
-                val blue = ContextCompat.getColor(ctx, R.color.gnu_blue)
-                val gray = ContextCompat.getColor(ctx, android.R.color.darker_gray)
-
-                ssb.setSpan(StyleSpan(Typeface.BOLD), 0, titlePart.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                ssb.setSpan(ForegroundColorSpan(blue), 0, titlePart.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-
-                ssb.setSpan(StyleSpan(Typeface.NORMAL), offset, offset + timePart.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                ssb.setSpan(ForegroundColorSpan(gray), offset, offset + timePart.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                ssb.setSpan(RelativeSizeSpan(0.8f), offset, offset + timePart.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-
-                ssb
-            } else {
-                SpannableStringBuilder(raw).apply {
-                    val blue = ContextCompat.getColor(ctx, R.color.gnu_blue)
-                    setSpan(StyleSpan(Typeface.BOLD), 0, raw.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                    setSpan(ForegroundColorSpan(blue), 0, raw.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                }
-            }
+        private fun mealTimeFor(division: String): String = when {
+            division.contains("아침") -> "07:30 - 09:00"
+            division.contains("점심") || division.contains("중식") -> "11:30 - 13:30"
+            division.contains("저녁") || division.contains("석식") -> "17:30 - 19:00"
+            else -> ""
         }
     }
 
