@@ -1,4 +1,4 @@
-import java.util.Properties
+    import java.util.Properties
 
 val localProperties = Properties()
 val localPropertiesFile = rootProject.file("local.properties")
