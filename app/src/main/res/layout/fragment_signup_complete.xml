@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <!-- 회원가입 완료 아이콘 -->
+    <ImageView
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:src="@drawable/success_perspective"
+        android:scaleType="fitCenter"
+        android:contentDescription="회원가입 완료"/>
+
+    <!-- 타이틀 -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="회원가입 완료"
+        android:textSize="24sp"
+        android:fontFamily="@font/pretendard_bold"
+        android:textColor="@color/renewal_text_primary"
+        android:layout_marginTop="24dp"/>
+
+    <!-- 서브 메시지 -->
+    <TextView
+        android:id="@+id/tvLoadingMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="로딩중\n잠시만 기다려주세요..."
+        android:textSize="14sp"
+        android:fontFamily="@font/pretendard_regular"
+        android:textColor="@color/renewal_text_secondary"
+        android:gravity="center"
+        android:lineSpacingMultiplier="1.5"
+        android:layout_marginTop="12dp"/>
+
+</LinearLayout>

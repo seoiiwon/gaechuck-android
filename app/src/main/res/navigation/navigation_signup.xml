@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_signup"
+    app:startDestination="@id/signupInfoFragment">
+
+    <fragment
+        android:id="@+id/signupInfoFragment"
+        android:name="com.gaechuck_package.gaechuck.ui.auth.signup.SignupInfoFragment"
+        android:label="회원가입"
+        tools:layout="@layout/fragment_signup_info">
+        <action
+            android:id="@+id/action_info_to_email"
+            app:destination="@id/signupEmailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/signupEmailFragment"
+        android:name="com.gaechuck_package.gaechuck.ui.auth.signup.SignupEmailFragment"
+        android:label="학교 이메일 인증"
+        tools:layout="@layout/fragment_signup_email">
+        <action
+            android:id="@+id/action_email_to_verify"
+            app:destination="@id/signupVerifyFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/signupVerifyFragment"
+        android:name="com.gaechuck_package.gaechuck.ui.auth.signup.SignupVerifyFragment"
+        android:label="인증번호 확인"
+        tools:layout="@layout/fragment_signup_verify">
+        <action
+            android:id="@+id/action_verify_to_complete"
+            app:destination="@id/signupCompleteFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/signupCompleteFragment"
+        android:name="com.gaechuck_package.gaechuck.ui.auth.signup.SignupCompleteFragment"
+        android:label="가입 완료"
+        tools:layout="@layout/fragment_signup_complete"/>
+
+</navigation>
