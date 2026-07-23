@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_club"
+    app:startDestination="@id/clubMainFragment">
+
+    <fragment
+        android:id="@+id/clubMainFragment"
+        android:name="com.gaechuck_package.gaechuck.ui.club.ClubMainFragment"
+        android:label="Club Main"
+        tools:layout="@layout/fragment_club_main">
+        <action
+            android:id="@+id/action_clubMainFragment_to_clubDetailFragment"
+            app:destination="@id/clubDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_clubMainFragment_to_clubFavoritesFragment"
+            app:destination="@id/clubFavoritesFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/clubDetailFragment"
+        android:name="com.gaechuck_package.gaechuck.ui.club.ClubDetailFragment"
+        android:label="Club Detail"
+        tools:layout="@layout/fragment_club_detail">
+        <argument
+            android:name="clubId"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_clubDetailFragment_to_clubMainFragment"
+            app:destination="@id/clubMainFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/clubFavoritesFragment"
+        android:name="com.gaechuck_package.gaechuck.ui.club.ClubFavoritesFragment"
+        android:label="Club Favorites"
+        tools:layout="@layout/fragment_club_favorites">
+        <action
+            android:id="@+id/action_clubFavoritesFragment_to_clubDetailFragment"
+            app:destination="@id/clubDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_clubFavoritesFragment_to_clubMainFragment"
+            app:destination="@id/clubMainFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+</navigation>

@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_cafeteria">
+
+    <!-- White header: search bar + category chips -->
+    <LinearLayout
+        android:id="@+id/header_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingBottom="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/search_bar_container"
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_lose_search_bar"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="14dp">
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:contentDescription="검색"
+                android:src="@drawable/searchicon"
+                app:tint="#999999" />
+
+            <EditText
+                android:id="@+id/search_edit_text"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:fontFamily="@font/pretendard_regular"
+                android:hint="동아리 이름·카테고리 검색"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="@color/black_1"
+                android:textColorHint="#999999"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/search_clear_btn"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:contentDescription="검색어 지우기"
+                android:src="@drawable/ic_close_small"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+        <HorizontalScrollView
+            android:id="@+id/category_scroll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingHorizontal="24dp">
+
+                <TextView
+                    android:id="@+id/chip_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="34dp"
+                    android:background="@drawable/bg_lose_chip_selected"
+                    android:fontFamily="@font/pretendard_semibold"
+                    android:gravity="center"
+                    android:paddingHorizontal="16dp"
+                    android:text="전체"
+                    android:textColor="#005478"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/chip_sports"
+                    android:layout_width="wrap_content"
+                    android:layout_height="34dp"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/bg_lose_chip_unselected"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:gravity="center"
+                    android:paddingHorizontal="16dp"
+                    android:text="스포츠"
+                    android:textColor="#999999"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/chip_academic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="34dp"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/bg_lose_chip_unselected"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:gravity="center"
+                    android:paddingHorizontal="16dp"
+                    android:text="학술/스터디"
+                    android:textColor="#999999"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/chip_culture"
+                    android:layout_width="wrap_content"
+                    android:layout_height="34dp"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/bg_lose_chip_unselected"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:gravity="center"
+                    android:paddingHorizontal="16dp"
+                    android:text="문화/예술"
+                    android:textColor="#999999"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/chip_volunteer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="34dp"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/bg_lose_chip_unselected"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:gravity="center"
+                    android:paddingHorizontal="16dp"
+                    android:text="봉사"
+                    android:textColor="#999999"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/chip_religion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="34dp"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/bg_lose_chip_unselected"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:gravity="center"
+                    android:paddingHorizontal="16dp"
+                    android:text="종교"
+                    android:textColor="#999999"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/chip_career"
+                    android:layout_width="wrap_content"
+                    android:layout_height="34dp"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/bg_lose_chip_unselected"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:gravity="center"
+                    android:paddingHorizontal="16dp"
+                    android:text="취업/창업"
+                    android:textColor="#999999"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/chip_hobby"
+                    android:layout_width="wrap_content"
+                    android:layout_height="34dp"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/bg_lose_chip_unselected"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:gravity="center"
+                    android:paddingHorizontal="16dp"
+                    android:text="친목/취미"
+                    android:textColor="#999999"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+        </HorizontalScrollView>
+
+    </LinearLayout>
+
+    <!-- Filter/sort row -->
+    <LinearLayout
+        android:id="@+id/filter_row"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header_container">
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/toggle_recruiting_only"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            style="@style/switch_brand2" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/pretendard_regular"
+            android:text="모집중만 보기"
+            android:textColor="@color/black_1"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/sort_dropdown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pretendard_regular"
+            android:text="정렬 : 가나다순"
+            android:textColor="@color/text_secondary_2"
+            android:textSize="14sp"
+            android:drawableEnd="@drawable/ic_chevron_down"
+            android:drawablePadding="4dp"
+            android:gravity="center_vertical" />
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/club_recycler_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="12dp"
+        android:clipToPadding="false"
+        android:paddingHorizontal="24dp"
+        android:paddingBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/filter_row" />
+
+    <LinearLayout
+        android:id="@+id/empty_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/filter_row"
+        app:layout_constraintVertical_bias="0.35">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pretendard_semibold"
+            android:text="조건에 맞는 동아리가 없습니다"
+            android:textColor="@color/black_1"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/pretendard_regular"
+            android:gravity="center"
+            android:text="검색어나 필터를 변경해보세요"
+            android:textColor="@color/grey"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
