@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottom_nav"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@color/white"
+    android:elevation="8dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="20dp">
+
+    <!-- 홈 -->
+    <LinearLayout
+        android:id="@+id/nav_home"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:minHeight="48dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackgroundBorderless">
+
+        <ImageView
+            android:id="@+id/nav_home_icon"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:src="@drawable/ic_home"
+            android:contentDescription="홈"
+            app:tint="@color/info_grey"/>
+
+        <TextView
+            android:id="@+id/nav_home_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="홈"
+            android:textColor="@color/info_grey"
+            android:textSize="11sp"
+            android:fontFamily="@font/pretendard_medium"
+            android:layout_marginTop="3dp"/>
+    </LinearLayout>
+
+    <!-- 공지 -->
+    <LinearLayout
+        android:id="@+id/nav_notice"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:minHeight="48dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackgroundBorderless">
+
+        <ImageView
+            android:id="@+id/nav_notice_icon"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:src="@drawable/ix_alarm_bell"
+            android:contentDescription="공지"
+            app:tint="@color/info_grey"/>
+
+        <TextView
+            android:id="@+id/nav_notice_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="공지"
+            android:textColor="@color/info_grey"
+            android:textSize="11sp"
+            android:fontFamily="@font/pretendard_medium"
+            android:layout_marginTop="3dp"/>
+    </LinearLayout>
+
+    <!-- 마이 -->
+    <LinearLayout
+        android:id="@+id/nav_my"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:minHeight="48dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackgroundBorderless">
+
+        <ImageView
+            android:id="@+id/nav_my_icon"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:src="@drawable/ic_profile_nav"
+            android:contentDescription="마이"
+            app:tint="@color/info_grey"/>
+
+        <TextView
+            android:id="@+id/nav_my_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="마이"
+            android:textColor="@color/info_grey"
+            android:textSize="11sp"
+            android:fontFamily="@font/pretendard_medium"
+            android:layout_marginTop="3dp"/>
+    </LinearLayout>
+
+    <!-- 설정 -->
+    <LinearLayout
+        android:id="@+id/nav_setting"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:minHeight="48dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackgroundBorderless">
+
+        <ImageView
+            android:id="@+id/nav_setting_icon"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:src="@drawable/uil_setting"
+            android:contentDescription="설정"
+            app:tint="@color/info_grey"/>
+
+        <TextView
+            android:id="@+id/nav_setting_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="설정"
+            android:textColor="@color/info_grey"
+            android:textSize="11sp"
+            android:fontFamily="@font/pretendard_medium"
+            android:layout_marginTop="3dp"/>
+    </LinearLayout>
+
+</LinearLayout>
