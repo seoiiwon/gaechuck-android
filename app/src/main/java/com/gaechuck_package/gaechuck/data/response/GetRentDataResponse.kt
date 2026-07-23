@@ -12,5 +12,6 @@ data class RentList(
     val rentItemCount: Int,
     val rentItemId: Int,
     val image: String,
-    val rentItemName: String
+    val rentItemName: String,
+    val rentCategory: String? = null
 )

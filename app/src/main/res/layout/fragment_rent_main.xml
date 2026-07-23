@@ -1,72 +1,214 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/white"
-    android:paddingHorizontal="20dp"
-    android:paddingBottom="16dp"
-    >
+    android:background="@color/bg_cafeteria">
 
-    <TextView
-        android:id="@+id/rent_info"
-        android:layout_width="wrap_content"
+    <!-- White header: search bar + category chips -->
+    <LinearLayout
+        android:id="@+id/header_container"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:text="@string/rent_info"
-        android:textSize="12sp"
-        android:textColor="@color/info_grey"
-        android:paddingTop="16dp"
-        android:fontFamily="@font/pretendard_regular"
-        />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rent_view"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginVertical="20dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingBottom="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rent_info"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:visibility="visible"
-        />
+        app:layout_constraintTop_toTopOf="parent">
 
+        <!-- Search Bar -->
+        <LinearLayout
+            android:id="@+id/search_bar_container"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_lose_search_bar"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="14dp">
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:contentDescription="검색"
+                android:src="@drawable/searchicon"
+                app:tint="#999999" />
+
+            <EditText
+                android:id="@+id/search_edit_text"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:fontFamily="@font/pretendard_regular"
+                android:hint="검색"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="@color/onboarding_text_primary"
+                android:textColorHint="#999999"
+                android:textSize="13sp" />
+
+            <ImageView
+                android:id="@+id/search_clear_btn"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:contentDescription="검색어 지우기"
+                android:src="@drawable/ic_close_small"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+        <!-- Category Chips -->
+        <HorizontalScrollView
+            android:id="@+id/category_scroll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="2dp">
+
+                <TextView
+                    android:id="@+id/chip_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:background="@drawable/bg_lose_chip_selected"
+                    android:fontFamily="@font/pretendard_semibold"
+                    android:gravity="center"
+                    android:paddingHorizontal="14dp"
+                    android:text="전체"
+                    android:textColor="#005478"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/chip_sports"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="6dp"
+                    android:background="@drawable/bg_lose_chip_unselected"
+                    android:fontFamily="@font/pretendard_regular"
+                    android:gravity="center"
+                    android:paddingHorizontal="14dp"
+                    android:text="스포츠"
+                    android:textColor="#999999"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/chip_electronics"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="6dp"
+                    android:background="@drawable/bg_lose_chip_unselected"
+                    android:fontFamily="@font/pretendard_regular"
+                    android:gravity="center"
+                    android:paddingHorizontal="14dp"
+                    android:text="전자기기"
+                    android:textColor="#999999"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/chip_daily"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="6dp"
+                    android:background="@drawable/bg_lose_chip_unselected"
+                    android:fontFamily="@font/pretendard_regular"
+                    android:gravity="center"
+                    android:paddingHorizontal="14dp"
+                    android:text="생활용품"
+                    android:textColor="#999999"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+        </HorizontalScrollView>
+
+    </LinearLayout>
+
+    <!-- Notice Banner -->
+    <LinearLayout
+        android:id="@+id/info_banner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="12dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header_container">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="📌"
+            android:textSize="13sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:fontFamily="@font/pretendard_regular"
+            android:text="사용 후 학생회실로 반납 부탁드립니다"
+            android:textColor="#505050"
+            android:textSize="13sp" />
+
+    </LinearLayout>
+
+    <!-- Grid RecyclerView -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rent_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:clipToPadding="false"
+        android:paddingHorizontal="11dp"
+        android:paddingBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/info_banner" />
+
+    <!-- Empty State -->
+    <TextView
+        android:id="@+id/empty_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/pretendard_regular"
+        android:text="검색 결과가 없습니다."
+        android:textColor="@color/onboarding_text_secondary"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/info_banner" />
+
+    <!-- FAB for admin -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/write_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="50dp"
-        android:outlineSpotShadowColor="@color/info_grey"
-        android:outlineAmbientShadowColor="@color/light_grey"
         android:backgroundTint="@color/gnu_blue"
         android:src="@drawable/ic_add"
-        app:shapeAppearanceOverlay="?attr/shapeAppearanceCornerExtraLarge"
-        app:tint="@color/white"
-        app:fabCustomSize="48dp"
-        app:elevation="4dp"
         android:visibility="gone"
-        />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/url_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
+        app:elevation="4dp"
+        app:fabCustomSize="48dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/write_btn"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/style_btn_none"
-        android:layout_marginLeft="2dp"
-        android:shadowColor="@color/transparent"
-        android:outlineSpotShadowColor="@color/transparent"
-        android:outlineAmbientShadowColor="@color/light_grey"
-        android:text="url 수정하기"
-        android:textSize="10sp"
-        android:textColor="@color/gnu_grey"
-        android:visibility="visible"
-        />
+        app:shapeAppearanceOverlay="?attr/shapeAppearanceCornerExtraLarge"
+        app:tint="@color/white" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
