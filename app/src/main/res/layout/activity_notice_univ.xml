@@ -1,250 +1,209 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/subLayout1"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingHorizontal="16dp"
-    android:paddingBottom="16dp"
-    android:background="@color/white">
+    android:background="@color/bg_cafeteria">
 
-    <!-- 상단 바 -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
-
-        <ImageView
-            android:id="@+id/backBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start|center_vertical"
-            app:srcCompat="@drawable/ic_back"
-            app:tint="@color/gnu_blue" />
-
-        <TextView
-            android:id="@+id/noticeTitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/notice_type_1"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:padding="8dp"
-            android:fontFamily="@font/pretendard_bold"/>
-
-        <ImageView
-            android:id="@+id/searchButton"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:layout_gravity="end|center_vertical"
-            app:srcCompat="@drawable/searchicon"
-            app:tint="@color/gnu_blue"
-            android:clickable="true"
-            />
-    </LinearLayout>
-
-    <!-- 설명 텍스트 -->
+    <!-- ===== 흰색 헤더 영역: NavBar + 검색 + 드롭다운 ===== -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
         android:orientation="vertical"
-        android:padding="8dp">
+        android:background="@color/white"
+        android:elevation="4dp">
 
-        <TextView
+        <!-- NavBar -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp">
+
+            <ImageView
+                android:id="@+id/backBtn"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="start|center_vertical"
+                android:layout_marginStart="8dp"
+                android:padding="8dp"
+                android:src="@drawable/ic_back"
+                android:tint="@color/text_primary"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="뒤로"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="공지"
+                android:textSize="18sp"
+                android:fontFamily="@font/pretendard_bold"
+                android:textColor="@color/text_primary"/>
+
+        </FrameLayout>
+
+        <!-- Search Bar: h=46dp, margin=24dp each side (Figma: w=327dp on 375dp screen) -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_search_bar">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="start|center_vertical"
+                android:layout_marginStart="14dp"
+                android:src="@drawable/searchicon"
+                android:tint="@color/text_tertiary"
+                android:contentDescription="검색"/>
+
+            <EditText
+                android:id="@+id/searchEditText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="44dp"
+                android:layout_marginEnd="44dp"
+                android:background="@android:color/transparent"
+                android:hint="검색"
+                android:textColorHint="@color/text_tertiary"
+                android:textColor="@color/text_primary"
+                android:textSize="15sp"
+                android:fontFamily="@font/pretendard_regular"
+                android:singleLine="true"
+                android:imeOptions="actionSearch"
+                android:inputType="text"/>
+
+            <ImageView
+                android:id="@+id/clearBtn"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="14dp"
+                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                android:tint="@color/text_tertiary"
+                android:visibility="gone"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="지우기"/>
+
+        </FrameLayout>
+
+        <!-- Filter row: 드롭다운 + 카테고리 칩 (Figma: pl=24dp pb=12dp pt=14dp) -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="left"
-            android:text="@string/notice_univ_description"
-            android:textSize="12sp"
-            android:fontFamily="@font/pretendard_regular"/>
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingStart="24dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="14dp"
+            android:paddingBottom="12dp">
+
+            <TextView
+                android:id="@+id/noticeTypeDropdown"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:minWidth="110dp"
+                android:maxLines="1"
+                android:text="교내 ▾"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:fontFamily="@font/pretendard_medium"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:gravity="center"
+                android:background="@drawable/bg_dropdown_dark"
+                android:clickable="true"
+                android:focusable="true"/>
+
+            <HorizontalScrollView
+                android:id="@+id/subCategoryScrollView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/tabInstitution"
+                        android:layout_width="wrap_content"
+                        android:layout_height="32dp"
+                        android:text="기관"
+                        android:textSize="13sp"
+                        android:fontFamily="@font/pretendard_medium"
+                        android:paddingStart="14dp"
+                        android:paddingEnd="14dp"
+                        android:gravity="center"
+                        android:layout_marginEnd="6dp"
+                        android:background="@drawable/bg_chip_unselected"
+                        android:textColor="@color/text_secondary"/>
+
+                    <TextView
+                        android:id="@+id/tabAcademic"
+                        android:layout_width="wrap_content"
+                        android:layout_height="32dp"
+                        android:text="학사"
+                        android:textSize="13sp"
+                        android:fontFamily="@font/pretendard_medium"
+                        android:paddingStart="14dp"
+                        android:paddingEnd="14dp"
+                        android:gravity="center"
+                        android:layout_marginEnd="6dp"
+                        android:background="@drawable/bg_chip_unselected"
+                        android:textColor="@color/text_secondary"/>
+
+                    <TextView
+                        android:id="@+id/tabScholarship"
+                        android:layout_width="wrap_content"
+                        android:layout_height="32dp"
+                        android:text="장학"
+                        android:textSize="13sp"
+                        android:fontFamily="@font/pretendard_medium"
+                        android:paddingStart="14dp"
+                        android:paddingEnd="14dp"
+                        android:gravity="center"
+                        android:layout_marginEnd="6dp"
+                        android:background="@drawable/bg_chip_unselected"
+                        android:textColor="@color/text_secondary"/>
+
+                    <TextView
+                        android:id="@+id/tabRecruitment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="32dp"
+                        android:text="채용"
+                        android:textSize="13sp"
+                        android:fontFamily="@font/pretendard_medium"
+                        android:paddingStart="14dp"
+                        android:paddingEnd="14dp"
+                        android:gravity="center"
+                        android:background="@drawable/bg_chip_unselected"
+                        android:textColor="@color/text_secondary"/>
+
+                </LinearLayout>
+            </HorizontalScrollView>
+
+        </LinearLayout>
 
     </LinearLayout>
+    <!-- ===== 흰색 헤더 끝 ===== -->
 
-    <!-- 탭 -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:paddingTop="8dp">
-
-        <LinearLayout
-            android:id="@+id/tabAllLayout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
-
-            <TextView
-                android:id="@+id/tabAll"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/notice_tab_0"
-                android:padding="8dp"
-                android:gravity="center"
-                android:textColor="@color/tab_colors"
-                android:fontFamily="@font/pretendard_bold"/>
-
-            <View
-                android:id="@+id/tabAllUnderline"
-                android:layout_width="wrap_content"
-                android:layout_height="4dp"
-                android:visibility="invisible"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:background="@color/gnu_blue" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/tabInstitutionLayout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
-
-            <TextView
-                android:id="@+id/tabInstitution"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/notice_tab_1"
-                android:padding="8dp"
-                android:gravity="center"
-                android:textColor="@color/tab_colors"
-                android:fontFamily="@font/pretendard_bold"/>
-
-            <View
-                android:id="@+id/tabInstitutionUnderline"
-                android:layout_width="wrap_content"
-                android:layout_height="4dp"
-                android:visibility="invisible"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:background="@color/gnu_blue" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/tabAcademicLayout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
-
-            <TextView
-                android:id="@+id/tabAcademic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/notice_tab_2"
-                android:padding="8dp"
-                android:gravity="center"
-                android:textColor="@color/tab_colors"
-                android:fontFamily="@font/pretendard_bold"/>
-
-            <View
-                android:id="@+id/tabAcademicUnderline"
-                android:layout_width="wrap_content"
-                android:layout_height="4dp"
-                android:visibility="invisible"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:background="@color/gnu_blue" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/tabScholarshipLayout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
-
-            <TextView
-                android:id="@+id/tabScholarship"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/notice_tab_3"
-                android:padding="8dp"
-                android:gravity="center"
-                android:textColor="@color/tab_colors"
-                android:fontFamily="@font/pretendard_bold"/>
-
-            <View
-                android:id="@+id/tabScholarshipUnderline"
-                android:layout_width="wrap_content"
-                android:layout_height="4dp"
-                android:visibility="invisible"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:background="@color/gnu_blue" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/tabRecruitmentLayout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
-
-            <TextView
-                android:id="@+id/tabRecruitment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/notice_tab_4"
-                android:padding="8dp"
-                android:gravity="center"
-                android:textColor="@color/tab_colors"
-                android:fontFamily="@font/pretendard_bold"/>
-
-            <View
-                android:id="@+id/tabRecruitmentUnderline"
-                android:layout_width="wrap_content"
-                android:layout_height="4dp"
-                android:visibility="invisible"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:background="@color/gnu_blue" />
-        </LinearLayout>
-
-
-    </LinearLayout>
-
-<!--    <LinearLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:gravity="center_vertical"-->
-<!--        android:orientation="vertical"-->
-<!--        android:padding="8dp"-->
-<!--        android:layout_marginTop="8dp">-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/noticeDateTextView"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_weight="1"-->
-<!--            android:gravity="left"-->
-<!--            android:text="00월 00일"-->
-<!--            android:textSize="12sp"-->
-<!--            android:textColor="#FF8A8D8F"-->
-<!--            android:fontFamily="@font/pretendard_regular"/>-->
-
-<!--    </LinearLayout>-->
-
+    <!-- 공지 목록 -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/noticeRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:overScrollMode="never"
-        tools:listitem="@layout/fragment_notice_univ" />
-
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingTop="8dp"
+        android:paddingBottom="16dp"
+        android:clipToPadding="false"
+        android:overScrollMode="never"/>
 
 </LinearLayout>

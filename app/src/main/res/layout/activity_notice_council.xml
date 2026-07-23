@@ -1,105 +1,179 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/bg_subtle">
 
     <LinearLayout
-        android:id="@+id/subLayout2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingHorizontal="16dp"
-        android:paddingBottom="16dp"
-        android:background="@color/white">
+        android:orientation="vertical">
 
+        <!-- NavBar -->
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="64dp">
+            android:layout_height="56dp"
+            android:background="@color/white">
 
-            <!-- 뒤로가기 버튼 (왼쪽 정렬) -->
             <ImageView
                 android:id="@+id/backBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:layout_gravity="start|center_vertical"
+                android:layout_marginStart="16dp"
+                android:padding="4dp"
                 app:srcCompat="@drawable/ic_back"
-                app:tint="@color/gnu_blue" />
+                app:tint="@color/text_primary"/>
 
-            <!-- 가운데 제목 텍스트 -->
             <TextView
-                android:id="@+id/noticeTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/notice_type_2"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:padding="8dp"
-                android:fontFamily="@font/pretendard_bold"
-                android:layout_gravity="center" />
-
-            <ImageView
-                android:id="@+id/searchButton"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:layout_gravity="end|center_vertical"
-                app:srcCompat="@drawable/searchicon"
-                app:tint="@color/gnu_blue"
-                />
+                android:layout_gravity="center"
+                android:text="공지사항"
+                android:textColor="@color/text_primary"
+                android:textSize="18sp"
+                android:fontFamily="@font/pretendard_bold"/>
 
         </FrameLayout>
 
+        <!-- NavBar bottom border -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/border_default"/>
+
+        <!-- 상단 탭: 학교 공지 | 학생회 공지 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="vertical"
-            android:padding="8dp">
+            android:background="@color/white"
+            android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:id="@+id/tabSchoolLayout"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="left"
-                android:text="@string/notice_council_description"
-                android:textSize="12sp"
-                android:fontFamily="@font/pretendard_regular"/>
+                android:orientation="vertical"
+                android:gravity="center"
+                android:paddingTop="12dp">
+
+                <TextView
+                    android:id="@+id/tabSchool"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="학교 공지"
+                    android:textSize="16sp"
+                    android:textColor="@color/text_tertiary"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:paddingBottom="10dp"/>
+
+                <View
+                    android:id="@+id/tabSchoolIndicator"
+                    android:layout_width="60dp"
+                    android:layout_height="3dp"
+                    android:background="@drawable/bg_tab_indicator"
+                    android:visibility="invisible"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/tabCouncilLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:paddingTop="12dp">
+
+                <TextView
+                    android:id="@+id/tabCouncil"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="학생회 공지"
+                    android:textSize="16sp"
+                    android:textColor="@color/text_primary"
+                    android:fontFamily="@font/pretendard_bold"
+                    android:paddingBottom="10dp"/>
+
+                <View
+                    android:id="@+id/tabCouncilIndicator"
+                    android:layout_width="60dp"
+                    android:layout_height="3dp"
+                    android:background="@drawable/bg_tab_indicator"
+                    android:visibility="visible"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
-<!--        공지 리스트 리싸이클러-->
+        <!-- 탭 하단 구분선 -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/border_default"/>
+
+        <!-- 검색창 -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_search_bar"
+            android:id="@+id/searchBarContainer">
+
+            <ImageView
+                android:id="@+id/searchIcon"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="start|center_vertical"
+                android:layout_marginStart="16dp"
+                app:srcCompat="@drawable/searchicon"
+                app:tint="@color/text_tertiary"/>
+
+            <TextView
+                android:id="@+id/searchHint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
+                android:layout_marginStart="40dp"
+                android:text="공지 검색"
+                android:textColor="@color/text_tertiary"
+                android:textSize="16sp"
+                android:fontFamily="@font/pretendard_regular"/>
+
+        </FrameLayout>
+
+        <!-- 공지 목록 RecyclerView -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/noticeRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="12dp"
             android:overScrollMode="never"
-            tools:listitem="@layout/fragment_notice_council" />
+            android:clipToPadding="false"
+            android:paddingBottom="80dp"/>
 
     </LinearLayout>
 
-<!--  공지 등록 버튼  -->
+    <!-- 공지 등록 버튼 (관리자 전용) -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/postNoticeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_marginBottom="40dp"
-        android:layout_marginRight="16dp"
-        android:outlineSpotShadowColor="@color/info_grey"
-        android:outlineAmbientShadowColor="@color/light_grey"
-        android:backgroundTint="@color/gnu_blue"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/primary_500"
         android:src="@drawable/ic_add"
-        app:shapeAppearanceOverlay="?attr/shapeAppearanceCornerExtraLarge"
         app:tint="@color/white"
         app:fabCustomSize="48dp"
         app:elevation="4dp"
         android:visibility="gone"/>
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

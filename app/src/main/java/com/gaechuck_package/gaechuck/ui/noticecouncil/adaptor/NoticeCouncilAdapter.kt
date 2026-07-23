@@ -3,14 +3,13 @@ package com.gaechuck_package.gaechuck.ui.noticecouncil.adaptor
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.gaechuck_package.gaechuck.R
 import com.gaechuck_package.gaechuck.api.AuthManager
 import com.gaechuck_package.gaechuck.data.response.GetCouncilNoticeDataResponse
@@ -27,13 +26,11 @@ class NoticeCouncilAdapter(
     private var filteredList: MutableList<GetCouncilNoticeDataResponse> = noticeList.toMutableList()
 
     class NoticeCouncilViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val imageContainer: FrameLayout = view.findViewById(R.id.imageContainer)
         val noticeImage: ImageView = view.findViewById(R.id.noticeImage)
-
         val noticeTitle: TextView = view.findViewById(R.id.noticeTitle)
         val noticeDescription: TextView = view.findViewById(R.id.noticeDescription)
         val noticeDate: TextView = view.findViewById(R.id.noticeDate)
-        val moreButton: ImageButton = view.findViewById(R.id.more_button)
+        val moreButton: View = view.findViewById(R.id.more_button)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoticeCouncilViewHolder {
@@ -47,50 +44,50 @@ class NoticeCouncilAdapter(
         val token = AuthManager.getToken()
 
         holder.noticeTitle.text = notice.title
-        holder.noticeDescription.text = notice.body
-        holder.noticeDate.text = formatNoticeDate(notice.time)
+        holder.noticeDescription.text = notice.body.take(80)
+        holder.noticeDate.text = formatDate(notice.time)
 
-        if (!notice.representationImages.isNullOrEmpty()) {
-
-            holder.imageContainer.visibility = View.VISIBLE
-            holder.noticeImage.visibility = View.VISIBLE
-
+        // Thumbnail image — always visible; show bg_muted placeholder when no URL
+        val imgUrl = notice.representationImages.trim()
+        if (imgUrl.isNotEmpty()) {
             Glide.with(holder.itemView.context)
-                .load(notice.representationImages)
+                .load(imgUrl)
+                .transition(DrawableTransitionOptions.withCrossFade())
                 .into(holder.noticeImage)
         } else {
-            holder.imageContainer.visibility = View.GONE
-//            holder.imagePlaceholder.visibility = View.VISIBLE
+            Glide.with(holder.itemView.context).clear(holder.noticeImage)
+            holder.noticeImage.setImageDrawable(null)
         }
 
-        // 수정하기 / 삭제하기
-        if (token.isNullOrEmpty()) {
-            holder.moreButton.visibility = View.INVISIBLE
-        } else {
-            holder.moreButton.visibility = View.VISIBLE
-        }
+        // Admin more button (hidden view — no UI button in new design, use long press instead)
+        holder.moreButton.visibility = View.GONE
 
-        holder.moreButton.setOnClickListener { view ->
-            val popup = PopupMenu(view.context, view)
-            popup.menuInflater.inflate(R.menu.etc_menu, popup.menu)
-
-            popup.setOnMenuItemClickListener { item ->
-                when (item.itemId) {
-                    R.id.menu_edit -> {
-                        onUpdateClick(notice.id)
-                        true
+        if (!token.isNullOrEmpty()) {
+            holder.itemView.setOnLongClickListener { v ->
+                val popup = PopupMenu(v.context, v)
+                popup.menuInflater.inflate(R.menu.etc_menu, popup.menu)
+                popup.setOnMenuItemClickListener { item ->
+                    when (item.itemId) {
+                        R.id.menu_edit -> { onUpdateClick(notice.id); true }
+                        R.id.menu_delete -> { onDeleteClick(notice.id); true }
+                        else -> false
                     }
-                    R.id.menu_delete -> {
-                        onDeleteClick(notice.id)
-                        true
-                    }
-                    else -> false
                 }
+                popup.show()
+                true
             }
-            popup.show()
         }
-        holder.itemView.setOnClickListener {
-            onItemClick(notice)
+
+        holder.itemView.setOnClickListener { onItemClick(notice) }
+    }
+
+    private fun formatDate(inputDate: String): String {
+        return try {
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+            val outputFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
+            outputFormat.format(inputFormat.parse(inputDate)!!)
+        } catch (e: Exception) {
+            inputDate
         }
     }
 
@@ -98,46 +95,26 @@ class NoticeCouncilAdapter(
         private val oldList: List<GetCouncilNoticeDataResponse>,
         private val newList: List<GetCouncilNoticeDataResponse>
     ) : DiffUtil.Callback() {
-        override fun getOldListSize(): Int = oldList.size
-        override fun getNewListSize(): Int = newList.size
-
-        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            return oldList[oldItemPosition].id == newList[newItemPosition].id
-        }
-
-        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            return oldList[oldItemPosition] == newList[newItemPosition]
-        }
+        override fun getOldListSize() = oldList.size
+        override fun getNewListSize() = newList.size
+        override fun areItemsTheSame(old: Int, new: Int) = oldList[old].id == newList[new].id
+        override fun areContentsTheSame(old: Int, new: Int) = oldList[old] == newList[new]
     }
 
     override fun getItemCount(): Int = filteredList.size
 
-    fun removeNotice(noticeId: Int) {
-        val position = noticeList.indexOfFirst { it.id == noticeId }
-        if (position != -1) {
-            noticeList.removeAt(position)
-            notifyItemRemoved(position)
-            notifyItemRangeChanged(position, noticeList.size)
-        }
-    }
-
     fun updateData(newList: List<GetCouncilNoticeDataResponse>) {
-        val diffCallback = NoticeDiffCallback(filteredList, newList)
-        val diffResult = DiffUtil.calculateDiff(diffCallback)
-
+        val diff = DiffUtil.calculateDiff(NoticeDiffCallback(filteredList, newList))
         filteredList.clear()
         filteredList.addAll(newList)
-        diffResult.dispatchUpdatesTo(this)
+        diff.dispatchUpdatesTo(this)
     }
 
-    private fun formatNoticeDate(inputDate: String): String {
-        return try {
-            val inputFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-            val outputFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
-            val date = inputFormat.parse(inputDate)
-            outputFormat.format(date)
-        } catch (e: Exception) {
-            inputDate
+    fun removeNotice(noticeId: Int) {
+        val pos = filteredList.indexOfFirst { it.id == noticeId }
+        if (pos != -1) {
+            filteredList.removeAt(pos)
+            notifyItemRemoved(pos)
         }
     }
 }
