@@ -1,45 +1,37 @@
 package com.gaechuck_package.gaechuck.ui.lose
 
-import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
-import androidx.viewpager2.widget.ViewPager2
+import androidx.recyclerview.widget.GridLayoutManager
 import com.gaechuck_package.gaechuck.R
 import com.gaechuck_package.gaechuck.data.response.LoseList
 import com.gaechuck_package.gaechuck.databinding.FragmentLoseMainBinding
 import com.gaechuck_package.gaechuck.repository.LoseRepository
-import com.gaechuck_package.gaechuck.ui.lose.adapter.LoseAdapter
+import com.gaechuck_package.gaechuck.ui.lose.adapter.LoseListAdapter
 import com.gaechuck_package.gaechuck.ui.lose.viewmodel.LoseViewModel
-import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 
-class LoseMainFragment : Fragment(R.layout.fragment_lose_main), LoseAdapter.OnLoseItemClickListener {
+class LoseMainFragment : Fragment(R.layout.fragment_lose_main) {
     private lateinit var binding: FragmentLoseMainBinding
     private lateinit var viewModel: LoseViewModel
-    private lateinit var loseAdapter: LoseAdapter
+    private lateinit var loseListAdapter: LoseListAdapter
 
-    private lateinit var viewPager: ViewPager2
-    private lateinit var indicator: WormDotsIndicator
-
-    private var isFabOpen = false
-    private var isLoading = false
-    private var loadedPages = mutableSetOf<Int>() // 로드된 페이지 추적
-
-    private var currentPage = 0
-
+    private var selectedCategory = "전체"
+    private var allItems: List<LoseList> = emptyList()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // binding을 초기화하는 부분 추가
         binding = FragmentLoseMainBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -52,170 +44,114 @@ class LoseMainFragment : Fragment(R.layout.fragment_lose_main), LoseAdapter.OnLo
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //
         val repository = LoseRepository()
         val viewModelFactory = LoseViewModel.LoseViewModelFactory(repository)
         viewModel = ViewModelProvider(this, viewModelFactory).get(LoseViewModel::class.java)
 
-        // 로그인 상태 확인
-        viewModel.checkLoginStatus()
-        viewModel.isLoggedIn.observe(viewLifecycleOwner, Observer { isLoggedIn ->
-            binding.writeBtn.visibility = if (isLoggedIn) View.VISIBLE else View.GONE
-        })
-
-        // LoseActivity의 Toolbar 업데이트
-        (activity as? LoseActivity)?.updateToolbar(
-            title = getString(R.string.bar_lose), // 제목 설정
-            showBackButton = true, // 뒤로가기 버튼 표시
-            showHomeButton = false, // 홈 버튼 표시
-            showEtcButton = false,
-            showSearchButton = true,
-        )
-
-        viewPager = view.findViewById(R.id.view_pager)
-        indicator = view.findViewById(R.id.image_indicator)
-//
-//        loseAdapter = LoseAdapter(mutableListOf(), 9, 0,this)
-//        viewPager.adapter = loseAdapter
-//
-//        // ViewModel 데이터 관찰
-//
-//        viewModel.loseList.observe(viewLifecycleOwner) { loseList ->
-//            if (loseList.isNotEmpty()) {
-//                val totalPages = viewModel.totalPages.value ?: 1
-//                loseAdapter.updateData(loseList, totalPages)
-//                indicator.attachTo(viewPager)
-//            } else {
-//                Log.d("LoseMainFragment", "loseList is empty.")
-//            }
-//            isLoading = false
-//        }
-//
-//        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-//            override fun onPageSelected(position: Int) {
-//                super.onPageSelected(position)
-//                if (position == loseAdapter.itemCount - 1 && !isLoading) {
-//                    isLoading = true
-//                    currentPage++
-//                    viewModel.loadLoseData(currentPage)
-//                }
-//            }
-//        })
-
-
-
-//        viewModel.totalPages.observe(viewLifecycleOwner) { totalPages ->
-//            loseAdapter.updateData(viewModel.loseList.value.orEmpty(), totalPages)
-//            indicator.attachTo(viewPager)
-//        }
-//
-//        // 작성하기, url 수정하기 버튼
-//        binding.writeBtn.setOnClickListener {
-//            val intent = Intent(activity, LoseWriteActivity::class.java)
-//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-//            startActivity(intent)
-//        }
-//        binding.urlBtn.setOnClickListener {
-//            val intent = Intent(activity, LoseUrlChangeActivity::class.java)
-//            intent.putExtra("chatName", "분실물")
-//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-//            startActivity(intent)
-//        }
-
-        setupViewPager()
+        setupRecyclerView()
+        setupSearch()
+        setupCategoryChips()
         setupObservers()
-        setupClickListeners()
 
-        // 초기 데이터 로드
-        loadedPages.add(0)
+        viewModel.checkLoginStatus()
         viewModel.loadLoseData(0)
-
         viewModel.LoseDetailRetrofit("분실물")
-
     }
 
-    private fun setupViewPager() {
-        loseAdapter = LoseAdapter(mutableListOf(), 9, 1, this) // 초기 totalPages를 1로 설정
-        viewPager.adapter = loseAdapter
+    private fun setupRecyclerView() {
+        loseListAdapter = LoseListAdapter(emptyList()) { item ->
+            val action = LoseMainFragmentDirections.actionLoseMainFragmentRoLoseDetailFragment(item.lostItemId)
+            view?.findNavController()?.navigate(action)
+        }
+        binding.loseRecyclerView.apply {
+            layoutManager = GridLayoutManager(requireContext(), 2)
+            adapter = loseListAdapter
+        }
+    }
 
-        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-                Log.d("LoseMainFragment", "ViewPager position selected: $position")
-
-                val totalPages = viewModel.totalPages.value ?: 1
-                Log.d("LoseMainFragment", "Current adapter pages: ${loseAdapter.itemCount}, Total API pages: $totalPages")
-
-                // 현재 position에 해당하는 API 페이지가 아직 로드되지 않았다면 로드
-                if (!loadedPages.contains(position) && position < totalPages && !isLoading) {
-                    isLoading = true
-                    loadedPages.add(position)
-                    Log.d("LoseMainFragment", "Loading API page: $position")
-                    viewModel.loadLoseData(position)
-                }
-
-                // 다음 페이지 미리 로드 (옵션)
-                val nextPage = position + 1
-                if (!loadedPages.contains(nextPage) && nextPage < totalPages && !isLoading) {
-                    loadedPages.add(nextPage)
-                    Log.d("LoseMainFragment", "Pre-loading next API page: $nextPage")
-                    viewModel.loadLoseData(nextPage)
-                }
+    private fun setupSearch() {
+        binding.searchEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                val hasText = !s.isNullOrEmpty()
+                binding.searchClearBtn.visibility = if (hasText) View.VISIBLE else View.GONE
+                applyFilter(s?.toString() ?: "", selectedCategory)
             }
         })
+
+        binding.searchClearBtn.setOnClickListener {
+            binding.searchEditText.setText("")
+        }
+    }
+
+    private fun setupCategoryChips() {
+        val chips = listOf(
+            binding.chipAll to "전체",
+            binding.chipElectronics to "전자기기",
+            binding.chipWallet to "지갑·카드",
+            binding.chipClothes to "의류",
+            binding.chipOthers to "기타"
+        )
+        chips.forEach { (chip, category) ->
+            chip.setOnClickListener {
+                selectedCategory = category
+                updateChipUi(chips, category)
+                applyFilter(binding.searchEditText.text.toString(), category)
+            }
+        }
+    }
+
+    private fun updateChipUi(chips: List<Pair<TextView, String>>, selected: String) {
+        chips.forEach { (chip, category) ->
+            if (category == selected) {
+                chip.setBackgroundResource(R.drawable.bg_lose_chip_selected)
+                chip.setTextColor(Color.parseColor("#005478"))
+            } else {
+                chip.setBackgroundResource(R.drawable.bg_lose_chip_unselected)
+                chip.setTextColor(Color.parseColor("#999999"))
+            }
+        }
+    }
+
+    private fun applyFilter(query: String, category: String) {
+        var filtered = allItems
+        if (category != "전체" && category != "기타") {
+            val keywords = categoryKeywords(category)
+            filtered = filtered.filter { item ->
+                keywords.any { kw -> item.title.contains(kw, ignoreCase = true) }
+            }
+        }
+        if (query.isNotEmpty()) {
+            filtered = filtered.filter { it.title.contains(query, ignoreCase = true) }
+        }
+        loseListAdapter.updateItems(filtered)
+        binding.emptyState.visibility = if (filtered.isEmpty()) View.VISIBLE else View.GONE
+        binding.loseRecyclerView.visibility = if (filtered.isEmpty()) View.GONE else View.VISIBLE
+    }
+
+    private fun categoryKeywords(category: String) = when (category) {
+        "전자기기" -> listOf("핸드폰", "폰", "노트북", "아이패드", "이어폰", "갤럭시", "아이폰", "충전기", "태블릿", "맥북", "카메라")
+        "지갑·카드" -> listOf("지갑", "카드", "학생증", "신분증", "통장")
+        "의류" -> listOf("옷", "자켓", "점퍼", "모자", "신발", "가방", "코트", "패딩", "우산", "후드")
+        else -> emptyList()
     }
 
     private fun setupObservers() {
-        // 전체 페이지 수가 업데이트될 때
-        viewModel.totalPages.observe(viewLifecycleOwner) { totalPages ->
-            Log.d("LoseMainFragment", "Total pages updated: $totalPages")
-            val currentData = viewModel.loseList.value.orEmpty()
-            loseAdapter.updateData(currentData, totalPages)
-            indicator.attachTo(viewPager)
+        viewModel.isLoggedIn.observe(viewLifecycleOwner) { isLoggedIn ->
+            (activity as? LoseActivity)?.updateToolbar(
+                title = getString(R.string.bar_lose),
+                showBackButton = true,
+                showHomeButton = false,
+                showEtcButton = false,
+                showSearchButton = false,
+                showWriteButton = isLoggedIn
+            )
         }
 
-        // 데이터가 업데이트될 때
         viewModel.loseList.observe(viewLifecycleOwner) { loseList ->
-            Log.d("LoseMainFragment", "Data updated - Total items: ${loseList.size}")
-
-            if (loseList.isNotEmpty()) {
-                val totalPages = viewModel.totalPages.value ?: 1
-                loseAdapter.updateData(loseList, totalPages)
-                indicator.attachTo(viewPager)
-
-                // 각 페이지별 아이템 수 로그
-                for (page in 0 until totalPages) {
-                    val start = page * 9
-                    val end = minOf(start + 9, loseList.size)
-                    val pageItems = if (start < loseList.size) loseList.subList(start, end) else emptyList()
-                    Log.d("LoseMainFragment", "Page $page has ${pageItems.size} items")
-                }
-            } else {
-                Log.d("LoseMainFragment", "loseList is empty.")
-            }
-            isLoading = false
+            allItems = loseList
+            applyFilter(binding.searchEditText.text.toString(), selectedCategory)
         }
     }
-
-    private fun setupClickListeners() {
-        binding.writeBtn.setOnClickListener {
-            val intent = Intent(activity, LoseWriteActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(intent)
-        }
-
-        binding.urlBtn.setOnClickListener {
-            val intent = Intent(activity, LoseUrlChangeActivity::class.java)
-            intent.putExtra("chatName", "분실물")
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(intent)
-        }
-    }
-
-    // 네비게이션 처리
-    override fun onLoseItemClick(item: LoseList) {
-        val action = LoseMainFragmentDirections.actionLoseMainFragmentRoLoseDetailFragment(item.lostItemId)
-        view?.findNavController()?.navigate(action)
-    }
-
 }
