@@ -12,6 +12,27 @@
         <item name="android:state_checked">true</item>
     </style>
 
+    <style name="switch_brand2">
+        <item name="thumbTint">@color/white</item>
+        <item name="trackTint">@color/switch_track_tint_brand2</item>
+    </style>
+
+    <style name="SettingSectionTitle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textColor">@color/black_1</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="SettingSubTitle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+        <item name="android:textColor">@color/text_secondary_2</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
     <style name="custom_chip_style">
         <item name="backgroundTint">@color/white</item>
 

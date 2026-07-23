@@ -23,4 +23,65 @@
     
     <color name="lables_secondary">#3C3C43</color>
     <color name="divider_color">#1A8A8D8F</color>
+
+    <color name="onboarding_blue_start">#1B4FFF</color>
+    <color name="onboarding_blue_end">#0E30CC</color>
+    <color name="onboarding_green_start">#1AD0AA</color>
+    <color name="onboarding_green_end">#0E997A</color>
+    <color name="onboarding_purple_start">#8B7BFF</color>
+    <color name="onboarding_purple_end">#5947E0</color>
+    <color name="onboarding_bg">#F2F4F7</color>
+    <color name="onboarding_text_primary">#1A1A1A</color>
+    <color name="onboarding_text_secondary">#666E7A</color>
+
+    <!-- Renewal design system -->
+    <color name="renewal_primary">#0047AB</color>
+    <color name="renewal_primary_dark">#2B7EC4</color>
+    <color name="renewal_bg_start">#C4D9F1</color>
+    <color name="renewal_bg_end">#EDF5FB</color>
+    <color name="renewal_text_primary">#1A1A1A</color>
+    <color name="renewal_text_secondary">#6B7280</color>
+    <color name="renewal_hint">#9CA3AF</color>
+    <color name="renewal_border">#E5E7EB</color>
+    <color name="renewal_btn_disabled">#E0E5EC</color>
+    <color name="renewal_timer_blue">#4E96DC</color>
+
+    <color name="bg_cafeteria">#EFF7FB</color>
+
+    <!-- Figma renewal design system tokens -->
+    <color name="primary_500">#003C7E</color>
+    <color name="primary_50">#E6EEF7</color>
+    <color name="accent_500">#FF8C00</color>
+    <color name="bg_subtle">#F7F8FA</color>
+    <color name="bg_muted">#F1F2F4</color>
+    <color name="text_primary">#111827</color>
+    <color name="text_secondary">#4B5563</color>
+    <color name="text_tertiary">#9CA3AF</color>
+    <color name="border_default">#E5E7EB</color>
+    <color name="error_500">#EF4444</color>
+
+    <!-- Lose feature colors (Figma renewal) -->
+    <color name="lose_chip_bg">#F0F1F2</color>
+    <color name="lose_border">#B2B8C2</color>
+    <color name="lose_status_finding_bg">#FCEDED</color>
+    <color name="lose_status_finding_text">#ED4040</color>
+    <color name="lose_status_done_bg">#E1F9F3</color>
+    <color name="lose_status_done_text">#1AD0AA</color>
+
+    <!-- Lose feature - correct Figma renewal colors -->
+    <color name="lose_chip_selected">#005478</color>
+    <color name="lose_chip_unselected">#999999</color>
+    <color name="lose_card_location">#767676</color>
+    <color name="lose_info_text">#505050</color>
+    <color name="lose_search_border">#E5E5EC</color>
+    <color name="lose_inquiry_btn">#38A0CE</color>
+    <color name="lose_detail_label">#111111</color>
+
+    <!-- Club / MyPage / Setting shared renewal tokens -->
+    <color name="brand_2">#005478</color>
+    <color name="brand_2_light">#75D5FF</color>
+    <color name="red_alert">#FB1616</color>
+    <color name="text_secondary_2">#505050</color>
+    <color name="club_badge_recruiting_bg">#2675D5FF</color>
+    <color name="club_badge_neutral_bg">#F1F3F5</color>
 </resources>
