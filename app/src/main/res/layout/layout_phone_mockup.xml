@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFFFFF">
+
+    <!-- 가짜 상태바 -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="14dp"
+        android:background="#F8FAFC"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|start"
+            android:text="9:41"
+            android:textSize="6sp"
+            android:fontFamily="@font/pretendard_bold"
+            android:textColor="#1A1A1A"/>
+    </FrameLayout>
+
+    <!-- 헤더 (아바타 + 이름) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:orientation="horizontal"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:gravity="center_vertical">
+
+        <FrameLayout
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/bg_renewal_btn_primary">
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginStart="5dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="김개척님"
+                android:textSize="7sp"
+                android:fontFamily="@font/pretendard_bold"
+                android:textColor="#1A1A1A"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="GNU Campus App"
+                android:textSize="5sp"
+                android:fontFamily="@font/pretendard_regular"
+                android:textColor="#9CA3AF"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 인사말 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="5dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="안녕하세요, 김개척님"
+            android:textSize="8sp"
+            android:fontFamily="@font/pretendard_bold"
+            android:textColor="#1A1A1A"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="오늘도 개척과 함께 하세요"
+            android:textSize="5sp"
+            android:fontFamily="@font/pretendard_regular"
+            android:textColor="#9CA3AF"
+            android:layout_marginTop="1dp"/>
+    </LinearLayout>
+
+    <!-- 구분선 -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#F3F4F6"
+        android:layout_marginBottom="4dp"/>
+
+    <!-- 메뉴 아이콘 행 1 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingStart="2dp"
+        android:paddingEnd="2dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="4dp">
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/ic_menu_food"
+                android:scaleType="fitCenter"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="식당 안내"
+                android:textSize="5sp"
+                android:fontFamily="@font/pretendard_regular"
+                android:textColor="#6B7280"
+                android:layout_marginTop="2dp"
+                android:gravity="center"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="4dp">
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/ic_menu_campus_map"
+                android:scaleType="fitCenter"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="캠퍼스 맵"
+                android:textSize="5sp"
+                android:fontFamily="@font/pretendard_regular"
+                android:textColor="#6B7280"
+                android:layout_marginTop="2dp"
+                android:gravity="center"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="4dp">
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/ic_menu_rent"
+                android:scaleType="fitCenter"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="물품 대여"
+                android:textSize="5sp"
+                android:fontFamily="@font/pretendard_regular"
+                android:textColor="#6B7280"
+                android:layout_marginTop="2dp"
+                android:gravity="center"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="4dp">
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/ic_menu_notice"
+                android:scaleType="fitCenter"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="공지"
+                android:textSize="5sp"
+                android:fontFamily="@font/pretendard_regular"
+                android:textColor="#6B7280"
+                android:layout_marginTop="2dp"
+                android:gravity="center"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- 메뉴 아이콘 행 2 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingStart="2dp"
+        android:paddingEnd="2dp"
+        android:layout_marginBottom="4dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="4dp">
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/ic_menu_business"
+                android:scaleType="fitCenter"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="제휴사업"
+                android:textSize="5sp"
+                android:fontFamily="@font/pretendard_regular"
+                android:textColor="#6B7280"
+                android:layout_marginTop="2dp"
+                android:gravity="center"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="4dp">
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/ic_menu_bus"
+                android:scaleType="fitCenter"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="버스노선"
+                android:textSize="5sp"
+                android:fontFamily="@font/pretendard_regular"
+                android:textColor="#6B7280"
+                android:layout_marginTop="2dp"
+                android:gravity="center"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="4dp">
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/ic_menu_lose"
+                android:scaleType="fitCenter"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="분실물"
+                android:textSize="5sp"
+                android:fontFamily="@font/pretendard_regular"
+                android:textColor="#6B7280"
+                android:layout_marginTop="2dp"
+                android:gravity="center"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="4dp">
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/ic_menu_club"
+                android:scaleType="fitCenter"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="동아리"
+                android:textSize="5sp"
+                android:fontFamily="@font/pretendard_regular"
+                android:textColor="#6B7280"
+                android:layout_marginTop="2dp"
+                android:gravity="center"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- 구분선 -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#F3F4F6"
+        android:layout_marginBottom="4dp"/>
+
+    <!-- 빠른 정보 -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="빠른 정보"
+        android:textSize="7sp"
+        android:fontFamily="@font/pretendard_bold"
+        android:textColor="#1A1A1A"
+        android:paddingStart="8dp"
+        android:paddingBottom="4dp"/>
+
+    <!-- 빠른 정보 카드 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:background="#F8FAFC"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:padding="6dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="천원의 아침밥"
+                    android:textSize="6sp"
+                    android:fontFamily="@font/pretendard_bold"
+                    android:textColor="#1A1A1A"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="7:00-9:00"
+                    android:textSize="5sp"
+                    android:fontFamily="@font/pretendard_regular"
+                    android:textColor="#9CA3AF"
+                    android:layout_marginTop="1dp"/>
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

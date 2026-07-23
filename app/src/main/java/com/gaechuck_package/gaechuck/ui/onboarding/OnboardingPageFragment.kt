@@ -1,0 +1,49 @@
+package com.gaechuck_package.gaechuck.ui.onboarding
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import com.gaechuck_package.gaechuck.databinding.FragmentOnboardingPageBinding
+
+class OnboardingPageFragment : Fragment() {
+
+    private var _binding: FragmentOnboardingPageBinding? = null
+    private val binding get() = _binding!!
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentOnboardingPageBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val position = arguments?.getInt(ARG_POSITION) ?: 0
+        val item = OnboardingItem.ITEMS[position]
+
+        binding.tvTitle.text = item.title
+        binding.tvSubtitle.text = item.subtitle
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    companion object {
+        private const val ARG_POSITION = "position"
+
+        fun newInstance(position: Int): OnboardingPageFragment {
+            return OnboardingPageFragment().apply {
+                arguments = Bundle().apply {
+                    putInt(ARG_POSITION, position)
+                }
+            }
+        }
+    }
+}

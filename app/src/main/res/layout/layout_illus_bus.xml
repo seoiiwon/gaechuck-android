@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 온보딩 2페이지: 버스 카드 일러스트 (흰색 단색 카드) -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="210dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:background="@drawable/bg_illus_bus_card"
+    android:paddingStart="24dp"
+    android:paddingEnd="24dp"
+    android:paddingTop="20dp"
+    android:paddingBottom="22dp">
+
+    <!-- 버스 이모지 -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="🚌"
+        android:textSize="50sp"
+        android:gravity="center"/>
+
+    <!-- 노선 -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="가좌  →  칠암"
+        android:textSize="15sp"
+        android:fontFamily="@font/pretendard_bold"
+        android:textColor="#1A1A1A"
+        android:gravity="center"
+        android:layout_marginTop="10dp"/>
+
+    <!-- LIVE 배지 -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/bg_live_badge"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:layout_marginTop="10dp">
+
+        <View
+            android:layout_width="6dp"
+            android:layout_height="6dp"
+            android:background="@drawable/circle_bg_white"
+            android:backgroundTint="#22C55E"
+            android:layout_marginEnd="5dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="LIVE"
+            android:textSize="11sp"
+            android:fontFamily="@font/pretendard_bold"
+            android:textColor="#22C55E"/>
+    </LinearLayout>
+
+    <!-- 도착 시간 -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="8분 후 도착"
+        android:textSize="14sp"
+        android:fontFamily="@font/pretendard_semibold"
+        android:textColor="#1A1A1A"
+        android:gravity="center"
+        android:layout_marginTop="8dp"/>
+
+</LinearLayout>

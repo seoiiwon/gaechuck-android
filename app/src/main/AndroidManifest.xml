@@ -22,12 +22,21 @@
         android:usesCleartextTraffic="true"
         android:networkSecurityConfig="@xml/network_security_config"
         android:name=".Gaechuck">
-        <activity android:name=".MainActivity" android:exported="true">
+        <activity
+            android:name=".ui.splash.SplashActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Gaechuck">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.onboarding.OnboardingActivity"/>
+        <activity android:name=".ui.auth.AuthActivity"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".ui.auth.signup.SignupActivity"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".MainActivity"/>
         <activity android:name=".ui.setting.SettingActivity"/>
         <activity android:name=".ui.termsofuse.TermsOfUseActivity"/>
         <activity android:name=".ui.business.BusinessActivity"/>
@@ -45,6 +54,9 @@
 
         <activity android:name=".ui.lose.LoseActivity"/>
         <activity android:name=".ui.login.LoginActivity"/>
+        <activity android:name=".ui.club.ClubActivity"/>
+        <activity android:name=".ui.mypage.MyPageActivity"/>
+        <activity android:name=".ui.mypage.ProfileEditActivity"/>
         <activity
             android:name=".ui.business.BusinessWriteActivity"
             android:windowSoftInputMode="adjustPan"/>
