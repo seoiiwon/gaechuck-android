@@ -3,7 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_signup"
-    app:startDestination="@id/signupInfoFragment">
+    app:startDestination="@id/signupProfileFragment">
+
+    <fragment
+        android:id="@+id/signupProfileFragment"
+        android:name="com.gaechuck_package.gaechuck.ui.auth.signup.SignupProfileFragment"
+        android:label="회원가입"
+        tools:layout="@layout/fragment_signup_profile">
+        <action
+            android:id="@+id/action_profile_to_info"
+            app:destination="@id/signupInfoFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
 
     <fragment
         android:id="@+id/signupInfoFragment"
@@ -25,21 +39,7 @@
         android:label="학교 이메일 인증"
         tools:layout="@layout/fragment_signup_email">
         <action
-            android:id="@+id/action_email_to_verify"
-            app:destination="@id/signupVerifyFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"/>
-    </fragment>
-
-    <fragment
-        android:id="@+id/signupVerifyFragment"
-        android:name="com.gaechuck_package.gaechuck.ui.auth.signup.SignupVerifyFragment"
-        android:label="인증번호 확인"
-        tools:layout="@layout/fragment_signup_verify">
-        <action
-            android:id="@+id/action_verify_to_complete"
+            android:id="@+id/action_email_to_complete"
             app:destination="@id/signupCompleteFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"/>

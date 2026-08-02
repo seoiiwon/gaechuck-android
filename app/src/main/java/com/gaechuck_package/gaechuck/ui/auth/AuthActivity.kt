@@ -60,12 +60,17 @@ class AuthActivity : AppCompatActivity() {
         val pwFilled = binding.etPassword.text.isNotEmpty()
         val enabled = idFilled && pwFilled
         binding.btnLogin.setBackgroundResource(
-            if (enabled) R.drawable.bg_renewal_btn_primary else R.drawable.bg_renewal_btn_disabled
+            if (enabled) R.drawable.bg_signup_btn_primary else R.drawable.bg_signup_btn_disabled
+        )
+        binding.btnLogin.setTextColor(
+            resources.getColor(if (enabled) R.color.white else R.color.grey, null)
         )
         binding.btnLogin.isEnabled = enabled
     }
 
     private fun setupButtons() {
+        binding.btnBack.setOnClickListener { finish() }
+
         binding.btnLogin.setOnClickListener {
             navigateToMain()
         }

@@ -82,6 +82,13 @@
     <color name="brand_2_light">#75D5FF</color>
     <color name="red_alert">#FB1616</color>
     <color name="text_secondary_2">#505050</color>
+    <color name="switch_track_off">#CCCCCC</color>
     <color name="club_badge_recruiting_bg">#2675D5FF</color>
     <color name="club_badge_neutral_bg">#F1F3F5</color>
+
+    <!-- Signup/Auth renewal (Figma 2026) -->
+    <color name="signup_border">#E5E5EC</color>
+    <color name="signup_btn_disabled_bg">#F1F3F5</color>
+    <color name="signup_divider">#CCCCCC</color>
+    <color name="signup_headline_blue">#38A0CE</color>
 </resources>

@@ -76,6 +76,8 @@
                 <include
                     android:id="@+id/toggle_univ_notice"
                     layout="@layout/row_setting_toggle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="4dp" />
 
             </LinearLayout>
@@ -90,6 +92,7 @@
                 android:id="@+id/toggle_dark_mode"
                 layout="@layout/row_setting_toggle"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="12dp" />
 
             <!-- 빠른 정보 커스텀 -->
@@ -116,11 +119,15 @@
                 <include
                     android:id="@+id/toggle_gajwa_culture"
                     layout="@layout/row_setting_toggle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="4dp" />
 
                 <include
                     android:id="@+id/toggle_gajwa_central"
                     layout="@layout/row_setting_toggle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="4dp" />
 
             </LinearLayout>
@@ -143,6 +150,8 @@
                 <include
                     android:id="@+id/toggle_chiram_central"
                     layout="@layout/row_setting_toggle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="4dp" />
 
             </LinearLayout>

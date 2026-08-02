@@ -6,7 +6,10 @@ import android.widget.CompoundButton
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProvider
+import com.gaechuck_package.gaechuck.MainActivity
+import com.gaechuck_package.gaechuck.api.AuthManager
 import com.gaechuck_package.gaechuck.databinding.ActivitySettingBinding
 import com.gaechuck_package.gaechuck.databinding.RowSettingToggleBinding
 import com.gaechuck_package.gaechuck.repository.SettingRepository
@@ -41,7 +44,7 @@ class SettingActivity : AppCompatActivity() {
             binding.toggleUnivNotice, "교내 공지", "교내 실시간 공지 알람을 받습니다",
             SettingRepository.KEY_UNIV_NOTICE
         )
-        bindToggleRow(binding.toggleDarkMode, "다크모드", null, SettingRepository.KEY_DARK_MODE)
+        bindDarkModeRow(binding.toggleDarkMode)
 
         bindQuickInfoRow(binding.toggleGajwaStaff, "교직원 식당", SettingRepository.KEY_GAJWA_STAFF)
         bindQuickInfoRow(binding.toggleGajwaCulture, "교육문화센터식당", SettingRepository.KEY_GAJWA_CULTURE)
@@ -68,6 +71,17 @@ class SettingActivity : AppCompatActivity() {
         }
     }
 
+    private fun bindDarkModeRow(row: RowSettingToggleBinding) {
+        row.rowLabel.text = "다크모드"
+        row.rowSwitch.isChecked = viewModel.isEnabled(SettingRepository.KEY_DARK_MODE)
+        row.rowSwitch.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.setEnabled(SettingRepository.KEY_DARK_MODE, isChecked)
+            AppCompatDelegate.setDefaultNightMode(
+                if (isChecked) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
+            )
+        }
+    }
+
     private fun bindQuickInfoRow(row: RowSettingToggleBinding, label: String, key: String) {
         row.rowLabel.text = label
         row.rowSwitch.isChecked = viewModel.isEnabled(key)
@@ -91,8 +105,14 @@ class SettingActivity : AppCompatActivity() {
             .setTitle("회원 탈퇴")
             .setMessage("정말 탈퇴하시겠습니까?")
             .setPositiveButton("탈퇴") { dialog, _ ->
-                Toast.makeText(this, "탈퇴가 접수되었습니다", Toast.LENGTH_SHORT).show()
                 dialog.dismiss()
+                Toast.makeText(this, "탈퇴가 접수되었습니다", Toast.LENGTH_SHORT).show()
+                AuthManager.clearTokens()
+                val intent = Intent(this, MainActivity::class.java).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                }
+                startActivity(intent)
+                finish()
             }
             .setNegativeButton("취소") { dialog, _ -> dialog.dismiss() }
             .show()

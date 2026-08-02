@@ -72,7 +72,7 @@ class ProfileEditActivity : AppCompatActivity() {
                 binding.nicknameHint.setTextColor(
                     ContextCompat.getColor(
                         this@ProfileEditActivity,
-                        if (isValid || value.isEmpty()) R.color.text_secondary_2 else R.color.red_alert
+                        if (isValid || value.isEmpty()) R.color.info_grey else R.color.red_alert
                     )
                 )
             }
@@ -88,10 +88,11 @@ class ProfileEditActivity : AppCompatActivity() {
         binding.nicknameEditText.isFocusable = true
         binding.nicknameEditText.isFocusableInTouchMode = true
         binding.nicknameEditText.requestFocus()
+        binding.nicknameEditText.setBackgroundResource(R.drawable.bg_profile_edit_field_active)
         binding.nicknameEditText.setTextColor(ContextCompat.getColor(this, R.color.black_1))
         binding.nicknameEditText.setSelection(binding.nicknameEditText.text?.length ?: 0)
         binding.nicknameHint.visibility = android.view.View.VISIBLE
-        binding.nicknameHint.setTextColor(ContextCompat.getColor(this, R.color.text_secondary_2))
+        binding.nicknameHint.setTextColor(ContextCompat.getColor(this, R.color.info_grey))
         binding.saveButton.visibility = android.view.View.VISIBLE
 
         val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
@@ -102,7 +103,8 @@ class ProfileEditActivity : AppCompatActivity() {
         isEditingNickname = false
         binding.nicknameEditText.isFocusable = false
         binding.nicknameEditText.isFocusableInTouchMode = false
-        binding.nicknameEditText.setTextColor(ContextCompat.getColor(this, R.color.text_secondary_2))
+        binding.nicknameEditText.setBackgroundResource(R.drawable.bg_profile_edit_field)
+        binding.nicknameEditText.setTextColor(ContextCompat.getColor(this, R.color.grey))
         binding.nicknameHint.visibility = android.view.View.GONE
         binding.saveButton.visibility = android.view.View.GONE
 

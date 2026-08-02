@@ -20,6 +20,8 @@ class SignupCompleteFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        (requireActivity() as SignupActivity).hideStepHeader()
+
         // 2초 후 자동으로 로그인 화면으로 이동
         view.postDelayed({
             if (isAdded) {
