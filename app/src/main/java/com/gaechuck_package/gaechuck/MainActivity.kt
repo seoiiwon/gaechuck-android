@@ -11,6 +11,7 @@ import androidx.core.view.updatePadding
 import com.gaechuck_package.gaechuck.api.AuthManager
 import com.gaechuck_package.gaechuck.databinding.ActivityMainBinding
 import com.gaechuck_package.gaechuck.repository.CafeteriaMenuRepository
+import com.gaechuck_package.gaechuck.ui.auth.AuthActivity
 import com.gaechuck_package.gaechuck.ui.bus.BusRouteActivity
 import com.gaechuck_package.gaechuck.ui.business.BusinessActivity
 import com.gaechuck_package.gaechuck.ui.club.ClubActivity
@@ -97,8 +98,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupTopBar() {
         binding.loginArea.setOnClickListener {
-            startActivity(Intent(this, LoginActivity::class.java))
-    }
+            startActivity(Intent(this, AuthActivity::class.java))
+        }
         val dialogFragment = DialogFragment(this)
         binding.alarmBtn.setOnClickListener {
             dialogFragment.show()
