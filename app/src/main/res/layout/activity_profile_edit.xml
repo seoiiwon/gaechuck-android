@@ -131,7 +131,7 @@
         android:background="@drawable/bg_profile_edit_field"
         android:paddingHorizontal="12dp"
         android:fontFamily="@font/pretendard_medium"
-        android:textColor="@color/text_secondary_2"
+        android:textColor="@color/grey"
         android:textColorHint="@color/grey"
         android:textSize="14sp"
         android:focusable="false"
@@ -151,7 +151,7 @@
         android:layout_marginHorizontal="24dp"
         android:fontFamily="@font/pretendard_regular"
         android:text="한글, 영어 포함 6자 이내로 작성해주세요"
-        android:textColor="@color/text_secondary_2"
+        android:textColor="@color/info_grey"
         android:textSize="12sp"
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/nickname_edit_text"
@@ -193,7 +193,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/pretendard_medium"
-            android:textColor="@color/text_secondary_2"
+            android:textColor="@color/grey"
             android:textSize="14sp"
             tools:text="컴퓨터공학부" />
 
@@ -238,7 +238,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/pretendard_medium"
-            android:textColor="@color/text_secondary_2"
+            android:textColor="@color/grey"
             android:textSize="14sp"
             tools:text="3" />
 
