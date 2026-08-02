@@ -11,6 +11,7 @@ import androidx.core.view.updatePadding
 import com.gaechuck_package.gaechuck.api.AuthManager
 import com.gaechuck_package.gaechuck.databinding.ActivityMainBinding
 import com.gaechuck_package.gaechuck.repository.CafeteriaMenuRepository
+import com.gaechuck_package.gaechuck.repository.SettingRepository
 import com.gaechuck_package.gaechuck.ui.auth.AuthActivity
 import com.gaechuck_package.gaechuck.ui.bus.BusRouteActivity
 import com.gaechuck_package.gaechuck.ui.business.BusinessActivity
@@ -123,6 +124,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private val quickInfoSeqMap = mapOf(
+        SettingRepository.KEY_GAJWA_STAFF to 1,
+        SettingRepository.KEY_GAJWA_CULTURE to 3,
+        SettingRepository.KEY_GAJWA_CENTRAL to 2,
+        SettingRepository.KEY_CHIRAM_STAFF to 4,
+        SettingRepository.KEY_CHIRAM_CENTRAL to 5
+    )
+
     private fun setupQuickInfo() {
         menuViewModel.menuList.observe(this) { list ->
             val today = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
@@ -141,6 +150,12 @@ class MainActivity : AppCompatActivity() {
                 .joinToString("\n")
             binding.cafeteriaMenuText.text = menuText.ifBlank { "오늘의 메뉴 정보가 없습니다" }
         }
-        menuViewModel.loadMenu(2)
+
+        val settingRepository = SettingRepository(this)
+        val selectedSeqs = quickInfoSeqMap
+            .filterKeys { settingRepository.isEnabled(it) }
+            .values
+            .toList()
+        menuViewModel.loadMenus(selectedSeqs.ifEmpty { listOf(2) })
     }
 }

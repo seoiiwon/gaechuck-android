@@ -45,6 +45,18 @@ class CafeteriaMenuViewModel(
         }
     }
 
+//    여러 식당의 메뉴를 합쳐서 가져오기 (빠른 정보 커스텀)
+    fun loadMenus(seqs: List<Int>) {
+        viewModelScope.launch {
+            try {
+                _menuList.value = seqs.flatMap { repository.fetchWeeklyMenu(it) }
+            } catch (e: Exception) {
+                _menuList.value = emptyList()
+                _errorMessage.value = e.localizedMessage ?: "Unknown error"
+            }
+        }
+    }
+
 //    특정 날짜 메뉴 필터링
     fun getMenuForDate(date: String): List<FoodMenuItem> {
         val all = _menuList.value ?: emptyList()
